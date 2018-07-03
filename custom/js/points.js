@@ -49,7 +49,6 @@ function renderPointsTable(data) {
       <tr>
         <th class="trn">Zone</th>
         <th class="trn">ID</th>
-        <th class="trn">Code</th>
         <th class="trn">Name</th>
         <th class="trn">Note</th>
         <th class="trn">GPS</th>
@@ -67,7 +66,6 @@ function renderPointsTable(data) {
         <tr>
           <td>${sZoneName}</td>
           <td>${iPointID}</td>
-          <td>${sPointCode}</td>
           <td>${sPointName}</td>
           <td>${sPointNote}</td>
           <td>${iGPS}</td>
@@ -76,7 +74,7 @@ function renderPointsTable(data) {
           <td>${dDateTimeAdd}</td>
           <td>
             <button class="btn btn-custom bg-main-color btnPointUpdate btn-custom-small">Update</button>
-            <button class="btn btn-custom bg-main-color btnPointDelete btn-custom-small" style="margin-left:-5px">inActive</button>
+            <button class="btn btn-custom bg-main-color btnPointDelete btn-custom-small" style="margin-left:-5px">Lock</button>
           </td>
         </tr>
       `)
