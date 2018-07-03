@@ -1,17 +1,56 @@
+
 $(() => {
 
+  $('#btnSendSMSGuards').click(sendSMSGuards);
+  $('#btnShowModalSendSMSGuards').click(showModalSendSMSGuards)
   showGuardInfo();
   showEventsInfo();
   showCurrentMapGuard();
   
 })
 
+let arrCurrentGuardsSentSMS = [];
+let arrCurrentGuards = [];
+async function sendSMSGuards(){
+  let sMessageContent = $('#textareaSendSMSGuards').val();
+  let arrID = [];
+  arrCurrentGuardsSentSMS.forEach(g => arrID.push(g.iGuardId));
+  let sentData = { sMessageContent, iGuardID: arrID };
+  console.log(JSON.stringify(sentData));
+  let response = await Service.sendSMSToGuards(sentData);
+  console.log(response);
+  $('#tblGuard').find('tbody .checkbox-guard-sendSMS').prop({'checked': false});
+  showAlertSuccess("Send message successfully", "", 2000);
+  $('#modalSendSMSGuards').modal('hide');
+}
+
+function showModalSendSMSGuards(){
+  if(arrCurrentGuardsSentSMS.length > 0){
+    $('#textareaSendSMSGuards').val('');
+    let guardNames = '';
+    arrCurrentGuardsSentSMS.forEach(g => {
+      const { sGuardName } = g;
+      guardNames += `${sGuardName}, `;
+    })
+    guardNames = guardNames.substring(0, guardNames.length - 2);
+    $('#guardNameList').text(guardNames);
+    $('#modalSendSMSGuards').modal('show');
+  }else{
+    showAlertError("You have not chosen guard", "Please choose at least 1");
+  }
+  
+}
+
 async function showGuardInfo() {
   let data = await Service.getGuardsData();
   if(data){ 
+    arrCurrentGuards = data;
     renderGuardTable(data);
     renderJcombobox(data);
+  }else{
+    arrCurrentGuards = [];
   }
+  arrCurrentGuardsSentSMS = [];
 }
 
 function renderJcombobox(data) {
@@ -32,6 +71,9 @@ function renderGuardTable(data) {
   $thead.html(
     `
     <tr>
+      <th class="trn">
+        <input type="checkbox" class="custom-checkbox checkbox-all-guards">
+      </th>
       <th class="trn">ID</th>
       <th class="trn">Name</th>
       <th class="trn">Last visted</th>
@@ -40,14 +82,18 @@ function renderGuardTable(data) {
     </tr>
   `
   )
+  
   if (data) {
     data.forEach(guard => {
-      const {iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline} = guard
+      const { iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline } = guard
       let className = '';
       if(bOnline == 'SOS') className = 'red-text';
       if(bOnline == 'Online') className = 'green-text';
       $tbody.append(`
         <tr>
+          <td class="trn">
+            <input type="checkbox" class="custom-checkbox checkbox-guard-sendSMS">
+          </td>
           <td>${iGuardId}</td>
           <td>${sGuardName}</td>
           <td>${dLastUpdateTime}</td>
@@ -55,10 +101,50 @@ function renderGuardTable(data) {
           <td class="${className}">${bOnline}</td>
         </tr>
       `)
+      $tbody.find('.checkbox-guard-sendSMS').last().change((e) => {
+        let {checked} = e.target;
+        if(!checked){
+          $thead.find('.checkbox-all-guards').prop({'checked': false});
+        }
+        checkOneGuard(e, guard);
+      })
     })
   }
 
+  $thead.find('.checkbox-all-guards').change((e) => {
+    checkAllGuards(e);
+    $tbody.find('.checkbox-guard-sendSMS').each((index, ele) => {
+      let {checked} = e.target;
+      if(checked){
+        $(ele).prop({'checked': true});
+      }else{
+        $(ele).prop({'checked': false});
+      }
+    })
+  })
+
   $table.append($thead).append($tbody);
+}
+
+function checkOneGuard(e, guard){
+  let { checked } = e.target;
+  let { iGuardId } = guard;
+  if(checked){
+    arrCurrentGuardsSentSMS.push(guard);
+  }else{
+    let index = arrCurrentGuardsSentSMS.findIndex(g => g.iGuardId == iGuardId);
+    arrCurrentGuardsSentSMS.splice(index, 1);
+  }
+}
+
+function checkAllGuards(e){
+  let { checked } = e.target;
+  arrCurrentGuardsSentSMS.length = 0;
+  if(checked){
+      arrCurrentGuards.forEach(guard => {
+      arrCurrentGuardsSentSMS.push(guard);
+    })
+  }
 }
 
 function renderEventsTable(data) {

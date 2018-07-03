@@ -102,11 +102,20 @@
   <div class="container-fluid">
 
     <div class="row mt-4">
-      <div class="col-lg-4">
+      <div class="col-lg-5">
         <!-- card guard start -->
         <div class="card card-guard">
+         
           <div class="card-header bg-main-color custom-card-header">
-            <h4 class="trn">Guards</h4>
+            <div class="row">
+                <div class="col-sm-7">
+                    <h4 class="trn">Guards</h4>
+                </div>
+                <div class="col-sm-5">
+                    <button class="btn bg-success btn-custom pull-right" id="btnShowModalSendSMSGuards">Send SMS</button>
+                </div>
+            </div>
+           
           </div>
           <div class="card-body custom-card-body">
             <div class="table-responsive" style="overflow-y: auto; height: 350px">
@@ -120,7 +129,7 @@
         <br>
 
       </div>
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         <!-- card map start -->
         <div class="card card-map-guard">
           <!-- card header -->
@@ -129,6 +138,7 @@
               <div class="col-12">
                 <h4 class="trn">Map</h4>
               </div>
+             
             </div>
           </div>
           <!-- card body map -->
@@ -161,7 +171,7 @@
         <!-- card controls end -->
       </div>
     </div>
-    <dir class="row">
+    <div class="row">
       <div class="col-12">
         <div class="modal fade" id="modalInsertGuard">
           <div class="modal-dialog modal-lg" role="document">
@@ -192,7 +202,41 @@
           </div>
         </div>
       </div>
-    </dir>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <!-- Modal -->
+<div class="modal fade" id="modalSendSMSGuards" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <strong>Guards: </strong>
+            <span id="guardNameList"></span>
+          </div>
+          <div class="form-group">
+            <label for="">
+              <strong>Message</strong>
+            </label>
+            <textarea id="textareaSendSMSGuards" cols="30" rows="10" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-custom bg-main-color" id="btnSendSMSGuards">Send</button>
+          <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
   </div>
 
   <!-- JQuery core -->
@@ -216,14 +260,17 @@
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
+  <!-- sweetalert -->
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+
+  <!-- custom main.js -->
+  <script src="../custom/js/main.js"></script>
+
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
   <!-- map js -->
   <script src="../custom/js/map.js"></script>
-
-  <!-- custom main.js -->
-  <script src="../custom/js/main.js"></script>
 
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>

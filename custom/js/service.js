@@ -1,5 +1,4 @@
 
-
 class Service {
   // Guard's request
   static async getGuardsData() {
@@ -43,6 +42,15 @@ class Service {
   }
 
   static async sendMessageGuard(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/InsertMessage.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async sendSMSToGuards(sentData) {
     let data = await $.ajax({
       url: `${APP_DOMAIN}api/InsertMessage.php`,
       method: 'post',
