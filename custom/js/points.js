@@ -50,27 +50,33 @@ function renderPointsTable(data) {
         <th class="trn">Zone</th>
         <th class="trn">ID</th>
         <th class="trn">Code</th>
-        <th class="trn">Lat</th>
-        <th class="trn">Long</th>
-        <th class="trn">DateTime</th>
+        <th class="trn">Name</th>
+        <th class="trn">Note</th>
+        <th class="trn">GPS</th>
+        <th class="trn">QRCode</th>
+        <th class="trn">RFID</th>
+        <th class="trn">Datetime updated</th>
         <th class="trn"></th>
       </tr>
     `
   )
   if (data) {
     data.forEach(point => {
-      const {sZoneName, sPointCode, dPointLat, dPointLong, dDateTimeAdd, iPointID} = point;
+      const {sZoneName, sPointCode, dDateTimeAdd, iPointID, sPointName, sPointNote, iGPS, iQRCode, iRFID} = point;
       $tbody.append(`
         <tr>
           <td>${sZoneName}</td>
           <td>${iPointID}</td>
           <td>${sPointCode}</td>
-          <td>${dPointLat}</td>
-          <td>${dPointLong}</td>
+          <td>${sPointName}</td>
+          <td>${sPointNote}</td>
+          <td>${iGPS}</td>
+          <td>${iQRCode}</td>
+          <td>${iRFID}</td>
           <td>${dDateTimeAdd}</td>
           <td>
             <button class="btn btn-custom bg-main-color btnPointUpdate btn-custom-small">Update</button>
-            <button class="btn btn-custom bg-main-color btnPointDelete btn-custom-small" style="margin-left:-5px">In aciive</button>
+            <button class="btn btn-custom bg-main-color btnPointDelete btn-custom-small" style="margin-left:-5px">inActive</button>
           </td>
         </tr>
       `)
