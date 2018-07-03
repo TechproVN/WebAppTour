@@ -11,6 +11,7 @@ $(() => {
 
 let arrCurrentGuardsSentSMS = [];
 let arrCurrentGuards = [];
+
 async function sendSMSGuards(){
   let sMessageContent = $('#textareaSendSMSGuards').val();
   let arrID = [];
@@ -19,9 +20,15 @@ async function sendSMSGuards(){
   console.log(JSON.stringify(sentData));
   let response = await Service.sendSMSToGuards(sentData);
   console.log(response);
-  $('#tblGuard').find('tbody .checkbox-guard-sendSMS').prop({'checked': false});
   showAlertSuccess("Send message successfully", "", 2000);
   $('#modalSendSMSGuards').modal('hide');
+  resetSMSAfterSending();
+}
+
+function resetSMSAfterSending(){
+  $('#tblGuard').find('tbody .checkbox-guard-sendSMS').prop({'checked': false});
+  $('#tblGuard').find('thead .checkbox-all-guards').prop({'checked': false});
+  arrCurrentGuardsSentSMS.length = 0;
 }
 
 function showModalSendSMSGuards(){
