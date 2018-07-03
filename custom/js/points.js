@@ -47,6 +47,7 @@ function renderPointsTable(data) {
   $thead.html(
     `
       <tr>
+        <th class="trn">#</th>
         <th class="trn">Zone</th>
         <th class="trn">ID</th>
         <th class="trn">Name</th>
@@ -60,10 +61,11 @@ function renderPointsTable(data) {
     `
   )
   if (data) {
-    data.forEach(point => {
+    data.forEach((point, index) => {
       const {sZoneName, sPointCode, dDateTimeAdd, iPointID, sPointName, sPointNote, iGPS, iQRCode, iRFID} = point;
       $tbody.append(`
         <tr>
+          <td>${index + 1}</td>
           <td>${sZoneName}</td>
           <td>${iPointID}</td>
           <td>${sPointName}</td>
@@ -73,8 +75,20 @@ function renderPointsTable(data) {
           <td>${iRFID}</td>
           <td>${dDateTimeAdd}</td>
           <td>
+<<<<<<< HEAD
             <button class="btn btn-custom bg-main-color btnPointUpdate btn-custom-small">Update</button>
             <button class="btn btn-custom bg-main-color btnPointDelete btn-custom-small" style="margin-left:-5px">Lock</button>
+=======
+            <div class="btn-group">
+              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Action
+              </button>
+              <div class="dropdown-menu" >
+                <button class="btn btn-custom btn-info btnPointUpdate btn-custom-small dropdown-item">Update</button>
+                <button class="btn btn-custom btn-danger btnPointDelete btn-custom-small dropdown-item" style="margin-left:-5px">inActive</button>
+              </div>
+            </div>
+>>>>>>> 5e970a7afafac24f7180f38d99722893bc26e639
           </td>
         </tr>
       `)
@@ -86,6 +100,8 @@ function renderPointsTable(data) {
       })
     })
   }
+
+
 
   $table.append($thead).append($tbody);
 }

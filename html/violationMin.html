@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Bootstrap core css -->
+  <link rel="stylesheet" href="../MDB Free/css/bootstrap.min.css">
+
+  <!-- Meterial Design Bootstrap -->
+  <link rel="stylesheet" href="../MDB Free/css/mdb.min.css">
+
+  <!-- datepicker css -->
+  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
+
+  <!-- bootstrap datetime picker css -->
+  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+
+  <!-- leaflet css -->
+  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
+
+  <!-- main view custom css -->
+  <link rel="stylesheet" href="../custom/css/main.css">
+
+  <!-- custom main css -->
+  <link rel="stylesheet" href="../custom/css/mainView.css">
+  <title>Violation Minutes</title>
+</head>
+
+<body>
+  <!-- navbar start-->
+  <nav class="navbar navbar-expand-lg bg-main-color white-text" style="padding-top: 0; padding-bottom: 0">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fa fa-shield icon-custom" style="color: whitesmoke"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa fa-bars icon-custom" style="color: white"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="mainView.html">
+              <i class="fa fa-home icon-navbar"></i>
+              <span class="trn">Main View</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="events.html">
+              <i class="fa fa-street-view icon-navbar"></i>
+              <span class="trn">Tours</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="incidents.html">
+              <i class="fa fa-exclamation-triangle icon-navbar"></i>
+              <span class="trn">Incidents</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="assets.html">
+              <i class="fa fa-briefcase icon-navbar"></i>
+              <span class="trn">Assets</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-area-chart icon-navbar"></i>
+              Report
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="report.html">Report</a>
+              <a class="dropdown-item" href="violationMin.html">Violation Minutes</a>
+              <a class="dropdown-item" href="security.html">Security</a>
+              <a class="dropdown-item" href="securityReport.html">Security Report</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-cog icon-navbar"></i>
+              Setting
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="points.html">Points</a>
+              <a class="dropdown-item" href="guard.html">Guard</a>
+              <a class="dropdown-item" href="zone.html">Zone</a>
+              <a class="dropdown-item" href="route.html">Route</a>
+              <a class="dropdown-item" href="schedule.html">Schedule</a>
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- navbar end -->
+
+  <div class="container-fluid">
+
+    <div class="row my-3 row-custom">
+      <!-- guard action card start -->
+      <div class="col-12">
+        <!-- card filter start -->
+        <div class="card card-action">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-filter"></i> Filters
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row mt-3">
+              <div class="col-12">
+                
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <button class="btn btn-custom bg-main-color pull-right" id="btnShowGuardInsertModal">Insert</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- guard action card end -->
+      </div>
+
+    </div>
+
+    <div class="row my-3">
+      <div class="col-12">
+          <!-- card violationMin start -->
+          <div class="card card-incident">
+            <div class="card-header bg-main-color custom-card-header">
+              <h4>
+                <i class="fa fa-exclamation-triangle"></i> Violation Minutes
+              </h4>
+            </div>
+            <div class="card-body custom-card-body">
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="text-center">
+                    Data of Patrolling performance
+                  </h5>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover table-striped table-condensed text-center custom-table min-height-table border" id="tblViolationMin">
+                  <!-- Points content here -->
+                  <thead>
+                    <tr>
+                      <th rowspan="2">Day</th>
+                      <th rowspan="2">Date</th>
+                      <th rowspan="2">Weekend NO.</th>
+                      <th rowspan="2">Number of Violation</th>
+                      <th colspan="15">Types of Violation</th>
+                    </tr>
+                    <tr>
+                      <th>Littering</th>
+                      <th>Wrong Parking</th>
+                      <th>Fighting</th>
+                      <th>Smoking</th>
+                      <th>Burglary</th>
+                      <th>Fire Water Leak</th>
+                      <th>Treated Water Leaks</th>
+                      <th>Animal</th>
+                      <th>Construction Works Damage</th>
+                      <th>Fire</th>
+                      <th>Fence-Gate</th>
+                      <th>Signboards</th>
+                      <th>Trees and Grass</th>
+                      <th>Irrigation</th>
+                      <th>Others</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Sat</td>
+                      <td>6/16/2018</td>
+                      <td>20</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Sat</td>
+                      <td>6/16/2018</td>
+                      <td>20</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Sat</td>
+                      <td>6/16/2018</td>
+                      <td>20</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Sat</td>
+                      <td>6/16/2018</td>
+                      <td>20</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- card violationMin end -->
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- JQuery core -->
+  <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
+
+  <!-- popper js core -->
+  <script src="../MDB Free/js/popper.min.js"></script>
+
+  <!-- bootstrap js core -->
+  <script src="../MDB Free/js/bootstrap.min.js"></script>
+
+  <!-- Meterail Design Bootstrap JS -->
+  <script src="../MDB Free/js/mdb.min.js"></script>
+
+  <!-- bootstrap datepicker js -->
+  <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datepicker.min.js"></script>
+
+  <!-- datetimepicker js -->
+  <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+  <!-- sweetalert js -->
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+
+  <!-- leafletjs -->
+  <script src="../plugins/leaflet/js/leaflet.js"></script>
+
+  <!-- translate js plugins -->
+  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
+
+  <!-- translate js -->
+  <script src="../custom/js/translate.js"></script>
+
+  <!-- service request -->
+  <script src="../custom/js/service.js"></script>
+
+  <!-- main js -->
+  <script src="../custom/js/main.js"></script>
+
+</body>
+
+</html>
