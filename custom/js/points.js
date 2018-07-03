@@ -221,7 +221,7 @@ async function inActivePoint(point){
     let response = await Service.inActivePoint(sentData);
     console.log(response);
     showPointsData();
-    showAlertSuccess("Inactive successfully!", "", 2000);
+    showAlertSuccess("Lock successfully!", "", 2000);
   }
 }
 
