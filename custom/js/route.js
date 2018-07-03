@@ -340,13 +340,13 @@ function renderTableRoutes(routes){
   $thead.html(
     `
       <tr>
-        <th class="trn">ZoneName</th>
-        <th class="trn">Route name</th>
-        <th class="trn">GuardName</th>
-        <th class="trn">TimeComplete</th>
+        <th class="trn">Zone</th>
+        <th class="trn">Route</th>
+        <th class="trn">Guard</th>
+        <th class="trn">Completion time</th>
         <th class="trn">Distance</th>
-        <th class="trn">DateTimeUpdate</th>
-        <th class="trn">Active</th>
+        <th class="trn">Datetime updated</th>
+        <th class="trn">Lock</th>
         <th class="trn"></th>
       </tr>
     `
@@ -372,7 +372,7 @@ function renderTableRoutes(routes){
               <div class="dropdown-menu" >
                 <button class="btn btn-custom btn-success btnRouteViewMap btn-custom-small dropdown-item">Map</button>
                 <button class="btn btn-custom btn-info btnRouteUpdateGuard btn-custom-small dropdown-item">Update</button>
-                <button class="btn btn-custom btn-warning btnInactiveRoute btn-custom-small dropdown-item">In active</button>
+                <button class="btn btn-custom btn-warning btnInactiveRoute btn-custom-small dropdown-item">Lock</button>
               </div>
             </div>
           </td>
