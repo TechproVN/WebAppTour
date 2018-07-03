@@ -37,8 +37,8 @@ function renderIncidentsTable(data) {
         <th class="trn">Name</th>
         <th class="trn">Zone</th>
         <th class="trn">Date</th>
-        <th class="trn">Start</th>
-        <th class="trn">End</th>
+        <th class="trn">Started</th>
+        <th class="trn">Finihed</th>
         <th class="trn">Image</th>
         <th class="trn">Description</th>
         <th class="trn">Map</th>

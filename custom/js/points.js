@@ -75,15 +75,13 @@ function renderPointsTable(data) {
           <td>${iRFID}</td>
           <td>${dDateTimeAdd}</td>
           <td>
-            <button class="btn btn-custom bg-main-color btnPointUpdate btn-custom-small">Update</button>
-            <button class="btn btn-custom bg-main-color btnPointDelete btn-custom-small" style="margin-left:-5px">Lock</button>
             <div class="btn-group">
               <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Action
               </button>
               <div class="dropdown-menu" >
                 <button class="btn btn-custom btn-info btnPointUpdate btn-custom-small dropdown-item">Update</button>
-                <button class="btn btn-custom btn-danger btnPointDelete btn-custom-small dropdown-item" style="margin-left:-5px">inActive</button>
+                <button class="btn btn-custom btn-danger btnPointDelete btn-custom-small dropdown-item" style="margin-left:-5px">Lock</button>
               </div>
             </div>
           </td>
