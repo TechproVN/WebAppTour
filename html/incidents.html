@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Bootstrap core css -->
+  <link rel="stylesheet" href="../MDB Free/css/bootstrap.min.css">
+
+  <!-- Meterial Design Bootstrap -->
+  <link rel="stylesheet" href="../MDB Free/css/mdb.min.css">
+
+  <!-- datepicker css -->
+  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
+
+  <!-- leaflet css -->
+  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
+
+  <!-- bootstrap datetime picker css -->
+  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+
+  <!-- main view custom css -->
+  <link rel="stylesheet" href="../custom/css/main.css">
+
+  <!-- custom main css -->
+  <link rel="stylesheet" href="../custom/css/mainView.css">
+
+  <!-- incident css -->
+  <link rel="stylesheet" href="../custom/css/incident.css">
+
+  <title>Incidents</title>
+</head>
+
+<body>
+  <!-- navbar start-->
+  <nav class="navbar navbar-expand-lg bg-main-color white-text" style="padding-top: 0; padding-bottom: 0">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <i class="fa fa-shield icon-custom" style="color: whitesmoke"></i>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa fa-bars icon-custom" style="color: white"></i>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="mainView.html">
+                <i class="fa fa-book icon-navbar"></i>
+                <span class="trn">Main View</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="events.html">
+                <i class="fa fa-book icon-navbar"></i>
+                <span class="trn">Events</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="incidents.html">
+                <i class="fa fa-book icon-navbar"></i>
+                <span class="trn">Incidents</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="assets.html">
+                <i class="fa fa-book icon-navbar"></i>
+                <span class="trn">Assets</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="report.html">
+                <i class="fa fa-book icon-navbar"></i>
+                <span class="trn">Report</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-book icon-navbar"></i>
+                Setting
+              </a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="points.html">Points</a>
+                <a class="dropdown-item" href="guard.html">Guard</a>
+                <a class="dropdown-item" href="zone.html">Zone</a>
+                <a class="dropdown-item" href="route.html">Route</a>
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
+  
+          </ul>
+        </div>
+      </div>
+  </nav>
+  <!-- navbar end -->
+
+  <div class="container-fluid">
+
+    <div class="row my-3 row-custom">
+      <!-- filter and incident card -->
+      <div class="col-lg-3">
+        <!-- card filter start -->
+        <div class="card card filter">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-filter"></i> Filters
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row mt-3">
+              <div class="col-12">
+                <label for="">Datetime</label>
+                <br>
+                <input type="text" readonly class="datepicker" class="form-control" style="width: 100%" id="incidentDatetime">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                  <button class="btn btn-custom bg-main-color pull-right" id="btnIncidentsData">View</button>
+                  <button class="btn btn-custom bg-main-color pull-right" id="btnIncidentsMap">Map</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- card filter end -->
+      </div>
+
+      <div class="col-lg-9">
+
+        <!-- card incident start -->
+        <div class="card card-incident">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-exclamation-triangle"></i> Incidents</h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblIncidents">
+                <!-- incident content here -->
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- card incident end -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <!-- Large modal map view -->
+        <div class="modal fade bd-example-modal-lg"
+          id="modalIncidentMap">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Map Incident</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <!-- image modal -->
+        <div class="modal fade" id="modalIncidentImage">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <img src="" alt="Incident Image" class="img-thumbnail img-fluid mx-auto d-block" id="incidentImg" style="width: 100%; height: 400px">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JQuery core -->
+  <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
+
+  <!-- popper js core -->
+  <script src="../MDB Free/js/popper.min.js"></script>
+
+  <!-- bootstrap js core -->
+  <script src="../MDB Free/js/bootstrap.min.js"></script>
+
+  <!-- Meterail Design Bootstrap JS -->
+  <script src="../MDB Free/js/mdb.min.js"></script>
+
+  <!-- bootstrap datepicker js -->
+  <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datepicker.min.js"></script>
+
+  <!-- datetimepicker js -->
+  <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+  <!-- mapbox js CDN -->
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
+
+  <!-- leaflet js -->
+  <script src="../plugins/leaflet/js/leaflet.js"></script>
+
+  <!-- translate js plugins -->
+  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
+
+  <!-- translate language -->
+  <script src="../custom/js/translate.js"></script>
+
+  <!-- service request -->
+  <script src="../custom/js/service.js"></script>
+
+  <!-- custom main.js -->
+  <script src="../custom/js/main.js"></script>
+
+  <!-- custom incident js -->
+  <script src="../custom/js/incidents.js"></script>
+
+</body>
+
+</html>

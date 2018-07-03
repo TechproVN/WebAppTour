@@ -1,0 +1,19 @@
+[{
+  "lat": "0.000000000000000",
+  "lng":"0.000000000000000",
+  "GuardName": "Vu Hoang - 19:18:12",
+  "img":"images/hoang.jpg",
+  "active": "0"
+}, {
+  "lat": "10.801585000000000",
+  "lng":"106.657560000000020",
+  "GuardName": "Tran Khoa - 19:18:12",
+  "img":"images/khoa.jpg",
+  "active": "0"
+}, {
+  "lat": "9.801585000000000",
+  "lng":"120.657560000000020",
+  "GuardName": "Nguyen Dung - 19:18:12",
+  "img":"images/khoa.jpg",
+  "active": "0"
+}]

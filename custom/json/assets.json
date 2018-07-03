@@ -1,0 +1,17 @@
+[{
+  "AssetCode": "TS3333",
+  "AssetName": "d",
+  "sZoneName": "Zone 2",
+  "sGuardName": "Vu Hoang",
+  "dLatPropertyHistory": "10.829626666666664",
+  "dLongPropertyHistory": "106.70172833333332",
+  "dDateTime": "21:39:39 01\/06\/2018"
+}, {
+  "AssetCode": "TS4444",
+  "AssetName": "e",
+  "sZoneName": "Zone 2",
+  "sGuardName": "Vu Hoang",
+  "dLatPropertyHistory": "10.829626666666664",
+  "dLongPropertyHistory": "106.70172833333332",
+  "dDateTime": "21:39:54 01\/06\/2018"
+}]

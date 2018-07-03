@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Bootstrap core css -->
+  <link rel="stylesheet" href="../MDB Free/css/bootstrap.min.css">
+
+  <!-- Meterial Design Bootstrap -->
+  <link rel="stylesheet" href="../MDB Free/css/mdb.min.css">
+
+  <!-- datepicker css -->
+  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
+
+  <!-- bootstrap datetime picker css -->
+  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+
+  <!-- leaflet css -->
+  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
+
+  <!-- main view custom css -->
+  <link rel="stylesheet" href="../custom/css/main.css">
+
+  <!-- custom main css -->
+  <link rel="stylesheet" href="../custom/css/mainView.css">
+
+  <!-- custom route css -->
+  <link rel="stylesheet" href="../custom/css/route.css">
+ 
+  <title>Route</title>
+</head>
+
+<body>
+  <!-- navbar start-->
+  <nav class="navbar navbar-expand-lg bg-main-color white-text" style="padding-top: 0; padding-bottom: 0">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fa fa-shield icon-custom" style="color: whitesmoke"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa fa-bars icon-custom" style="color: white"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="mainView.html">
+              <i class="fa fa-book icon-navbar"></i>
+              <span class="trn">Main View</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="events.html">
+              <i class="fa fa-book icon-navbar"></i>
+              <span class="trn">Events</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="incidents.html">
+              <i class="fa fa-book icon-navbar"></i>
+              <span class="trn">Incidents</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="assets.html">
+              <i class="fa fa-book icon-navbar"></i>
+              <span class="trn">Assets</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="report.html">
+              <i class="fa fa-book icon-navbar"></i>
+              <span class="trn">Report</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-book icon-navbar"></i>
+              Setting
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="points.html">Points</a>
+              <a class="dropdown-item" href="guard.html">Guard</a>
+              <a class="dropdown-item" href="zone.html">Zone</a>
+              <a class="dropdown-item" href="route.html">Route</a>
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- navbar end -->
+
+  <div class="container-fluid">
+
+    <div class="row my-3 row-custom">
+      <div class="col-lg-6 mb-4">
+        <!-- card route map start-->
+        <div class="card card-route-map card-insert-route">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-filter"></i> Route Map
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            
+          </div>
+        </div>
+        <!-- card route map start-->
+      </div>
+      <div class="col-lg-6">
+        <div class="row">
+          <div class="col-6 mb-4">
+            <div class="card card-points card-insert-route">
+              <div class="card-header custom-card-header bg-main-color">
+                <h4>
+                  <i class="fa fa-filter"></i> Points
+                </h4>
+              </div>
+              <div class="card-body custom-card-body">
+                <div class="form-group">
+                  <label for="">Zone</label>
+                  <select name="" id="selectRouteZone" class="form-control selectZones">
+                    
+                  </select>
+                </div>
+
+                <ul class="list-group" id="pointsOnZone">
+                  
+                </ul>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-6 mb-4">
+            <div class="card card-insert-route">
+              <div class="card-header bg-main-color custom-card-header">
+                <div class="row">
+                  <div class="col-lg-8">
+                      <h4>
+                        <i class="fa fa-filter"></i> Route
+                      </h4>
+                  </div>
+                  <div class="col-lg-4">
+                    <button class="btn btn-custom bg-main-color" id="btnSaveSelectedPoints">Save</button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body custom-card-body">
+                <div class="form-group">
+                    <label for="">Route name</label>
+                    <span class="pull-right sumOfDistance"></span><br>
+                    <span class="pull-right timeCompleted"></span>
+                    <input type="text" id="txtSaveRouteName" class="form-control" placeholder="Enter route name">
+                </div>
+                <div class="sortable points" id="selectedPointsOnRoute">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-3">
+          <div class="card card-filter">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-filter"></i> Filters
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row mt-3">
+              <div class="col-12">
+                <label for="">Zone</label>
+                <br>
+                <select class="form-control selectZones" id="selectZonesFilter">
+
+                </select>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <!-- <button class="btn btn-custom bg-main-color pull-right" id="btnPointsData">View</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="card card-incident">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-exclamation-triangle"></i> Routes
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblRoutes">
+                <!-- Points content here -->
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-12">
+        <!-- Modal Update Route Guard -->
+        <div class="modal fade" id="modalUpdateRouteGuard">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Update Route Guard</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">  
+                  <ul class="list-group">
+                    <li class="list-group-item listUpdatedRoute"></li>
+                    <li class="list-group-item currentGuard"></li>
+                    <li class="list-group-item ">
+                      <div class="form-group">
+                        <label for="">Select Guard</label>
+                        <select  id="" class="form-control selectGuards">
+                          
+                        </select>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-custom bg-main-color btnSaveRouteUpdateGuard" data-dismiss="modal">Save</button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- route view map start -->
+    <div class="row">
+      <div class="col-12">
+        <div class="modal fade" id="modalViewMapRoute" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Route Map</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+               
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- route view map end -->
+  </div>
+
+  <!-- JQuery core -->
+  <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
+
+  <!-- popper js core -->
+  <script src="../MDB Free/js/popper.min.js"></script>
+
+  <!-- bootstrap js core -->
+  <script src="../MDB Free/js/bootstrap.min.js"></script>
+
+  <!-- Meterail Design Bootstrap JS -->
+  <script src="../MDB Free/js/mdb.min.js"></script>
+
+  <!-- bootstrap datepicker js -->
+  <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datepicker.min.js"></script>
+
+  <!-- datetimepicker js -->
+  <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+  <!-- leaflet js -->
+  <script src="../plugins/leaflet/js/leaflet.js"></script>
+
+  <!-- translate js plugins -->
+  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
+
+  <!-- sweetalert -->
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+
+  <!-- jqeryUI -->
+  <script src="../plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+
+  <!-- translate language -->
+  <script src="../custom/js/translate.js"></script>
+
+  <!-- service request -->
+  <script src="../custom/js/service.js"></script>
+
+  <!-- custom main.js -->
+  <script src="../custom/js/main.js"></script>
+
+  <!-- custom points js -->
+  <script src="../custom/js/route.js"></script>
+
+</body>
+
+</html>

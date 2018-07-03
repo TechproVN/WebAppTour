@@ -1,0 +1,28 @@
+[{
+  "iCheckingReportTotalID": "14",
+  "iGuardID": "1",
+  "dDateReport": "2018-06-24",
+  "dDateTimeUpdate": "2018-06-24 17:35:37",
+
+
+  "iTime_per_Route": "40",
+  "iExpected_Executed_Routes": "27",
+  "iActual_Executed_Routes": "7",
+  "iTime_spent_on_resolving_non_conformities": "0",
+  "iMissed_routes_due_to_resolving_non_conformities": "0",
+  "iCorrected_Executed_Routes": "7",
+  "dPerformance_Routes": "26",
+  "iSuccessful_routes_within_time_schedule": "7",
+  "dPerformance_Timing": "100",
+  "iSuccessful_routes_with_correct_routing": "7",
+  "dPerformance_Routing": "100",
+  "iRouting_Mistakes": "7",
+  "dOverall_performance": "26",
+  "iNumber_of_reports_issued": "4",
+  "iActual_Patrolling_Time": "97",
+  "iAllowed_Interval_between_trip": "405",
+  "iTotal_patroling_time_in_minutes": "502",
+  "dPerfomance_Time": "35",
+  "iTotal_Idling_Time": "938",
+  "dIdling_Time_in": "65"
+}]
