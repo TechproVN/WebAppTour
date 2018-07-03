@@ -288,7 +288,19 @@
   <!-- leaflet js -->
   <script src="../plugins/leaflet/js/leaflet.js"></script>
 
- 
+  <script>
+    let i = 0;
+    const interval = setInterval(() => {
+      showGuardInfo();
+      showEventsInfo();
+      showCurrentMapGuard();
+      console.log(i++);
+    }, 60000);
+
+    $(window).on('beforeunload', () => {
+      clearInterval(interval)
+    })
+  </script>
 </body>
 
 </html>

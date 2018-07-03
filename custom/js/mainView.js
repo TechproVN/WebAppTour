@@ -57,7 +57,6 @@ async function showGuardInfo() {
   }else{
     arrCurrentGuards = [];
   }
-  arrCurrentGuardsSentSMS = [];
 }
 
 function renderJcombobox(data) {
@@ -99,7 +98,7 @@ function renderGuardTable(data) {
       $tbody.append(`
         <tr>
           <td class="trn">
-            <input type="checkbox" class="custom-checkbox checkbox-guard-sendSMS">
+            <input type="checkbox" class="custom-checkbox checkbox-guard-sendSMS" data-idguard = "${iGuardId}">
           </td>
           <td>${iGuardId}</td>
           <td>${sGuardName}</td>
@@ -108,20 +107,23 @@ function renderGuardTable(data) {
           <td class="${className}">${bOnline}</td>
         </tr>
       `)
-      $tbody.find('.checkbox-guard-sendSMS').last().change((e) => {
-        let {checked} = e.target;
+      let $ele = $tbody.find('.checkbox-guard-sendSMS').last()
+      $ele.change((e) => {
+        let { checked } = e.target;
         if(!checked){
           $thead.find('.checkbox-all-guards').prop({'checked': false});
         }
         checkOneGuard(e, guard);
       })
+      let cond = arrCurrentGuardsSentSMS.some(g => g.iGuardId == iGuardId);
+      if(cond) $ele.prop({'checked': true});
     })
   }
-
-  $thead.find('.checkbox-all-guards').change((e) => {
+  let $checkboxHead = $thead.find('.checkbox-all-guards')
+  $checkboxHead.change((e) => {
     checkAllGuards(e);
     $tbody.find('.checkbox-guard-sendSMS').each((index, ele) => {
-      let {checked} = e.target;
+      let { checked } = e.target;
       if(checked){
         $(ele).prop({'checked': true});
       }else{
@@ -129,6 +131,13 @@ function renderGuardTable(data) {
       }
     })
   })
+  let l1 = arrCurrentGuardsSentSMS.length;
+  let l2 = arrCurrentGuards.length;
+  if(l1 == l2){
+    $checkboxHead.prop({'checked': true});
+  }else{
+    $checkboxHead.prop({'checked': false});
+  }
 
   $table.append($thead).append($tbody);
 }
