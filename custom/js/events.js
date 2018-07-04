@@ -178,7 +178,7 @@ function renderModalEditEventHistoryDetails(data) {
 }
 
 function buildEventDetailsMap(event) {
-    const map = L.map('mapEventDetails').setView([20.81715284, 106.77411238], 17);
+    const map = L.map('mapEventDetails').setView(CENTER_POS_MAP_VIEW, 17);
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',

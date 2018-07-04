@@ -1,10 +1,12 @@
 const APP_DOMAIN = 'http://115.79.27.219/tracking/';
-
+const CENTER_POS_MAP_VIEW = [20.81715284, 106.77411238];
 $('.datepicker').datepicker();
 
 $('.datetimepicker').datetimepicker({
   format: 'yyyy-mm-dd hh:ii'
 })
+
+$('.btnScrollTop').click(moveTop);
 
 function formatToday() {
   let now = new Date();
@@ -55,4 +57,8 @@ async function showAlertWarning(title, text){
     dangerMode: true,
   })
   return sure;
+}
+
+function moveTop(){
+  $('html, body').animate({'scrollTop': 0}, 400);
 }

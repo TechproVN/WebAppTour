@@ -101,7 +101,7 @@ function renderPointsTable(data) {
 }
 
 function buildPointsMap(points, id){
-  var map = L.map(id).setView([20.81715284, 106.77411238], 16);
+  var map = L.map(id).setView(CENTER_POS_MAP_VIEW, 16);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',

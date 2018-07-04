@@ -136,7 +136,7 @@ function buildInserteZoneMap(points){
   $mapArea = $('<div id="mapInsertZone" style="height: 350px"></div>');
   $('#modalInsertZone').find('.modal-body .insertZoneMap').html($mapArea);
 
-  mapInsertedZone = L.map('mapInsertZone').setView([20.81715284, 106.77411238], 14);
+  mapInsertedZone = L.map('mapInsertZone').setView(CENTER_POS_MAP_VIEW, 14);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
@@ -174,6 +174,7 @@ function buildInserteZoneMap(points){
   }
   
 }
+
 function handleClickOnMapZone(e){
   const {lat, lng} = e.latlng;
   //arrNewAddedPoints.push([lat, lng]);
