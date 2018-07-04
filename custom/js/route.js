@@ -41,7 +41,7 @@ var currentTimeCompleted = 0;
 function buildRouteMap(data){
   let $mapArea = $(`<div id="routeMap" class="map"></div>`);
   $('.card-route-map').find('.card-body').html($mapArea);
-  var mymap = L.map(`routeMap`).setView([20.81715284, 106.77411238], 14);
+  var mymap = L.map(`routeMap`).setView(CENTER_POS_MAP_VIEW, 14);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
@@ -102,7 +102,7 @@ function buildRouteMap(data){
 function buildRouteMapOnModal(data){
   let $mapArea = $(`<div id="routeMapOnModal" class="map"></div>`);
   $('#modalViewMapRoute').find('.modal-body').html($mapArea);
-  var mymap = L.map(`routeMapOnModal`).setView([20.81715284, 106.77411238], 14);
+  var mymap = L.map(`routeMapOnModal`).setView(CENTER_POS_MAP_VIEW, 14);
   mymap.invalidateSize(true);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
@@ -161,7 +161,6 @@ function buildRouteMapOnModal(data){
   // }).addTo(mymap);
 
 }
-
 
 function showRouteMap(data){
   buildRouteMap(data);
@@ -424,10 +423,6 @@ function showUpdateRouteGuardModal(route){
   $('#modalUpdateRouteGuard').modal('show');
 }
 
-function showRouteMapOnModal(){
-  let id = '';
-}
-
 async function showGuardIdOnCombobox(){
   let guards = await Service.getPersonalGuardsInfo();
   $('.selectGuards').html('');
@@ -480,14 +475,3 @@ function calDistanceOfRoute(points){
 function toRadian(degree) {
   return degree*Math.PI/180;
 }
-
-// {
-//   "RouteID": "1",
-//   "RouteName": "Route 1",
-//   "bStatusIN":"1",
-//     "Point": [
-//       {"PointID": "100", "No": "1"},
-//       {"PointID": "101", "No": "2"},
-//       {"PointID": "102", "No": "3"}
-//     ]
-// }

@@ -99,7 +99,7 @@ function buildIncidentMap(incident){
   $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
 
-  var map = L.map('mapIncident').setView([20.81715284, 106.77411238], 17);
+  var map = L.map('mapIncident').setView(CENTER_POS_MAP_VIEW, 17);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
@@ -137,7 +137,7 @@ function buildAllIncidentMap(incidents){
   $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
 
-  var map = L.map('mapIncident').setView([20.81715284, 106.77411238], 14);
+  var map = L.map('mapIncident').setView(CENTER_POS_MAP_VIEW, 14);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
