@@ -81,12 +81,13 @@ function renderZonesTable(data) {
         <th class="trn">#</th>
         <th class="trn">ID</th>
         <th class="trn">Name</th>
+        <th class="trn">Address</th>
       </tr>
     `
   )
   if(data){
     data.forEach((zone, index) => {
-      const { iZoneID, sZoneName, sZoneLatLong } = zone;
+      const { iZoneID, sZoneName, sZoneLatLong, sZoneAddress } = zone;
       //console.log(typeof sZoneLatLong);
       //console.log(typeof JSON.parse(sZoneLatLong));
       $tbody.append(`
@@ -94,9 +95,10 @@ function renderZonesTable(data) {
           <td>${index + 1}</td>
           <td>${iZoneID}</td>
           <td>${sZoneName}</td>
+          <td>${sZoneAddress}</td>
           <td>
             <button class="btn btn-custom bg-main-color btnShowUpdateZoneModal btn-custom-small">Update</button>
-            <button class="btn btn-custom bg-main-color btnInactiveZone btn-custom-small">Inactive</button>
+            <button class="btn btn-custom bg-main-color btnInactiveZone btn-custom-small">Lock</button>
           </td>
         </tr>
       `) 
