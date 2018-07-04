@@ -8,11 +8,9 @@ $(() => {
 })
 
 function renderAssetsTable(data) {
-  let $table = $('#tblAssets');
-  $table.html('');
+  let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblAssets"></table>`);
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
-  // Display detail Incident: Code, AssetName, Zone, Start, Name, DateTime, Image, Description
 
   $thead.html(
     `
@@ -44,20 +42,31 @@ function renderAssetsTable(data) {
       `
     })
     $tbody.html(htmltBody);
-  } else {
-    alert('No data');
-  }
-
+  } 
   $table.append($thead).append($tbody);
+  return $table;
 }
 
 async function showAssetsData() {
   let datetime = $('#assetDatetime').val();
-  if(datetime == '') return alert('No datetime');
+  if(datetime == '') return showAlertError("Datetime required", "", 3000);
   let sentData = {dDateTime : changeFormatDateTime(datetime)};
   let data = await Service.getAssetsData(sentData);
-  console.log(data);
-  renderAssetsTable(data);
+  if(data){
+    $('#pagingAssetsControl').pagination({
+      dataSource: data,
+      pageSize: 10,
+      showGoInput: true,
+      showGoButton: true,
+      callback: function (data, pagination) {
+        let $table = renderAssetsTable(data);
+        $('.card-asset .table-responsive').html($table);
+      }
+    })
+  }else{
+    showAlertError("No data", "", 3000);
+  }
+ 
 }
 
 function formatTodayAssets() {

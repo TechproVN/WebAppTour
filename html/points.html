@@ -24,6 +24,9 @@
   <!-- leaflet css -->
   <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
 
+  <!-- pagination css -->
+  <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
+
   <!-- main custom css -->
   <link rel="stylesheet" href="../custom/css/main.css">
 
@@ -143,17 +146,20 @@
 
       <div class="col-lg-9">
         <!-- card Points start -->
-        <div class="card card-incident">
+        <div class="card card-points">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
               <i class="fa fa-exclamation-triangle"></i> Point list
             </h4>
           </div>
           <div class="card-body custom-card-body">
+            <div class="row my-3">
+              <div class="col-12">
+                  <div id="pagingPointsControl" ></div>
+              </div>
+            </div>
             <div class="table-responsive">
-              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblPoints">
-                <!-- Points content here -->
-              </table>
+              
             </div>
           </div>
         </div>
@@ -303,6 +309,9 @@
 
   <!-- sweetalert -->
   <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+
+  <!-- pagination js -->
+  <script src="../plugins/paginationJs/pagination.min.js"></script>
 
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>

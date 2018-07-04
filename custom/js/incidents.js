@@ -16,20 +16,27 @@ async function showIncidentsData() {
   if(datetime == '') return alert('No datetime');
   let sentData = { dDateTime: changeFormatDateTime(datetime) };
   let data = await Service.getIncidentsData(sentData);
-  console.log(data);
   arrIncidents.length = 0;
   if(data) {
-    renderIncidentsTable(data);
+    $('#pagingIncidentsControl').pagination({
+      dataSource: data,
+      pageSize: 10,
+      showGoInput: true,
+      showGoButton: true,
+      callback: function (data, pagination) {
+        console.log(data);
+        let $table = renderIncidentsTable(data);
+        $('.card-incident .table-responsive').html($table);
+      }
+    })
     data.forEach(item => arrIncidents.push(item));
   }
 }
 
 function renderIncidentsTable(data) {
-  let $table = $('#tblIncidents');
-  $table.html('');
+  let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblIncidents"></table>`);
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
-
   $thead.html(
     `
       <tr>
@@ -72,11 +79,10 @@ function renderIncidentsTable(data) {
         showMapIncident(incident)
       })
     })
-  } else {
-    alert('No data');
   }
 
   $table.append($thead).append($tbody);
+  return $table;
 }
 
 function showIncidentImage(urlImage){

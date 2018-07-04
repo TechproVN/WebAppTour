@@ -12,7 +12,6 @@ function showAllIncidentsMap() {
   $('#modalEventMap').modal('show');
 }
 
-//============ get and show events data ===============
 async function showEventHistoryData() {
   let fromDate = $('#fromDateTime').val();
   let toDate = $('#toDateTime').val();
@@ -22,13 +21,23 @@ async function showEventHistoryData() {
   if (checkTimeFormat(fromDate, toDate)) {
     let sentData = { GuardID, fromDate, toDate };
     let data = await Service.getEventHistoryData(sentData);
-    renderEventHistoryTable(data);
+    $('#pagingToursControl').pagination({
+      dataSource: data,
+      pageSize: 10,
+      showGoInput: true,
+      showGoButton: true,
+      callback: function (data, pagination) {
+        // template method of yourself
+        console.log(data);
+        let $table = renderEventHistoryTable(data);
+        $('.card-tour .table-responsive').html($table);
+      }
+    })
   }
 }
 
 function renderEventHistoryTable(data) {
-  let $table = $('#tblEventHistory');
-  $table.html('');
+  let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblEventHistory" style="min-height: 150px"></table>`);
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
 
@@ -76,39 +85,30 @@ function renderEventHistoryTable(data) {
       `
     })
     $tbody.html(htmltBody);
-  } else {
-    alert('No data');
-  }
+  } 
 
   $table.append($thead).append($tbody);
+  return $table;
 }
-//====================================================
 
-
-//================ get events of today =================
 async function formatTodayEvent() {
-  // let now = new Date();
-  // let year = now.getFullYear();
-  // let month = now.getMonth() + 1;
-  // let day = now.getDate();
-
-  // let hour = now.getHours();
-  // let minute = now.getMinutes();
-
-  // let mon = month < 10 ? `0${month}` : month;
-  // let d = day < 10 ? `0${day}` : day;
-  // let h = hour < 10 ? `0${hour}` : hour;
-  // let min = minute < 10 ? `0${minute}` : minute;
-
-  // $('#fromDateTime').val(`${year}-${mon}-${d} 00:00`);
-  // $('#toDateTime').val(`${year}-${mon}-${d} ${h}:${min}`);
-
   let GuardID = 0;
   let fromDate = null;
   let toDate = null;
   let sentData = { GuardID, fromDate, toDate };
   let data = await Service.getEventHistoryData(sentData);
-  if (data) renderEventHistoryTable(data);
+  $('#pagingToursControl').pagination({
+    dataSource: data,
+    pageSize: 10,
+    showGoInput: true,
+    showGoButton: true,
+    callback: function (data, pagination) {
+      // template method of yourself
+      console.log(data);
+      let $table = renderEventHistoryTable(data);
+      $('.card-tour .table-responsive').html($table);
+    }
+  })
 }
 
 function checkTimeFormat(from, to) {
@@ -128,9 +128,6 @@ function checkTimeFormat(from, to) {
   if (!valid) alert(errMsg);
   return valid;
 }
-//====================================================
-
-// ======= get and show events history details =======
 
 async function showEventHistoryDetails(checkingCode) {
   let data = await Service.getEventHistoryDetails(checkingCode);
@@ -175,7 +172,6 @@ function renderTableEventHistoryDetails(data) {
 
   $table.append($thead).append($tbody);
 }
-//=====================================================
 
 function renderModalEditEventHistoryDetails(data) {
   $('#modalEventHistoryDetailsEdit').modal('show');

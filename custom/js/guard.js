@@ -80,8 +80,7 @@ async function inActiveGuard(id){
 }
 
 function renderGuardTable(guards){
-  let $table = $('#tblGuards')
-  $table.html('');
+  let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table min-height-table" id="tblGuards"></table>`)
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
 
@@ -138,7 +137,7 @@ function renderGuardTable(guards){
   }
 
   $table.append($thead).append($tbody);
-
+  return $table;
 }
 
 function showModalSendMessage(guard){
@@ -180,6 +179,18 @@ function showGuardModalInsert(){
 
 async function showGuards(){
   let guards = await Service.getPersonalGuardsInfo();
-  renderGuardTable(guards);
+  if(guards){
+    $('#pagingGuardsControl').pagination({
+      dataSource: guards,
+      pageSize: 10,
+      showGoInput: true,
+      showGoButton: true,
+      callback: function (guards, pagination) {
+        let $table = renderGuardTable(guards);
+        $('.card-guard .table-responsive').html($table);
+      }
+    })
+  }
+  
 }
 

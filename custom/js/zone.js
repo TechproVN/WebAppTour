@@ -16,15 +16,11 @@ function clearCurrentInsertedZone(){
 }
 
 function renderZoneOnJcombobox(data) {
-  //console.log(data);
-  
   if (data) {
-    for(let i = 0; i < $('.selectRouteZone').length; i++){
-      $('.selectRouteZone').eq(i).html('');
+      $('.selectRouteZone').html('');
       data.forEach(zone => {
-        $('.selectRouteZone').eq(i).append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
+        $('.selectRouteZone').append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
       })
-    }
   }
 }
 
@@ -70,11 +66,9 @@ async function updateZone(){
 }
 
 function renderZonesTable(data) {
-  let $table = $('#tblZones');
-  $table.html('');
+  let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblZones"></table>`);
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
-
   $thead.html(
     `
       <tr>
@@ -109,11 +103,9 @@ function renderZonesTable(data) {
         inActiveZone(zone)
       })
     })
-  } else {
-    alert('No data');
-  }
-
+  } 
   $table.append($thead).append($tbody);
+  return $table;
 }
 
 function showUpdateZoneModal(zone){
@@ -125,9 +117,19 @@ function showUpdateZoneModal(zone){
 
 async function showZones(){
   let zones = await Service.getAllZones();
-  console.log(zones)
-  renderZoneOnJcombobox(zones);
-  renderZonesTable(zones);
+  if(zones){
+    renderZoneOnJcombobox(zones);
+    $('#pagingZonesControl').pagination({
+      dataSource: zones,
+      pageSize: 10,
+      showGoInput: true,
+      showGoButton: true,
+      callback: function (zones, pagination) {
+        let $table = renderZonesTable(zones);
+        $('.card-zone .table-responsive').html($table);
+      }
+    })
+  }
 }
 
 function buildInserteZoneMap(points){
