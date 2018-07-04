@@ -112,10 +112,11 @@ function renderGuardTable(guards){
                 Action
               </button>
               <div class="dropdown-menu" >
-                <button class="btn btn-custom bg-danger btn-custom-small dropdown-item btnInactiveGuard">Inactive</button>
+                <button class="btn btn-custom bg-danger btn-custom-small dropdown-item btnInactiveGuard">Lock</button>
                 <button class="btn btn-custom btn-info btn-custom-small dropdown-item btnShowUpdateGuardModal">Update</button>
                 <button class="btn btn-custom btn-warning btn-custom-small dropdown-item btnShowModalResetPassword">Reset Password</button>
                 <button class="btn btn-custom btn-primary btn-custom-small dropdown-item btnShowModalSendMessage">Send Message</button>
+                <button class="btn btn-custom btn-primary btn-custom-small dropdown-item btnShowModalSendMessage">View map</button>
               </div>
             </div>
           </td>

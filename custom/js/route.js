@@ -371,7 +371,7 @@ function renderTableRoutes(routes){
               </button>
               <div class="dropdown-menu" >
                 <button class="btn btn-custom btn-success btnRouteViewMap btn-custom-small dropdown-item">Map</button>
-                <button class="btn btn-custom btn-info btnRouteUpdateGuard btn-custom-small dropdown-item">Update</button>
+                <button class="btn btn-custom btn-info btnRouteUpdateGuard btn-custom-small dropdown-item">Update guard</button>
                 <button class="btn btn-custom btn-warning btnInactiveRoute btn-custom-small dropdown-item">Lock</button>
               </div>
             </div>
