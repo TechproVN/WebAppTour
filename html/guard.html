@@ -21,6 +21,9 @@
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
+  <!-- pagination css -->
+  <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
+
   <!-- leaflet css -->
   <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
 
@@ -135,17 +138,20 @@
 
       <div class="col-lg-8">
         <!-- card Points start -->
-        <div class="card card-incident">
+        <div class="card card-guard">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
               <i class="fa fa-exclamation-triangle"></i> Guards
             </h4>
           </div>
           <div class="card-body custom-card-body">
+            <div class="row my-3">
+              <div class="col-12">
+                <div id="pagingGuardsControl"></div>
+              </div>
+            </div>
             <div class="table-responsive">
-              <table class="table table-hover table-striped table-condensed text-center custom-table min-height-table" id="tblGuards">
-                <!-- Points content here -->
-              </table>
+              
             </div>
           </div>
         </div>
@@ -298,14 +304,17 @@
   <!-- translate js plugins -->
   <script src="../plugins/translate.js-master/jquery.translate.js"></script>
 
+  <!-- pagination js -->
+  <script src="../plugins/paginationJs/pagination.min.js"></script>
+
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>
 
-  <!-- service request -->
-  <script src="../custom/js/service.js"></script>
-
   <!-- main js -->
   <script src="../custom/js/main.js"></script>
+
+  <!-- service request -->
+  <script src="../custom/js/service.js"></script>
 
   <!-- custom guard js -->
   <script src="../custom/js/guard.js"></script>

@@ -327,16 +327,26 @@ async function showRoutesOnTable(){
   if(!zoneId) zoneId = 0;
   let sentData = { iZoneIDIN: zoneId };
   let routes = await Service.getRoutesOnZone(sentData);
-  console.log(routes);
-  renderTableRoutes(routes);
+  if(routes){
+    $('#pagingRoutesControl').pagination({
+      dataSource: routes,
+      pageSize: 10,
+      showGoInput: true,
+      showGoButton: true,
+      callback: function (data, pagination) {
+        let $table = renderTableRoutes(data);
+        $('.card-route .table-responsive').html($table);
+      }
+    })
+  }else{
+    showAlertError("No data", "", 3000);
+  }
 }
 
 function renderTableRoutes(routes){
-  let $table = $('#tblRoutes');
-  $table.html('');
+  let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblRoutes"></table>`);
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
-
   $thead.html(
     `
       <tr>
@@ -390,6 +400,7 @@ function renderTableRoutes(routes){
     })
   }
   $table.append($thead).append($tbody);
+  return $table;
 }
 
 async function showRouteViewMapModal(route){

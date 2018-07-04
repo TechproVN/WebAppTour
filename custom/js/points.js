@@ -38,11 +38,11 @@ function renderZoneOnJcombobox(data) {
 }
 
 function renderPointsTable(data) {
-  let $table = $('#tblPoints');
-  $table.html('');
+  // let $table = $('#tblPoints');
+  let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblPoints"></table>`)
+  // $table.html('');
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
-  // Display detail Incident: Zone, Code, Lat, Long, DateTime
 
   $thead.html(
     `
@@ -96,9 +96,8 @@ function renderPointsTable(data) {
     })
   }
 
-
-
   $table.append($thead).append($tbody);
+  return $table;
 }
 
 function buildPointsMap(points, id){
@@ -162,7 +161,6 @@ function showPointsMap(){
   setTimeout(() => {
     buildPointsMap(arrCurrentPointsOnZone, 'mapPoint');
   }, 500);
-  
 }
 
 async function showPointsData() {
@@ -172,7 +170,17 @@ async function showPointsData() {
     let data = await Service.getPointsDataOnZone(sentData);
     if(data) arrCurrentPointsOnZone = [...data];
     else arrCurrentPointsOnZone = [];
-    renderPointsTable(data);
+    $('#pagingPointsControl').pagination({
+      dataSource: data,
+      pageSize: 10,
+      showGoInput: true,
+      showGoButton: true,
+      callback: function (data, pagination) {
+        // template method of yourself
+        let $table = renderPointsTable(data);
+        $('.card-points .table-responsive').html($table);
+      }
+    })
   }
 }
 

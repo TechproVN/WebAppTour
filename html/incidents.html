@@ -24,6 +24,9 @@
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
+  <!-- pagination css -->
+  <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
+
   <!-- main view custom css -->
   <link rel="stylesheet" href="../custom/css/main.css">
 
@@ -149,10 +152,13 @@
               <i class="fa fa-exclamation-triangle"></i> Incidents</h4>
           </div>
           <div class="card-body custom-card-body">
+            <div class="row my-3">
+              <div class="col-12">
+                <div id="pagingIncidentsControl"></div>
+              </div> 
+            </div>
             <div class="table-responsive">
-              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblIncidents">
-                <!-- incident content here -->
-              </table>
+              
             </div>
           </div>
         </div>
@@ -230,6 +236,9 @@
 
   <!-- translate js plugins -->
   <script src="../plugins/translate.js-master/jquery.translate.js"></script>
+
+  <!-- paginationJs -->
+  <script src="../plugins/paginationJs/pagination.min.js"></script>
 
   <!-- translate language -->
   <script src="../custom/js/translate.js"></script>

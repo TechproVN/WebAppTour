@@ -26,6 +26,9 @@
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
+  <!-- pagination css -->
+  <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
+
   <!-- main view custom css -->
   <link rel="stylesheet" href="../custom/css/main.css">
 
@@ -159,19 +162,19 @@
       <div class="col-lg-10">
 
         <!-- card incident start -->
-        <div class="card card-incident">
+        <div class="card card-tour">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
               <i class="fa fa-exclamation-triangle"></i> Tour lists</h4>
           </div>
           <div class="card-body custom-card-body">
+            <div class="row my-3">
+              <div class="col-12">
+                <div id="pagingToursControl"></div>
+              </div>
+            </div>
             <div class="table-responsive">
-              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblEventHistory" style="min-height: 150px">
-                <!-- incident content here -->
-                <td>
-
-                </td>
-              </table>
+              
             </div>
           </div>
         </div>
@@ -251,8 +254,11 @@
 
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-
+  <!-- leaflet js -->
   <script src="../plugins/leaflet/js/leaflet.js"></script>
+
+  <!-- pagination js -->
+  <script src="../plugins/paginationJs/pagination.min.js"></script>
 
   <!-- translate js plugins -->
   <script src="../plugins/translate.js-master/jquery.translate.js"></script>
@@ -263,6 +269,7 @@
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
+  <!-- main js -->
   <script src="../custom/js/main.js"></script>
 
   <!-- custom incident js -->
