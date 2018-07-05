@@ -65,6 +65,7 @@ async function showAssetsData() {
   arrCurrentAssets.length = 0;
   if(data){
     arrCurrentAssets = data.slice();
+    $('#totalAssets').html(`<strong>Total Assets</strong>: ${data.length}`)
     $('#pagingAssetsControl').pagination({
       dataSource: data,
       pageSize: 10,

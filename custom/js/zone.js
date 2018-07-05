@@ -118,6 +118,7 @@ function showUpdateZoneModal(zone){
 async function showZones(){
   let zones = await Service.getAllZones();
   if(zones){
+    $('#totalZones').html(`<strong>Total Zones:</strong> ${zones.length}`);
     renderZoneOnJcombobox(zones);
     $('#pagingZonesControl').pagination({
       dataSource: zones,

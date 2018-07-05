@@ -327,6 +327,7 @@ async function showRoutesOnTable(){
   let sentData = { iZoneIDIN: zoneId };
   let routes = await Service.getRoutesOnZone(sentData);
   if(routes){
+    $('#totalRoutes').html(`<strong>Total Routes</strong> ${routes.length}`);
     $('#pagingRoutesControl').pagination({
       dataSource: routes,
       pageSize: 10,

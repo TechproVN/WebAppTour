@@ -18,6 +18,7 @@ async function showIncidentsData() {
   let data = await Service.getIncidentsData(sentData);
   arrIncidents.length = 0;
   if(data) {
+    $('#totalIncidents').html(`<strong>Total incidents:</strong> ${data.length}`);
     $('#pagingIncidentsControl').pagination({
       dataSource: data,
       pageSize: 10,

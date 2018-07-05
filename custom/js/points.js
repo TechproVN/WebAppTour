@@ -170,6 +170,7 @@ async function showPointsData() {
     let data = await Service.getPointsDataOnZone(sentData);
     if(data) arrCurrentPointsOnZone = [...data];
     else arrCurrentPointsOnZone = [];
+    $('#totalPoints').html(`<strong>Total Points:</strong> ${data.length}`)
     $('#pagingPointsControl').pagination({
       dataSource: data,
       pageSize: 10,
