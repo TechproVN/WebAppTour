@@ -47,7 +47,6 @@ function renderPointsTable(data) {
   $thead.html(
     `
       <tr>
-        <th class="trn">#</th>
         <th class="trn">Zone</th>
         <th class="trn">ID</th>
         <th class="trn">Name</th>
@@ -61,11 +60,10 @@ function renderPointsTable(data) {
     `
   )
   if (data) {
-    data.forEach((point, index) => {
+    data.forEach((point) => {
       const {sZoneName, sPointCode, dDateTimeAdd, iPointID, sPointName, sPointNote, iGPS, iQRCode, iRFID} = point;
       $tbody.append(`
         <tr>
-          <td>${index + 1}</td>
           <td>${sZoneName}</td>
           <td>${iPointID}</td>
           <td>${sPointName}</td>
@@ -119,6 +117,7 @@ function buildPointsMap(points, id){
 
   //handle click
   let popup = L.popup();
+
   map.on('click', function(e){
     handleClickPointMap(e, popup, map, L);
   });
@@ -126,41 +125,50 @@ function buildPointsMap(points, id){
   //show all points
   if(points && points.length > 0){
     points.forEach(point => {
-      let mes = `ID: ${point.iPointID}`;
-      let pos = [Number(point.dPointLat), Number(point.dPointLong)];
+      const { iPointID, dPointLat, dPointLong } = point;
+      let mes = `ID: ${iPointID}`;
+      let pos = [Number(dPointLat), Number(dPointLong)];
       L.marker(pos, {
         icon: Checked
       }).bindTooltip(mes, {
         permanent: true,
         interactive: true
       }).addTo(map);
-      // L.marker(pos, { icon: Checked }).addTo(map)
-      // .bindPopup(`Lat: ${point.dPointLat},\n Lng: ${point.dPointLong}`)
-      // .openPopup();
     })
   }
 }
 
 function handleClickPointMap(e, popup, map, L){
   const {lat, lng} = e.latlng;
+  let pos = [lat, lng];
+  let mes = `${lat} - ${lng}`
   //arrNewAddedPoints.push([lat, lng]);
   $('.latPoint').text(lat);  
   $('.longPoint').text(lng);  
-  // let polygon = L.polyline(arrNewAddedPoints, {color: 'red'}).addTo(map);
-  // popup
-  //   .setLatLng(e.latlng)
-  //   .setContent("You clicked the map at " + e.latlng.toString())
-  //   .openOn(mymap);
+
+  var LeafIcon = L.Icon.extend({
+    options: {
+      iconSize: [15, 15]
+    }
+  });
+
+  var Checked = new LeafIcon({
+    iconUrl: '../img/Checked.png'
+  });
+
+  L.marker(pos, {
+    icon: Checked
+  }).addTo(map).bindTooltip(mes);
+
 }
 
 function showPointsMap(){
   let $mapArea = $('<div id="mapPoint" class="mymap" style="height:400px"></div>'); 
   $('#modalMapPoint').find('.modal-body').html($mapArea);
   $('#modalMapPoint').modal('show');
-  console.log(arrCurrentPointsOnZone)
   setTimeout(() => {
     buildPointsMap(arrCurrentPointsOnZone, 'mapPoint');
-  }, 500);
+  }, TIME_OUT_SHOW_MAP_ON_MODAL);
 }
 
 async function showPointsData() {
@@ -168,6 +176,7 @@ async function showPointsData() {
   if(zoneId){
     let sentData = { iZoneID: zoneId };
     let data = await Service.getPointsDataOnZone(sentData);
+    console.log(data);
     if(data) arrCurrentPointsOnZone = [...data];
     else arrCurrentPointsOnZone = [];
     $('#totalPoints').html(`<strong>Total Points:</strong> ${data.length}`)
@@ -192,11 +201,11 @@ function showInsertPointModal(){
   $('#modalInsertPoint').modal('show');
   setTimeout(() => {
     buildPointsMap(arrCurrentPointsOnZone, 'mapPointInsert');
-  }, 500);
+  }, TIME_OUT_SHOW_MAP_ON_MODAL);
 }
 
 function showUpdatePointModal(point){
-  const {iPointID, sPointCode, sZoneName, dPointLat, dPointLong, dDateTimeAdd} = point
+  const {iPointID, sPointCode, sZoneName, dPointLat, dPointLong, dDateTimeAdd, sPointName, sPointNote } = point
   currentUpdatedPoint = point;
   let $mapArea = $('<div id="mapPointUpdate" class="mymap"></div>'); 
   $('#updatePointMap').html($mapArea);
@@ -204,19 +213,23 @@ function showUpdatePointModal(point){
   let lat = Number(dPointLat);
   let lng = Number(dPointLong);
   $('#txtUpdatepointCode').val(sPointCode);
+  $('#txtUpdatePointNote').val(sPointNote);
+  $('#txtUpdatePointName').val(sPointName);
   if(lat == 0 && lng == 0){
     $('#latUpdatePoint').text('');
     $('#longUpdatePoint').text('');
+    $('#txtUpdatepointCode').attr({'disabled': false});
     currentUpdatedPoint.GPS = false;
   }else{
     $('#latUpdatePoint').text(dPointLat);
     $('#longUpdatePoint').text(dPointLong);
+    $('#txtUpdatepointCode').attr({'disabled': true});
     currentUpdatedPoint.GPS = true;
   }
   $('#modalUpdatePoint').modal('show');
   setTimeout(() => {
     buildPointsMap([point], 'mapPointUpdate');
-  }, 500);
+  }, TIME_OUT_SHOW_MAP_ON_MODAL);
 }
 
 async function inActivePoint(point){
@@ -239,7 +252,7 @@ async function updatePoint(){
   let lat = Number($('#latUpdatePoint').text());
   let lng = Number($('#longUpdatePoint').text());
   let pointCode = $('#txtUpdatepointCode').val();
-  let sentData = '';
+  let sentData;
   if(!GPS){
     sentData = { 
       bStatusIN: 2, 
@@ -270,23 +283,41 @@ async function insertPoint(){
   let lng = $('#longInsertPoint').text();
   let zoneId = $('#selectZoneInsertPoint').val();
   let pointCode = $('#txtInsertPointCode').val();
+  let name = $('#txtInsertPointName').val();
+  let note = $('#txtInsertPointNote').val();
   let radio = $('#modalInsertPoint').find('input[name="radioGPS"]');
-  console.log(lat, lng, zoneId, pointCode);
   var sentData = null;
-  if(radio[0].checked){
-    if(lat.trim() == '' || lng.trim() == '') 
-      return showAlertError("Invalid data", "", 2000);
-    sentData = { dGPSLatIN: Number(lat), dGPSLongIN: Number(lng), iZoneIDIN: zoneId, sPointCodeIN: 0, bStatusIN: 1, iPointIDIN: 0 };
-  }else if(radio[1].checked){
-    if(pointCode.trim() == '') return showAlertError("Invalid data", "", 2000);
-    sentData = { dGPSLatIN: 0, dGPSLongIN: 0, iZoneIDIN: zoneId, sPointCodeIN: pointCode, bStatusIN: 1, iPointIDIN: 0 };
-  }
-
   if(!radio[0].checked && !radio[1].checked)
-    return showAlertError("Invalid data", "", 2000);
-  // {"dGPSLatIN":20.798003814373477,"dGPSLongIN":106.78728103637697,"iZoneIDIN":"1","sPointCodeIN":"P123456","bStatusIN":1,"iPointIDIN":null}
-  let data = await Service.insertPoint(sentData);
-  showPointsData();
-  console.log(data);
-  showAlertSuccess("Insert successfully!", "", 2000); 
+    return showAlertError("Invalid data", "You have to check GPS or QRCode", 3000);
+  if(checkValidInsertPoint(name, note)){
+    if(radio[0].checked){
+      if(lat.trim() == '' || lng.trim() == '') 
+        return showAlertError("Invalid data", "You have not chosen point on map", 3000);
+      sentData = { dGPSLatIN: Number(lat), dGPSLongIN: Number(lng), iZoneIDIN: zoneId, sPointCodeIN: 0, bStatusIN: 1, iPointIDIN: 0 };
+    }else if(radio[1].checked){
+      if(pointCode.trim() == '') return showAlertError("Invalid data", "Point code must be filled", 3000);
+      sentData = { dGPSLatIN: 0, dGPSLongIN: 0, iZoneIDIN: zoneId, sPointCodeIN: pointCode, bStatusIN: 1, iPointIDIN: 0 };
+    }
+    let data = await Service.insertPoint(sentData);
+    showPointsData();
+    console.log(data);
+    showAlertSuccess("Insert successfully!", "", 2000); 
+  }
+}
+
+function checkValidInsertPoint(name, note){
+  let valid = true;
+  let msgErr = '';
+  if(!Validation.checkEmpty(name)){
+    msgErr += 'Point name must be filled\n'
+    valid = false;
+  }
+  if(!Validation.checkEmpty(note)){
+    msgErr += 'Point note must be filled\n'
+    valid = false;
+  }
+  if(!valid){
+    showAlertError("Invalid data", msgErr, 3000);
+  }
+  return valid;
 }
