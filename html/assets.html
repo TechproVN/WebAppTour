@@ -132,7 +132,7 @@
             </div>
             <div class="row mt-3">
               <div class="col-12">
-                  <button class="btn btn-custom bg-main-color pull-right">Export</button>
+                  <button class="btn btn-custom bg-main-color pull-right" id="btnShowMapAllAssets">Map</button>
                   <button class="btn btn-custom bg-main-color pull-right" id="btnAssetsData">View</button>
               </div>
             </div>
@@ -163,6 +163,55 @@
         <!-- card Assets end -->
       </div>
     </div>
+    <!-- show 1 asset map -->
+    <div class="row">
+      <div class="col-12">
+        <!-- Modal -->
+        <div class="modal fade" id="modalAssetMap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Asset Map</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- show all assets map -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Modal -->
+          <div class="modal fade" id="modalAssetMapAll" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Asset Map</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 
   <!-- JQuery core -->
@@ -186,14 +235,16 @@
   <!-- sweetalert -->
   <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
 
+  <script src="../plugins/leaflet/js/js/leaflet.js"></script>
+
   <!-- translate js plugins -->
   <script src="../plugins/translate.js-master/jquery.translate.js"></script>
 
-  <!-- translate language -->
-  <script src="../custom/js/translate.js"></script>
-
   <!-- pagination js -->
   <script src="../plugins/paginationJs/pagination.min.js"></script>
+
+  <!-- translate language -->
+  <script src="../custom/js/translate.js"></script>
 
   <!-- service request -->
   <script src="../custom/js/service.js"></script>

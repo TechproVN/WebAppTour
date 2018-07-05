@@ -21,18 +21,21 @@ async function showEventHistoryData() {
   if (checkTimeFormat(fromDate, toDate)) {
     let sentData = { GuardID, fromDate, toDate };
     let data = await Service.getEventHistoryData(sentData);
-    $('#pagingToursControl').pagination({
-      dataSource: data,
-      pageSize: 10,
-      showGoInput: true,
-      showGoButton: true,
-      callback: function (data, pagination) {
-        // template method of yourself
-        console.log(data);
-        let $table = renderEventHistoryTable(data);
-        $('.card-tour .table-responsive').html($table);
-      }
-    })
+    if(data){
+      $('#totalTours').text(`Total tours: ${data.length}`);
+      $('#pagingToursControl').pagination({
+        dataSource: data,
+        pageSize: 10,
+        showGoInput: true,
+        showGoButton: true,
+        callback: function (data, pagination) {
+          // template method of yourself
+          console.log(data);
+          let $table = renderEventHistoryTable(data);
+          $('.card-tour .table-responsive').html($table);
+        }
+      })
+    }
   }
 }
 
