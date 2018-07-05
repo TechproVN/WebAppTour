@@ -26,6 +26,7 @@ function renderAssetsTable(data) {
         <th class="trn">Last Property History</th>
         <th class="trn">Long Property History</th>
         <th class="trn">Datetime</th>
+        <th class="trn"></th>
       </tr>
     `
   )
