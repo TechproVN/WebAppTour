@@ -9,14 +9,18 @@ $(() => {
   
 })
 
-function playSound(filename){   
-  $('#soundNoti').html(`<audio autoplay="autoplay">
-      <source src="${filename}.mp3" type="audio/mpeg" />
-      <source src="${filename}.ogg" type="audio/ogg" />
-      <embed hidden="true" autostart="true" loop="false" src="${filename}.mp3" />
-    </audio>`)
-}
-playSound('../custom/audio/notificationSOS');
+const audioSOS = new Audio('../custom/audio/notificationSOS.mp3');
+
+// function playSound(filename){   
+//   $('#soundNoti').html(`<audio autoplay="autoplay">
+//       <source src="${filename}.mp3" type="audio/mpeg" />
+//       <source src="${filename}.ogg" type="audio/ogg" />
+//       <embed hidden="true" autostart="true" loop="false" src="${filename}.mp3" />
+//     </audio>`)
+// }
+// playSound('../custom/audio/notificationSOS');
+
+// audioSOS.play();
 // const notificationSOS = new Audio('../custom/audio/notificationSOS.mp3');
 // notificationSOS.play();
 
@@ -67,7 +71,7 @@ async function showGuardInfo() {
     renderJcombobox(data);
     let sosChecking = data.some(g => g.bOnline.toLowerCase() == 'sos');
     if(sosChecking){
-      playSound('../custom/audio/notificationSOS');
+      audioSOS.play();
       showAlertError('There are SOS warning conditions', "", 3000);
     }
   }else{
@@ -273,7 +277,6 @@ function buildCurrentMapGuard(data){
         }).addTo(mymap);
       }
       if(bOnline.trim().toLowerCase() == 'sos'){
-        console.log('sos')
         L.marker(pos, {
           icon: Alert
         }).bindTooltip(mes, {

@@ -1,5 +1,6 @@
 const APP_DOMAIN = 'http://115.79.27.219/tracking/';
 const CENTER_POS_MAP_VIEW = [20.81715284, 106.77411238];
+
 $('.datepicker').datepicker();
 
 $('.datetimepicker').datetimepicker({
