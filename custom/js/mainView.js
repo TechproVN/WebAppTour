@@ -13,10 +13,11 @@ function playSound(filename){
   $('#soundNoti').html(`<audio autoplay="autoplay">
       <source src="${filename}.mp3" type="audio/mpeg" />
       <source src="${filename}.ogg" type="audio/ogg" />
+	  <source src="${filename}.wav" type="audio/wav" />
       <embed hidden="true" autostart="true" loop="false" src="${filename}.mp3" />
     </audio>`)
 }
-playSound('../custom/audio/notificationSOS');
+//playSound('../custom/audio/alert');
 // const notificationSOS = new Audio('../custom/audio/notificationSOS.mp3');
 // notificationSOS.play();
 
@@ -67,7 +68,7 @@ async function showGuardInfo() {
     renderJcombobox(data);
     let sosChecking = data.some(g => g.bOnline.toLowerCase() == 'sos');
     if(sosChecking){
-      playSound('../custom/audio/notificationSOS');
+      playSound('../custom/audio/alert');
       showAlertError('There are SOS warning conditions', "", 3000);
     }
   }else{
