@@ -19,9 +19,10 @@ function renderAssetsTable(data) {
         <th class="trn">AssetName</th>
         <th class="trn">Zone</th>
         <th class="trn">Guard name</th>
-        <th class="trn">Last Property History</th>
-        <th class="trn">Long Property History</th>
-        <th class="trn">Datetime</th>
+        <th class="trn">Lat</th>
+        <th class="trn">Long</th>
+        <th class="trn">Datetime updated</th>
+        <th class="trn"></th>
       </tr>
     `
   )
