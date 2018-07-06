@@ -164,15 +164,17 @@
                       </h4>
                   </div>
                   <div class="col-lg-4">
-                    <button class="btn btn-custom bg-main-color" id="btnSaveSelectedPoints">Save</button>
+                    <button class="btn btn-custom btn-success" id="btnSaveSelectedPoints">Save</button>
                   </div>
                 </div>
               </div>
               <div class="card-body custom-card-body">
-                <div class="form-group">
-                    <label for="">Route name</label>
+                <div>
                     <span class="pull-right sumOfDistance"></span><br>
                     <span class="pull-right timeCompleted"></span>
+                </div>
+                <div class="form-group">
+                    <label for="">Route name</label>
                     <input type="text" id="txtSaveRouteName" class="form-control" placeholder="Enter route name">
                 </div>
                 <div class="sortable points" id="selectedPointsOnRoute">
@@ -220,8 +222,11 @@
           </div>
           <div class="card-body custom-card-body">
             <div class="row my-3">
-              <div class="col-12">
+              <div class="col-sm-8">
                 <div id="pagingRoutesControl"></div>
+              </div>
+              <div class="col-sm-4">
+                <div id="totalRoutes"></div>
               </div>
             </div>
             <div class="table-responsive">
@@ -330,11 +335,14 @@
   <!-- translate language -->
   <script src="../custom/js/translate.js"></script>
 
+  <!-- custom main.js -->
+  <script src="../custom/js/main.js"></script>
+
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
-  <!-- custom main.js -->
-  <script src="../custom/js/main.js"></script>
+  <!-- validation js -->
+  <script src="../custom/js/validation.js"></script>
 
   <!-- custom points js -->
   <script src="../custom/js/route.js"></script>

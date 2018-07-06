@@ -22,7 +22,7 @@ async function showEventHistoryData() {
     let sentData = { GuardID, fromDate, toDate };
     let data = await Service.getEventHistoryData(sentData);
     if(data){
-      $('#totalTours').text(`Total tours: ${data.length}`);
+      $('#totalTours').html(`<strong>Total tours:</strong> ${data.length}`)
       $('#pagingToursControl').pagination({
         dataSource: data,
         pageSize: 10,
@@ -100,18 +100,21 @@ async function formatTodayEvent() {
   let toDate = null;
   let sentData = { GuardID, fromDate, toDate };
   let data = await Service.getEventHistoryData(sentData);
-  $('#pagingToursControl').pagination({
-    dataSource: data,
-    pageSize: 10,
-    showGoInput: true,
-    showGoButton: true,
-    callback: function (data, pagination) {
-      // template method of yourself
-      console.log(data);
-      let $table = renderEventHistoryTable(data);
-      $('.card-tour .table-responsive').html($table);
-    }
-  })
+  if(data){
+    $('#totalTours').html(`<strong>Total tours:</strong> ${data.length}`)
+    $('#pagingToursControl').pagination({
+      dataSource: data,
+      pageSize: 10,
+      showGoInput: true,
+      showGoButton: true,
+      callback: function (data, pagination) {
+        // template method of yourself
+        console.log(data);
+        let $table = renderEventHistoryTable(data);
+        $('.card-tour .table-responsive').html($table);
+      }
+    })
+  }
 }
 
 function checkTimeFormat(from, to) {

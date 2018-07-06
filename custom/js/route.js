@@ -148,18 +148,6 @@ function buildRouteMapOnModal(data){
       }).addTo(mymap);
       mymap.fitBounds(polyline.getBounds());
     }
-
-  // {"iPointID":"78","sPointCode":null,"sZoneName":"Zone 1","dPointLat":"20.82054995","dPointLong":"106.77008481","dDateTimeAdd":"2018-04-27 16:08:27","iNo":"1","iZoneID":"1"}
-  // let mes = `${sGuardName} - ${dLastUpdateTime}`;
-  // let pos = [Number(dGuardLongCurrent), Number(dGuardLatCurrent)]
-
-  // L.marker(pos, {
-  //   icon: Guard
-  // }).bindTooltip(mes, {
-  //   permanent: true,
-  //   interactive: true
-  // }).addTo(mymap);
-
 }
 
 function showRouteMap(data){
@@ -256,7 +244,7 @@ function showSelectedPointWhenRemoveAlert(point){
   showDistanceAndTimeOfRoute();
   setTimeout(() => {
     showRouteMap(arrSelectedPointsOnRoute);
-  },100)
+  }, 100)
 }
 
 function showDistanceAndTimeOfRoute(){
@@ -294,6 +282,8 @@ function renderListOfSelectedPoints(selectedPoints){
 
 async function saveRoute(){
   let RouteName = $('#txtSaveRouteName').val();
+  if(arrSelectedPointsOnRoute.length == 0) return showAlertError("Invalid save", "Please choose points", 3000);
+  if(!Validation.checkEmpty(RouteName)) return showAlertError("Invalid save", "Please enter route name", 3000);
   let arrPoints = arrSelectedPointsOnRoute.map((p, index) => {
     const { iPointID } = p;
     return {PointID: iPointID, No: index + 1}
@@ -327,6 +317,7 @@ async function showRoutesOnTable(){
   let sentData = { iZoneIDIN: zoneId };
   let routes = await Service.getRoutesOnZone(sentData);
   if(routes){
+    $('#totalRoutes').html(`<strong>Total Routes</strong> ${routes.length}`);
     $('#pagingRoutesControl').pagination({
       dataSource: routes,
       pageSize: 10,
@@ -405,14 +396,11 @@ function renderTableRoutes(routes){
 async function showRouteViewMapModal(route){
   const { iRouteID } = route;
   let sentData = { iRouteID };
-  console.log(route);
-  console.log(JSON.stringify(sentData));
   let data = await Service.getRouteDetailsData(sentData);
-  console.log(data);
   $('#modalViewMapRoute').modal('show');
   setTimeout(() => {
     buildRouteMapOnModal(data);
-  }, 500);
+  }, TIME_OUT_SHOW_MAP_ON_MODAL);
 }
 
 function showUpdateRouteGuardModal(route){

@@ -23,9 +23,15 @@ function renderAssetsTable(data) {
         <th class="trn">AssetName</th>
         <th class="trn">Zone</th>
         <th class="trn">Guard name</th>
+<<<<<<< HEAD
         <th class="trn">Lat</th>
         <th class="trn">Long</th>
         <th class="trn">Datetime updated</th>
+=======
+        <th class="trn">Last Property History</th>
+        <th class="trn">Long Property History</th>
+        <th class="trn">Datetime</th>
+>>>>>>> cef9e0519f4c2a414c803c74e8f5f858f3506f9b
         <th class="trn"></th>
       </tr>
     `
@@ -65,6 +71,7 @@ async function showAssetsData() {
   arrCurrentAssets.length = 0;
   if(data){
     arrCurrentAssets = data.slice();
+    $('#totalAssets').html(`<strong>Total Assets</strong>: ${data.length}`)
     $('#pagingAssetsControl').pagination({
       dataSource: data,
       pageSize: 10,

@@ -154,8 +154,11 @@
           </div>
           <div class="card-body custom-card-body">
             <div class="row my-3">
-              <div class="col-12">
+              <div class="col-sm-8">
                   <div id="pagingPointsControl" ></div>
+              </div>
+              <div class="col-sm-4">
+                <div id="totalPoints"></div>
               </div>
             </div>
             <div class="table-responsive">
@@ -195,7 +198,7 @@
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Update Point</h5>
+                <h5 class="modal-title">Update Point</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -207,6 +210,14 @@
                     <div class="form-group">
                       <label for="" class="font-weight-bold">Point code</label>
                       <input type="text" class="form-control" placeholder="Point code" id="txtUpdatepointCode">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Name</label>
+                      <input type="text" class="form-control" id="txtUpdatePointName" placeholder="Enter name">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Name</label>
+                      <input type="text" class="form-control" id="txtUpdatePointNote" placeholder="Enter note">
                     </div>
                     <div>
                       <label for="" class="font-weight-bold">Lat: </label>
@@ -261,6 +272,14 @@
 
                           </select>
                       </div>
+                      <div class="form-group">
+                        <label for="">Name</label>
+                        <input type="text" class="form-control" id="txtInsertPointName" placeholder="Enter name">
+                      </div>
+                      <div class="form-group">
+                        <label for="">Note</label>
+                        <input type="text" class="form-control" id="txtInsertPointNote" placeholder="Enter note">
+                      </div>
 
                       <div>
                         <label for="" class="font-weight-bold">Lat: </label>
@@ -282,6 +301,8 @@
         </div>
       </div>
     </div>
+
+
   </div>
 
   <!-- JQuery core -->
@@ -318,6 +339,9 @@
 
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
+
+  <!-- validation js -->
+  <script src="../custom/js/validation.js"></script>
 
   <!-- custom main.js -->
   <script src="../custom/js/main.js"></script>

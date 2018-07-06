@@ -180,6 +180,7 @@ function showGuardModalInsert(){
 async function showGuards(){
   let guards = await Service.getPersonalGuardsInfo();
   if(guards){
+    $('#totalGuards').html(`<strong>Total Guards:</strong> ${guards.length}`);
     $('#pagingGuardsControl').pagination({
       dataSource: guards,
       pageSize: 10,

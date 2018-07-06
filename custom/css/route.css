@@ -1,17 +1,19 @@
 .card-insert-route{
-  height: 400px !important;
+  height: 450px !important;
 }
 .card-points ul{
-  height: 270px; 
+  height: 250px; 
   overflow: auto;
 }
 .alert{
   margin-top: 5px;
   margin-bottom: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 .map{
   width: 100%;
-  height: 340px;
+  height: 380px;
 }
 .points{
   height: 270px!important; 
