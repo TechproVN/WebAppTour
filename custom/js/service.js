@@ -278,4 +278,44 @@ class Service {
     return null;
   }
 
+  // Report Tour
+  // http://115.79.27.219/tracking/api/GetTourDetail.php
+  static async getTourDetail(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetTourDetail.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  // http://115.79.27.219/tracking/api/GetReportPerformance.php
+  static async getReportPerformance(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetReportPerformance.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  // http://115.79.27.219/tracking/api/GetReportPerformanceChart.php
+  static async getReportPerformanceChart(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetReportPerformanceChart.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
 }

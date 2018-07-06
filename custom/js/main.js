@@ -64,3 +64,35 @@ async function showAlertWarning(title, text){
 function moveTop(){
   $('html, body').animate({'scrollTop': 0}, 300);
 }
+
+function showGuardsOnCombobox(guards){
+  $('.guardsCombobox').html('');
+  if(guards){
+    guards.forEach(g => {
+      const { iGuardId, sGuardName } = g;
+      $('.guardsCombobox').append(`<option value="${iGuardId}">${sGuardName}</option>`)
+    })
+  }
+}
+
+async function loadGuardsOnCombobox(){
+  let guards = await Service.getGuardsData();
+  showGuardsOnCombobox(guards);
+}
+
+function checkDate(from, to){
+  let valid = true;
+  let msgErr = '';
+  if(!Validation.checkEmpty(from)){
+    valid = false;
+    msgErr += 'Start date must be filled\n'
+  }
+  if(!Validation.checkEmpty(to)){
+    valid = false;
+    msgErr += 'End date must be filled\n'
+  }
+  if(!valid){
+    showAlertError("Invalid data", msgErr, 3000);
+  }
+  return valid;
+}

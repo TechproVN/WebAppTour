@@ -32,13 +32,13 @@
     'Idling Time in %/ Thời gian không làm việc %',
   ]
 
-  const arrReportCal = [1, 2, 3, 4, '5=4:1', '6=3+5', '7=6:2', 8, '9=8:3', 10, '11=6:3', '', '12=7*9*11', 13, 14, 15, 16, 17, 18, 19];
+  const arrReportCal = [1, 2, 3, 4, '5  =4:1', '6=3+5', '7=6:2', 8, '9=8:3', 10, '11=6:3', '', '12=7*9*11', 13, 14, 15, 16, 17, 18, 19];
 
   const arrPropsReport = ['iTime_per_Route', 'iExpected_Executed_Routes', 'iActual_Executed_Routes', 'iTime_spent_on_resolving_non_conformities', 'iMissed_routes_due_to_resolving_non_conformities', 'iCorrected_Executed_Routes', 'dPerformance_Routes', 'iSuccessful_routes_within_time_schedule', 'dPerformance_Timing', 'iSuccessful_routes_with_correct_routing', 'dPerformance_Routing', 'iRouting_Mistakes', 'dOverall_performance', 'iNumber_of_reports_issued', 'iActual_Patrolling_Time', 'iAllowed_Interval_between_trip', 'iTotal_patroling_time_in_minutes', 'dPerfomance_Time', 'iTotal_Idling_Time', 'dIdling_Time_in'];
 
 
-  function renderReportTable(data){
-    let $table = $('#tblReports');
+function renderReportTable(data){
+  let $table = $('#tblReports');
   $table.html('');
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
@@ -87,7 +87,7 @@
     $('#jcomboboxGuardReport').html('');
     if(data){
       data.forEach(guard => {
-        const {iGuardId, sGuardName} = guard;
+        const { iGuardId, sGuardName } = guard;
         $('#jcomboboxGuardReport').append(`<option value="${iGuardId}">${sGuardName}</option>`)
       })
     }
@@ -115,6 +115,5 @@
 			// exclude_inputs: true
     });
   }
-
   
   
