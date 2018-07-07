@@ -24,6 +24,9 @@
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
+  <!-- chartjs css -->
+  <!-- <link rel="stylesheet" href="../plugins/chartJS/samples/style.css"> -->
+
   <!-- custom main css -->
   <link rel="stylesheet" href="../custom/css/main.css">
 
@@ -110,62 +113,95 @@
 
   <div class="container-fluid">
 
-      <div class="row my-3 row-custom">
+    <div class="row my-3 row-custom">
 
-        <div class="col-lg-3 mb-4">
-            <!-- card filter start -->
-            <div class="card card filter">
-              <div class="card-header bg-main-color custom-card-header">
-                <h4>
-                  <i class="fa fa-filter"></i> Filters
-                </h4>
-              </div>
-              <div class="card-body custom-card-body">
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <label for="">Guard</label><br>
-                    <select name="" class="form-control" id="jcomboboxGuardReport">
-                      <!-- guard name list -->
-                    </select>
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12">
-                      <label for="">Date</label><br>
-                      <input type="text" readonly class="datepicker" class="form-control" style="width: 100%" id="reportDatetime">
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <button class="btn btn-custom bg-main-color pull-right" id="btnViewReport">View</button>
-                    <button class="btn btn-custom bg-main-color pull-right" id="btnExportReport2Excel">Export</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- card filter end -->
-        </div>
-    
-        <div class="col-lg-9">
-          <!-- card Points start -->
-          <div class="card card-incident">
+      <div class="col-lg-3 mb-4">
+          <!-- card filter start -->
+          <div class="card card filter">
             <div class="card-header bg-main-color custom-card-header">
               <h4>
-                <i class="fa fa-exclamation-triangle"></i> Reports
+                <i class="fa fa-filter"></i> Filters
               </h4>
             </div>
             <div class="card-body custom-card-body">
-              <div class="table-responsive">
-                <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblReports">
-                  <!-- Points content here -->
-                </table>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <label for="">Guard</label><br>
+                  <select name="" class="form-control" id="jcomboboxGuardReport">
+                    <!-- guard name list -->
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                    <label for="">Date</label><br>
+                    <input type="text" readonly class="form-control datepicker" style="width: 100%" id="reportDatetime">
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <button class="btn btn-custom bg-main-color pull-right" id="btnViewReport">View</button>
+                  <button class="btn btn-custom bg-main-color pull-right" id="btnExportReport2Excel">Export</button>
+                  <button class="btn btn-custom bg-main-color pull-right" id="btnChartReport">Chart</button>
+                </div>
               </div>
             </div>
           </div>
-          <!-- card Points end -->
-        </div>
-
+          <!-- card filter end -->
       </div>
+  
+      <div class="col-lg-9">
+        <!-- card Points start -->
+        <div class="card card-incident">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-exclamation-triangle"></i> Reports
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblReports">
+                <!-- Points content here -->
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- card Points end -->
+      </div>
+
+    </div>
+
+    <!-- Modal chart Report -->
+    <div class="row">
+      <div class="col-12">
+        <!-- Modal chart Report -->
+        <div class="modal fade" id="modalChartReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="">Chart Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-lg-6" id="chartPatrollingPerformance">
+                    <canvas style="width: 100%" height="300"></canvas>
+                  </div>
+                  <div class="col-lg-6" id="chartTimePerformance">
+                    <canvas style="width: 100%" height="300"></canvas>
+                  </div>
+                </div>  
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     
   </div>
   
@@ -190,6 +226,18 @@
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
+  <!-- leaflet js -->
+  <script src="../plugins/leaflet/js/leaflet.js"></script>
+
+  <!-- table2Excel plugins -->
+  <script src="../plugins/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel/dist/jquery.table2excel.min.js"></script>
+
+  <!-- sweetalert -->
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+
+  <!-- chartJS -->
+  <script src="../plugins/chartJS/Chart.min.js"></script>
+
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
@@ -199,14 +247,9 @@
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>
 
-  <!-- leaflet js -->
-  <script src="../plugins/leaflet/js/leaflet.js"></script>
-  <!-- table2Excel plugins -->
-  <script src="../plugins/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel/dist/jquery.table2excel.min.js"></script>
-
+  <!-- report js -->
   <script src="../custom/js/report.js"></script>
   
- 
 </body>
 
 </html>
