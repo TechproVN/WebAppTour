@@ -43,14 +43,14 @@ function renderTourReportTable(data) {
       <tr>
         <th class="trn">Guard</th>
         <th class="trn">Zone</th>
-        <th class="trn">Checking code</th>
-        <th class="trn">Initial Date</th>
-        <th class="trn">Time start</th>
-        <th class="trn">Time end</th>
-        <th class="trn">NoTour</th>
-        <th class="trn">TimeTour</th>
-        <th class="trn">Time Schedule</th>
-        <th class="trn">checkedPoint</th>
+        <th class="trn">Code</th>
+        <th class="trn">Date</th>
+        <th class="trn">Started</th>
+        <th class="trn">Finished</th>
+        <th class="trn">No.</th>
+        <th class="trn">Time</th>
+        <th class="trn">Schedule</th>
+        <th class="trn">Point</th>
       </tr>
     `
   )
