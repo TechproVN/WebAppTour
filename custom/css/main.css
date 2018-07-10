@@ -17,6 +17,7 @@
 
 body{
   font-size: 0.9em !important;
+  background-color:rgba(0,0,0,0.03);
 }
 .checkbox-custom{
   width: 16px;
@@ -128,5 +129,8 @@ nav.navbar{
 }
 .btnScrollTop .fa{
   font-size: 2em;
+}
+.modal-dialog.modal-dialog-custom {
+  max-width: 80% !important;
 }
 

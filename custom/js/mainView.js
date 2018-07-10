@@ -9,16 +9,7 @@ $(() => {
   
 })
 
-function playSound(filename){   
-  $('#soundNoti').html(`<audio autoplay="autoplay">
-      <source src="${filename}.mp3" type="audio/mpeg" />
-      <source src="${filename}.ogg" type="audio/ogg" />
-	  <source src="${filename}.wav" type="audio/wav" />
-      <embed hidden="true" autostart="true" loop="false" src="${filename}.mp3" />
-    </audio>`)
-}
-//playSound('../custom/audio/alert');
-const audioSOS = new Audio('../custom/audio/alert.mp3');
+const audioSOS = new Audio('../custom/audio/alert.wav');
 
 let arrCurrentGuardsSentSMS = [];
 let arrCurrentGuards = [];
@@ -68,10 +59,10 @@ async function showGuardInfo() {
     let sosChecking = data.some(g => g.bOnline.toLowerCase() == 'sos');
     if(sosChecking){
       audioSOS.play();
-      showAlertError('There are SOS warning conditions', "", 3000);
+      showAlertError('There are SOS warning situations', "", 3000);
     }
   }else{
-    arrCurrentGuards = [];
+    arrCurrentGuards.length = 0;
   }
 }
 

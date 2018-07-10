@@ -1,4 +1,3 @@
-
 let appCurrentLang = "vn";
 
 const dictionary = {
@@ -62,6 +61,16 @@ const dictionary = {
 //     translator.lang("vn");
 //     appCurrentLang = "vn";
 //   }
+// }
+
+// function changeLangIntoEnglish(){
+//   appCurrentLang = 'en';
+//   translator.lang("en");
+// }
+
+// function changeLangIntoVietnamese(){
+//   appCurrentLang = 'vn';
+//   translator.lang("vn");
 // }
 
 // $('#changeLanguage').click(changeLanguage)

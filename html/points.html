@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- font awesome css -->
+  <link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css">
 
   <!-- Bootstrap core css -->
   <link rel="stylesheet" href="../MDB Free/css/bootstrap.min.css">
@@ -29,9 +29,6 @@
 
   <!-- main custom css -->
   <link rel="stylesheet" href="../custom/css/main.css">
-
-  <!-- custom main view css -->
-  <link rel="stylesheet" href="../custom/css/mainView.css">
 
   <title>Points</title>
 </head>
@@ -175,10 +172,10 @@
     <div class="row">
       <div class="col-12">
         <div class="modal fade bd-example-modal-lg" id="modalMapPoint">
-          <div class="modal-dialog modal-lg">
+          <div class="modal-dialog modal-lg modal-dialog-custom">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Point Map</h5>
+                <h5 class="modal-title">Point Map</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -196,7 +193,7 @@
     <div class="row">
       <div class="col-12">
         <div class="modal fade" id="modalUpdatePoint">
-          <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-dialog modal-lg modal-dialog-custom" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Update Point</h5>
@@ -206,8 +203,8 @@
               </div>
               <div class="modal-body">
                 <div class="row">
-                  <div class="col-lg-6" id="updatePointMap"></div>
-                  <div class="col-lg-6">
+                  <div class="col-lg-7" id="updatePointMap"></div>
+                  <div class="col-lg-5">
                     <div class="form-group">
                       <label for="" class="font-weight-bold">Point code</label>
                       <input type="text" class="form-control" placeholder="Point code" id="txtUpdatepointCode">
@@ -245,18 +242,18 @@
     <div class="row">
       <div class="col-12">
         <div class="modal fade" id="modalInsertPoint">
-          <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-dialog modal-lg modal-dialog-custom" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Insert Point</h5>
+                <h5 class="modal-title">Insert Point</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                 <div class="row">
-                  <div class="col-lg-6" id="insertPointMap"></div>
-                  <div class="col-lg-6">
+                  <div class="col-lg-7" id="insertPointMap"></div>
+                  <div class="col-lg-5">
                       <div class="form-group">
                         <label for="" class="font-weight-bold">Point code</label>
                         <input type="text" class="form-control" placeholder="Point code" id="txtInsertPointCode">
@@ -302,7 +299,6 @@
         </div>
       </div>
     </div>
-
 
   </div>
 

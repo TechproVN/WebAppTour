@@ -113,34 +113,34 @@ function buildChartWeeklyPatrollingPerformance(){
   let borderColor1 = 'rgba(75, 192, 192, 1)';
   let borderColor2 = 'rgba(153, 102, 255, 1)';
   let borderColor3 = 'rgba(255, 159, 64, 1)';
-  let borderColor4 = 'rgba(75, 192, 192, 1)';
+  let borderColor4 = 'red';
 
-  console.log(arrDataChartWeeklyPatrollingPerformance)
+  console.log('patrolling '+arrDataChartWeeklyPatrollingPerformance)
 // arrDataChartWeeklyPatrollingPerformance
   var chartPatroll = new Chart(ctx, {
     type: 'line',
     data: {
         labels: arrLabelsChartWorkingTimeVsIdlingTime,
         datasets: [{
-					label: ["Performance", "Routes"],
+					label: "Performance Routes",
 					backgroundColor: borderColor1,
 					borderColor: borderColor1,
 					data: arrDataChartWeeklyPatrollingPerformance.map(a => a[0]),
 					fill: false,
 				},{
-					label: ["Performance", "Timing"],
+					label: "Performance Timing",
 					backgroundColor: borderColor2,
 					borderColor: borderColor2,
 					data: arrDataChartWeeklyPatrollingPerformance.map(a => a[1]),
 					fill: false,
 				},{
-					label: ["Performance", "Routing"],
+					label: "Performance Routing",
 					backgroundColor: borderColor3,
 					borderColor: borderColor3,
 					data: arrDataChartWeeklyPatrollingPerformance.map(a => a[2]),
 					fill: false,
 				},{
-					label: ["Overall", "Performance"],
+					label: "Overall Performance",
 					backgroundColor: borderColor4,
 					borderColor: borderColor4,
 					data: arrDataChartWeeklyPatrollingPerformance.map(a => a[3]),
@@ -219,14 +219,14 @@ function buildChartWorkingTimeVsIdlingTime(){
     data: {
       labels: arrLabelsChartWorkingTimeVsIdlingTime,
       datasets: [{
-        label: 'Working Time',
+        label: 'Idling Time',
         data: arrDataChartWorkingTimeVsIdlingTime.map(arr => arr[0]),
         backgroundColor: arrBgColor1,
         borderColor: arrBorderColor1,
         borderWidth: 1
       },
       {
-        label: 'Idling Time',
+        label: 'Working Time',
         data: arrDataChartWorkingTimeVsIdlingTime.map(arr => arr[1]),
         backgroundColor: arrBgColor2,
         borderColor: arrBorderColor2,

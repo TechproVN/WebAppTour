@@ -75,7 +75,6 @@ class Service {
       method: 'post',
     });
     let parsedData = JSON.parse(data);
-    console.log(data);
     if (Array.isArray(parsedData) && parsedData.length > 0)
       return parsedData;
     return null;

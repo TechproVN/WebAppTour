@@ -115,12 +115,13 @@ function renderGuardTable(guards){
                 <button class="btn btn-custom btn-info btn-custom-small dropdown-item btnShowUpdateGuardModal">Update</button>
                 <button class="btn btn-custom btn-warning btn-custom-small dropdown-item btnShowModalResetPassword">Reset Password</button>
                 <button class="btn btn-custom btn-primary btn-custom-small dropdown-item btnShowModalSendMessage">Send Message</button>
-                <button class="btn btn-custom btn-primary btn-custom-small dropdown-item btnShowModalSendMessage">View map</button>
+                <button class="btn btn-custom btn-primary btn-custom-small dropdown-item btnShowMapGuardCurrentPos">View map</button>
               </div>
             </div>
           </td>
         </tr>
       `)
+      // modalShowMapGuardCurrentPos
       $tbody.find('.btn.btnInactiveGuard').last().click(() => {
           inActiveGuard(iGuardID);
       })
@@ -133,11 +134,18 @@ function renderGuardTable(guards){
       $tbody.find('.btn.btnShowModalSendMessage').last().click(() => {
         showModalSendMessage(guard);
       })
+      $tbody.find('.btn.btnShowMapGuardCurrentPos').last().click(() => {
+        showModalGuardCurrentPos(guard);
+      })
     })
   }
 
   $table.append($thead).append($tbody);
   return $table;
+}
+
+function showModalGuardCurrentPos(guard){
+  $('#modalShowMapGuardCurrentPos').modal('show');
 }
 
 function showModalSendMessage(guard){
@@ -151,8 +159,7 @@ function showModalSendMessage(guard){
 async function sendMessageGuard(){
   const { iGuardID } = currentSendMessageGuard;
   let sMessageContent = $('#textAreaSendMessage').val();
-  console.log(sMessageContent);
-  let sentData = { iGuardID, sMessageContent };
+  let sentData = { iGuardID: [iGuardID], sMessageContent };
   let response = await Service.sendMessageGuard(sentData);
   console.log(response);
   $('#modalSendMessageGuard').modal('hide');

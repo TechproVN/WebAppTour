@@ -198,7 +198,6 @@ function renderPointsOnZone(points){
   $('#pointsOnZone').html('');
   if(points){
     points.forEach(point => {
-
       const { iPointID, dPointLat, dPointLong } = point;
       if(dPointLat != null && dPointLong != null){
         $('#pointsOnZone').append(`
@@ -267,7 +266,7 @@ function renderListOfSelectedPoints(selectedPoints){
     selectedPoints.forEach(point => {
       const { iPointID, dPointLat, dPointLong } = point;
       $('#selectedPointsOnRoute').append(`
-        <div class="alert alert-success alert-dismissible fade show" role="alert" data-point="${iPointID}">${iPointID} - Lat: ${dPointLat} Lng: ${dPointLong}
+        <div class="alert alert-success alert-dismissible fade show" role="alert" data-point="${iPointID}" style="cursor: pointer;">${iPointID} - Lat: ${dPointLat} Lng: ${dPointLong}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
           </button>
