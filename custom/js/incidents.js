@@ -100,76 +100,51 @@ function buildIncidentMap(incident){
   $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
 
-  var map = L.map('mapIncident').setView(CENTER_POS_MAP_VIEW, 17);
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    id: 'Techpro'
-  }).addTo(map);
-
-  L.icon = function (options) {
-    return new L.Icon(options);
+  let mapProp = {
+    center: new google.maps.LatLng(20.81715284, 106.77411238),
+    zoom: 14,
   };
-
-  var LeafIcon = L.Icon.extend({
-    options: {
-      iconSize: [15, 15]
-    }
-  });
-  let Error = new LeafIcon({
-    iconUrl: '../img/error.png'
-  });
+  let mymap = new google.maps.Map($('#mapIncident')[0], mapProp);
 
   if(incident){
-    console.log(incident);
     const { dAlertLat, dAlertLong, ImageUrl, sAlertDescription, dDateTimeIntinial} = incident
-    let pos = [Number(dAlertLat), Number(dAlertLong)];
+    let lat = Number(dAlertLat);
+    let lng = Number(dAlertLong);
+    let pos = new google.maps.LatLng(lat, lng);
     let img = `${APP_DOMAIN}${ImageUrl}`;
     let mes = `${dDateTimeIntinial}<br>${sAlertDescription}<br><img src="${img}" class="img-fluid">`
-    L.marker(pos, {
-      icon: Error
-    }).addTo(map)
-    .bindPopup(mes)
-    .openPopup();
+    
+    let icon = '../img/error.png';
+    let marker = createMarkerGoogleMap(pos, icon);
+    marker.setMap(mymap);
+    let infoWindow = createInfoWindowGoogleMap(mes);
+    infoWindow.open(mymap, marker);
   }
 }
 
 function buildAllIncidentMap(incidents){
   $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
-
-  var map = L.map('mapIncident').setView(CENTER_POS_MAP_VIEW, 14);
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    id: 'Techpro'
-  }).addTo(map);
-
-  L.icon = function (options) {
-    return new L.Icon(options);
+  let mapProp = {
+    center: new google.maps.LatLng(20.81715284, 106.77411238),
+    zoom: 14,
   };
+  let mymap = new google.maps.Map($('#mapIncident')[0], mapProp);
+  let icon = '../img/error.png';
 
-  var LeafIcon = L.Icon.extend({
-    options: {
-      iconSize: [15, 15]
-    }
-  });
-  let Error = new LeafIcon({
-    iconUrl: '../img/error.png'
-  });
-
-  // L.marker([lon, lat], {icon: Error}).bindTooltip(message).addTo(mymap);
-  // message = message + "<br> <center><img src='" + imgurl + "' alt = '' style='width:144px;height:256px;'></center>";
   if(incidents && incidents.length > 0){
     incidents.forEach(incident => {
       const { dAlertLat, dAlertLong, ImageUrl, sAlertDescription, dDateTimeIntinial} = incident;
-      let pos = [Number(dAlertLat), Number(dAlertLong)];
+      let lat = Number(dAlertLat);
+      let lng = Number(dAlertLong)
+      let pos = new google.maps.LatLng(lat, lng);
       let img = `${APP_DOMAIN}${ImageUrl}`;
       let mes = `${dDateTimeIntinial}<br>${sAlertDescription}<br><img src="${img}" class="img-fluid">`;
-      L.marker(pos, {
-        icon: Error
-      }).bindTooltip(mes)
-      .addTo(map)
+      
+      let marker = createMarkerGoogleMap(pos, icon);
+      marker.setMap(mymap);
+      let infoWindow = createInfoWindowGoogleMap(mes);
+      infoWindow.open(mymap, marker);
     })
   }
 }

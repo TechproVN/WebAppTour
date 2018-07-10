@@ -12,7 +12,7 @@ var mapInsertedZone = null;
 
 function clearCurrentInsertedZone(){
   arrCurrentInsertedPointsZone = [];
-  buildInserteZoneMap(mapInsertedZone, arrCurrentInsertedPointsZone);
+  buildInsertZoneMap(mapInsertedZone, arrCurrentInsertedPointsZone);
 }
 
 function renderZoneOnJcombobox(data) {
@@ -133,76 +133,60 @@ async function showZones(){
   }
 }
 
-function buildInserteZoneMap(points){
+function buildInsertZoneMap(){
   $mapArea = $('<div id="mapInsertZone" style="height: 350px"></div>');
   $('#modalInsertZone').find('.modal-body .insertZoneMap').html($mapArea);
-
-  mapInsertedZone = L.map('mapInsertZone').setView(CENTER_POS_MAP_VIEW, 14);
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    id: 'Techpro'
-  }).addTo(mapInsertedZone);
-
-  L.icon = function (options) {
-    return new L.Icon(options);
+  let mapProp = {
+    center: new google.maps.LatLng(20.81715284, 106.77411238),
+    zoom: 14,
   };
+  mapInsertedZone = new google.maps.Map($(`#mapInsertZone`)[0], mapProp);
+  let icon = '../img/Checked.png';
 
-  var LeafIcon = L.Icon.extend({
-    options: {
-      iconSize: [15, 15]
-    }
-  });
-  let Error = new LeafIcon({
-    iconUrl: '../img/error.png'
+  google.maps.event.addListener(mapInsertedZone, 'click', function(event) {
+    handleClickOnMapZone(event);
   });
 
-  mapInsertedZone.on('click', function(e){
-    handleClickOnMapZone(e);
-  });
-
-  // L.marker([lon, lat], {icon: Error}).bindTooltip(message).addTo(mymap);
-  // message = message + "<br> <center><img src='" + imgurl + "' alt = '' style='width:144px;height:256px;'></center>";
   if(arrCurrentInsertedPointsZone.length > 0){
     arrCurrentInsertedPointsZone.forEach(point => {
-      // let dAlertLat = point[0];
-      // let dAlertLong = point[1];
-      L.marker(point, {
-        icon: Error
-      }).addTo(mapInsertedZone)
+      let lat = point[0];
+      let lng = point[1];
+      let pos = new google.maps.LatLng(lat, lng);
+      let marker = createMarkerGoogleMap(pos, icon);
+      marker.setMap(mapInsertedZone);
     })
     drawPolygon(mapInsertedZone, arrCurrentInsertedPointsZone);
   }
-  
 }
 
-function handleClickOnMapZone(e){
-  const {lat, lng} = e.latlng;
+function handleClickOnMapZone(event){
+  let lat = event.latLng.lat();
+  let lng = event.latLng.lng();
+  let pos = new google.maps.LatLng(lat, lng);
   //arrNewAddedPoints.push([lat, lng]);
   $('.latPoint').text(lat);  
   $('.longPoint').text(lng);  
+  let icon = '../img/Checked.png';
+  let marker = createMarkerGoogleMap(pos, icon);
+  marker.setMap(mapInsertedZone);
   arrCurrentInsertedPointsZone.push([lat, lng]);
   //console.log(arrCurrentInsertedPointsZone);
   if(mapInsertedZone){
     drawPolygon(mapInsertedZone, arrCurrentInsertedPointsZone);
   }
-  // let polygon = L.polyline(arrNewAddedPoints, {color: 'red'}).addTo(map);
-  // popup
-  //   .setLatLng(e.latlng)
-  //   .setContent("You clicked the map at " + e.latlng.toString())
-  //   .openOn(mymap);
 }
 
 function drawPolygon(map, latlngs){
-  // create a red polygon from an array of LatLng points
-  var polygon = L.polygon(latlngs, {color: 'red'}).addTo(map);
-  // zoom the map to the polygon
-  map.fitBounds(polygon.getBounds());
+  let path = latlngs.map(point => {
+    return new google.maps.LatLng(point[0], point[1]);
+  });
+  let polyline = createPolylineGoogleMap(path);
+  polyline.setMap(map);
 }
 
 function showInsertZoneModal(){
   $('#modalInsertZone').modal('show');
   setTimeout(() => {
-    buildInserteZoneMap();
+    buildInsertZoneMap();
   }, 500);
 }

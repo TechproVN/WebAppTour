@@ -225,53 +225,32 @@ async function showCurrentMapGuard(){
 function buildCurrentMapGuard(data){
   $mapArea = $('<div class="map" id="mapid" style="height: 350px"></div>');
   $('.card-map-guard').find('.card-body').html($mapArea);
-  var mymap = L.map('mapid').setView([20.81715284, 106.77411238], 14);
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    id: 'Techpro'
-  }).addTo(mymap);
-
-  var LeafIcon = L.Icon.extend({
-    options: {
-      iconSize: [15, 15]
-    }
-  });
-
-  var Alert = new LeafIcon({
-       iconUrl: '../img/alert.png'
-    });
- 
-  var Guard = new LeafIcon({
-       iconUrl: '../img/Guard.png'
-    });
-
-  L.icon = function (options) {
-    return new L.Icon(options);
+  let mapProp = {
+    center: new google.maps.LatLng(20.81715284, 106.77411238),
+    zoom: 14,
   };
+  let mymap = new google.maps.Map($('#mapid')[0], mapProp);
   if(data){
     data.forEach(guard => {
-      let {dGuardLatCurrent, dGuardLongCurrent, dLastUpdateTime, sGuardName, bOnline
+      let { dGuardLatCurrent, dGuardLongCurrent, dLastUpdateTime, sGuardName, bOnline
       } = guard;
       let mes = `${sGuardName} - ${dLastUpdateTime}`;
-      let pos = [Number(dGuardLatCurrent), Number(dGuardLongCurrent)];
+      let lat = Number(dGuardLatCurrent);
+      let lng = Number(dGuardLongCurrent);
+      let pos =  new google.maps.LatLng(lat,lng);
       if(bOnline.trim('').toLowerCase() == 'online'){
-        L.marker(pos, {
-          icon: Guard
-        }).bindTooltip(mes, {
-          permanent: true,
-          interactive: true
-        }).addTo(mymap);
+        let icon = '../img/Guard.png';
+        let marker = createMarkerGoogleMap(pos, icon);
+        marker.setMap(mymap);
       }
       if(bOnline.trim().toLowerCase() == 'sos'){
-        L.marker(pos, {
-          icon: Alert
-        }).bindTooltip(mes, {
-          permanent: true,
-          interactive: true
-        }).addTo(mymap);
+        let icon = '../img/alert.png';
+        let marker = createMarkerGoogleMap(pos, icon);
+        marker.setMap(mymap);
       }
     })
   }
 }
+
+
 

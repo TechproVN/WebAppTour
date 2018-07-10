@@ -107,35 +107,29 @@ function buildAssetsMap(asset){
   $mapArea = $('<div id="mapAsset" style="height: 350px"></div>');
   $('#modalAssetMap').find('.modal-body').html($mapArea);
 
-  var map = L.map('mapAsset').setView(CENTER_POS_MAP_VIEW, 14);
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    id: 'Techpro'
-  }).addTo(map);
-
-  const { AssetCode, AssetName, sZoneName, sGuardName, dLatPropertyHistory, dLongPropertyHistory, dDateTime } = asset;
-  let pos = [Number(dLatPropertyHistory), Number(dLongPropertyHistory)];
-  L.icon = function (options) {
-    return new L.Icon(options);
+  let mapProp = {
+    center: new google.maps.LatLng(20.81715284, 106.77411238),
+    zoom: 14,
   };
-
-  let LeafIcon = L.Icon.extend({
-    options: {
-      iconSize: [15, 15]
-    }
-  });
-  let Error = new LeafIcon({
-    iconUrl: '../img/asset(2).jpg'
-  });
-  // ../img/asset.png
-  // ../img/asset(1).png
-
-  L.marker(pos, {
-    icon: Error
-  })
-  .addTo(map).bindTooltip(AssetName).openTooltip();
-
+  let mymap = new google.maps.Map($('#mapAsset')[0], mapProp);
+  const { AssetCode, AssetName, sZoneName, sGuardName, dLatPropertyHistory, dLongPropertyHistory, dDateTime } = asset;
+  let icon = '../img/asset(2).jpg';
+  let lat = Number(dLatPropertyHistory);
+  let lng = Number(dLongPropertyHistory)
+  if(incidents && incidents.length > 0){
+    incidents.forEach(incident => {
+      const { dAlertLat, dAlertLong, ImageUrl, sAlertDescription, dDateTimeIntinial} = incident;
+      let lat = Number(dAlertLat);
+      let lng = Number(dAlertLong)
+      let pos = new google.maps.LatLng(lat, lng);
+      let mes = AssetName;
+      
+      let marker = createMarkerGoogleMap(pos, icon);
+      marker.setMap(mymap);
+      let infoWindow = createInfoWindowGoogleMap(mes);
+      infoWindow.open(mymap, marker);
+    })
+  }
 }
 
 function showAssetMap(asset){
@@ -149,34 +143,24 @@ function buildAssetsMapAll(assets){
   $mapArea = $('<div id="mapAllAssets" style="height: 350px"></div>');
   $('#modalAssetMapAll').find('.modal-body').html($mapArea);
 
-  let map = L.map('mapAllAssets').setView(CENTER_POS_MAP_VIEW, 14);
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    id: 'Techpro'
-  }).addTo(map);
-
-  L.icon = function (options) {
-    return new L.Icon(options);
+  let mapProp = {
+    center: new google.maps.LatLng(20.81715284, 106.77411238),
+    zoom: 14,
   };
+  let mymap = new google.maps.Map($('#mapAllAssets')[0], mapProp);
 
-  let LeafIcon = L.Icon.extend({
-    options: {
-      iconSize: [15, 15]
-    }
-  });
-  let Error = new LeafIcon({
-    iconUrl: '../img/asset(2).jpg'
-  });
-  // ../img/asset.png
-  // ../img/asset(1).png
   if(assets.length > 0){
     assets.forEach(asset => {
       const { AssetCode, AssetName, sZoneName, sGuardName, dLatPropertyHistory, dLongPropertyHistory, dDateTime } = asset;
-      let pos = [Number(dLatPropertyHistory), Number(dLongPropertyHistory)];
-      L.marker(pos, {
-        icon: Error
-      }).addTo(map).bindTooltip(AssetName).openTooltip();
+      let lat = Number(dAlertLat);
+      let lng = Number(dAlertLong)
+      let pos = new google.maps.LatLng(lat, lng);
+      let mes = AssetName;
+      
+      let marker = createMarkerGoogleMap(pos, icon);
+      marker.setMap(mymap);
+      let infoWindow = createInfoWindowGoogleMap(mes);
+      infoWindow.open(mymap, marker);
     })
   }
 }

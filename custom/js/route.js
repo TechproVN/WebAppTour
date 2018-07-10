@@ -41,113 +41,67 @@ var currentTimeCompleted = 0;
 function buildRouteMap(data){
   let $mapArea = $(`<div id="routeMap" class="map"></div>`);
   $('.card-route-map').find('.card-body').html($mapArea);
-  var mymap = L.map(`routeMap`).setView(CENTER_POS_MAP_VIEW, 14);
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    id: 'Techpro'
-  }).addTo(mymap);
 
-  var LeafIcon = L.Icon.extend({
-    options: {
-      iconSize: [15, 15]
-    }
-  });
-
-  L.icon = function (options) {
-    return new L.Icon(options);
+  let mapProp = {
+    center: new google.maps.LatLng(20.81715284, 106.77411238),
+    zoom: 14,
   };
-
-  var Checked = new LeafIcon({
-       iconUrl: '../img/Checked.png'
+  let mymap = new google.maps.Map($(`#routeMap`)[0], mapProp);
+  let icon = '../img/Checked.png';
+  
+  if(data){
+    let arrPointsCoordination = [];
+    data.forEach((point, index) => {
+      const { dPointLat, dPointLong, iPointID} = point;
+      let lat = Number(dPointLat);
+      let lng = Number(dPointLong);
+      let pos = new google.maps.LatLng(lat, lng);
+      let mes = `${index + 1} - ${iPointID}`;
+      arrPointsCoordination.push([lat, lng])
+      let marker = createMarkerGoogleMap(pos, icon);
+      marker.setMap(mymap);
+      let infoWindow = createInfoWindowGoogleMap(mes);
+      infoWindow.open(mymap, marker);
+    })
+    let path = arrPointsCoordination.map(point => {
+      return new google.maps.LatLng(point[0], point[1]);
     });
-    
-    if(data){
-      let arrPointsCoordination = [];
-      data.forEach((point, index) => {
-        const { dPointLat, dPointLong, iPointID} = point;
-        let pos = [Number(dPointLat), Number(dPointLong)];
-        let mes = `${index + 1} - ${iPointID}`;
-        arrPointsCoordination.push(pos)
-        L.marker(pos, {
-         icon: Checked
-        }).bindTooltip(mes, {
-          permanent: true,
-          interactive: true
-        }).addTo(mymap);
-      })
-      var polyline = new L.Polyline([
-        arrPointsCoordination
-      ], {
-        color: 'green',
-        weight: 5,
-        opacity: 0.5
-      }).addTo(mymap);
-      mymap.fitBounds(polyline.getBounds());
-    }
-
-  // {"iPointID":"78","sPointCode":null,"sZoneName":"Zone 1","dPointLat":"20.82054995","dPointLong":"106.77008481","dDateTimeAdd":"2018-04-27 16:08:27","iNo":"1","iZoneID":"1"}
-  // let mes = `${sGuardName} - ${dLastUpdateTime}`;
-  // let pos = [Number(dGuardLongCurrent), Number(dGuardLatCurrent)]
-
-  // L.marker(pos, {
-  //   icon: Guard
-  // }).bindTooltip(mes, {
-  //   permanent: true,
-  //   interactive: true
-  // }).addTo(mymap);
-
+    let polyline = createPolylineGoogleMap(path);
+    polyline.setMap(mymap);
+  }
 }
 
 function buildRouteMapOnModal(data){
   let $mapArea = $(`<div id="routeMapOnModal" class="map"></div>`);
   $('#modalViewMapRoute').find('.modal-body').html($mapArea);
-  var mymap = L.map(`routeMapOnModal`).setView(CENTER_POS_MAP_VIEW, 14);
-  mymap.invalidateSize(true);
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    id: 'Techpro'
-  }).addTo(mymap);
 
-  var LeafIcon = L.Icon.extend({
-    options: {
-      iconSize: [15, 15]
-    }
-  });
-
-  L.icon = function (options) {
-    return new L.Icon(options);
+  let mapProp = {
+    center: new google.maps.LatLng(20.81715284, 106.77411238),
+    zoom: 14,
   };
+  let mymap = new google.maps.Map($(`#routeMapOnModal`)[0], mapProp);
+  let icon = '../img/Checked.png';
 
-  var Checked = new LeafIcon({
-       iconUrl: '../img/Checked.png'
+  if(data){
+    let arrPointsCoordination = [];
+    data.forEach((point, index) => {
+      const { dPointLat, dPointLong} = point;
+      let lat = Number(dPointLat);
+      let lng = Number(dPointLong);
+      let pos = new google.maps.LatLng(lat, lng);
+      let mes = `${index + 1}`;
+      arrPointsCoordination.push([lat, lng])
+      let marker = createMarkerGoogleMap(pos, icon);
+      marker.setMap(mymap);
+      let infoWindow = createInfoWindowGoogleMap(mes);
+      infoWindow.open(mymap, marker);
+    })
+    let path = arrPointsCoordination.map(point => {
+      return new google.maps.LatLng(point[0], point[1]);
     });
-    
-    if(data){
-      let arrPointsCoordination = [];
-      data.forEach((point, index) => {
-        const { dPointLat, dPointLong} = point;
-        console.log(dPointLat);
-        let pos = [Number(dPointLat), Number(dPointLong)];
-        let mes = `${index + 1}`;
-        arrPointsCoordination.push(pos)
-        L.marker(pos, {
-         icon: Checked
-        }).bindTooltip(mes, {
-          permanent: true,
-          interactive: true
-        }).addTo(mymap);
-      })
-      var polyline = new L.Polyline([
-        arrPointsCoordination
-      ], {
-        color: 'green',
-        weight: 5,
-        opacity: 0.5
-      }).addTo(mymap);
-      mymap.fitBounds(polyline.getBounds());
-    }
+    let polyline = createPolylineGoogleMap(path);
+    polyline.setMap(mymap);
+  }
 }
 
 function showRouteMap(data){

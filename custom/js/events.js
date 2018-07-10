@@ -183,45 +183,34 @@ function renderModalEditEventHistoryDetails(data) {
   $('#modalEventHistoryDetailsEdit').modal('show');
 }
 
-function buildEventDetailsMap(event) {
-    const map = L.map('mapEventDetails').setView(CENTER_POS_MAP_VIEW, 17);
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-      id: 'Techpro'
-    }).addTo(map);
-    var LeafIcon = L.Icon.extend({
-      options: {
-        iconSize: [15, 15]
-      }
-    });
-    
-    if(event){
-      event.forEach(detail => {
-        let lat = Number(detail.dPointLat);
-        let lng = Number(detail.dPointLong);
-        let pos = [lat, lng];
-        if (lat != 0 || lng != 0){
-          if(detail.sStatus == 'Checked'){
-            let Checked = new LeafIcon({
-              iconUrl: '../img/Checked.png'
-            });
-            L.marker(pos, {
-              icon: Checked
-            }).addTo(map)
-            .bindPopup(`${detail.sGuardName} checked at ${detail.dDateTimeHistory}`)//guard name cheked at
-            .openPopup();
-          }else{
-            let None = new LeafIcon({
-              iconUrl: '../img/None.png'
-            });
-            L.marker(pos, {
-              icon: None
-            }).addTo(map);
-          }
+function buildEventDetailsMap(event){
+  let mapProp = {
+    center: new google.maps.LatLng(20.81715284, 106.77411238),
+    zoom: 14,
+  };
+  let mymap = new google.maps.Map($('#mapEventDetails')[0], mapProp);
+  if(event){
+    event.forEach(detail => {
+      let lat = Number(detail.dPointLat);
+      let lng = Number(detail.dPointLong);
+      let pos = new google.maps.LatLng(lat, lng);
+      
+      if (lat != 0 || lng != 0){
+        if(detail.sStatus == 'Checked'){
+          let mes = `${detail.sGuardName} checked at ${detail.dDateTimeHistory}`
+          let icon = '../img/Checked.png';
+          let marker = createMarkerGoogleMap(pos, icon);
+          marker.setMap(mymap);
+          let infoWindow = createInfoWindowGoogleMap(mes);
+          infoWindow.open(mymap, marker);
+        }else{
+          let icon = '../img/None.png';
+          let marker = createMarkerGoogleMap(pos, icon);
+          marker.setMap(mymap);
         }
-      })
-    }
+      }
+    })
+  }
 }
 
 async function showEventDetailsMap(checkingCode) {

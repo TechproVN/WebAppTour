@@ -99,27 +99,15 @@ function renderPointsTable(data) {
 }
 
 function buildPointsMap(points, id){
-  var map = L.map(id).setView(CENTER_POS_MAP_VIEW, 16);
-  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    id: 'Techpro'
-  }).addTo(map);
+  let mapProp = {
+    center: new google.maps.LatLng(20.81715284, 106.77411238),
+    zoom: 14,
+  };
+  let mymap = new google.maps.Map($(`#${id}`)[0], mapProp);
+  let icon = '../img/Checked.png';
 
-  var LeafIcon = L.Icon.extend({
-    options: {
-      iconSize: [15, 15]
-    }
-  });
-  var Checked = new LeafIcon({
-    iconUrl: '../img/Checked.png'
-  });
-
-  //handle click
-  let popup = L.popup();
-
-  map.on('click', function(e){
-    handleClickPointMap(e, popup, map, L);
+  google.maps.event.addListener(mymap, 'click', function(event) {
+    handleClickPointMap(mymap, event);
   });
 
   //show all points
@@ -127,39 +115,27 @@ function buildPointsMap(points, id){
     points.forEach(point => {
       const { iPointID, dPointLat, dPointLong } = point;
       let mes = `ID: ${iPointID}`;
-      let pos = [Number(dPointLat), Number(dPointLong)];
-      L.marker(pos, {
-        icon: Checked
-      }).bindTooltip(mes, {
-        permanent: true,
-        interactive: true
-      }).addTo(map);
+      let lat = Number(dPointLat);
+      let lng = Number(dPointLong)
+      let pos = new google.maps.LatLng(lat, lng);
+      let marker = createMarkerGoogleMap(pos, icon);
+      marker.setMap(mymap);
+      let infoWindow = createInfoWindowGoogleMap(mes);
+      infoWindow.open(mymap, marker);
     })
   }
 }
 
-function handleClickPointMap(e, popup, map, L){
-  const {lat, lng} = e.latlng;
-  let pos = [lat, lng];
-  let mes = `${lat} - ${lng}`
-  //arrNewAddedPoints.push([lat, lng]);
+function handleClickPointMap(mymap, event){
+  let lat = event.latLng.lat();
+  let lng = event.latLng.lng();
+  let pos = new google.maps.LatLng(lat, lng);
+  let mes = `${lat} - ${lng}`;
   $('.latPoint').text(lat);  
   $('.longPoint').text(lng);  
-
-  var LeafIcon = L.Icon.extend({
-    options: {
-      iconSize: [15, 15]
-    }
-  });
-
-  var Checked = new LeafIcon({
-    iconUrl: '../img/Checked.png'
-  });
-
-  L.marker(pos, {
-    icon: Checked
-  }).addTo(map).bindTooltip(mes);
-
+  let icon = '../img/Checked.png';
+  let marker = createMarkerGoogleMap(pos, icon);
+  marker.setMap(mymap);
 }
 
 function showPointsMap(){

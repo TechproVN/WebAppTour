@@ -1,6 +1,6 @@
 const APP_DOMAIN = 'http://115.79.27.219/tracking/';
 const CENTER_POS_MAP_VIEW = [20.81715284, 106.77411238];
-const TIME_OUT_SHOW_MAP_ON_MODAL = 300;
+const TIME_OUT_SHOW_MAP_ON_MODAL = 0;
 
 $('.datepicker').datepicker();
 
@@ -95,4 +95,41 @@ function checkDate(from, to){
     showAlertError("Invalid data", msgErr, 3000);
   }
   return valid;
+}
+
+function createMarkerGoogleMap(pos, urlIcon){
+  let icon = createIconGoogleMap(urlIcon);
+  let marker = new google.maps.Marker({
+    position: pos,
+    // animation: google.maps.Animation.BOUNCE,
+    icon: icon
+  });
+  return marker;
+}
+
+function createInfoWindowGoogleMap(content){
+  let infoWindow = new google.maps.InfoWindow({
+      content:content
+    });
+    return infoWindow
+}
+
+function createIconGoogleMap(url){
+  let icon = {
+    url: url, // url
+    scaledSize: new google.maps.Size(15, 15), // scaled size
+    origin: new google.maps.Point(0,0), // origin
+    anchor: new google.maps.Point(0, 0) // anchor
+  };
+return icon;
+}
+
+function createPolylineGoogleMap(path){
+  let polyline = new google.maps.Polyline({
+    path: path,
+    strokeColor: "red",
+    strokeOpacity: 0.8,
+    strokeWeight: 4
+  });
+  return polyline;
 }
