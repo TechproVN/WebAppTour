@@ -184,10 +184,9 @@ function renderModalEditEventHistoryDetails(data) {
 }
 
 function buildEventDetailsMap(event){
-  let mapProp = {
-    center: new google.maps.LatLng(20.81715284, 106.77411238),
-    zoom: 14,
-  };
+  let lat = CENTER_POS_MAP_VIEW[0];
+  let lng = CENTER_POS_MAP_VIEW[1];
+  let mapProp = createMapPropGoogleMap(16, lat, lng);
   let mymap = new google.maps.Map($('#mapEventDetails')[0], mapProp);
   if(event){
     event.forEach(detail => {

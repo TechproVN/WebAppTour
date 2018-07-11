@@ -317,4 +317,25 @@ class Service {
     return null;
   }
 
+  // http://115.79.27.219/tracking/api/CheckTime.php
+  static async makeAttendance(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/CheckTime.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+  // http://115.79.27.219/tracking/api/GetDevice.php
+  static async getDevice(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetDevice.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
 }

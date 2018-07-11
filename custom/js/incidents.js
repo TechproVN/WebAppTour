@@ -100,10 +100,9 @@ function buildIncidentMap(incident){
   $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
 
-  let mapProp = {
-    center: new google.maps.LatLng(20.81715284, 106.77411238),
-    zoom: 14,
-  };
+  let latCenter = CENTER_POS_MAP_VIEW[0];
+  let lngCenter = CENTER_POS_MAP_VIEW[1];
+  let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   let mymap = new google.maps.Map($('#mapIncident')[0], mapProp);
 
   if(incident){
@@ -125,10 +124,9 @@ function buildIncidentMap(incident){
 function buildAllIncidentMap(incidents){
   $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
-  let mapProp = {
-    center: new google.maps.LatLng(20.81715284, 106.77411238),
-    zoom: 14,
-  };
+  let latCenter = CENTER_POS_MAP_VIEW[0];
+  let lngCenter = CENTER_POS_MAP_VIEW[1];
+  let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   let mymap = new google.maps.Map($('#mapIncident')[0], mapProp);
   let icon = '../img/error.png';
 

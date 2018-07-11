@@ -99,10 +99,9 @@ function renderPointsTable(data) {
 }
 
 function buildPointsMap(points, id){
-  let mapProp = {
-    center: new google.maps.LatLng(20.81715284, 106.77411238),
-    zoom: 14,
-  };
+  let latCenter = CENTER_POS_MAP_VIEW[0];
+  let lngCenter = CENTER_POS_MAP_VIEW[1];
+  let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   let mymap = new google.maps.Map($(`#${id}`)[0], mapProp);
   let icon = '../img/Checked.png';
 
@@ -181,27 +180,28 @@ function showInsertPointModal(){
 }
 
 function showUpdatePointModal(point){
-  const {iPointID, sPointCode, sZoneName, dPointLat, dPointLong, dDateTimeAdd, sPointName, sPointNote } = point
+  const {iPointID, dPointLat, dPointLong, sPointName, sPointNote, iQRCode, iRFID, sPointCode } = point
   currentUpdatedPoint = point;
   let $mapArea = $('<div id="mapPointUpdate" class="mymap"></div>'); 
   $('#updatePointMap').html($mapArea);
 
   let lat = Number(dPointLat);
   let lng = Number(dPointLong);
-  $('#txtUpdatepointCode').val(sPointCode);
-  $('#txtUpdatePointNote').val(sPointNote);
-  $('#txtUpdatePointName').val(sPointName);
-  if(lat == 0 && lng == 0){
-    $('#latUpdatePoint').text('');
-    $('#longUpdatePoint').text('');
-    $('#txtUpdatepointCode').attr({'disabled': false});
-    currentUpdatedPoint.GPS = false;
-  }else{
-    $('#latUpdatePoint').text(dPointLat);
-    $('#longUpdatePoint').text(dPointLong);
+  let pointCode = '';
+  if(iQRCode.trim() == '' && iRFID.trim() == ''){
     $('#txtUpdatepointCode').attr({'disabled': true});
     currentUpdatedPoint.GPS = true;
+  }else{
+    $('#txtUpdatepointCode').attr({'disabled': false});
+    pointCode = sPointCode
+    currentUpdatedPoint.GPS = false;
   }
+  $('#txtUpdatepointCode').val(pointCode);
+  $('#txtUpdatePointNote').val(sPointNote);
+  $('#txtUpdatePointName').val(sPointName);
+  $('#latUpdatePoint').text(dPointLat);
+  $('#longUpdatePoint').text(dPointLong);
+    
   $('#modalUpdatePoint').modal('show');
   setTimeout(() => {
     buildPointsMap([point], 'mapPointUpdate');
@@ -224,34 +224,64 @@ async function inActivePoint(point){
 }
 
 async function updatePoint(){
-  let { iPointID, iZoneID, GPS } = currentUpdatedPoint;
+  let { iPointID, iZoneID, GPS, iQRCode, iRFID } = currentUpdatedPoint;
   let lat = Number($('#latUpdatePoint').text());
   let lng = Number($('#longUpdatePoint').text());
   let pointCode = $('#txtUpdatepointCode').val();
-  let sentData;
-  if(!GPS){
-    sentData = { 
-      bStatusIN: 2, 
-      dGPSLatIN: 0, 
-      dGPSLongIN: 0, 
-      sPointCodeIN: pointCode, 
-      iPointIDIN: iPointID, 
-      iZoneIDIN: iZoneID
-    };
-  }else{
-    sentData = { 
-      bStatusIN: 3, 
-      dGPSLatIN: lat, 
-      dGPSLongIN: lng, 
-      sPointCodeIN: pointCode, 
-      iPointIDIN: iPointID, 
-      iZoneIDIN: iZoneID 
-    };
+  let name = $('#txtUpdatePointName').val();
+  let note = $('#txtUpdatePointNote').val();
+  console.log(name);
+  console.log(note);
+  // sPointNameIN   sPointNoteIN
+  if(checkValidInsertPoint(name, note)){
+    let sentData;
+    
+    if(!GPS){
+      if(!Validation.checkEmpty(pointCode)) return showAlertError("Point code is empty", "Please fill in", 6000);
+      if(iQRCode != '') {
+        sQRCodeIN = pointCode;
+        sRFIDCodeIN = 0;
+      }
+      else {
+        sRFIDCodeIN = pointCode;
+        sQRCodeIN = 0;
+      }
+      sentData = { 
+        bStatusIN: 2, 
+        dGPSLatIN: lat, 
+        dGPSLongIN: lng, 
+        sQRCodeIN,
+        sRFIDCodeIN,
+        sPointNameIN: name,
+        sPointNoteIN: note,
+        iPointIDIN: iPointID, 
+        iZoneIDIN: iZoneID,
+      };
+    } else{
+      sentData = { 
+        bStatusIN: 3, 
+        dGPSLatIN: lat, 
+        dGPSLongIN: lng, 
+        sQRCodeIN: 0,
+        sRFIDCodeIN: 0,
+        sPointNameIN: name,
+        sPointNoteIN: note,
+        iPointIDIN: iPointID, 
+        iZoneIDIN: iZoneID 
+      };
+    }
+    console.log(JSON.stringify(sentData));
+    let response = await Service.updatePoint(sentData);
+    console.log(response);
+    let { Result, Msg } = JSON.parse(response)[0];
+    
+    if(Result == 1){
+      showPointsData();
+      showAlertSuccess("Update successfully!", "", 3000);
+    }else{
+      showAlertError("Update unsuccessfully", Msg, 6000);
+    }
   }
-  let response = await Service.updatePoint(sentData);
-  showPointsData();
-  console.log(response);
-  showAlertSuccess("Update successfully!", "", 2000);
 }
 
 async function insertPoint(){
@@ -261,23 +291,33 @@ async function insertPoint(){
   let pointCode = $('#txtInsertPointCode').val();
   let name = $('#txtInsertPointName').val();
   let note = $('#txtInsertPointNote').val();
-  let radio = $('#modalInsertPoint').find('input[name="radioGPS"]');
-  var sentData = null;
-  if(!radio[0].checked && !radio[1].checked)
-    return showAlertError("Invalid data", "You have to check GPS or QRCode", 3000);
+  let radio = $('#modalInsertPoint').find('input[name="radioIPChecked"]');
+  let sentData = null;
   if(checkValidInsertPoint(name, note)){
     if(radio[0].checked){
       if(lat.trim() == '' || lng.trim() == '') 
         return showAlertError("Invalid data", "You have not chosen point on map", 3000);
-      sentData = { dGPSLatIN: Number(lat), dGPSLongIN: Number(lng), iZoneIDIN: zoneId, sPointCodeIN: 0, bStatusIN: 1, iPointIDIN: 0 };
+        console.log('qrcode');
+      sentData = { dGPSLatIN: Number(lat), dGPSLongIN: Number(lng), iZoneIDIN: zoneId, sQRCodeIN: pointCode, sRFIDCodeIN: 0, bStatusIN: 1, iPointIDIN: 0, sPointNameIN: name, sPointNoteIN: note };
     }else if(radio[1].checked){
-      if(pointCode.trim() == '') return showAlertError("Invalid data", "Point code must be filled", 3000);
-      sentData = { dGPSLatIN: 0, dGPSLongIN: 0, iZoneIDIN: zoneId, sPointCodeIN: pointCode, bStatusIN: 1, iPointIDIN: 0 };
+      sentData = { dGPSLatIN: Number(lat), dGPSLongIN: Number(lng), iZoneIDIN: zoneId, sRFIDCodeIN: pointCode, sQRCodeIN: 0, bStatusIN: 1, iPointIDIN: 0, sPointNameIN: name, sPointNoteIN: note };
+    }else{
+      sentData = { dGPSLatIN: Number(lat), dGPSLongIN: Number(lng), iZoneIDIN: zoneId, bStatusIN: 1, iPointIDIN: 0, sPointNameIN: name, sPointNoteIN: note, sQRCodeIN: 0, sRFIDCodeIN: 0 }; 
     }
-    let data = await Service.insertPoint(sentData);
-    showPointsData();
-    console.log(data);
-    showAlertSuccess("Insert successfully!", "", 2000); 
+    console.log(JSON.stringify(sentData));
+    let response = await Service.insertPoint(sentData);
+    console.log(response);
+    let { Result, Msg } = JSON.parse(response)[0];
+    console.log(Result);
+    if(Result == 1){
+      showAlertSuccess("Insert successfully!", "", 2000); 
+      showPointsData();
+      $('#modalInsertPoint').modal('hide');
+    }else{
+      showAlertError("Insert unsuccessfully", Msg, 6000);
+    }
+    
+    // iZoneIDIN      dGPSLatIN    dGPSLongIN   iPointIDIN   bStatusIN   sPointNameIN   sPointNoteIN
   }
 }
 

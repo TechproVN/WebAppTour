@@ -136,10 +136,9 @@ async function showZones(){
 function buildInsertZoneMap(){
   $mapArea = $('<div id="mapInsertZone" style="height: 350px"></div>');
   $('#modalInsertZone').find('.modal-body .insertZoneMap').html($mapArea);
-  let mapProp = {
-    center: new google.maps.LatLng(20.81715284, 106.77411238),
-    zoom: 14,
-  };
+  let latCenter = CENTER_POS_MAP_VIEW[0];
+  let lngCenter = CENTER_POS_MAP_VIEW[1];
+  let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   mapInsertedZone = new google.maps.Map($(`#mapInsertZone`)[0], mapProp);
   let icon = '../img/Checked.png';
 

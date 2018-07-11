@@ -118,10 +118,10 @@ function createIconGoogleMap(url){
   let icon = {
     url: url, // url
     scaledSize: new google.maps.Size(15, 15), // scaled size
-    origin: new google.maps.Point(0,0), // origin
+    origin: new google.maps.Point(0, 0), // origin
     anchor: new google.maps.Point(0, 0) // anchor
   };
-return icon;
+  return icon;
 }
 
 function createPolylineGoogleMap(path){
@@ -132,4 +132,12 @@ function createPolylineGoogleMap(path){
     strokeWeight: 4
   });
   return polyline;
+}
+
+function createMapPropGoogleMap(zoom, lat, lng){
+  let mapProp = {
+    center: new google.maps.LatLng(lat, lng),
+    zoom: zoom,
+  };
+  return mapProp;
 }

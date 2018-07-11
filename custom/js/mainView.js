@@ -3,6 +3,7 @@ $(() => {
 
   $('#btnSendSMSGuards').click(sendSMSGuards);
   $('#btnShowModalSendSMSGuards').click(showModalSendSMSGuards)
+  $('#btnAttendance').click(makeAttendance);
   showGuardInfo();
   showEventsInfo();
   showCurrentMapGuard();
@@ -13,6 +14,19 @@ const audioSOS = new Audio('../custom/audio/alert.wav');
 
 let arrCurrentGuardsSentSMS = [];
 let arrCurrentGuards = [];
+
+async function makeAttendance(){
+  if(arrCurrentGuardsSentSMS.length == 0)
+    return showAlertError("You have not chosen guard", "Please choose at least 1", 4000);
+  let sure = await showAlertWarning("Are you sure", "");
+  if(sure){
+    let arrID = arrCurrentGuardsSentSMS.map(g => g.iGuardId);
+    let sentData = { iGuardID: arrID };
+    let response = await Service.makeAttendance(sentData);
+    console.log(response);
+    showAlertSuccess("Successfully", "", 3000);
+  }
+}
 
 async function sendSMSGuards(){
   let sMessageContent = $('#textareaSendSMSGuards').val();

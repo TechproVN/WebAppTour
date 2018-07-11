@@ -107,10 +107,9 @@ function buildAssetsMap(asset){
   $mapArea = $('<div id="mapAsset" style="height: 350px"></div>');
   $('#modalAssetMap').find('.modal-body').html($mapArea);
 
-  let mapProp = {
-    center: new google.maps.LatLng(20.81715284, 106.77411238),
-    zoom: 14,
-  };
+  let latCenter = CENTER_POS_MAP_VIEW[0];
+  let lngCenter = CENTER_POS_MAP_VIEW[1];
+  let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   let mymap = new google.maps.Map($('#mapAsset')[0], mapProp);
   const { AssetCode, AssetName, sZoneName, sGuardName, dLatPropertyHistory, dLongPropertyHistory, dDateTime } = asset;
   let icon = '../img/asset(2).jpg';

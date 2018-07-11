@@ -42,10 +42,9 @@ function buildRouteMap(data){
   let $mapArea = $(`<div id="routeMap" class="map"></div>`);
   $('.card-route-map').find('.card-body').html($mapArea);
 
-  let mapProp = {
-    center: new google.maps.LatLng(20.81715284, 106.77411238),
-    zoom: 14,
-  };
+  let latCenter = CENTER_POS_MAP_VIEW[0];
+  let lngCenter = CENTER_POS_MAP_VIEW[1];
+  let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   let mymap = new google.maps.Map($(`#routeMap`)[0], mapProp);
   let icon = '../img/Checked.png';
   
@@ -75,10 +74,9 @@ function buildRouteMapOnModal(data){
   let $mapArea = $(`<div id="routeMapOnModal" class="map"></div>`);
   $('#modalViewMapRoute').find('.modal-body').html($mapArea);
 
-  let mapProp = {
-    center: new google.maps.LatLng(20.81715284, 106.77411238),
-    zoom: 14,
-  };
+  let latCenter = CENTER_POS_MAP_VIEW[0];
+  let lngCenter = CENTER_POS_MAP_VIEW[1];
+  let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   let mymap = new google.maps.Map($(`#routeMapOnModal`)[0], mapProp);
   let icon = '../img/Checked.png';
 
