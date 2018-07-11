@@ -3,16 +3,6 @@ $(() => {
   $('#btnInsertDevice').click();
   showGuards();
 })
-// bStatus
-// "1"
-// dPower
-// "50"
-// iDeviceID
-// "1"
-// sDeviceName
-// "SPEEDATA - QRCode"
-// sDeviceSerial
-// "11111111111"
 
 function renderDeviceTable(devices){
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table min-height-table" id="tblDevice"></table>`)
