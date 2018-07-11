@@ -49,13 +49,14 @@ function renderEventHistoryTable(data) {
       <tr>
         <th class="trn">#</th>
         <th class="trn">Zone</th>
+        <th class="trn">Route</th>
         <th class="trn">Name</th>
         <th class="trn">Date</th>
         <th class="trn">Started</th>
         <th class="trn">Finished</th>
         <th class="trn">Point</th>
         <th class="trn">Checked</th>
-        <th class="trn">Completion time</th>
+        <th class="trn">Timing</th>
         <th class="trn">Current</th>
         <th class="trn">Distance</th>
         <th class="trn"></th>
@@ -70,6 +71,7 @@ function renderEventHistoryTable(data) {
         <tr>
           <td>${index + 1}</td>
           <td>${event.sZoneName}</td>
+          <td>${event.sRouteName}</td>
           <td>${event.sGuardName}</td>
           <td>${event.dDateTimeIntinial}</td>
           <td>${event.dDateTimeStart}</td>
