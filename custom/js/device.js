@@ -77,7 +77,7 @@ async function showGuards(){
       showGoInput: true,
       showGoButton: true,
       callback: function (devices, pagination) {
-        let $table = renderGuardTable(devices);
+        let $table = renderDeviceTable(devices);
         $('.card-device .table-responsive').html($table);
       }
     })
