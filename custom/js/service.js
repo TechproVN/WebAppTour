@@ -338,4 +338,28 @@ class Service {
       return parsedData;
     return null;
   }
+  // GetPointChecking.php
+  static async getPointChecking(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetPointChecking.php`,
+      method: 'get',
+      data: sentData
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+  // GetGuardGPSCurrent.php
+  static async getGuardGPSCurrent(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetGuardGPSCurrent.php`,
+      method: 'get',
+      data: sentData
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
 }
