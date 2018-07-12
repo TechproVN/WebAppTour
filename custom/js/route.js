@@ -51,11 +51,14 @@ function buildRouteMap(data){
   if(data){
     let arrPointsCoordination = [];
     data.forEach((point, index) => {
-      const { dPointLat, dPointLong, iPointID} = point;
+      const { dPointLat, dPointLong, iPointID, iQRCode, iRFID} = point;
+      let type = 'GPS';
+      if(iQRCode != '') type = 'QRCode';
+      if(iRFID != '') type = 'RFID';
       let lat = Number(dPointLat);
       let lng = Number(dPointLong);
       let pos = new google.maps.LatLng(lat, lng);
-      let mes = `${index + 1} - ${iPointID}`;
+      let mes = `${index + 1} - ${iPointID} - ${type}`;
       arrPointsCoordination.push([lat, lng])
       let marker = createMarkerGoogleMap(pos, icon);
       marker.setMap(mymap);
@@ -83,11 +86,14 @@ function buildRouteMapOnModal(data){
   if(data){
     let arrPointsCoordination = [];
     data.forEach((point, index) => {
-      const { dPointLat, dPointLong} = point;
+      const { dPointLat, dPointLong, iQRCode, iRFID } = point;
+      let type = 'GPS';
+      if(iQRCode != '') type = 'QRCode';
+      if(iRFID != '') type = 'RFID';
       let lat = Number(dPointLat);
       let lng = Number(dPointLong);
       let pos = new google.maps.LatLng(lat, lng);
-      let mes = `${index + 1}`;
+      let mes = `${index + 1} - ${type}`;
       arrPointsCoordination.push([lat, lng])
       let marker = createMarkerGoogleMap(pos, icon);
       marker.setMap(mymap);
@@ -149,19 +155,21 @@ async function showPointsOnZone(){
 function renderPointsOnZone(points){
   $('#pointsOnZone').html('');
   if(points){
+    console.log(points)
     points.forEach(point => {
-      const { iPointID, dPointLat, dPointLong } = point;
-      if(dPointLat != null && dPointLong != null){
+      const { iPointID, dPointLat, dPointLong, iQRCode, iRFID } = point;
+        let type = 'GPS';
+        if(iQRCode != '') type = 'QRCode';
+        if(iRFID != '') type = 'RFID';
         $('#pointsOnZone').append(`
         <li class="list-group-item">
           <input type="checkbox" class="checkbox-custom checkboxPoint" style="margin-right: 10px" value="${iPointID}">
-          <span class="point">PointID ${iPointID}</span>
+          <span class="point">PointID ${iPointID} - ${type}</span>
         </li>
       `)
       $('#pointsOnZone').find('.checkboxPoint').last().change(function(e){
         showSelectedPointWhenCheckbox(e, point);
       })
-      }
     })
   }
 }
@@ -216,9 +224,12 @@ function renderListOfSelectedPoints(selectedPoints){
   if(selectedPoints){
     $('#selectedPointsOnRoute').html('');
     selectedPoints.forEach(point => {
-      const { iPointID, dPointLat, dPointLong } = point;
+      const { iPointID, dPointLat, dPointLong, iQRCode, iRFID } = point;
+      let type = 'GPS';
+      if(iQRCode != '') type = 'QRCode';
+      if(iRFID != '') type = 'RFID';
       $('#selectedPointsOnRoute').append(`
-        <div class="alert alert-success alert-dismissible fade show" role="alert" data-point="${iPointID}" style="cursor: pointer;">${iPointID} - Lat: ${dPointLat} Lng: ${dPointLong}
+        <div class="alert alert-success alert-dismissible fade show" role="alert" data-point="${iPointID}" style="cursor: pointer;">${iPointID} - ${type} - Lat: ${dPointLat} Lng: ${dPointLong}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
           </button>
