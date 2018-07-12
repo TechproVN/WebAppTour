@@ -143,9 +143,9 @@ class Service {
     return null;
   }
 
-  static async getEventHistoryData(sentData) {
+  static async getEventHistoryDataGuard(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}api/GetEventHistory.php`,
+      url: `${APP_DOMAIN}api/GetEventHistoryGuard.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });

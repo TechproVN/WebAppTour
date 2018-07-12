@@ -20,7 +20,7 @@ async function showEventHistoryData() {
 
   if (checkTimeFormat(fromDate, toDate)) {
     let sentData = { GuardID, fromDate, toDate };
-    let data = await Service.getEventHistoryData(sentData);
+    let data = await Service.getEventHistoryDataGuard(sentData);
     if(data){
       $('#totalTours').html(`<strong>Total tours:</strong> ${data.length}`)
       $('#pagingToursControl').pagination({
@@ -51,6 +51,7 @@ function renderEventHistoryTable(data) {
         <th class="trn">Zone</th>
         <th class="trn">Route</th>
         <th class="trn">Name</th>
+        <th class="trn">Device</th>
         <th class="trn">Date</th>
         <th class="trn">Started</th>
         <th class="trn">Finished</th>
@@ -73,6 +74,7 @@ function renderEventHistoryTable(data) {
           <td>${event.sZoneName}</td>
           <td>${event.sRouteName}</td>
           <td>${event.sGuardName}</td>
+          <td>${event.sDeviceName}</td>
           <td>${event.dDateTimeIntinial}</td>
           <td>${event.dDateTimeStart}</td>
           <td>${event.dDateTimeEnd}</td>
