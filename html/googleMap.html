@@ -5,66 +5,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  
-  <!-- font awesome css -->
-  <link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css">
 
-  <!-- Bootstrap core css -->
-  <link rel="stylesheet" href="../MDB Free/css/bootstrap.min.css">
-
-  <!-- Meterial Design Bootstrap -->
-  <link rel="stylesheet" href="../MDB Free/css/mdb.min.css">
-
-  <!-- datepicker css -->
-  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
-
-  <!-- leaflet css -->
-  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
-
-  <!-- bootstrap datetime picker css -->
-  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
-
-  <!-- custom main css -->
-  <link rel="stylesheet" href="../custom/css/main.css">
-
-  <!-- main view custom css -->
-  <link rel="stylesheet" href="../custom/css/mainView.css">
-
-  <title>Main View</title>
+  <title>Guard Map</title>
 </head>
 
 <body>
   
  <div class="container-fluid">
-    <div id="mapid" style="position: absolute; top: 0; left: 0; width:100%; height: 100%;float:left"></div>
+    <div id="mapid" style="position: absolute; top: 0; left: 0; width:100%; height: 100%; float:left"></div>
  </div>
 
   <!-- Google Map API -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
 
+
+
   <!-- JQuery core -->
   <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
-
-  <!-- jQuery translate.js -->
-  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
-
-  <!-- popper js core -->
-  <script src="../MDB Free/js/popper.min.js"></script>
-
-  <!-- bootstrap js core -->
-  <script src="../MDB Free/js/bootstrap.min.js"></script>
-
-  <!-- Meterial Design Bootstrap JS -->
-  <script src="../MDB Free/js/mdb.min.js"></script>
 
   <!-- bootstrap datepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datepicker.min.js"></script>
 
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-
-  <!-- sweetalert -->
-  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
 
   <!-- custom main.js -->
   <script src="../custom/js/main.js"></script>
@@ -75,136 +38,8 @@
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>
 
-  
-
-  <script>
-
-   function createMarkerGoogleMap(pos, urlIcon){
-      let icon = createIconGoogleMap(urlIcon);
-      let marker = new google.maps.Marker({
-        position: pos,
-        // animation: google.maps.Animation.BOUNCE,
-        icon: icon
-      });
-      return marker;
-    }
-
-    function createInfoWindowGoogleMap(content){
-      let infoWindow = new google.maps.InfoWindow({
-          content:content
-        });
-        return infoWindow
-    }
-
-    function createIconGoogleMap(url){
-      let icon = {
-        url: url, // url
-        scaledSize: new google.maps.Size(20, 20), // scaled size
-        origin: new google.maps.Point(0, 0), // origin
-        anchor: new google.maps.Point(0, 0) // anchor
-      };
-      return icon;
-    }
-
-    function createPolylineGoogleMap(path){
-      let polyline = new google.maps.Polyline({
-        path: path,
-        strokeColor: "red",
-        strokeOpacity: 0.8,
-        strokeWeight: 4
-      });
-      return polyline;
-    }
-
-    function createMapPropGoogleMap(zoom, lat, lng){
-      let mapProp = {
-        center: new google.maps.LatLng(lat, lng),
-        zoom: zoom,
-      };
-      return mapProp;
-    }
-      // if(data){
-      //   data.forEach(guard => {
-      //     let { dGuardLatCurrent, dGuardLongCurrent, dLastUpdateTime, sGuardName, bOnline
-      //     } = guard;
-      //     let mes = `${sGuardName} - ${dLastUpdateTime}`;
-      //     let lat = Number(dGuardLatCurrent);
-      //     let lng = Number(dGuardLongCurrent);
-      //     let pos =  new google.maps.LatLng(lat,lng);
-      //     if(bOnline.trim('').toLowerCase() == 'online'){
-      //       let icon = '../img/Guard.png';
-      //       let marker = createMarkerGoogleMap(pos, icon);
-      //       marker.setMap(mymap);
-      //     }
-      //     if(bOnline.trim().toLowerCase() == 'sos'){
-      //       let icon = '../img/alert.png';
-      //       let marker = createMarkerGoogleMap(pos, icon);
-      //       marker.setMap(mymap);
-      //     }
-      //   })
-      // }
-      // [{"dGuardLatCurrent":"10.801489800000000","dGuardLongCurrent":"106.657498000000000","sMessage":"Vu Hoang - 20:34:32","bOnline":"1"}]
-
-    async function buildMap(){
-     
-      let sentData = { iGuardID: 1 };
-      let guardGPSCurrent = await Service.getGuardGPSCurrent(sentData);
-      console.log(guardGPSCurrent);
-      const { dGuardLatCurrent, dGuardLongCurrent, sMessage, bOnline } = guardGPSCurrent[0];
-      let mainPos = new google.maps.LatLng(dGuardLatCurrent, dGuardLongCurrent);
-      let mapProp = createMapPropGoogleMap(18, dGuardLatCurrent, dGuardLongCurrent)
-      let mymap = new google.maps.Map($('#mapid')[0], mapProp);
-      
-      let url = '../img/Guard.png';
-      let icon = createIconGoogleMap(url);
-      let guardMarker = createMarkerGoogleMap(mainPos, url);
-      guardMarker.setMap(mymap);
-      let infoWindow = createInfoWindowGoogleMap(sMessage);
-        // sCheckingCode=1204021105072018&iGuardID=1
-      infoWindow.open(mymap, guardMarker);
-      let pointChekingSentData = { iGuardID: 1, sCheckingCode: 1204021105072018 };
-      let checkingPointData = await Service.getPointChecking(pointChekingSentData);
-      console.log(checkingPointData);
-      if(checkingPointData){
-        checkingPointData.forEach(checkedPoint => {
-          let { Lat, Long, Status, Message, ImageUrl } = checkedPoint;
-          let url = '';
-          switch(Status){
-            case 1: 
-              url = '../img/Checked.png'; 
-              break;
-            case 2: 
-              url = '../img/None.png'; 
-              break;
-            case 3: 
-              url = '../img/Waiting.png'; 
-              break;
-            case 4: 
-              url = '../img/error.png'; 
-              break;
-          }
-          let pos = new google.maps.LatLng(Lat, Long);
-          let icon = createIconGoogleMap(url);
-          let marker = createMarkerGoogleMap(pos, url);
-          marker.setMap(mymap);
-          let mes = Message;
-          if(Status == 4){
-            mes = `${Message}<br><img src="${APP_DOMAIN}${ImageUrl}" class="img-fluid">`
-            let infoWindow = createInfoWindowGoogleMap(mes);
-            google.maps.event.addListener(marker, 'click', function() {
-              infoWindow.open(mymap, marker);
-            });
-          }else{
-            let infoWindow = createInfoWindowGoogleMap(mes);
-            infoWindow.open(mymap, marker);
-          }
-        })
-      }
-    }
-
-    buildMap();
-
-  </script>
+  <!-- google map js -->
+  <script src="../custom/js/googleMap.js"></script>
  
 </body>
 

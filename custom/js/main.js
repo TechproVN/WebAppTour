@@ -114,10 +114,10 @@ function createInfoWindowGoogleMap(content){
     return infoWindow
 }
 
-function createIconGoogleMap(url){
+function createIconGoogleMap(url, scaledSize = 17){
   let icon = {
     url: url, // url
-    scaledSize: new google.maps.Size(15, 15), // scaled size
+    scaledSize: new google.maps.Size(scaledSize, scaledSize), // scaled size
     origin: new google.maps.Point(0, 0), // origin
     anchor: new google.maps.Point(0, 0) // anchor
   };
@@ -140,4 +140,12 @@ function createMapPropGoogleMap(zoom, lat, lng){
     zoom: zoom,
   };
   return mapProp;
+}
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+        vars[key] = value;
+    });
+    return vars;
 }
