@@ -10,8 +10,6 @@ $(() => {
   }
 })
 
-// http://127.0.0.1:5500/html/googleMap.html?sCheckingCode=1204021105072018&iGuardID=1
-
 async function buildMap(iGuardID, sCheckingCode){
   let sentGuardData = { iGuardID };
   let guardGPSCurrent = await Service.getGuardGPSCurrent(sentGuardData);
