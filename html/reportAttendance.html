@@ -18,19 +18,19 @@
   <!-- datepicker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
 
-  <!-- leaflet css -->
-  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
+  <!-- pagination css -->
+  <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
 
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
-  <!-- pagination css -->
-  <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
-
   <!-- custom main css -->
   <link rel="stylesheet" href="../custom/css/main.css">
 
-  <title>Report Tour</title>
+  <!-- main view custom css -->
+  <link rel="stylesheet" href="../custom/css/mainView.css">
+
+  <title>Main View</title>
 </head>
 
 <body>
@@ -82,6 +82,7 @@
               <a class="dropdown-item" href="violationMin.html">Violation Minutes</a>
               <a class="dropdown-item" href="security.html">Security</a>
               <a class="dropdown-item" href="securityReport.html">Security Report</a>
+              <a class="dropdown-item" href="securityReport.html">Report Attendance</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -111,76 +112,61 @@
 
   <div class="container-fluid">
 
-      <div class="row my-3 row-custom">
-
-        <div class="col-lg-3 mb-4">
-            <!-- card filter start -->
-            <div class="card card filter">
-              <div class="card-header bg-main-color custom-card-header">
-                <h4>
-                  <i class="fa fa-filter"></i> Filters
-                </h4>
-              </div>
-              <div class="card-body custom-card-body">
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <label for="">Guard</label><br>
-                    <select name="" class="form-control guardsCombobox" id="comboboxGuardReportTour">
-                      <!-- guard name list -->
-                    </select>
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12">
-                      <label for="">Date</label><br>
-                      <input type="text" readonly class="form-control datepicker" style="width: 100%" id="reportTourDatetime">
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <button class="btn btn-custom bg-main-color pull-right" id="btnViewReportTour">View</button>
-                    <button class="btn btn-custom bg-main-color pull-right" id="btnExportReport2Excel">Export</button>
-                  </div>
-                </div>
+    <div class="row mt-3">
+      <div class="col-lg-3">
+        <div class="card card filter">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-filter"></i> Filters
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row mt-3">
+              <div class="col-12">
+                <label for="">Date</label>
+                <br>
+                <input type="text" readonly class="form-control datepicker" style="width: 100%" id="reportAttDate">
               </div>
             </div>
-            <!-- card filter end -->
-        </div>
-    
-        <div class="col-lg-9">
-          <!-- card Points start -->
-          <div class="card card-tourReport">
-            <div class="card-header bg-main-color custom-card-header">
-              <h4>
-                <i class="fa fa-exclamation-triangle"></i> Report Tours
-              </h4>
-            </div>
-            <div class="card-body custom-card-body">
-              <div class="row my-3">
-                <div class="col-12">
-                  <div class="text-center font-weight-bold green-text headerTblReportTour" style="font-size: 1.2em"></div>
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col-sm-8">
-                  <div id="pagingToursControl"></div>
-                </div>
-                <div class="col-sm-4">
-                  <div id="totalTourReportRows"></div>
-                </div>
-              </div>
-              <div class="table-responsive">
-                
+            <div class="row mt-3">
+              <div class="col-12">
+                <button class="btn btn-custom bg-main-color pull-right" id="btnShowDataAttendance">View</button>
               </div>
             </div>
           </div>
-          <!-- card Points end -->
         </div>
-
       </div>
-    
+      <div class="col-lg-9">
+        <div class="card card-reportAttendance">
+          <!-- card header -->
+          <div class="card-header bg-main-color custom-card-header">
+            <h4 class="trn">Report Attendance</h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row my-3">
+              <div class="col-sm-8">
+                <div id="pagingReportAttendanceControl"></div>
+              </div>
+              <div class="col-sm-4">
+                <div id="totalReportAttendance"></div>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="table-responsive">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
-  
+
+  <!-- Google Map API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
+
   <!-- JQuery core -->
   <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
 
@@ -193,7 +179,7 @@
   <!-- bootstrap js core -->
   <script src="../MDB Free/js/bootstrap.min.js"></script>
 
-  <!-- Meterail Design Bootstrap JS -->
+  <!-- Meterial Design Bootstrap JS -->
   <script src="../MDB Free/js/mdb.min.js"></script>
 
   <!-- bootstrap datepicker js -->
@@ -201,33 +187,26 @@
 
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-  
-  <!-- sweetalert js -->
-  <script 
-  src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+
+  <!-- sweetalert -->
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
 
   <!-- pagination js -->
   <script src="../plugins/paginationJs/pagination.min.js"></script>
 
-  <!-- leaflet js -->
-  <script src="../plugins/leaflet/js/leaflet.js"></script>
-
-  <!-- table2Excel plugins -->
-  <script src="../plugins/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel/dist/jquery.table2excel.min.js"></script>
+  <!-- custom main.js -->
+  <script src="../custom/js/main.js"></script>
 
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
-  <!-- custom main.js -->
-  <script src="../custom/js/main.js"></script>
-
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>
 
-  <!-- reportTour js -->
-  <script src="../custom/js/reportTour.js"></script>
-  
- 
+  <!-- report attendance js -->
+  <script src="../custom/js/reportAttendance.js"></script>
+
+  </script>
 </body>
 
 </html>

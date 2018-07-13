@@ -1,11 +1,16 @@
-$(() => {
+$(async() => {
   $('#btnShowReportSecuriity').click(showSecurityReport);
   $('#btnShowReportSecuriityChart').click(showChartSecurityReport)
-  loadGuardsOnCombobox();
+  let data = await loadGuardsOnCombobox();
+  if(data) arrGuardList = data;
+  else arrGuardList = [];
 })
+
 let arrDataChartWorkingTimeVsIdlingTime = [];
 let arrDataChartWeeklyPatrollingPerformance = [];
 let arrLabelsChartWorkingTimeVsIdlingTime = [];
+let arrGuardList = [];
+let guardHeader = '';
 
 async function showSecurityReport(){
   let iGuardIDIN = $('#selectGuardNameReportSecurity').val();
@@ -20,6 +25,15 @@ async function showSecurityReport(){
     arrDataChartWorkingTimeVsIdlingTime.length = 0;
     arrDataChartWeeklyPatrollingPerformance.length = 0;
     arrLabelsChartWorkingTimeVsIdlingTime.length = 0;
+
+    
+    let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
+    if(guard) {
+      const { sGuardName } = guard;
+      guardHeader = `${sGuardName} - ${from} -> ${to}`
+    }
+    $('.headerTblReportSecurityWeek').text(guardHeader);
+
     if(data){
       data.forEach(weekData => {
         const { dIdling_Time_in, dWorking_Time, dWeek, dPerformance_Routes, dPerformance_Timing, dPerformance_Routing, dOverall_performance } = weekData;
@@ -30,7 +44,7 @@ async function showSecurityReport(){
 
         arrDataChartWeeklyPatrollingPerformance.push([Number(dPerformance_Routes), Number(dPerformance_Timing), Number(dPerformance_Routing), Number(dOverall_performance)]);
       })
-      // arrDataChartWorkingTimeVsIdlingTime = 
+      
       $('#totalSecurityReportRows').html(`<strong>Total rows: </strong>${data.length}`);
       $('#pagingSecurityReportControl').pagination({
         dataSource: data,
@@ -98,6 +112,7 @@ function renderSecurityReportTable(data) {
 function showChartSecurityReport(){
   buildChartWorkingTimeVsIdlingTime();
   buildChartWeeklyPatrollingPerformance();
+  $('.headerChartReportSecurity').text(guardHeader)
   $('#modalSecurityReportChart').modal('show');
 }
 

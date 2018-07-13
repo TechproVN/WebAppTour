@@ -38,104 +38,106 @@ $(() => {
 
   let currentDataChartTimePerformance = [];
   let currentDataChartPatrollingPerformance = [];
-
+  let arrGuardList = [];
+  let guardHeader = '';
   function showChartReport(){
     buildChartPatrollingPerformance();
     buildChartTimePerformance();
+    $('.headerChartReport').text(guardHeader);
     $('#modalChartReport').modal('show');
   }
 
-  function buildChartPatrollingPerformance(){
-    let $chartPatrolling = $('#chartPatrollingPerformance > canvas');
-    let ctx = $chartPatrolling[0].getContext('2d');
-    var chartPatroll = new Chart(ctx, {
-      type: 'bar',
-      data: {
-          labels: [["Performance", "Routes"], ["Performance", "Timing"], ["Performance", "Routing"]],
-          datasets: [{
-              label: 'Performance',
-              data: currentDataChartPatrollingPerformance,
-              backgroundColor: [
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1
-          }]
+function buildChartPatrollingPerformance(){
+  let $chartPatrolling = $('#chartPatrollingPerformance > canvas');
+  let ctx = $chartPatrolling[0].getContext('2d');
+  var chartPatroll = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [["Performance", "Routes"], ["Performance", "Timing"], ["Performance", "Routing"]],
+        datasets: [{
+            label: 'Performance',
+            data: currentDataChartPatrollingPerformance,
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Patrolling Performance'
       },
-      options: {
-        title: {
-          display: true,
-          text: 'Patrolling Performance'
-        },
-        responsive: true,
-          scales: {
-            xAxes: [{
-              display: true,
-              scaleLabel: {
-                  display: true,
-              }
-            }], 
-            yAxes: [{
-                ticks: {
-                  beginAtZero: true,
-                  // steps: 10,
-                  // stepValue: 20,
-                  stepSize: 10,
-                  max: 110,
-                  min: 0,
-                  callback: function(value, index, values) {
-                      return value + "%";
-                  },
+      responsive: true,
+        scales: {
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+                display: true,
+            }
+          }], 
+          yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                // steps: 10,
+                // stepValue: 20,
+                stepSize: 10,
+                max: 110,
+                min: 0,
+                callback: function(value, index, values) {
+                    return value + "%";
                 },
-                scaleLabel: {
-                  display: true,
-                  // labelString: '%'
-                }
-            }],
-          }
-      }
-    });
-  }
+              },
+              scaleLabel: {
+                display: true,
+                // labelString: '%'
+              }
+          }],
+        }
+    }
+  });
+}
 
-  function buildChartTimePerformance(){
-    let $chartTiming = $('#chartTimePerformance > canvas');
-    let ctx = $chartTiming[0].getContext('2d');
-    var chartTime = new Chart(ctx, {
-      type: 'pie',
-      data: {
-          labels: ["Perfomance Time/ Hiệu suất thời gian %", "Idling Time in %/ Thời gian không làm việc %"],
-          datasets: [{
-              label: '# of Votes',
-              data: currentDataChartTimePerformance,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-              ],
-              borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-              ],
-              borderWidth: 1
-          }]
+function buildChartTimePerformance(){
+  let $chartTiming = $('#chartTimePerformance > canvas');
+  let ctx = $chartTiming[0].getContext('2d');
+  var chartTime = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ["Perfomance Time/ Hiệu suất thời gian %", "Idling Time in %/ Thời gian không làm việc %"],
+        datasets: [{
+            label: '# of Votes',
+            data: currentDataChartTimePerformance,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options:{
+      title: {
+        display: true,
+        text: 'Time Performance'
       },
-      options:{
-        title: {
-          display: true,
-          text: 'Time Performance'
-        },
-        hover: {
-          mode: 'nearest',
-          intersect: true
-        },
-      }
-    });
-  }
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+    }
+  });
+}
 
 function renderReportTable(data){
   let $table = $('#tblReports');
@@ -180,8 +182,16 @@ async function showReportData(){
   let dDateTime = changeFormatDateTime(time);
   let sentData = { GuardID, dDateTime }
   const data = await Service.getReportData(sentData);
+  console.log(GuardID);
+  let guard = arrGuardList.find(g => g.iGuardId == GuardID);
+  if (guard) {
+    const { sGuardName } = guard;
+    guardHeader = `${sGuardName} - ${time}`;
+  }
+  $('.headerTblReport').text(guardHeader);
+  renderReportTable(data);
+
   if(data){
-    console.log(data);
     const { dIdling_Time_in, dPerfomance_Time, dPerformance_Routes, dPerformance_Routing, dPerformance_Timing } = data[0];
 
     currentDataChartTimePerformance = [Number(dIdling_Time_in), Number(dPerfomance_Time)];
@@ -190,7 +200,6 @@ async function showReportData(){
     currentDataChartTimePerformance = [];
     currentDataChartPatrollingPerformance = [];
   }
-  renderReportTable(data);
 }
 
 function renderGuardCombobox(data){
@@ -205,6 +214,8 @@ function renderGuardCombobox(data){
 
 async function showGuardReportPage(){
   const data = await Service.getGuardsData();
+  if(data) arrGuardList = data;
+  else arrGuardList.length = 0;
   renderGuardCombobox(data);
 }
 

@@ -134,3 +134,10 @@ nav.navbar{
   max-width: 80% !important;
 }
 
+.modal-dialog.modal-dialog-super-lg-custom {
+  max-width: 90% !important;
+  max-height: 600px !important;
+}
+.list-group-item{
+  padding: 5px!important;
+}

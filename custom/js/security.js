@@ -1,7 +1,12 @@
-$(() => {
+$(async () => {
   $('#btnShowSecuriity').click(showSecurity);
-  loadGuardsOnCombobox();
+  let data = await loadGuardsOnCombobox();
+  console.log(data);
+  if(data) arrGuardList = data;
+  else arrGuardList = [];
 })
+
+let arrGuardList = [];
 
 async function showSecurity(){
   let iGuardIDIN = $('#selectGuardNameReportSecurity').val();
@@ -13,6 +18,14 @@ async function showSecurity(){
     let sentData = { iGuardIDIN, fromDate, toDate };
     let data = await Service.getReportPerformance(sentData);
     console.log(data);
+    let header = '';
+    let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
+    console.log(guard);
+    if(guard){
+      const { sGuardName } = guard;
+      header = `${sGuardName} - ${from} -> ${to}`
+    }
+    $('.headerTblReportSecurity').text(header);
     if(data){
       $('#totalSecurityReportRows').html(`<strong>Total rows: </strong>${data.length}`);
       $('#pagingSecurityReportControl').pagination({
@@ -25,6 +38,11 @@ async function showSecurity(){
           $('.card-securityReport .table-responsive').html($table);
         }
       })
+    }else{
+      $('#totalSecurityReportRows').html('');
+      $('#pagingSecurityReportControl').html('');
+      let $table = renderSecurityTable(data);
+      $('.card-securityReport .table-responsive').html($table);
     }
   }
 }

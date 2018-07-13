@@ -5,8 +5,12 @@ $(() => {
   showTourDetailsTable();
 })
 
+let arrGuardList = [];
+
 async function loadGuardsOnCombobox(){
   let guards = await Service.getGuardsData();
+  if(guards) arrGuardList = guards;
+  else arrGuardList = [];
   showGuardsOnCombobox(guards);
 }
 
@@ -18,6 +22,15 @@ async function showTourDetailsTable(){
   let sentData = {iGuardIDIN, dDateTimeIN: changeFormatDateTime(date)};
   let data = await Service.getTourDetail(sentData);
   console.log(data);
+  let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
+  console.log(guard);
+  let header = '';
+  if(guard){
+    const { sGuardName } = guard;
+    header = `${sGuardName} - ${date}`;
+  }
+  $('.headerTblReportTour').text(header);
+
   if(data){
     $('#totalTourReportRows').html(`<strong>Total rows: </strong>${data.length}`);
     $('#pagingToursControl').pagination({
@@ -30,6 +43,11 @@ async function showTourDetailsTable(){
         $('.card-tourReport .table-responsive').html($table);
       }
     })
+  }else{
+    $('#totalTourReportRows').html('');
+    $('#pagingToursControl').html('');
+    let $table = renderTourReportTable(data);
+    $('.card-tourReport .table-responsive').html($table);
   }
 }
 

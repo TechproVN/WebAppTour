@@ -78,6 +78,43 @@ function showGuardsOnCombobox(guards){
 async function loadGuardsOnCombobox(){
   let guards = await Service.getGuardsData();
   showGuardsOnCombobox(guards);
+  return guards;
+}
+
+async function showRouteList(){
+  let routes = await Service.getRoutelist();
+  $('.selectRouteName').html('');
+  if(routes){
+    routes.forEach(route => {
+      const { iRouteID, sRouteName } = route;
+      $('.selectRouteName').append(`<option value="${iRouteID}">${sRouteName}</option>`)
+    })
+  }
+  return routes;
+}
+
+async function showDeviceList(){
+  let devices = await Service.getDevicelist();
+  $('.selectDeviceName').html('');
+  if(devices){
+    devices.forEach(device => {
+      const { iDeviceID, sDeviceName } = device;
+      $('.selectDeviceName').append(`<option value="${iDeviceID}">${sDeviceName}</option>`)
+    })
+  }
+  return devices;
+}
+
+async function showGuardList(){
+  let guards = await Service.getGuardsData();
+  $('.selectGuardName').html('');
+  if(guards){
+    guards.forEach(guard => {
+      const { iGuardId, sGuardName } = guard;
+      $('.selectGuardName').append(`<option value="${iGuardId}">${sGuardName}</option>`)
+    });
+  }
+  return guards;
 }
 
 function checkDate(from, to){
@@ -148,4 +185,12 @@ function getUrlVars() {
         vars[key] = value;
     });
     return vars;
+}
+
+function getPageSize(l){
+  if(l < 100) return 10;
+  if(l < 250) return 20;
+  if(l < 300) return 30;
+  if(l < 400) return 40;
+  else return 50;
 }

@@ -25,8 +25,6 @@ async function showAllZones() {
 }
 
 function renderZoneOnJcombobox(data) {
-  console.log(data);
-  
   if (data) {
     for(let i = 0; i < $('.selectZones').length; i++){
       $('.selectZones').eq(i).html('');
@@ -112,8 +110,10 @@ function buildPointsMap(points, id){
   //show all points
   if(points && points.length > 0){
     points.forEach(point => {
-      const { iPointID, dPointLat, dPointLong } = point;
-      let mes = `ID: ${iPointID}`;
+      console.log(points);
+      const { iPointID, dPointLat, dPointLong, iQRCode, iRFID } = point;
+      let type = checkPointType(iQRCode, iRFID);
+      let mes = `ID: ${iPointID} - ${type}`;
       let lat = Number(dPointLat);
       let lng = Number(dPointLong)
       let pos = new google.maps.LatLng(lat, lng);
@@ -123,6 +123,12 @@ function buildPointsMap(points, id){
       infoWindow.open(mymap, marker);
     })
   }
+}
+
+function checkPointType(QRCode, RFID){
+  if(QRCode != '') return 'QRCode';
+  if(RFID != '') return 'RFID';
+  return 'GPS';
 }
 
 function handleClickPointMap(mymap, event){
@@ -138,7 +144,7 @@ function handleClickPointMap(mymap, event){
 }
 
 function showPointsMap(){
-  let $mapArea = $('<div id="mapPoint" class="mymap" style="height:400px"></div>'); 
+  let $mapArea = $('<div id="mapPoint" class="mymap" style="height:450px"></div>'); 
   $('#modalMapPoint').find('.modal-body').html($mapArea);
   $('#modalMapPoint').modal('show');
   setTimeout(() => {

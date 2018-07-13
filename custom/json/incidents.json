@@ -64,37 +64,32 @@
   "ImageUrl": "ImagesUpload\/01062018\/Alert_01062018213415.png",
   "sAlertDescription": "",
   "bStatus": "4"
+}]
+[{
+  "iIncidentID": "1",
+  "sIncidentContent": "Burglary"
 }, {
-  "sCheckingCode": "1209390001062018",
-  "sGuardName": "Vu Hoang",
-  "sZoneName": "Zone 2",
-  "dAlertLat": "10.829626666667",
-  "dAlertLong": "106.70172833333",
-  "dDateTimeStart": "21:40:14 01\/06\/2018",
-  "dDateTimeEnd": "21:40:35 01\/06\/2018",
-  "ImageUrl": "ImagesUpload\/01062018\/Alert_01062018214014.png",
-  "sAlertDescription": "Littering",
-  "bStatus": "4"
+  "iIncidentID": "2",
+  "sIncidentContent": "Traffic jam"
 }, {
-  "sCheckingCode": "1209390001062018",
-  "sGuardName": "Vu Hoang",
-  "sZoneName": "Zone 2",
-  "dAlertLat": "10.829626666667",
-  "dAlertLong": "106.70172833333",
-  "dDateTimeStart": "21:41:24 01\/06\/2018",
-  "dDateTimeEnd": "21:41:30 01\/06\/2018",
-  "ImageUrl": "ImagesUpload\/01062018\/Alert_01062018214124.png",
-  "sAlertDescription": "Littering",
-  "bStatus": "4"
+  "iIncidentID": "3",
+  "sIncidentContent": "Fishing"
 }, {
-  "sCheckingCode": "1209390001062018",
-  "sGuardName": "Vu Hoang",
-  "sZoneName": "Zone 2",
-  "dAlertLat": "10.829626666667",
-  "dAlertLong": "106.70172833333",
-  "dDateTimeStart": "21:42:19 01\/06\/2018",
-  "dDateTimeEnd": "21:42:24 01\/06\/2018",
-  "ImageUrl": "ImagesUpload\/01062018\/Alert_01062018214219.png",
-  "sAlertDescription": "Wrong parking",
-  "bStatus": "4"
+  "iIncidentID": "4",
+  "sIncidentContent": "Littering"
+}, {
+  "iIncidentID": "5",
+  "sIncidentContent": "Wrong parking"
+}, {
+  "iIncidentID": "6",
+  "sIncidentContent": "Broken window"
+}, {
+  "iIncidentID": "7",
+  "sIncidentContent": "Door open"
+}, {
+  "iIncidentID": "8",
+  "sIncidentContent": "Light off"
+}, {
+  "iIncidentID": "9",
+  "sIncidentContent": "Fire"
 }]

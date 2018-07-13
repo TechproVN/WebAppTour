@@ -1,27 +1,65 @@
-$(() => {
+$(async () => {
 
   //bind event click view to show event history
-  $('#btnShowEventHistoryData').click(showEventHistoryData);
+  $('#btnShowEventHistoryDataByGuard').click(() => {
+    showEventHistoryData('guard')
+  });
+  $('#btnShowEventHistoryDataByRoute').click(() => {
+    showEventHistoryData('route')
+  });
+  $('#btnShowEventHistoryDataByDevice').click(() => {
+    showEventHistoryData('device');
+  });
   $('#btnIncidentsMap').click(showAllIncidentsMap)
   // set up time default when page onload 
-  formatTodayEvent();
-  showAllGuard();
+  // formatTodayEvent();
+  arrGuardList = await showGuardList();
+  arrRouteList = await showRouteList();
+  arrDeviceList = await showDeviceList();
+  if(!arrGuardList) arrGuardList = [];
+  if(!arrRouteList) arrRouteList = [];
+  if(!arrDeviceList) arrDeviceList = [];
 })
+let arrGuardList = [];
+let arrRouteList = [];
+let arrDeviceList = [];
+let headerTblTours = '';
 
 function showAllIncidentsMap() {
   $('#modalEventMap').modal('show');
 }
 
-async function showEventHistoryData() {
-  let fromDate = $('#fromDateTime').val();
-  let toDate = $('#toDateTime').val();
-  let GuardID = $('#selectGuardName').val();
-  if (GuardID == null) GuardID = 1;
+async function showEventHistoryData(type) {
+  
+  type = type[0].toUpperCase() + type.substring(1).toLowerCase();
+ 
+  let fromDate = $(`#fromDateTime${type}`).val();
+  let toDate = $(`#toDateTime${type}`).val();
+  let id = $(`#select${type}Name`).val();
 
-  if (checkTimeFormat(fromDate, toDate)) {
-    let sentData = { GuardID, fromDate, toDate };
-    let data = await Service.getEventHistoryDataGuard(sentData);
+  if (checkTimeFormat(fromDate, toDate) && id) {
+    let sentData = { fromDate, toDate };
+    let data = null;
+    let name = '';
+    if(type.toLowerCase() == 'guard'){
+      sentData.GuardID = id;
+      let guard = arrGuardList.find(g => g.iGuardId == id.trim());
+      name = guard.sGuardName;
+      data = await Service.getEventHistoryDataGuard(sentData);
+    }else if(type.toLowerCase() == 'route'){
+      sentData.RouteID = id;
+      let route = arrRouteList.find(r => r.iRouteID == id.trim());
+      name = route.sRouteName;
+      data = await Service.getEventHistoryRoute(sentData);
+    }else if(type.toLowerCase() == 'device'){
+      sentData.DeviceID = id;
+      let device = arrDeviceList.find(d => d.iDeviceID == id.trim());
+      name = device.sDeviceName;
+      data = await Service.getEventHistoryDevice(sentData);
+    }
     if(data){
+      headerTblTours = `${type} Name: ${name} - ${fromDate} -> ${toDate}`;
+      $('.headerTblTours').text(headerTblTours)
       $('#totalTours').html(`<strong>Total tours:</strong> ${data.length}`)
       $('#pagingToursControl').pagination({
         dataSource: data,
@@ -30,13 +68,22 @@ async function showEventHistoryData() {
         showGoButton: true,
         callback: function (data, pagination) {
           // template method of yourself
-          console.log(data);
           let $table = renderEventHistoryTable(data);
           $('.card-tour .table-responsive').html($table);
         }
       })
+    }else{
+      resetTblEventHistory();
+      showAlertError("No data available", "", 3000);
     }
   }
+}
+
+function resetTblEventHistory(){
+  $('#totalTours').html('');
+  $('#pagingToursControl').html('');
+  $('#tblEventHistory').html('');
+  $('.headerTblTours').html('');
 }
 
 function renderEventHistoryTable(data) {
@@ -65,45 +112,50 @@ function renderEventHistoryTable(data) {
     `
   )
   if (data) {
-    let htmltBody = '';
     data.forEach((event, index) => {
-      htmltBody +=
-        `
+      const { sZoneName, sRouteName, sGuardName, sDeviceName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, iCountPoint, iCheckedPoint, iTimeComplete, iTimeCurrent, dDistance, sCheckingCode } = event;
+      $tbody.append(`
         <tr>
           <td>${index + 1}</td>
-          <td>${event.sZoneName}</td>
-          <td>${event.sRouteName}</td>
-          <td>${event.sGuardName}</td>
-          <td>${event.sDeviceName}</td>
-          <td>${event.dDateTimeIntinial}</td>
-          <td>${event.dDateTimeStart}</td>
-          <td>${event.dDateTimeEnd}</td>
-          <td>${event.iCountPoint}</td>
-          <td>${event.iCheckedPoint}</td>
-          <td>${event.iTimeComplete}</td>
-          <td>${event.iTimeCurrent}</td>
-          <td>${event.dDistance}</td>
+          <td>${sZoneName}</td>
+          <td>${sRouteName}</td>
+          <td>${sGuardName}</td>
+          <td>${sDeviceName}</td>
+          <td>${dDateTimeIntinial}</td>
+          <td>${dDateTimeStart}</td>
+          <td>${dDateTimeEnd}</td>
+          <td>${iCountPoint}</td>
+          <td>${iCheckedPoint}</td>
+          <td>${iTimeComplete}</td>
+          <td>${iTimeCurrent}</td>
+          <td>${dDistance}</td>
           <td>
-            <button class="btn btn-custom bg-main-color btn-custom-small" style=" margin-top:-5px" onClick = "showEventDetailsMap('${event.sCheckingCode}')">Map</button>
-            <button class="btn btn-custom bg-main-color btn-custom-small" style=" margin-top:-5px; margin-left: 5px" onClick = "showEventHistoryDetails('${event.sCheckingCode}')">Details</button>
+            <div class="btn-group">
+              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Action
+              </button>
+              <div class="dropdown-menu" >
+                <button class="btn btn-custom btn-success btn-custom-small dropdown-item" style=" margin-top:-5px" onClick = "showEventDetailsMap('${sCheckingCode}')">Map</button>
+                <button class="btn btn-custom btn-info btn-custom-small dropdown-item" style=" margin-top:-5px; margin-left: 5px" onClick = "showEventHistoryDetails('${sCheckingCode}')">Details</button>
+              </div>
+            </div>
           </td>
-         
         </tr>
-      `
+      `)
     })
-    $tbody.html(htmltBody);
   } 
-
   $table.append($thead).append($tbody);
   return $table;
 }
+
+
 
 async function formatTodayEvent() {
   let GuardID = 0;
   let fromDate = null;
   let toDate = null;
   let sentData = { GuardID, fromDate, toDate };
-  let data = await Service.getEventHistoryData(sentData);
+  let data = await Service.getEventHistoryDataGuard(sentData);
   if(data){
     $('#totalTours').html(`<strong>Total tours:</strong> ${data.length}`)
     $('#pagingToursControl').pagination({
@@ -126,7 +178,7 @@ function checkTimeFormat(from, to) {
   let errMsg = '';
   if (from == '' || to == '') {
     valid = false;
-    errMsg += `Time can not be missed\n`;
+    errMsg += `Please choose date time\n`;
   } else {
     let fromDate = new Date(from).getTime();
     let toDate = new Date(to).getTime();
@@ -135,7 +187,7 @@ function checkTimeFormat(from, to) {
       errMsg += 'From date must be smaller than end date\n';
     }
   }
-  if (!valid) alert(errMsg);
+  if (!valid) showAlertError("Invalid date", errMsg, 6000);
   return valid;
 }
 
@@ -222,18 +274,4 @@ async function showEventDetailsMap(checkingCode) {
   let event = await Service.getEventHistoryDetails(checkingCode);
   $('#modalEventMap').modal('show');
   setTimeout(() => {buildEventDetailsMap(event)}, 500);
-}
-
-async function showAllGuard(){
-  let guards = await Service.getGuardsData();
-  renderGuardCombobox(guards)
-}
-
-function renderGuardCombobox(guards){
-  $('#selectGuardName').html('');
-  if(guards){
-    guards.forEach(guard => {
-      $('#selectGuardName').append(`<option value="${guard.iGuardId}">${guard.sGuardName}</option>`)
-    });
-  }
 }
