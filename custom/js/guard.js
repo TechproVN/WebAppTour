@@ -198,7 +198,15 @@ async function showGuards(){
         $('.card-guard .table-responsive').html($table);
       }
     })
+  }else{
+    resetTblPersonalGuardInfo();
+    showAlertError("No data available", "", 3000);
   }
-  
+}
+
+function resetTblPersonalGuardInfo(){
+  $('#totalGuards').html('');
+  $('#pagingGuardsControl').html('');
+  $('#tblGuards').find('tbody').html('');
 }
 

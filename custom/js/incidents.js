@@ -13,7 +13,7 @@ const arrIncidents = [];
 
 async function showIncidentsData() {
   let datetime = $('#incidentDatetime').val();
-  if(datetime == '') return alert('No datetime');
+  if(datetime == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
   let sentData = { dDateTime: changeFormatDateTime(datetime) };
   let data = await Service.getIncidentsData(sentData);
   arrIncidents.length = 0;
@@ -31,7 +31,16 @@ async function showIncidentsData() {
       }
     })
     data.forEach(item => arrIncidents.push(item));
+  }else{
+    rssetTblIncidents();
+    showAlertError("No data available", "", 3000);
   }
+}
+
+function rssetTblIncidents(){
+  $('#totalIncidents').html('');
+  $('#pagingIncidentsControl').html('');
+  $('#tblIncidents').find('tbody').html('');
 }
 
 function renderIncidentsTable(data) {
@@ -151,12 +160,12 @@ function showAllIncidentMap(incidents){
   $('#modalIncidentMap').modal('show');
   setTimeout(() => {
     buildAllIncidentMap(incidents);
-  }, 500);
+  }, 0);
 }
 
 function showMapIncident(incident){
   $('#modalIncidentMap').modal('show');
   setTimeout(() => {
     buildIncidentMap(incident);
-  }, 500);
+  }, 0);
 }

@@ -21,6 +21,7 @@ async function showIncidentsType(){
     })
   }else{
     resetTblIncidentType();
+    showAlertError("No data available", "", 3000);
   }
 }
 

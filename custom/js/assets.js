@@ -1,5 +1,3 @@
-// http://115.79.27.219/tracking/api/GetAssetData.php 
-
 $(() => {
 
   $('#btnAssetsData').click(showAssetsData);
@@ -76,9 +74,16 @@ async function showAssetsData() {
         $('.card-asset .table-responsive').html($table);
       }
     })
-  }else{
-    showAlertError("No data", "", 3000);
+  } else{
+    resetTblAsset();
+    showAlertError("No data available", "", 3000);
   }
+}
+
+function resetTblAsset(){
+  $('#totalAssets').html('');
+  $('#pagingAssetsControl').html('');
+  $('#tblAssets').find('tbody').html('');
 }
 
 function formatTodayAssets() {

@@ -148,8 +148,6 @@ function renderEventHistoryTable(data) {
   return $table;
 }
 
-
-
 async function formatTodayEvent() {
   let GuardID = 0;
   let fromDate = null;
@@ -170,6 +168,8 @@ async function formatTodayEvent() {
         $('.card-tour .table-responsive').html($table);
       }
     })
+  }else{
+
   }
 }
 
@@ -273,5 +273,5 @@ async function showEventDetailsMap(checkingCode) {
   $('#modalEventMap').find('.modal-body').html($mapView);
   let event = await Service.getEventHistoryDetails(checkingCode);
   $('#modalEventMap').modal('show');
-  setTimeout(() => {buildEventDetailsMap(event)}, 500);
+  setTimeout(() => {buildEventDetailsMap(event)}, 0);
 }

@@ -1,7 +1,7 @@
 $(() => {
   $('#btnViewDeviceData').click();
   $('#btnInsertDevice').click();
-  showGuards();
+  showDevices();
 })
 
 function renderDeviceTable(devices){
@@ -56,7 +56,7 @@ function showDeviceDetail(device){
   console.log(device);
 }
 
-async function showGuards(){
+async function showDevices(){
   let devices = await Service.getDevice();
   console.log(devices);
   if(devices){
@@ -71,6 +71,14 @@ async function showGuards(){
         $('.card-device .table-responsive').html($table);
       }
     })
+  }else{
+    resetTblDevice();
+    showAlertError("No data available", "", 3000);
   }
-  
+}
+
+function resetTblDevice(){
+  $('#totalDevices').html('');
+  $('#pagingDevicesControl').html('');
+  $('#tblDevice').html('');
 }
