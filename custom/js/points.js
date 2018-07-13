@@ -158,21 +158,32 @@ async function showPointsData() {
     let sentData = { iZoneID: zoneId };
     let data = await Service.getPointsDataOnZone(sentData);
     console.log(data);
-    if(data) arrCurrentPointsOnZone = [...data];
-    else arrCurrentPointsOnZone = [];
-    $('#totalPoints').html(`<strong>Total Points:</strong> ${data.length}`)
-    $('#pagingPointsControl').pagination({
-      dataSource: data,
-      pageSize: 10,
-      showGoInput: true,
-      showGoButton: true,
-      callback: function (data, pagination) {
-        // template method of yourself
-        let $table = renderPointsTable(data);
-        $('.card-points .table-responsive').html($table);
-      }
-    })
+    arrCurrentPointsOnZone = [];
+    if(data) {
+      arrCurrentPointsOnZone = [...data];
+      $('#totalPoints').html(`<strong>Total Points:</strong> ${data.length}`)
+      $('#pagingPointsControl').pagination({
+        dataSource: data,
+        pageSize: 10,
+        showGoInput: true,
+        showGoButton: true,
+        callback: function (data, pagination) {
+          // template method of yourself
+          let $table = renderPointsTable(data);
+          $('.card-points .table-responsive').html($table);
+        }
+      })
+    }else{
+      resetTblPoints();
+      showAlertError("No data available", "", 3000);
+    }
   }
+}
+
+function resetTblPoints(){
+  $('#totalPoints').html('');
+  $('#pagingPointsControl').html('');
+  $('#tblPoints').find('tbody').html('');
 }
 
 function showInsertPointModal(){

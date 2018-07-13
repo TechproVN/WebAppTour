@@ -155,7 +155,6 @@ async function showPointsOnZone(){
 function renderPointsOnZone(points){
   $('#pointsOnZone').html('');
   if(points){
-    console.log(points)
     points.forEach(point => {
       const { iPointID, dPointLat, dPointLong, iQRCode, iRFID } = point;
         let type = 'GPS';
@@ -263,10 +262,6 @@ async function saveRoute(){
 async function deleteRoute(routeId){
   let RouteName = $('#txtSaveRouteName').val();
   if(RouteName == '' || RouteName.trim() == '') return showAlertError("Routename must be filled!", "", 3000);
-  // let arrPoints = arrSelectedPointsOnRoute.map((p, index) => {
-  //   const { iPointID } = p;
-  //   return {PointID: iPointID, No: index + 1}
-  // })
   let sentData = { RouteID: routeId, RouteName, bStatusIN: 2, Point: 0 };
   let response = await Service.deleteRoute(sentData);
   console.log(response);
@@ -291,8 +286,15 @@ async function showRoutesOnTable(){
       }
     })
   }else{
-    showAlertError("No data", "", 3000);
+    resetTblRoutes();
+    showAlertError("No data available", "", 3000);
   }
+}
+
+function resetTblRoutes(){
+  $('#totalRoutes').html('');
+  $('#pagingRoutesControl').html('');
+  $('#tblRoutes').find('tbody').html('');
 }
 
 function renderTableRoutes(routes){

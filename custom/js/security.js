@@ -39,12 +39,17 @@ async function showSecurity(){
         }
       })
     }else{
-      $('#totalSecurityReportRows').html('');
-      $('#pagingSecurityReportControl').html('');
-      let $table = renderSecurityTable(data);
-      $('.card-securityReport .table-responsive').html($table);
+      resetTblReportSecurity();
+      showAlertError("No data available", "", 3000);
     }
   }
+}
+
+function resetTblReportSecurity(){
+  $('.headerTblReportSecurity').text('');
+  $('#totalSecurityReportRows').html('');
+  $('#pagingSecurityReportControl').html('');
+  $('#tblReportSecurity').find('tbody').html('')
 }
 
 function renderSecurityTable(data) {

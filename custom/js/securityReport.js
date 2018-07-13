@@ -57,6 +57,7 @@ async function showSecurityReport(){
         }
       })
     }else{
+      showAlertError("No data available", "", 3000);
       resetTblSecurityReport();
     }
   }

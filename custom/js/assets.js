@@ -1,5 +1,4 @@
 $(() => {
-
   $('#btnAssetsData').click(showAssetsData);
   $('#btnShowMapAllAssets').click(() => {
     showAssetMapAll(arrCurrentAssets)
@@ -98,14 +97,6 @@ function formatTodayAssets() {
   $('#assetDatetime').val(`${mon}/${d}/${year}`);
 
   showAssetsData();
-}
-
-function changeFormatDateTime(time){
-  let arr = time.split('/');
-  let y = arr[2];
-  let d = arr[1];
-  let m = arr[0];
-  return `${y}-${m}-${d}`;
 }
 
 function buildAssetsMap(asset){

@@ -130,7 +130,16 @@ async function showZones(){
         $('.card-zone .table-responsive').html($table);
       }
     })
+  } else{
+    resetTblZone();
+    showAlertError("No data available", "", 3000);
   }
+}
+
+function resetTblZone(){
+  $('#totalZones').html('');
+  $('#pagingZonesControl').html('');
+  $('#tblZones').find('tbody').html('');
 }
 
 function buildInsertZoneMap(){
@@ -187,5 +196,5 @@ function showInsertZoneModal(){
   $('#modalInsertZone').modal('show');
   setTimeout(() => {
     buildInsertZoneMap();
-  }, 500);
+  }, 0);
 }

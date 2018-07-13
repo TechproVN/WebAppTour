@@ -44,11 +44,16 @@ async function showTourDetailsTable(){
       }
     })
   }else{
-    $('#totalTourReportRows').html('');
-    $('#pagingToursControl').html('');
-    let $table = renderTourReportTable(data);
-    $('.card-tourReport .table-responsive').html($table);
+    resetTblTourReport();
+    showAlertError("No data avilable", "", 3000);
   }
+}
+
+function resetTblTourReport(){
+  $('#totalTourReportRows').html('');
+  $('#pagingToursControl').html('');
+  $('#tblReportTour').find('tbody').html('');
+  $('.headerTblReportTour').text('');
 }
 
 function renderTourReportTable(data) {
