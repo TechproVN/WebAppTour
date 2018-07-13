@@ -79,29 +79,29 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-area-chart icon-navbar"></i>
-                Report
+                Reports
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="report.html">Report</a>
-                <a href="reportTour.html" class="dropdown-item">Report Tour</a>
-                <a class="dropdown-item" href="violationMin.html">Violation Minutes</a>
+                <a class="dropdown-item" href="report.html">Reports</a>
+                <a href="reportTour.html" class="dropdown-item">Daily Patrolling Results</a>
+                <a class="dropdown-item" href="violationMin.html">Violation Reports</a>
                 <a class="dropdown-item" href="security.html">Security</a>
-                <a class="dropdown-item" href="securityReport.html">Security Report</a><a class="dropdown-item" href="reportAttendance.html">Report Attendance</a>
+                <a class="dropdown-item" href="securityReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item" href="reportAttendance.html">Report Attendance</a>
               </div>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-cog icon-navbar"></i>
-                Setting
+                Settings
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="points.html">Points</a>
-                <a class="dropdown-item" href="guard.html">Guard</a>
-                <a class="dropdown-item" href="zone.html">Zone</a>
-                <a class="dropdown-item" href="route.html">Route</a>
-                <a class="dropdown-item" href="schedule.html">Schedule</a>
-                <a class="dropdown-item" href="incidentDetail.html">Incident</a>
-                <a class="dropdown-item" href="device.html">Device</a>
+                <a class="dropdown-item" href="points.html">Create Check Points</a>
+                <a class="dropdown-item" href="guard.html">Security Guard Profile</a>
+                <a class="dropdown-item" href="zone.html">Create Zone</a>
+                <a class="dropdown-item" href="route.html">Create Route</a>
+                <a class="dropdown-item" href="schedule.html">Create Schedule</a>
+                <a class="dropdown-item" href="incidentDetail.html">Define Incidents</a>
+                <a class="dropdown-item" href="device.html">Define Devices</a>
               </div>
             </li>
           </ul>
@@ -127,87 +127,44 @@
             </h4>
           </div>
           <div class="card-body custom-card-body">
-            <div class="list-group">
-                <div class="list-group-item">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <label for="">Guard Name</label>
-                        <select name="" id="selectGuardName" class="form-control selectGuardName">
-                          <!-- option content guard name -->
-                        </select>
-                      </div>
-                      <div class="col-md-4">
-                        <label for="">From</label>
-                        <br>
-                        <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="fromDateTimeGuard">
-                      </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="">Guard Name</label>
+                    <select name="" id="selectGuardName" class="form-control selectGuardName">
+                      <!-- option content guard name -->
+                    </select>
+                </div>
+              <div class="col-md-4">
+                  <label for="">Route Name</label>
+                  <select name="" id="selectRouteName" class="form-control selectRouteName">
+                    <!-- option content guard name -->
+                  </select>
+              </div>
+              <div class="col-md-4">
+                  <label for="">Device Name</label>
+                  <select name="" id="selectDeviceName" class="form-control selectDeviceName">
+                    <!-- option content guard name -->
+                  </select>
+              </div>
           
-                      <div class="col-md-4">
-                        <label for="">To</label>
-                        <br>
-                        <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="toDateTimeGuard">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12">
-                          <button class="btn btn-custom bg-main-color pull-right" id="btnShowEventHistoryDataByGuard">View</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="list-group-item">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <label for="">Route Name</label>
-                          <select name="" id="selectRouteName" class="form-control selectRouteName">
-                            <!-- option content guard name -->
-                          </select>
-                        </div>
-                        <div class="col-md-4">
-                          <label for="">From</label>
-                          <br>
-                          <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="fromDateTimeRoute">
-                        </div>
-            
-                        <div class="col-md-4">
-                          <label for="">To</label>
-                          <br>
-                          <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="toDateTimeRoute">
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12">
-                            <button class="btn btn-custom bg-main-color pull-right" id="btnShowEventHistoryDataByRoute">View</button>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="list-group-item">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <label for="">Device Name</label>
-                        <select name="" id="selectDeviceName" class="form-control selectDeviceName">
-                          <!-- option content guard name -->
-                        </select>
-                      </div>
-                      <div class="col-md-4">
-                        <label for="">From</label>
-                        <br>
-                        <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="fromDateTimeDevice">
-                      </div>
-          
-                      <div class="col-md-4">
-                        <label for="">To</label>
-                        <br>
-                        <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="toDateTimeDevice">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12">
-                          <button class="btn btn-custom bg-main-color pull-right" id="btnShowEventHistoryDataByDevice">View</button>
-                      </div>
-                    </div>
-                  </div>
             </div>
-            
+            <div class="row">
+              <div class="col-md-4">
+                  <label for="">From</label>
+                  <br>
+                  <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="fromDateTime">
+              </div>
+              <div class="col-md-4">
+                  <label for="">To</label>
+                  <br>
+                  <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="toDateTime">
+              </div>
+              <div class="col-md-4">
+                <button class="btn btn-custom bg-main-color mt-4" id="btnShowEventHistoryDataByGuard">View By Guard</button>
+                <button class="btn btn-custom bg-main-color mt-4" id="btnShowEventHistoryDataByRoute">View By Route</button>
+                <button class="btn btn-custom bg-main-color mt-4" id="btnShowEventHistoryDataByDevice">View By Device</button>
+              </div>
+            </div>
           </div>
         </div>
         <!-- card filter end -->

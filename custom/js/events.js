@@ -33,8 +33,8 @@ async function showEventHistoryData(type) {
   
   type = type[0].toUpperCase() + type.substring(1).toLowerCase();
  
-  let fromDate = $(`#fromDateTime${type}`).val();
-  let toDate = $(`#toDateTime${type}`).val();
+  let fromDate = $(`#fromDateTime`).val();
+  let toDate = $(`#toDateTime`).val();
   let id = $(`#select${type}Name`).val();
 
   if (checkTimeFormat(fromDate, toDate) && id) {
