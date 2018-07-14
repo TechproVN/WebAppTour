@@ -67,6 +67,7 @@ function resetTblSecurityReport(){
   $('#tblReportSecurity').find('tbody').html('');
   $('#totalSecurityReportRows').html('');
   $('#pagingSecurityReportControl').html('');
+  $('.headerTblReportSecurityWeek').html('');
 }
 
 function renderSecurityReportTable(data) {
@@ -118,6 +119,8 @@ function showChartSecurityReport(){
 }
 
 function buildChartWeeklyPatrollingPerformance(){
+  $chartArea = $('<canvas style="width: 100%" height="300" id="chartWeeklyPatrollingPerformance"></canvas>');
+  $('#modalSecurityReportChart').find('.chartWeeklyPatrollingPerformance').html($chartArea);
   let $chartWeeklyPatrolling = $('#chartWeeklyPatrollingPerformance');
   let ctx = $chartWeeklyPatrolling[0].getContext('2d');
   // ctx.height(500);
@@ -209,7 +212,10 @@ function buildChartWeeklyPatrollingPerformance(){
 }
 
 function buildChartWorkingTimeVsIdlingTime(){
+  $chartArea = $('<canvas style="width: 100%" height="300" id="chartWorkingTimeVsIdlingTime"></canvas>');
+  $('#modalSecurityReportChart').find('.chartWorkingTimeVsIdlingTime').html($chartArea);
   let $chartWorkingTimeVsIdlingTime = $('#chartWorkingTimeVsIdlingTime');
+
   let ctx = $chartWorkingTimeVsIdlingTime[0].getContext('2d');
   console.log(arrDataChartWorkingTimeVsIdlingTime);
   // ctx.height(500);

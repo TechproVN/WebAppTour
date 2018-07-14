@@ -99,7 +99,7 @@ function renderGuardTable(data) {
     `
     <tr>
       <th class="trn">
-        <input type="checkbox" class="custom-checkbox checkbox-all-guards">
+        <input type="checkbox" class="checkbox-custom checkbox-all-guards">
       </th>
       <th class="trn">No.</th>
       <th class="trn">Name</th>
@@ -119,7 +119,7 @@ function renderGuardTable(data) {
       $tbody.append(`
         <tr>
           <td class="trn">
-            <input type="checkbox" class="custom-checkbox checkbox-guard-sendSMS" data-idguard = "${iGuardId}">
+            <input type="checkbox" class="checkbox-custom checkbox-guard-sendSMS" data-idguard = "${iGuardId}">
           </td>
           <td>${iGuardId}</td>
           <td>${sGuardName}</td>

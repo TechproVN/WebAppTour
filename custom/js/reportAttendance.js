@@ -23,6 +23,7 @@ async function showDataAttendance(){
       }
     })
   }else{
+    showAlertError('No data available', '', 3000);
     resetTblReportAttData();
   }
 }

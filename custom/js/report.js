@@ -48,6 +48,8 @@ $(() => {
   }
 
 function buildChartPatrollingPerformance(){
+  let $chartArea = $('<canvas style="width: 100%" height="300"></canvas>');
+  $('#chartPatrollingPerformance').html($chartArea);
   let $chartPatrolling = $('#chartPatrollingPerformance > canvas');
   let ctx = $chartPatrolling[0].getContext('2d');
   var chartPatroll = new Chart(ctx, {
@@ -106,6 +108,8 @@ function buildChartPatrollingPerformance(){
 }
 
 function buildChartTimePerformance(){
+  let $chartArea = $('<canvas style="width: 100%" height="300"></canvas>');
+  $('#chartTimePerformance').html($chartArea);
   let $chartTiming = $('#chartTimePerformance > canvas');
   let ctx = $chartTiming[0].getContext('2d');
   var chartTime = new Chart(ctx, {
