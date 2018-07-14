@@ -262,7 +262,7 @@ async function saveRoute(){
 async function deleteRoute(routeId){
   let RouteName = $('#txtSaveRouteName').val();
   if(RouteName == '' || RouteName.trim() == '') return showAlertError("Routename must be filled!", "", 3000);
-  let sentData = { RouteID: routeId, RouteName, bStatusIN: 2, Point: 0 };
+  let sentData = { RouteID: routeId, RouteName, bStatusIN: 2, Point: 0, ZoneID, TimeComplete, Distance };
   let response = await Service.deleteRoute(sentData);
   console.log(response);
   showAlertSuccess("Deleted successfully!", "", 2000);

@@ -46,8 +46,8 @@ function renderPointsTable(data) {
   $thead.html(
     `
       <tr>
-        <th class="trn">Zone</th>
         <th class="trn">ID</th>
+        <th class="trn">Zone</th>
         <th class="trn">Name</th>
         <th class="trn">Note</th>
         <th class="trn">GPS</th>
@@ -63,8 +63,8 @@ function renderPointsTable(data) {
       const {sZoneName, sPointCode, dDateTimeAdd, iPointID, sPointName, sPointNote, iGPS, iQRCode, iRFID} = point;
       $tbody.append(`
         <tr>
-          <td>${sZoneName}</td>
           <td>${iPointID}</td>
+          <td>${sZoneName}</td>
           <td>${sPointName}</td>
           <td>${sPointNote}</td>
           <td>${iGPS}</td>
@@ -235,7 +235,7 @@ async function inActivePoint(point){
   let sure = await showAlertWarning("Are you sure!", "");
   if(sure){
     let zoneId = $('#selectZoneInsertPoint').val();
-    let sentData = { iPointIDIN: iPointID, bStatusIN: 4, iZoneIDIN: zoneId,  sPointCodeIN: 0, dGPSLatIN: 0, dGPSLongIN: 0 };
+    let sentData = { iPointIDIN: iPointID, bStatusIN: 3, iZoneIDIN: zoneId,  sPointCodeIN: 0, dGPSLatIN: 0, dGPSLongIN: 0 };
     // {"iPointIDIN":"78","bStatusIN":4,"iZoneIDIN":null,"sPointCodeIN":null,"dGPSLatIN":null,"dGPSLongIN": null}
     console.log(JSON.stringify(sentData))
     let response = await Service.inActivePoint(sentData);
