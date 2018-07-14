@@ -18,19 +18,19 @@
   <!-- datepicker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
 
-  <!-- bootstrap datetime picker css -->
-  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
-
   <!-- leaflet css -->
   <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
 
-  <!-- pagination css -->
-  <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
+  <!-- bootstrap datetime picker css -->
+  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
-  <!-- main custom css -->
+  <!-- custom main css -->
   <link rel="stylesheet" href="../custom/css/main.css">
 
-  <title>Incident Types</title>
+  <!-- main view custom css -->
+  <link rel="stylesheet" href="../custom/css/mainView.css">
+
+  <title>Report</title>
 </head>
 
 <body>
@@ -54,7 +54,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="events.html">
+              <a class="nav-link" href="tours.html">
                 <i class="fa fa-street-view icon-navbar"></i>
                 <span class="trn">Tours</span>
               </a>
@@ -71,17 +71,17 @@
                 <span class="trn">Assets</span>
               </a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown active-menu-item">
               <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-area-chart icon-navbar"></i>
                 Reports
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="report.html">Reports</a>
+                <a class="dropdown-item" href="reports.html">Reports</a>
                 <a href="reportTour.html" class="dropdown-item">Daily Patrolling Results</a>
-                <a class="dropdown-item" href="violationMin.html">Violation Reports</a>
+                <a class="dropdown-item" href="violationReports.html">Violation Reports</a>
                 <a class="dropdown-item" href="security.html">Security</a>
-                <a class="dropdown-item" href="securityReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item" href="reportAttendance.html">Report Attendance</a>
+                <a class="dropdown-item" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item" href="reportAttendance.html">Report Attendance</a>
               </div>
             </li>
             <li class="nav-item dropdown">
@@ -95,7 +95,7 @@
                 <a class="dropdown-item" href="zone.html">Create Zone</a>
                 <a class="dropdown-item" href="route.html">Create Route</a>
                 <a class="dropdown-item" href="schedule.html">Create Schedule</a>
-                <a class="dropdown-item" href="incidentDetail.html">Define Incidents</a>
+                <a class="dropdown-item" href="defineIncident.html">Define Incidents</a>
                 <a class="dropdown-item" href="device.html">Define Devices</a>
               </div>
             </li>
@@ -112,62 +112,112 @@
   <div class="container-fluid">
 
     <div class="row my-3 row-custom">
-      <!-- filter and incident card -->
-      <div class="col-lg-3">
-        <!-- card filter start -->
-        <div class="card card filter">
-          <div class="card-header bg-main-color custom-card-header">
-            <h4>
-              <i class="fa fa-filter"></i> Filters
-            </h4>
-          </div>
-          <div class="card-body custom-card-body">
-            <div class="row mt-3">
-              
+
+      <div class="col-lg-3 mb-4">
+          <!-- card filter start -->
+          <div class="card card filter">
+            <div class="card-header bg-main-color custom-card-header">
+              <h4>
+                <i class="fa fa-filter"></i> Filters
+              </h4>
             </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <button class="btn btn-custom bg-main-color pull-right" id="btnShowIncidentsType">View</button>
+            <div class="card-body custom-card-body">
+              <div class="row mt-3">
+                <div class="col-12">
+                  <label for="">Guard</label><br>
+                  <select name="" class="form-control" id="jcomboboxGuardReport">
+                    <!-- guard name list -->
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                    <label for="">Date</label><br>
+                    <input type="text" readonly class="form-control datepicker" style="width: 100%" id="reportDatetime">
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <button class="btn btn-custom bg-main-color pull-right" id="btnViewReport">View</button>
+                  <button class="btn btn-custom bg-main-color pull-right" id="btnExportReport2Excel">Export</button>
+                  <button class="btn btn-custom bg-main-color pull-right" id="btnChartReport">Chart</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- card filter end -->
+          <!-- card filter end -->
       </div>
-
+  
       <div class="col-lg-9">
         <!-- card Points start -->
-        <div class="card card-incident-type">
+        <div class="card card-incident">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-exclamation-triangle"></i> Incident Types
+              <i class="fa fa-exclamation-triangle"></i> Reports
             </h4>
           </div>
           <div class="card-body custom-card-body">
             <div class="row my-3">
-              <div class="col-sm-8">
-                  <div id="pagingIncidentTypesControl" ></div>
-              </div>
-              <div class="col-sm-4">
-                <div id="totalIncidentTypes"></div>
+              <div class="col-12">
+                <div class="text-center font-weight-bold green-text headerTblReport" style="font-size: 1.2em"></div>
               </div>
             </div>
             <div class="table-responsive">
-              
+              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblReports">
+                <!-- Points content here -->
+              </table>
             </div>
           </div>
         </div>
         <!-- card Points end -->
       </div>
+
     </div>
 
+    <!-- Modal chart Report -->
+    <div class="row">
+      <div class="col-12">
+        <!-- Modal chart Report -->
+        <div class="modal fade" id="modalChartReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-custom" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="">Chart Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="text-center font-weight-bold green-text headerChartReport" style="font-size: 1.1em"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6" id="chartPatrollingPerformance">
+                    
+                  </div>
+                  <div class="col-lg-6" id="chartTimePerformance">
+                    
+                  </div>
+                </div>  
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </div>
-
-  <!-- Google Map API -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
-
+  
   <!-- JQuery core -->
   <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
+
+  <!-- jQuery translate.js -->
+  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
 
   <!-- popper js core -->
   <script src="../MDB Free/js/popper.min.js"></script>
@@ -184,30 +234,30 @@
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
-  <!-- translate js plugins -->
-  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
+  <!-- leaflet js -->
+  <script src="../plugins/leaflet/js/leaflet.js"></script>
+
+  <!-- table2Excel plugins -->
+  <script src="../plugins/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel/dist/jquery.table2excel.min.js"></script>
 
   <!-- sweetalert -->
   <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
 
-  <!-- pagination js -->
-  <script src="../plugins/paginationJs/pagination.min.js"></script>
-
-  <!-- translate js -->
-  <script src="../custom/js/translate.js"></script>
+  <!-- chartJS -->
+  <script src="../plugins/chartJS/Chart.min.js"></script>
 
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
-  <!-- validation js -->
-  <script src="../custom/js/validation.js"></script>
-
   <!-- custom main.js -->
   <script src="../custom/js/main.js"></script>
 
-  <!-- custom incident detail js -->
-  <script src="../custom/js/incidentDetail.js"></script>
+  <!-- translate js -->
+  <script src="../custom/js/translate.js"></script>
 
+  <!-- report js -->
+  <script src="../custom/js/report.js"></script>
+  
 </body>
 
 </html>

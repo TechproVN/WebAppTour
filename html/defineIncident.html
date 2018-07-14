@@ -27,12 +27,10 @@
   <!-- pagination css -->
   <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
 
-  <!-- main view custom css -->
+  <!-- main custom css -->
   <link rel="stylesheet" href="../custom/css/main.css">
 
-  <!-- custom main css -->
-  <link rel="stylesheet" href="../custom/css/mainView.css">
-  <title>Security Report</title>
+  <title>Incident Types</title>
 </head>
 
 <body>
@@ -56,7 +54,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="events.html">
+              <a class="nav-link" href="tours.html">
                 <i class="fa fa-street-view icon-navbar"></i>
                 <span class="trn">Tours</span>
               </a>
@@ -79,14 +77,14 @@
                 Reports
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="report.html">Reports</a>
+                <a class="dropdown-item" href="reports.html">Reports</a>
                 <a href="reportTour.html" class="dropdown-item">Daily Patrolling Results</a>
-                <a class="dropdown-item" href="violationMin.html">Violation Reports</a>
+                <a class="dropdown-item" href="violationReports.html">Violation Reports</a>
                 <a class="dropdown-item" href="security.html">Security</a>
-                <a class="dropdown-item" href="securityReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item" href="reportAttendance.html">Report Attendance</a>
+                <a class="dropdown-item" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item" href="reportAttendance.html">Report Attendance</a>
               </div>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown active-menu-item">
               <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-cog icon-navbar"></i>
                 Settings
@@ -97,7 +95,7 @@
                 <a class="dropdown-item" href="zone.html">Create Zone</a>
                 <a class="dropdown-item" href="route.html">Create Route</a>
                 <a class="dropdown-item" href="schedule.html">Create Schedule</a>
-                <a class="dropdown-item" href="incidentDetail.html">Define Incidents</a>
+                <a class="dropdown-item" href="defineIncident.html">Define Incidents</a>
                 <a class="dropdown-item" href="device.html">Define Devices</a>
               </div>
             </li>
@@ -114,10 +112,10 @@
   <div class="container-fluid">
 
     <div class="row my-3 row-custom">
-      <!-- guard action card start -->
-      <div class="col-12">
+      <!-- filter and incident card -->
+      <div class="col-lg-3">
         <!-- card filter start -->
-        <div class="card card-action">
+        <div class="card card filter">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
               <i class="fa fa-filter"></i> Filters
@@ -125,111 +123,48 @@
           </div>
           <div class="card-body custom-card-body">
             <div class="row mt-3">
-                <div class="col-md-4">
-                  <label for="">Guard Name</label>
-                  <select id="selectGuardNameReportSecurity" class="guardsCombobox form-control">
-                    <!-- option content guard name -->
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <label for="">Start Date</label>
-                  <br>
-                  <input type="text" readonly class="form-control datepicker" style="width: 100%" id="fromDateReportSecurity">
-                </div>
-                <div class="col-md-4">
-                  <label for="">End Date</label>
-                  <br>
-                  <input type="text" readonly class="datepicker form-control" style="width: 100%" id="toDateReportSecurity">
-                </div>
+              
             </div>
             <div class="row mt-3">
               <div class="col-12">
-                <button class="btn btn-custom bg-main-color pull-right" id="btnShowReportSecuriity">View</button>
-                <button class="btn btn-custom bg-main-color pull-right" id="btnShowReportSecuriityChart">Chart</button>
+                <button class="btn btn-custom bg-main-color pull-right" id="btnShowIncidentsType">View</button>
               </div>
             </div>
           </div>
         </div>
-        <!-- guard action card end -->
+        <!-- card filter end -->
       </div>
 
-    </div>
-
-    <div class="row my-3">
-      <div class="col-12">
-          <!-- card violationMin start -->
-          <div class="card card-securityReport">
-            <div class="card-header bg-main-color custom-card-header">
-              <h4>
-                <i class="fa fa-exclamation-triangle"></i> Security Report
-              </h4>
+      <div class="col-lg-9">
+        <!-- card Points start -->
+        <div class="card card-incident-type">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-exclamation-triangle"></i> Incident Types
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row my-3">
+              <div class="col-sm-8">
+                  <div id="pagingIncidentTypesControl" ></div>
+              </div>
+              <div class="col-sm-4">
+                <div id="totalIncidentTypes"></div>
+              </div>
             </div>
-            <div class="card-body custom-card-body">
-              <div class="row my-2">
-                <div class="col-12">
-                    <h5 class="text-center">Security Patrolling Performance</h5>
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col-12">
-                  <div class="text-center font-weight-bold green-text headerTblReportSecurityWeek" style="font-size: 1.2em"></div>
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col-sm-8">
-                  <div id="pagingSecurityReportControl"></div>
-                </div>
-                <div class="col-sm-4">
-                  <div id="totalSecurityReportRows"></div>
-                </div>
-              </div>
+            <div class="table-responsive">
               
-              <div class="table-responsive">
-               
-              </div>
-            </div>
-          </div>
-          <!-- card violationMin end -->
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12">
-        <!-- Modal -->
-        <div class="modal fade" id="modalSecurityReportChart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-custom" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="">Security Report Chart</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="text-center font-weight-bold green-text headerChartReportSecurity" style="font-size: 1.1em"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 chartWeeklyPatrollingPerformance">
-                    
-                  </div>
-                  <div class="col-md-6 chartWorkingTimeVsIdlingTime">
-                   
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
-              </div>
             </div>
           </div>
         </div>
+        <!-- card Points end -->
       </div>
     </div>
-    
+
   </div>
+
+  <!-- Google Map API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
 
   <!-- JQuery core -->
   <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
@@ -249,14 +184,11 @@
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
-  <!-- sweetalert js -->
-  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
-
-  <!-- leafletjs -->
-  <script src="../plugins/leaflet/js/leaflet.js"></script>
-
   <!-- translate js plugins -->
   <script src="../plugins/translate.js-master/jquery.translate.js"></script>
+
+  <!-- sweetalert -->
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
 
   <!-- pagination js -->
   <script src="../plugins/paginationJs/pagination.min.js"></script>
@@ -264,17 +196,18 @@
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>
 
-  <!-- validation js -->
-  <script src="../custom/js/validation.js"></script>
-
-  <!-- main js -->
-  <script src="../custom/js/main.js"></script>
-
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
-  <!-- securityReport js -->
-  <script src="../custom/js/securityReport.js"></script>
+  <!-- validation js -->
+  <script src="../custom/js/validation.js"></script>
+
+  <!-- custom main.js -->
+  <script src="../custom/js/main.js"></script>
+
+  <!-- custom incident detail js -->
+  <script src="../custom/js/incidentDetail.js"></script>
+
 </body>
 
 </html>

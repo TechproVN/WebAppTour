@@ -44,7 +44,7 @@ nav.navbar{
   font-weight: 600;
   font-size: 1em;
 }
-.navbar .nav-item:hover{
+.navbar .nav-item:hover, .active-menu-item{
   background-color: skyblue;
 }
 

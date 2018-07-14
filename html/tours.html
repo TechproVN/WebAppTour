@@ -18,19 +18,24 @@
   <!-- datepicker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
 
+  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet.css">
+
   <!-- leaflet css -->
   <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
 
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
-  <!-- custom main css -->
-  <link rel="stylesheet" href="../custom/css/main.css">
+  <!-- pagination css -->
+  <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
 
   <!-- main view custom css -->
+  <link rel="stylesheet" href="../custom/css/main.css">
+
+  <!-- custom main css -->
   <link rel="stylesheet" href="../custom/css/mainView.css">
 
-  <title>Report</title>
+  <title>Events</title>
 </head>
 
 <body>
@@ -53,8 +58,8 @@
                 <span class="trn">Main View</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="events.html">
+            <li class="nav-item active-menu-item">
+              <a class="nav-link" href="tours.html">
                 <i class="fa fa-street-view icon-navbar"></i>
                 <span class="trn">Tours</span>
               </a>
@@ -77,11 +82,11 @@
                 Reports
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="report.html">Reports</a>
+                <a class="dropdown-item" href="reports.html">Reports</a>
                 <a href="reportTour.html" class="dropdown-item">Daily Patrolling Results</a>
-                <a class="dropdown-item" href="violationMin.html">Violation Reports</a>
+                <a class="dropdown-item" href="violationReports.html">Violation Reports</a>
                 <a class="dropdown-item" href="security.html">Security</a>
-                <a class="dropdown-item" href="securityReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item" href="reportAttendance.html">Report Attendance</a>
+                <a class="dropdown-item" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item" href="reportAttendance.html">Report Attendance</a>
               </div>
             </li>
             <li class="nav-item dropdown">
@@ -95,7 +100,7 @@
                 <a class="dropdown-item" href="zone.html">Create Zone</a>
                 <a class="dropdown-item" href="route.html">Create Route</a>
                 <a class="dropdown-item" href="schedule.html">Create Schedule</a>
-                <a class="dropdown-item" href="incidentDetail.html">Define Incidents</a>
+                <a class="dropdown-item" href="defineIncident.html">Define Incidents</a>
                 <a class="dropdown-item" href="device.html">Define Devices</a>
               </div>
             </li>
@@ -112,95 +117,134 @@
   <div class="container-fluid">
 
     <div class="row my-3 row-custom">
-
-      <div class="col-lg-3 mb-4">
-          <!-- card filter start -->
-          <div class="card card filter">
-            <div class="card-header bg-main-color custom-card-header">
-              <h4>
-                <i class="fa fa-filter"></i> Filters
-              </h4>
-            </div>
-            <div class="card-body custom-card-body">
-              <div class="row mt-3">
-                <div class="col-12">
-                  <label for="">Guard</label><br>
-                  <select name="" class="form-control" id="jcomboboxGuardReport">
-                    <!-- guard name list -->
-                  </select>
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-12">
-                    <label for="">Date</label><br>
-                    <input type="text" readonly class="form-control datepicker" style="width: 100%" id="reportDatetime">
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-12">
-                  <button class="btn btn-custom bg-main-color pull-right" id="btnViewReport">View</button>
-                  <button class="btn btn-custom bg-main-color pull-right" id="btnExportReport2Excel">Export</button>
-                  <button class="btn btn-custom bg-main-color pull-right" id="btnChartReport">Chart</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- card filter end -->
-      </div>
-  
-      <div class="col-lg-9">
-        <!-- card Points start -->
-        <div class="card card-incident">
+      <!-- filter and incident card -->
+      <div class="col-12">
+        <!-- card filter start -->
+        <div class="card card filter">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-exclamation-triangle"></i> Reports
+              <i class="fa fa-filter"></i> Filters
             </h4>
           </div>
           <div class="card-body custom-card-body">
-            <div class="row my-3">
-              <div class="col-12">
-                <div class="text-center font-weight-bold green-text headerTblReport" style="font-size: 1.2em"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="">Guard Name</label>
+                    <select name="" id="selectGuardName" class="form-control selectGuardName">
+                      <!-- option content guard name -->
+                    </select>
+                </div>
+              <div class="col-md-4">
+                  <label for="">Route Name</label>
+                  <select name="" id="selectRouteName" class="form-control selectRouteName">
+                    <!-- option content guard name -->
+                  </select>
               </div>
+              <div class="col-md-4">
+                  <label for="">Device Name</label>
+                  <select name="" id="selectDeviceName" class="form-control selectDeviceName">
+                    <!-- option content guard name -->
+                  </select>
+              </div>
+          
             </div>
-            <div class="table-responsive">
-              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblReports">
-                <!-- Points content here -->
-              </table>
+            <div class="row">
+              <div class="col-md-4">
+                  <label for="">From</label>
+                  <br>
+                  <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="fromDateTime">
+              </div>
+              <div class="col-md-4">
+                  <label for="">To</label>
+                  <br>
+                  <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="toDateTime">
+              </div>
+              <div class="col-md-4">
+                <button class="btn btn-custom bg-main-color mt-4" id="btnShowEventHistoryDataByGuard">View By Guard</button>
+                <button class="btn btn-custom bg-main-color mt-4" id="btnShowEventHistoryDataByRoute">View By Route</button>
+                <button class="btn btn-custom bg-main-color mt-4" id="btnShowEventHistoryDataByDevice">View By Device</button>
+              </div>
             </div>
           </div>
         </div>
-        <!-- card Points end -->
+        <!-- card filter end -->
       </div>
 
-    </div>
 
-    <!-- Modal chart Report -->
+    </div>
     <div class="row">
       <div class="col-12">
-        <!-- Modal chart Report -->
-        <div class="modal fade" id="modalChartReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-custom" role="document">
+        <div class="card card-tour">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-exclamation-triangle"></i> Tour lists</h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="headerTblTours text-center font-weight-bold green-text" style="font-size: 1.2em"></div>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-sm-8">
+                <div id="pagingToursControl"></div>
+              </div>
+              <div class="col-sm-4">
+                <div id="totalTours">
+
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <!-- Large event history details modal-->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+          id="modalEventHistoryDetails">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="">Chart Report</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Details</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="text-center font-weight-bold green-text headerChartReport" style="font-size: 1.1em"></div>
-                  </div>
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped text-center custom-table" id="tblEventHistoryDetails">
+                    <!-- event history detail content -->
+                  </table>
                 </div>
-                <div class="row">
-                  <div class="col-lg-6" id="chartPatrollingPerformance">
-                    
-                  </div>
-                  <div class="col-lg-6" id="chartTimePerformance">
-                    
-                  </div>
-                </div>  
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" id="modalEventMap">
+          <div class="modal-dialog modal-dialog-custom">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Event Map</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
@@ -210,14 +254,14 @@
         </div>
       </div>
     </div>
-    
+
   </div>
-  
+
+  <!-- Google Map API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
+
   <!-- JQuery core -->
   <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
-
-  <!-- jQuery translate.js -->
-  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
 
   <!-- popper js core -->
   <script src="../MDB Free/js/popper.min.js"></script>
@@ -233,31 +277,28 @@
 
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-
-  <!-- leaflet js -->
-  <script src="../plugins/leaflet/js/leaflet.js"></script>
-
-  <!-- table2Excel plugins -->
-  <script src="../plugins/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel/dist/jquery.table2excel.min.js"></script>
-
-  <!-- sweetalert -->
+  
+  <!-- sweetalert js -->
   <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
 
-  <!-- chartJS -->
-  <script src="../plugins/chartJS/Chart.min.js"></script>
+  <!-- pagination js -->
+  <script src="../plugins/paginationJs/pagination.min.js"></script>
+
+  <!-- translate js plugins -->
+  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
+
+  <!-- translate language -->
+  <script src="../custom/js/translate.js"></script>
 
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
-  <!-- custom main.js -->
+  <!-- main js -->
   <script src="../custom/js/main.js"></script>
 
-  <!-- translate js -->
-  <script src="../custom/js/translate.js"></script>
+  <!-- custom incident js -->
+  <script src="../custom/js/events.js"></script>
 
-  <!-- report js -->
-  <script src="../custom/js/report.js"></script>
-  
 </body>
 
 </html>
