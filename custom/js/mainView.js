@@ -101,9 +101,9 @@ function renderGuardTable(data) {
       <th class="trn">
         <input type="checkbox" class="custom-checkbox checkbox-all-guards">
       </th>
-      <th class="trn">ID</th>
+      <th class="trn">No.</th>
       <th class="trn">Name</th>
-      <th class="trn">Last visted</th>
+      <th class="trn">Last visited</th>
       <th class="trn">Speed</th>
       <th class="trn">Status</th>
     </tr>
