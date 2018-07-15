@@ -278,7 +278,7 @@ async function updatePoint(){
       };
     } else{
       sentData = { 
-        bStatusIN: 3, 
+        bStatusIN: 2, 
         dGPSLatIN: lat, 
         dGPSLongIN: lng, 
         sQRCodeIN: 0,

@@ -12,24 +12,26 @@ function renderDeviceTable(devices){
   $thead.html(
     `
     <tr>
+      <th class="trn">ID No.</th>
       <th class="trn">Name</th>
-      <th class="trn">ID</th>
       <th class="trn">Serial</th>
       <th class="trn">Status</th>
       <th class="trn">Power</th>
+      <th class="trn">Datetime updated</th>
     </tr>
   `
   )
   if (devices) {
     devices.forEach(device => {
-      const { bStatus, dPower, iDeviceID, sDeviceName, sDeviceSerial } = device
+      const { bStatus, dPower, iDeviceID, sDeviceName, sDeviceSerial, dDateTimeUpdated } = device
       $tbody.append(`
         <tr>
-          <td>${sDeviceName}</td>
           <td>${iDeviceID}</td>
+          <td>${sDeviceName}</td>
           <td>${sDeviceSerial}</td>
           <td>${bStatus}</td>
           <td>${dPower}</td>
+          <td>${dDateTimeUpdated}</td>
           <td>
             <div class="btn-group">
               <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

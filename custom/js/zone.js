@@ -81,7 +81,7 @@ function renderZonesTable(data) {
   )
   if(data){
     data.forEach((zone, index) => {
-      const { iZoneID, sZoneName, sZoneLatLong, sZoneAddress } = zone;
+      const { iZoneID, sZoneName, sZoneAddress } = zone;
       //console.log(typeof sZoneLatLong);
       //console.log(typeof JSON.parse(sZoneLatLong));
       $tbody.append(`
