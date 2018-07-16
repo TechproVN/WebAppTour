@@ -64,9 +64,9 @@ function renderTourReportTable(data) {
   $thead.html(
     `
       <tr>
+      <th class="trn">Code</th>
         <th class="trn">Guard</th>
         <th class="trn">Zone</th>
-        <th class="trn">Code</th>
         <th class="trn">Date</th>
         <th class="trn">Started</th>
         <th class="trn">Finished</th>
@@ -82,9 +82,9 @@ function renderTourReportTable(data) {
       const { dDateTimeEnd, dDateTimeIntinial, dDateTimeStart, dPointChecked, dTimeSchedule, dTimeTour, iNoTour, sCheckingCode, sGuardName, sZoneName } = tour;
       $tbody.append(`
         <tr>
+          <td>${sCheckingCode}</td>
           <td>${sGuardName}</td>
           <td>${sZoneName}</td>
-          <td>${sCheckingCode}</td>
           <td>${dDateTimeIntinial}</td>
           <td>${dDateTimeStart}</td>
           <td>${dDateTimeEnd}</td>
