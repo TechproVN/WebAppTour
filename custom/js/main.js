@@ -8,9 +8,11 @@ $('.datetimepicker').datetimepicker({
   format: 'yyyy-mm-dd hh:ii'
 })
 
-$('.timepicker').timepicker({
-  
-})
+$('.datetimepicker-bootstrap4').datetimepicker({
+  // format: 'LT'
+   format: 'HH:mm'
+});
+
 
 $('.btnScrollTop').click(moveTop);
 
