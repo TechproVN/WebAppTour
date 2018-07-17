@@ -130,15 +130,7 @@
           <div class="card-body custom-card-body">
             <div class="row mt-3">
               <div class="col-12">
-                <label for="">Datetime</label>
-                <br>
-                <input type="text" readonly class="form-control datepicker" style="width: 100%" id="incidentDatetime">
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                  <button class="btn btn-custom bg-main-color pull-right" id="btnViewDeviceData">View</button>
-                  <button class="btn btn-custom bg-main-color pull-right" id="btnInsertDevice">Insert</button>
+                  <button class="btn btn-custom bg-main-color pull-right" id="btnShowInsertDeviceModal">Insert</button>
               </div>
             </div>
           </div>
@@ -171,8 +163,71 @@
         <!-- card incident end -->
       </div>
     </div>
-   
-    
+    <!-- Insert Device Modal -->
+    <div class="row">
+      <div class="col-12">
+        <div class="modal fade" id="modalInsertDeivce" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Insert Device</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="">Device Name</label>
+                  <input type="text" placeholder="Enter Name" id="txtInsertDeviceName" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="">Device Serial</label>
+                  <input type="text" placeholder="Enter Serial" id="txtInsertDeviceSerial" class="form-control">
+                </div>
+                <button class="btn btn-success btn-custom pull-right" id="btnInsertDevice">Insert</button>
+              </div>
+              
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Update Device Modal -->
+    <div class="row">
+      <div class="col-12">
+        <div class="modal fade" id="modalUpdateDevice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Update Device</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="">Device Name</label>
+                  <input type="text" placeholder="Enter Name" id="txtUpdateDeviceName" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="">Device Serial</label>
+                  <input type="text" placeholder="Enter Serial" id="txtUpdateDeviceSerial" class="form-control">
+                </div>
+                <button class="btn btn-success btn-custom pull-right" id="btnUpdateDevice">Save</button>
+              </div>
+              
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Google Map API -->
@@ -196,17 +251,17 @@
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
-  <!-- mapbox js CDN -->
-  <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
-
-  <!-- leaflet js -->
-  <script src="../plugins/leaflet/js/leaflet.js"></script>
-
   <!-- translate js plugins -->
   <script src="../plugins/translate.js-master/jquery.translate.js"></script>
 
   <!-- paginationJs -->
   <script src="../plugins/paginationJs/pagination.min.js"></script>
+
+  <!-- sweetalert js -->
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+
+  <!-- custom main.js -->
+  <script src="../custom/js/main.js"></script>
 
   <!-- translate language -->
   <script src="../custom/js/translate.js"></script>
@@ -214,8 +269,8 @@
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
-  <!-- custom main.js -->
-  <script src="../custom/js/main.js"></script>
+  <!-- validation js -->
+  <script src="../custom/js/validation.js"></script>
 
   <!-- custom incident js -->
   <script src="../custom/js/device.js"></script>

@@ -9,7 +9,7 @@ $(() => {
 
 var arrCurrentInsertedPointsZone = [];
 var mapInsertedZone = null;
-
+let currentPolygonZoneInsertMap = null;
 function clearCurrentInsertedZone(){
   arrCurrentInsertedPointsZone = [];
   buildInsertZoneMap(mapInsertedZone, arrCurrentInsertedPointsZone);
@@ -46,8 +46,9 @@ async function insertZone(){
     //console.log(response);
     showAlertSuccess("Inserted successfully!", "", 2000);
     arrCurrentInsertedPointsZone = [];
+    showZones();
   }else{
-    showAlertError("Invalid data", "Name must be filled and the number of selected points must over 2", 3000);
+    showAlertError("Invalid data", "Name must be filled, the number of selected points must over 2", 3000);
   }
 }
 
@@ -143,7 +144,7 @@ function resetTblZone(){
 }
 
 function buildInsertZoneMap(){
-  $mapArea = $('<div id="mapInsertZone" style="height: 350px"></div>');
+  $mapArea = $('<div id="mapInsertZone" style="height: 450px"></div>');
   $('#modalInsertZone').find('.modal-body .insertZoneMap').html($mapArea);
   let latCenter = CENTER_POS_MAP_VIEW[0];
   let lngCenter = CENTER_POS_MAP_VIEW[1];
@@ -180,6 +181,8 @@ function handleClickOnMapZone(event){
   arrCurrentInsertedPointsZone.push([lat, lng]);
   //console.log(arrCurrentInsertedPointsZone);
   if(mapInsertedZone){
+    if(currentPolygonZoneInsertMap)
+    currentPolygonZoneInsertMap.setMap(null);
     drawPolygon(mapInsertedZone, arrCurrentInsertedPointsZone);
   }
 }
@@ -188,8 +191,8 @@ function drawPolygon(map, latlngs){
   let path = latlngs.map(point => {
     return new google.maps.LatLng(point[0], point[1]);
   });
-  let polyline = createPolylineGoogleMap(path);
-  polyline.setMap(map);
+  currentPolygonZoneInsertMap = createPolygonGooglemap(path);
+  currentPolygonZoneInsertMap.setMap(map);
 }
 
 function showInsertZoneModal(){

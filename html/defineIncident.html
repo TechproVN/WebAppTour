@@ -127,6 +127,7 @@
             </div>
             <div class="row mt-3">
               <div class="col-12">
+                <button class="btn btn-custom bg-main-color pull-right" id="btnShowIncidentsInsertModal">Insert</button>
                 <button class="btn btn-custom bg-main-color pull-right" id="btnShowIncidentsType">View</button>
               </div>
             </div>
@@ -160,7 +161,61 @@
         <!-- card Points end -->
       </div>
     </div>
+    <!-- Insert Incident -->
+    <div class="row">
+      <div class="col-12">
+          <div class="modal fade" id="modalInsertDefineIncident" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" >Insert Incident</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="">Content</label>
+                      <input type="text" placeholder="Incident Content" class="form-control" id="txtInsertIncident">
+                    </div>
+                    <button class="btn btn-success btn-custom pull-right" id="btnInsertIncident">Insert</button>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-custom bg-main-color " data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
 
+    <!-- Update Incident  -->
+    <div class="row">
+        <div class="col-12">
+            <div class="modal fade" id="modalUpdateDefineIncident" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" >Update Incident</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label for="">Content</label>
+                        <input type="text" placeholder="Incident Content" class="form-control" id="txtUpdateIncidentContent">
+                      </div>
+                      <button class="btn btn-success btn-custom pull-right" id="btnUpdateIncident">Save</button>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-custom bg-main-color " data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
   </div>
 
   <!-- Google Map API -->

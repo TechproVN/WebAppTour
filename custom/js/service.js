@@ -428,4 +428,97 @@ class Service {
       return parsedData;
     return null;
   }
+
+  static async insertDevice(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateDevice.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async lockDevice(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateDevice.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async updateDevice(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateDevice.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+  
+  static async insertIncident(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateIncident.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async deleteIncident(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateIncident.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async updateIncident(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateIncident.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+  // GetSchedule
+  static async getSchedule(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetSchedule.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async updateSchedule(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateSchedule.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async insertSchedule(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateSchedule.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async inactiveSchedule(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateSchedule.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
 }

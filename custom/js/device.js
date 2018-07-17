@@ -1,8 +1,71 @@
 $(() => {
   $('#btnViewDeviceData').click();
-  $('#btnInsertDevice').click();
+  $('#btnShowInsertDeviceModal').click(showInsertDeviceModal);
+  $('#btnInsertDevice').click(insertDevice);
+  // $('#btnUpdateDevice').click(updateDevice);
   showDevices();
 })
+
+let currentDeviceUpdate = null;
+
+async function insertDevice(){
+  let name = $('#txtInsertDeviceName').val();
+  let serial = $('#txtInsertDeviceSerial').val();
+  if(!Validation.checkEmpty(name) || !Validation.checkEmpty(serial)){
+    showAlertError("Invalid data", "Both Name and Serial must be filled");
+  } else{
+    let sentData = { sDeviceNameIN: name, sDeviceSerialIN: serial, iDeviceIDIN: 0, bStatusIN: 1 };
+    console.log(JSON.stringify(sentData));
+    let response = await Service.insertDevice(sentData);
+    console.log(response);
+    showDevices();
+    showAlertSuccess("Insert Successfully", "", 3000);
+  }
+}
+
+function showInsertDeviceModal(){
+  $('#modalInsertDeivce').modal('show');
+  $('#txtInsertDeviceName').val('');
+  $('#txtInsertDeviceSerial').val('');
+}
+
+// function showUpdateDeviceModal(device){
+//   currentDeviceUpdate = Object.assign({}, device);
+//   const { sDeviceName, sDeviceSerial } = device;
+//   $('#modalUpdateDevice').modal('show');
+//   $('#txtUpdateDeviceName').val(sDeviceName);
+//   $('#txtUpdateDeviceSerial').val(sDeviceSerial);
+// }
+
+// async function updateDevice(){
+//   let name = $('#txtUpdateDeviceName').val();
+//   let serial = $('#txtUpdateDeviceSerial').val();
+//   if(!Validation.checkEmpty(name) || !Validation.checkEmpty(serial)){
+//     showAlertError("Invalid data", "Both Name and Serial must be filled");
+//   } else{
+//     const { iDeviceID } = currentDeviceUpdate;
+//     let sentData = { sDeviceNameIN: name, sDeviceSerialIN: serial, iDeviceIDIN: iDeviceID, bStatusIN: 2 };
+//     console.log(JSON.stringify(sentData));
+//     let response = await Service.updateDevice(sentData);
+//     console.log(response);
+//     showDevices();
+//     $('#modalUpdateDevice').modal('hide');
+//     showAlertSuccess("Insert Successfully", "", 3000);
+//   }
+// }
+
+async function lockDevice(device){
+  let sure = await showAlertWarning("Are you sure?", "");
+  if(sure){
+    const { iDeviceID } = device;
+    let sentData = { sDeviceNameIN: 0, sDeviceSerialIN: 0, iDeviceIDIN: iDeviceID, bStatusIN: 2 }
+    console.log(JSON.stringify(sentData));
+    let response = await Service.lockDevice(sentData);
+    console.log(response);
+    showDevices();
+    showAlertSuccess("Locked Successfully", "", 3000);
+  }
+}
 
 function renderDeviceTable(devices){
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table min-height-table" id="tblDevice"></table>`)
@@ -38,7 +101,8 @@ function renderDeviceTable(devices){
                 Action
               </button>
               <div class="dropdown-menu" >
-                <button class="btn btn-custom bg-danger btn-custom-small dropdown-item btnShowDetailDevice">Details</button>
+                <button class="btn btn-custom bg-info btn-custom-small dropdown-item btnShowDetailDevice">Details</button>
+                <button class="btn btn-custom bg-danger btn-custom-small dropdown-item btnLockDevice">Lock</button>
               </div>
             </div>
           </td>
@@ -46,6 +110,12 @@ function renderDeviceTable(devices){
       `)
       $tbody.find('.btnShowDetailDevice').last().click(() => {
         showDeviceDetail(device);
+      })
+      $tbody.find('.btnShowUpdateDeviceModal').last().click(() => {
+        showUpdateDeviceModal(device);
+      })
+      $tbody.find('.btnLockDevice').last().click(() => {
+        lockDevice(device);
       })
     })
   }

@@ -1,7 +1,12 @@
 $(() => {
   $('#btnShowIncidentsType').click(showIncidentsType);
+  $('#btnShowIncidentsInsertModal').click(showDefineIncidentInsertModal);
+  $('#btnInsertIncident').click(insertDefineIncident);
+  $('#btnUpdateIncident').click(updateIncident);
   showIncidentsType();
 })
+
+let currentUpdateIncident = null;
 
 async function showIncidentsType(){
   let data = await Service.getIncidentContent();
@@ -25,6 +30,17 @@ async function showIncidentsType(){
   }
 }
 
+async function insertDefineIncident(){
+  let content = $('#txtInsertIncident').val();
+  if(!Validation.checkEmpty(content)) return showAlertError("invalid data", "Content must be filled");
+  let sentData = { sAlertContent: content, iAlertContentID: 0, bStatusIN: 1 };
+  console.log(sentData);
+  let response = await Service.insertIncident(sentData);
+  console.log(response);
+  showIncidentsType();
+  showAlertSuccess("Insert Successfully", "", 3000);
+}
+
 function resetTblIncidentType(){
   $('#totalIncidentTypes').html('');
   $('#pagingIncidentTypesControl').html('');
@@ -40,6 +56,7 @@ function renderIncidentTypes(data) {
       <tr>
         <th class="trn">ID</th>
         <th class="trn">Content</th>
+        <th class="trn"></th>
       </tr>
     `
   )
@@ -50,11 +67,58 @@ function renderIncidentTypes(data) {
         <tr>
           <td>${iIncidentID}</td>
           <td>${sIncidentContent}</td>
+          <td>
+            <button class="btn btn-custom bg-main-color btnShowUpdateIncidentModal btn-custom-small">Update</button>
+            <button class="btn btn-custom bg-main-color btnDeleteIncident btn-custom-small">Delete</button>
+          </td>
         </tr>
       `)
+      $tbody.find('.btnShowUpdateIncidentModal').last().click(() => {
+        showUpdateIncidentModal(incident);
+      })
+      $tbody.find('.btnDeleteIncident').last().click(() => {
+        deleteIncident(incident);
+      })
     })
   }
 
   $table.append($thead).append($tbody);
   return $table;
+}
+
+function showUpdateIncidentModal(incident){
+  const { sIncidentContent } = incident;
+  currentUpdateIncident = Object.assign({}, incident);
+  $('#modalUpdateDefineIncident').modal('show');
+  $('#txtUpdateIncidentContent').val(sIncidentContent);
+}
+
+async function updateIncident(){
+  let content = $('#txtUpdateIncidentContent').val();
+  if(!Validation.checkEmpty(content)) return showAlertError("invalid data", "Content must be filled");
+  const { iIncidentID } = currentUpdateIncident;
+  let sentData = { sAlertContent: content, iAlertContentID: iIncidentID, bStatusIN: 2 };
+  console.log(sentData);
+  let response = await Service.updateIncident(sentData);
+  console.log(response);
+  showIncidentsType();
+  showAlertSuccess("Insert Successfully", "", 3000);
+}
+
+async function deleteIncident(incident){
+  let sure = await showAlertWarning("Are you sure?", "");
+  if(sure){
+    const { iIncidentID } = incident;
+    let sentData = { iAlertContentID: iIncidentID, sAlertContent: 0, bStatusIN: 3 };
+    console.log(JSON.stringify(sentData));
+    let response = await Service.deleteIncident(sentData);
+    console.log(response);
+    showIncidentsType();
+    showAlertSuccess("Delete Successfully", "", 3000);
+  }
+}
+
+function showDefineIncidentInsertModal(){
+  $('#modalInsertDefineIncident').modal('show');
+  $('txtInsertIncident').val('');
 }

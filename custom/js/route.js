@@ -252,20 +252,25 @@ async function saveRoute(){
   let Distance = Number(currentTotalDistance.toFixed(1));
   let TimeComplete = parseInt(currentTimeCompleted);
   let ZoneID = $('#selectRouteZone').val();
-  let sentData = {RouteID: 0, RouteName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete, Distance };
+  let sentData = { RouteID: 0, RouteName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete, Distance };
   console.log(JSON.stringify(sentData));
   let response = await Service.saveRoute(sentData);
   console.log(response);
   showAlertSuccess("Save successfully!", "", 2000);
 }
 
-async function deleteRoute(routeId){
-  let RouteName = $('#txtSaveRouteName').val();
-  if(RouteName == '' || RouteName.trim() == '') return showAlertError("Routename must be filled!", "", 3000);
-  let sentData = { RouteID: routeId, RouteName, bStatusIN: 2, Point: 0, ZoneID, TimeComplete, Distance };
-  let response = await Service.deleteRoute(sentData);
-  console.log(response);
-  showAlertSuccess("Deleted successfully!", "", 2000);
+async function deleteRoute(route){
+  let sure = await showAlertWarning("Are you sure", "");
+  console.log(route);
+  if(sure){
+    const { iRouteID } = route;
+    let sentData = { RouteID: iRouteID, bStatusIN: 2, RouteName: 0, Point: null, ZoneID: 0, TimeComplete: 0, Distance: 0 }
+    console.log(JSON.stringify(sentData));
+    let response = await Service.deleteRoute(sentData);
+    console.log(response);
+    showRoutesOnTable();
+    showAlertSuccess("Locked successfully!", "", 3000);
+  } 
 }
 
 async function showRoutesOnTable(){
@@ -349,7 +354,7 @@ function renderTableRoutes(routes){
         showRouteViewMapModal(route);
       })
       $tbody.find('.btn.btnInactiveRoute').last().click(function(){
-        showRouteViewMapModal(route);
+        deleteRoute(route);
       })
     })
   }

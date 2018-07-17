@@ -8,6 +8,10 @@ $('.datetimepicker').datetimepicker({
   format: 'yyyy-mm-dd hh:ii'
 })
 
+$('.timepicker').timepicker({
+  
+})
+
 $('.btnScrollTop').click(moveTop);
 
 function formatToday() {
@@ -169,6 +173,18 @@ function createPolylineGoogleMap(path){
     strokeWeight: 4
   });
   return polyline;
+}
+
+function createPolygonGooglemap(path, strokeColor = "green", strokeOpacity = 0.8, strokeWeight = 2, fillColor = "green", fillOpacity = 0.4){
+  let polygon = new google.maps.Polygon({
+    path: path,
+    strokeColor: strokeColor,
+    strokeOpacity: strokeOpacity,
+    strokeWeight: strokeWeight,
+    fillColor: fillColor,
+    fillOpacity: fillOpacity
+  });
+  return polygon;
 }
 
 function createMapPropGoogleMap(zoom, lat, lng){

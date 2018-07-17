@@ -256,11 +256,15 @@ function buildCurrentMapGuard(data){
         let icon = '../img/Guard.png';
         let marker = createMarkerGoogleMap(pos, icon);
         marker.setMap(mymap);
+        let infoWindow = createInfoWindowGoogleMap(mes);
+        infoWindow.open(mymap, marker);
       }
       if(bOnline.trim().toLowerCase() == 'sos'){
         let icon = '../img/alert.png';
         let marker = createMarkerGoogleMap(pos, icon);
         marker.setMap(mymap);
+        let infoWindow = createInfoWindowGoogleMap(mes);
+        infoWindow.open(mymap, marker);
       }
     })
   }
