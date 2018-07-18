@@ -18,10 +18,18 @@
   <!-- Google Map API -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
 
-  <!-- JQuery core -->
-  <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
-
   <script>
+
+    let URL_OBJECT, sCheckingCode, iGuardID;
+    const APP_DOMAIN = 'http://115.79.27.219/tracking/';
+
+    URL_OBJECT = getUrlVars();
+    if(URL_OBJECT){
+      sCheckingCode = URL_OBJECT['sCheckingCode'];
+      iGuardID = URL_OBJECT['iGuardID'];
+      buildMap(iGuardID, sCheckingCode);
+    }
+
     function createMarkerGoogleMap(pos, urlIcon){
       let icon = createIconGoogleMap(urlIcon);
       let marker = new google.maps.Marker({
@@ -80,62 +88,43 @@
     }
 
     function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-        vars[key] = value;
-    });
-    return vars;
-}
-  </script>
-
-  <script>
-    async function getGuardGPSCurrent(sentData) {
-      let data = await $.ajax({
-        url: `${APP_DOMAIN}api/GetGuardGPSCurrent.php`,
-        method: 'get',
-        data: sentData
+      var vars = {};
+      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+          vars[key] = value;
       });
-      let parsedData = JSON.parse(data)
-      if (Array.isArray(parsedData) && parsedData.length > 0)
-        return parsedData;
-      return null;
+      return vars;
+  }
+
+    async function getGuardGPSCurrent(sentData) {
+      let id = sentData.iGuardID;
+      let url = `${APP_DOMAIN}api/GetGuardGPSCurrent.php?iGuardID=${id}`;
+      let data = await fetch(url);
+      let jsonData = await data.json();
+      if(!Array.isArray(jsonData)) return null;
+      if(jsonData.length == 0) return null;
+      return jsonData;
     }
 
     async function getPointChecking(sentData) {
-      let data = await $.ajax({
-        url: `${APP_DOMAIN}api/GetPointChecking.php`,
-        method: 'get',
-        data: sentData
-      });
-      let parsedData = JSON.parse(data)
-      if (Array.isArray(parsedData) && parsedData.length > 0)
-        return parsedData;
-      return null;
+      let code = sentData.sCheckingCode;
+      let url = `${APP_DOMAIN}api/GetPointChecking.php?sCheckingCode=${code}`;
+      let data = await fetch(url);
+      let jsonData = await data.json();
+      if(!Array.isArray(jsonData)) return null;
+      if(jsonData.length == 0) return null;
+      return jsonData;
     }
-  </script>
-
-  <script>
-    
-    let URL_OBJECT, sCheckingCode, iGuardID;
-    const APP_DOMAIN = 'http://115.79.27.219/tracking/';
-    
-    $(() => {
-      URL_OBJECT = getUrlVars();
-      if(URL_OBJECT){
-        sCheckingCode = URL_OBJECT['sCheckingCode'];
-        iGuardID = URL_OBJECT['iGuardID'];
-        buildMap(iGuardID, sCheckingCode);
-      }
-    })
   
     async function buildMap(iGuardID, sCheckingCode){
       let sentGuardData = { iGuardID };
       let guardGPSCurrent = await getGuardGPSCurrent(sentGuardData);
+      console.log(guardGPSCurrent);
       const { dGuardLatCurrent, dGuardLongCurrent, sMessage, bOnline } = guardGPSCurrent[0];
       let latGuard = Number(dGuardLatCurrent);
       let lngGuard = Number(dGuardLongCurrent);
       let mapProp = createMapPropGoogleMap(18, latGuard, lngGuard)
-      let mymap = new google.maps.Map($('#mapid')[0], mapProp);
+      let mapArea = document.getElementById('mapid');
+      let mymap = new google.maps.Map(mapArea, mapProp);
       
       let urlGuard = '../img/Guard.png';
       let mainPos = new google.maps.LatLng(latGuard, lngGuard);
