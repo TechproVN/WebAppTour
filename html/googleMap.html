@@ -18,29 +18,170 @@
   <!-- Google Map API -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
 
-
-
   <!-- JQuery core -->
   <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
 
-  <!-- bootstrap datepicker js -->
-  <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datepicker.min.js"></script>
+  <script>
+    function createMarkerGoogleMap(pos, urlIcon){
+      let icon = createIconGoogleMap(urlIcon);
+      let marker = new google.maps.Marker({
+        position: pos,
+        // animation: google.maps.Animation.BOUNCE,
+        icon: icon
+      });
+      return marker;
+    }
 
-  <!-- datetimepicker js -->
-  <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    function createInfoWindowGoogleMap(content){
+      let infoWindow = new google.maps.InfoWindow({
+          content:content
+        });
+        return infoWindow
+    }
 
-  <!-- custom main.js -->
-  <script src="../custom/js/main.js"></script>
+    function createIconGoogleMap(url, scaledSize = 17){
+      let icon = {
+        url: url, // url
+        scaledSize: new google.maps.Size(scaledSize, scaledSize), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+      };
+      return icon;
+    }
 
-  <!-- service request -->
-  <script src="../custom/js/service.js"></script>
+    function createPolylineGoogleMap(path){
+      let polyline = new google.maps.Polyline({
+        path: path,
+        strokeColor: "red",
+        strokeOpacity: 0.8,
+        strokeWeight: 4
+      });
+      return polyline;
+    }
 
-  <!-- translate js -->
-  <script src="../custom/js/translate.js"></script>
+    function createPolygonGooglemap(path, strokeColor = "green", strokeOpacity = 0.8, strokeWeight = 2, fillColor = "green", fillOpacity = 0.4){
+      let polygon = new google.maps.Polygon({
+        path: path,
+        strokeColor: strokeColor,
+        strokeOpacity: strokeOpacity,
+        strokeWeight: strokeWeight,
+        fillColor: fillColor,
+        fillOpacity: fillOpacity
+      });
+      return polygon;
+    }
 
-  <!-- google map js -->
-  <script src="../custom/js/googleMap.js"></script>
- 
+    function createMapPropGoogleMap(zoom, lat, lng){
+      let mapProp = {
+        center: new google.maps.LatLng(lat, lng),
+        zoom: zoom,
+      };
+      return mapProp;
+    }
+
+    function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+  </script>
+
+  <script>
+    async function getGuardGPSCurrent(sentData) {
+      let data = await $.ajax({
+        url: `${APP_DOMAIN}api/GetGuardGPSCurrent.php`,
+        method: 'get',
+        data: sentData
+      });
+      let parsedData = JSON.parse(data)
+      if (Array.isArray(parsedData) && parsedData.length > 0)
+        return parsedData;
+      return null;
+    }
+
+    async function getPointChecking(sentData) {
+      let data = await $.ajax({
+        url: `${APP_DOMAIN}api/GetPointChecking.php`,
+        method: 'get',
+        data: sentData
+      });
+      let parsedData = JSON.parse(data)
+      if (Array.isArray(parsedData) && parsedData.length > 0)
+        return parsedData;
+      return null;
+    }
+  </script>
+
+  <script>
+    
+    let URL_OBJECT, sCheckingCode, iGuardID;
+    const APP_DOMAIN = 'http://115.79.27.219/tracking/';
+    
+    $(() => {
+      URL_OBJECT = getUrlVars();
+      if(URL_OBJECT){
+        sCheckingCode = URL_OBJECT['sCheckingCode'];
+        iGuardID = URL_OBJECT['iGuardID'];
+        buildMap(iGuardID, sCheckingCode);
+      }
+    })
+  
+    async function buildMap(iGuardID, sCheckingCode){
+      let sentGuardData = { iGuardID };
+      let guardGPSCurrent = await getGuardGPSCurrent(sentGuardData);
+      const { dGuardLatCurrent, dGuardLongCurrent, sMessage, bOnline } = guardGPSCurrent[0];
+      let latGuard = Number(dGuardLatCurrent);
+      let lngGuard = Number(dGuardLongCurrent);
+      let mapProp = createMapPropGoogleMap(18, latGuard, lngGuard)
+      let mymap = new google.maps.Map($('#mapid')[0], mapProp);
+      
+      let urlGuard = '../img/Guard.png';
+      let mainPos = new google.maps.LatLng(latGuard, lngGuard);
+      let guardMarker = createMarkerGoogleMap(mainPos, urlGuard);
+  
+      guardMarker.setMap(mymap);
+      let infoWindowGuard = createInfoWindowGoogleMap(sMessage);
+      infoWindowGuard.open(mymap, guardMarker);
+      const pointChekingSentData = { iGuardID, sCheckingCode };
+      let checkingPointData = await getPointChecking(pointChekingSentData);
+      if(checkingPointData){
+        checkingPointData.forEach(checkedPoint => {
+          let { Lat, Long, Status, Message, ImageUrl } = checkedPoint;
+          let url = '';
+          switch(Status){
+            case 1: 
+              url = '../img/Checked.png'; 
+              break;
+            case 2: 
+              url = '../img/None.png'; 
+              break;
+            case 3: 
+              url = '../img/Waiting.png'; 
+              break;
+            case 4: 
+              url = '../img/error.png'; 
+              break;
+          }
+          let pos = new google.maps.LatLng(Lat, Long);
+          let marker = createMarkerGoogleMap(pos, url);
+          marker.setMap(mymap);
+          let mes = Message;
+          if(Status == 4){
+            mes = `${Message}<br><img src="${APP_DOMAIN}${ImageUrl}" class="img-fluid">`
+            let infoWindow = createInfoWindowGoogleMap(mes);
+            google.maps.event.addListener(marker, 'click', function() {
+              infoWindow.open(mymap, marker);
+            });
+          }else{
+            let infoWindow = createInfoWindowGoogleMap(mes);
+            infoWindow.open(mymap, marker);
+          }
+        })
+      }
+    }
+  </script>
 </body>
 
 </html>
