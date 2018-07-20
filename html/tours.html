@@ -129,49 +129,52 @@
           <div class="card-body custom-card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <!-- <label for="">Guard Name</label>
-                    <select name="" id="selectGuardName" class="form-control form-control-sm selectGuardName"> -->
-                      <!-- option content guard name -->
-                    <!-- </select> -->
-
-                    <div class="input-group">
-                      <select name="" id="selectGuardName" class="form-control form-control-sm  selectGuardName">
+                  <label for="">Guard Name</label>
+                  <div class="input-group">
+                    <select name="" id="selectGuardName" class="form-control form-control-sm  selectGuardName">
                         <!-- option content guard name -->
-                      </select>
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Button</button>
-                      </div>
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color" id="btnShowEventHistoryDataByGuard" style="margin-top: 0px">View</button>
                     </div>
+                  </div>
                 </div>
               <div class="col-md-4">
-                  <label for="">Route Name</label>
+                <label for="">Route Name</label>
+                <div class="input-group">
                   <select name="" id="selectRouteName" class="form-control form-control-sm selectRouteName">
-                    <!-- option content guard name -->
+                        <!-- option content guard name -->
                   </select>
+                  <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color" id="btnShowEventHistoryDataByRoute" style="margin-top: 0">View</button>
+                  </div>
+                </div>
               </div>
               <div class="col-md-4">
                   <label for="">Device Name</label>
-                  <select name="" id="selectDeviceName" class="form-control form-control-sm selectDeviceName">
-                    <!-- option content guard name -->
-                  </select>
+                  <div class="input-group">
+                    <select name="" id="selectDeviceName" class="form-control form-control-sm selectDeviceName">
+                        <!-- option content guard name -->
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color" id="btnShowEventHistoryDataByDevice" style="margin-top: 0">View</button>
+                    </div>
+                  </div>
               </div>
-          
             </div>
             <div class="row">
               <div class="col-md-4">
-                  <label for="">From</label>
+                  <label for="">Start Time</label>
                   <br>
                   <input type="text" readonly class="form-control form-control-sm datetimepicker" style="width: 100%" id="fromDateTime">
               </div>
               <div class="col-md-4">
-                  <label for="">To</label>
+                  <label for="">End Time</label>
                   <br>
                   <input type="text" readonly class="form-control form-control-sm datetimepicker" style="width: 100%" id="toDateTime">
               </div>
               <div class="col-md-4">
-                <button class="btn btn-custom bg-main-color mt-4" id="btnShowEventHistoryDataByGuard">View By Guard</button>
-                <button class="btn btn-custom bg-main-color mt-4" id="btnShowEventHistoryDataByRoute">View By Route</button>
-                <button class="btn btn-custom bg-main-color mt-4" id="btnShowEventHistoryDataByDevice">View By Device</button>
+               
               </div>
             </div>
           </div>

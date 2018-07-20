@@ -36,7 +36,6 @@ $(() => {
 
 var arrSelectedPointsOnRoute = [];
 var arrPointsOnZone = [];
-var currentUpdatedRoute = null;
 var currentTotalDistance = 0;
 var currentTimeCompleted = 0;
 var currentUpdateRoute = null;
@@ -223,8 +222,8 @@ function showDistanceAndTimeOfRoute(){
 }
 
 function renderListOfSelectedPoints(selectedPoints){
+  $('#selectedPointsOnRoute').html('');
   if(selectedPoints){
-    $('#selectedPointsOnRoute').html('');
     selectedPoints.forEach(point => {
       const { iPointID, dPointLat, dPointLong, iQRCode, iRFID } = point;
       let type = 'GPS';
@@ -260,11 +259,21 @@ async function saveRoute(){
   let response = await Service.saveRoute(sentData);
   console.log(response);
   showAlertSuccess("Save successfully!", "", 2000);
+  resetAfterSavingRoute();
+}
+
+function resetAfterSavingRoute(){
+  $('#txtSaveRouteName').val('');
+  arrSelectedPointsOnRoute.length = 0;
+  renderListOfSelectedPoints(null);
+  $('.sumOfDistance').text('');
+  $('.timeCompleted').text('');
+  buildRouteMap(null);
+  showPointsOnZone();
 }
 
 async function deleteRoute(route){
   let sure = await showAlertWarning("Are you sure", "");
-  console.log(route);
   if(sure){
     const { iRouteID } = route;
     let sentData = { RouteID: iRouteID, bStatusIN: 2, RouteName: 0, Point: null, ZoneID: 0, TimeComplete: 0, Distance: 0 }
@@ -324,7 +333,6 @@ function renderTableRoutes(routes){
     `
   )
   if (routes) {
-    console.log(routes);
     routes.forEach(route => {
       const { sDeviceName, dDateTimeUpdate, dDistance, iSpeed, iTimeComplete, sRouteName, sZoneName } = route;
       $tbody.append(`
@@ -385,12 +393,10 @@ function showUpdateRouteGuardModal(route){
   $('#selectUpdateRouteDevice').val(iDeviceID);
   $('#modalUpdateRouteGuard').modal('show');
 }
-// {"iDeivceIDIN":"2","iRouteIDIN":74,"iSpeedIN":24,"iCompletionTimeIN":50}
 
 async function showGuardIdOnCombobox(){
   let guards = await Service.getPersonalGuardsInfo();
   $('.selectGuards').html('');
-  console.log(guards)
   guards.forEach(guard => {
     const { iGuardID, sGuardName } = guard;
     $('.selectGuards').append(`<option value="${iGuardID}">${sGuardName}</option>`)
@@ -412,7 +418,6 @@ async function updateRoute(){
 
 function calDistanceOfRoute(points){
   let sumOfDistance = 0;
-  console.log(points);
   points.forEach((point, index) => {
     if(index != points.length - 1){
       const { dPointLat, dPointLong } = point;
@@ -435,7 +440,6 @@ function calDistanceOfRoute(points){
       sumOfDistance += d;
     }
   })
-  console.log(sumOfDistance);
   return sumOfDistance;
 }
 
