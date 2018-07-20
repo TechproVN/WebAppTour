@@ -1,5 +1,6 @@
 $(() => {
   // enable alert 
+
   $('.alert').alert();
   $( ".sortable" ).sortable({
     update: function(event, ui){
@@ -23,7 +24,8 @@ $(() => {
   }) 
   $('#btnSaveSelectedPoints').click(saveRoute);
   $('#selectZonesFilter').change(showRoutesOnTable);
-  $('#modalUpdateRouteGuard').find('.btn.btnSaveRouteUpdateGuard').click(updateGuardRoute);
+  $('#modalUpdateRouteGuard').find('.btn.btnSaveRouteUpdateGuard').click(updateRoute);
+  showSelectDevices();
   showRouteMap();
   showAllZones();
   showPointsOnZone();
@@ -37,6 +39,7 @@ var arrPointsOnZone = [];
 var currentUpdatedRoute = null;
 var currentTotalDistance = 0;
 var currentTimeCompleted = 0;
+var currentUpdateRoute = null;
 // routeMap
 function buildRouteMap(data){
   let $mapArea = $(`<div id="routeMap" class="map"></div>`);
@@ -311,28 +314,28 @@ function renderTableRoutes(routes){
       <tr>
         <th class="trn">Zone</th>
         <th class="trn">Route</th>
-        <th class="trn">Guard</th>
+        <th class="trn">Device</th>
         <th class="trn">Completion time</th>
+        <th class="trn">Speed</th>
         <th class="trn">Distance</th>
         <th class="trn">Datetime updated</th>
-        <th class="trn">Lock</th>
         <th class="trn"></th>
       </tr>
     `
   )
   if (routes) {
+    console.log(routes);
     routes.forEach(route => {
-      const { bActive, dDateTimeUpdate, dDistance, iGuardID, iRouteID, iTimeComplete, iZoneID, sRouteName, sZoneName, sGuardName
-      } = route;
+      const { sDeviceName, dDateTimeUpdate, dDistance, iSpeed, iTimeComplete, sRouteName, sZoneName } = route;
       $tbody.append(`
         <tr>
           <td>${sZoneName}</td>
           <td>${sRouteName}</td>
-          <td>${sGuardName}</td>
+          <td>${sDeviceName}</td>
           <td>${iTimeComplete}</td>
+          <td>${iSpeed}</td>
           <td>${dDistance}</td>
           <td>${dDateTimeUpdate}</td>
-          <td>${bActive}</td>
           <td>
             <div class="btn-group">
               <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -340,7 +343,7 @@ function renderTableRoutes(routes){
               </button>
               <div class="dropdown-menu" >
                 <button class="btn btn-custom btn-success btnRouteViewMap btn-custom-small dropdown-item">Map</button>
-                <button class="btn btn-custom btn-info btnRouteUpdateGuard btn-custom-small dropdown-item">Update guard</button>
+                <button class="btn btn-custom btn-info btnRouteUpdateGuard btn-custom-small dropdown-item">Update Route</button>
                 <button class="btn btn-custom btn-warning btnInactiveRoute btn-custom-small dropdown-item">Lock</button>
               </div>
             </div>
@@ -373,12 +376,16 @@ async function showRouteViewMapModal(route){
 }
 
 function showUpdateRouteGuardModal(route){
-  const { iGuardID, iRouteID, iZoneID, sRouteName } = route;
-  currentUpdatedRoute = route;
-  $('#modalUpdateRouteGuard').find('.listUpdatedRoute').text(`${sRouteName} - ${iRouteID} on zone ${iZoneID}`);
-  $('#modalUpdateRouteGuard').find('.currentGuard').text(`Current guard id: ${iGuardID}`);
+  currentUpdateRoute = Object.assign({}, route);
+  const { bActive, dDateTimeUpdate, dDistance, iGuardID, iRouteID, iTimeComplete, iZoneID, sRouteName, sZoneName, sGuardName, iSpeed, iDeviceID
+  } = route;
+  $('#routeUpdateInfo').text(`${sRouteName} on zone ${sZoneName}`)
+  $('#txtUpdateSpeed').val(iSpeed);
+  $('#txtUpdateCompletionTime').val(iTimeComplete);
+  $('#selectUpdateRouteDevice').val(iDeviceID);
   $('#modalUpdateRouteGuard').modal('show');
 }
+// {"iDeivceIDIN":"2","iRouteIDIN":74,"iSpeedIN":24,"iCompletionTimeIN":50}
 
 async function showGuardIdOnCombobox(){
   let guards = await Service.getPersonalGuardsInfo();
@@ -390,14 +397,17 @@ async function showGuardIdOnCombobox(){
   })
 }
 
-async function updateGuardRoute(){
-  let guardId = $('#modalUpdateRouteGuard').find('.selectGuards').val();
-  let sentData = { iGuardIDIN: guardId, iRouteIDIN: currentUpdatedRoute.iRouteID };
+async function updateRoute(){
+  const { iRouteID } = currentUpdateRoute;
+  let iDeivceIDIN = $('#selectUpdateRouteDevice').val(); 
+  let iCompletionTimeIN = $('#txtUpdateCompletionTime').val();
+  let iSpeedIN = $('#txtUpdateSpeed').val();
+  let sentData = { iDeivceIDIN, iRouteIDIN: iRouteID, iSpeedIN, iCompletionTimeIN };
   console.log(JSON.stringify(sentData));
-  let response = await Service.updateRouteGuard(sentData);
+  let response = await Service.updateRouteDetail(sentData);
   showRoutesOnTable();
   console.log(response);
-  showAlertSuccess("Updated successfully!", "", 2000);
+  showAlertSuccess("Updated successfully!", "", 3000);
 }
 
 function calDistanceOfRoute(points){

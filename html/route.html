@@ -252,18 +252,19 @@
                   </button>
                 </div>
                 <div class="modal-body">  
-                  <ul class="list-group">
-                    <li class="list-group-item listUpdatedRoute"></li>
-                    <li class="list-group-item currentGuard"></li>
-                    <li class="list-group-item ">
-                      <div class="form-group">
-                        <label for="">Select Guard</label>
-                        <select  id="" class="form-control selectGuards">
-                          
-                        </select>
-                      </div>
-                    </li>
-                  </ul>
+                    <div class="text-center font-weight-bold green-text" style="font-size: 1.1em" id="routeUpdateInfo"></div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold">Speed</label>
+                    <input type="text" placeholder="Speed" id="txtUpdateSpeed" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold">Completion Time</label>
+                    <input type="text" placeholder="Completion Time" id="txtUpdateCompletionTime" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold">Device</label>
+                    <select id="selectUpdateRouteDevice" class="selectDevice form-control"></select>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>

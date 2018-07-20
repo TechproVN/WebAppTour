@@ -71,6 +71,16 @@ function moveTop(){
   $('html, body').animate({'scrollTop': 0}, 300);
 }
 
+async function showSelectDevices(){
+  let devices = await Service.getDevicelist();
+  let select = $('.selectDevice');
+  select.html('');
+  devices.forEach(device => {
+    const { sDeviceName, iDeviceID } = device;
+    select.append(`<option value="${iDeviceID}">${sDeviceName}</option>`);
+  })
+}
+
 function showGuardsOnCombobox(guards){
   $('.guardsCombobox').html('');
   if(guards){

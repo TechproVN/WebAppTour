@@ -116,7 +116,7 @@ function renderGuardTable(guards){
                 <button class="btn btn-custom btn-info btn-custom-small dropdown-item btnShowUpdateGuardModal">Update</button>
                 <button class="btn btn-custom btn-warning btn-custom-small dropdown-item btnShowModalResetPassword">Reset Password</button>
                 <button class="btn btn-custom btn-primary btn-custom-small dropdown-item btnShowModalSendMessage">Send Message</button>
-                <button class="btn btn-custom btn-primary btn-custom-small dropdown-item btnShowMapGuardCurrentPos">View map</button>
+                <button class="btn btn-custom btn-success btn-custom-small dropdown-item btnShowMapGuardCurrentPos">View map</button>
               </div>
             </div>
           </td>

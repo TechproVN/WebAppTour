@@ -205,6 +205,20 @@ class Service {
     return data;
   }
 
+  static async updateRouteDetail(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateRouteDetail.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    })
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  // http://115.79.27.219/tracking/api/UpdateRouteDetail.php
+
   static async getRouteDetailsData(sentData) {
     let data = await $.ajax({
       url: `${APP_DOMAIN}api/GetRouteDetailData.php`,

@@ -129,20 +129,29 @@
           <div class="card-body custom-card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <label for="">Guard Name</label>
-                    <select name="" id="selectGuardName" class="form-control selectGuardName">
+                    <!-- <label for="">Guard Name</label>
+                    <select name="" id="selectGuardName" class="form-control form-control-sm selectGuardName"> -->
                       <!-- option content guard name -->
-                    </select>
+                    <!-- </select> -->
+
+                    <div class="input-group">
+                      <select name="" id="selectGuardName" class="form-control form-control-sm  selectGuardName">
+                        <!-- option content guard name -->
+                      </select>
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Button</button>
+                      </div>
+                    </div>
                 </div>
               <div class="col-md-4">
                   <label for="">Route Name</label>
-                  <select name="" id="selectRouteName" class="form-control selectRouteName">
+                  <select name="" id="selectRouteName" class="form-control form-control-sm selectRouteName">
                     <!-- option content guard name -->
                   </select>
               </div>
               <div class="col-md-4">
                   <label for="">Device Name</label>
-                  <select name="" id="selectDeviceName" class="form-control selectDeviceName">
+                  <select name="" id="selectDeviceName" class="form-control form-control-sm selectDeviceName">
                     <!-- option content guard name -->
                   </select>
               </div>
@@ -152,12 +161,12 @@
               <div class="col-md-4">
                   <label for="">From</label>
                   <br>
-                  <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="fromDateTime">
+                  <input type="text" readonly class="form-control form-control-sm datetimepicker" style="width: 100%" id="fromDateTime">
               </div>
               <div class="col-md-4">
                   <label for="">To</label>
                   <br>
-                  <input type="text" readonly class="form-control datetimepicker" style="width: 100%" id="toDateTime">
+                  <input type="text" readonly class="form-control form-control-sm datetimepicker" style="width: 100%" id="toDateTime">
               </div>
               <div class="col-md-4">
                 <button class="btn btn-custom bg-main-color mt-4" id="btnShowEventHistoryDataByGuard">View By Guard</button>
