@@ -117,7 +117,6 @@ function renderGuardTable(data) {
       <th class="trn">Name</th>
       <th class="trn">Last visited</th>
       <th class="trn">Speed</th>
-      <th class="trn"></th>
     </tr>
   `
   )
@@ -126,21 +125,25 @@ function renderGuardTable(data) {
     data.forEach(guard => {
       const { iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline } = guard
       let icon = '';
-      if(bOnline == 'SOS') icon = '<i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: red"></i>';
-      if(bOnline == 'Online') icon = '<i class="fa fa-circle" aria-hidden="true" style="color: green"></i>';
+      let className = '';
+      if(bOnline == 'SOS') {
+        icon = '<i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: red"></i>';
+        className = 'red-text';
+      }
+      if(bOnline == 'Online') {
+        icon = '<i class="fa fa-circle" aria-hidden="true" style="color: green"></i>';
+        className = 'green-text';
+      }
 
       $tbody.append(`
-        <tr>
+        <tr class="${className}">
           <td class="trn">
             <input type="checkbox" class="checkbox-guard-sendSMS" data-idguard = "${iGuardId}">
           </td>
           <td>${iGuardId}</td>
-          <td>${sGuardName}</td>
+          <td>${icon} ${sGuardName}</td>
           <td>${dLastUpdateTime}</td>
           <td>${dSpeedCurrent}</td>
-          <td>
-            ${icon}
-          </td>
         </tr>
       `)
       // ${bOnline}
