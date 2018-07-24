@@ -4,8 +4,9 @@ $(() => {
   $('#btnSendSMSGuards').click(sendSMSGuards);
   $('#btnShowModalSendSMSGuards').click(showModalSendSMSGuards)
   $('#btnAttendance').click(makeAttendance);
+  $('#txtSearchGuardName').keyup(filterGuardByName)
   showGuardInfo();
-  showEventsInfo();
+  // showEventsInfo();
   showCurrentMapGuard();
   
 })
@@ -14,6 +15,17 @@ const audioSOS = new Audio('../custom/audio/alert.wav');
 
 let arrCurrentGuardsSentSMS = [];
 let arrCurrentGuards = [];
+
+function filterGuardByName(e){
+  let { value } = e.target;
+  value = removeUnicode(value);
+  if(!Validation.checkEmpty(value)) return renderGuardTable(arrCurrentGuards);
+  let filter = arrCurrentGuards.filter(g => {
+    let name = removeUnicode(g.sGuardName).toLowerCase();
+    return name.indexOf(value.toLowerCase()) > -1
+  });
+  renderGuardTable(filter);
+}
 
 async function makeAttendance(){
   if(arrCurrentGuardsSentSMS.length == 0)
@@ -99,7 +111,7 @@ function renderGuardTable(data) {
     `
     <tr>
       <th class="trn">
-        <input type="checkbox" class="checkbox-custom checkbox-all-guards">
+        <input type="checkbox" class="checkbox-all-guards">
       </th>
       <th class="trn">No.</th>
       <th class="trn">Name</th>
@@ -113,21 +125,25 @@ function renderGuardTable(data) {
   if (data) {
     data.forEach(guard => {
       const { iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline } = guard
-      let className = '';
-      if(bOnline == 'SOS') className = 'red-text';
-      if(bOnline == 'Online') className = 'green-text';
+      let icon = '';
+      if(bOnline == 'SOS') icon = '<i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: red"></i>';
+      if(bOnline == 'Online') icon = '<i class="fa fa-circle" aria-hidden="true" style="color: green"></i>';
+
       $tbody.append(`
         <tr>
           <td class="trn">
-            <input type="checkbox" class="checkbox-custom checkbox-guard-sendSMS" data-idguard = "${iGuardId}">
+            <input type="checkbox" class="checkbox-guard-sendSMS" data-idguard = "${iGuardId}">
           </td>
           <td>${iGuardId}</td>
           <td>${sGuardName}</td>
           <td>${dLastUpdateTime}</td>
           <td>${dSpeedCurrent}</td>
-          <td class="${className}">${bOnline}</td>
+          <td>
+            ${icon}
+          </td>
         </tr>
       `)
+      // ${bOnline}
       let $ele = $tbody.find('.checkbox-guard-sendSMS').last()
       $ele.change((e) => {
         let { checked } = e.target;
@@ -184,64 +200,17 @@ function checkAllGuards(e){
   }
 }
 
-function renderEventsTable(data) {
-  let $table = $('#tblEvents')
-  $table.html('');
-  let $thead = $('<thead></thead>');
-  let $tbody = $('<tbody></tbody>');
-
-  $thead.html(
-    `
-    <tr>
-      <th class="trn">Code</th>
-      <th class="trn">Zone</th>
-      <th class="trn">Name</th>
-      <th class="trn">Date</th>
-      <th class="trn">Started</th>
-      <th class="trn">Finished</th>
-      <th class="trn">Completion time</th>
-      <th class="trn">Current</th>
-      <th class="trn">Distance</th>
-    </tr>
-  `
-  )
-  if (data) {
-    data.forEach(event => {
-      $tbody.append(`
-        <tr>
-          <td>${event.sCheckingCode}</td>
-          <td>${event.sZoneName}</td>
-          <td>${event.sGuardName}</td>
-          <td>${event.dDateTimeIntinial}</td>
-          <td>${event.dDateTimeStart}</td>
-          <td>${event.dDateTimeEnd}</td>
-          <td>${event.iTimeComplete}</td>
-          <td>${event.iTimeCurrent}</td>
-          <td>${event.dDistance}</td>
-        </tr>
-      `)
-    })
-  }
-
-  $table.append($thead).append($tbody);
-}
-
-async function showEventsInfo() {
-  let data = await Service.getEventsData();
-  if (data) renderEventsTable(data);
-}
-
 async function showCurrentMapGuard(){
   let data = await Service.getGuardsData();
   if(data) buildCurrentMapGuard(data);
 }
 
 function buildCurrentMapGuard(data){
-  $mapArea = $('<div class="map" id="mapid" style="height: 350px"></div>');
+  $mapArea = $('<div class="map guard-map" id="mapid" style="height: 350px"></div>');
   $('.card-map-guard').find('.card-body').html($mapArea);
   let mapProp = {
     center: new google.maps.LatLng(20.81715284, 106.77411238),
-    zoom: 14,
+    zoom: 15,
   };
   let mymap = new google.maps.Map($('#mapid')[0], mapProp);
   if(data){
@@ -269,6 +238,8 @@ function buildCurrentMapGuard(data){
     })
   }
 }
+
+
 
 
 

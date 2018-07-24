@@ -113,17 +113,20 @@ function buildPointsMap(points, id){
     points.forEach(point => {
       const { iPointID, dPointLat, dPointLong, iQRCode, iRFID } = point;
       let type = checkPointType(iQRCode, iRFID);
-      let mes = `ID: ${iPointID} - ${type}`;
+      let mes = `<div style="font-size: 0.9em">ID: ${iPointID} - ${type}</div>`;
       let lat = Number(dPointLat);
       let lng = Number(dPointLong)
       let pos = new google.maps.LatLng(lat, lng);
       let marker = createMarkerGoogleMap(pos, icon);
       marker.setMap(mymap);
       let infoWindow = createInfoWindowGoogleMap(mes);
-      infoWindow.open(mymap, marker);
+      marker.addListener('mouseover', function() {
+        infoWindow.open(mymap, marker);
+      });
     })
   }
 }
+
 
 function checkPointType(QRCode, RFID){
   if(QRCode != '') return 'QRCode';
@@ -216,7 +219,6 @@ function showUpdatePointModal(point){
     pointCode = sPointCode
     currentUpdatedPoint.GPS = false;
   }
-  console.log(sPointCode);
   $('#txtUpdatepointCode').val(pointCode);
   $('#txtUpdatePointNote').val(sPointNote);
   $('#txtUpdatePointName').val(sPointName);

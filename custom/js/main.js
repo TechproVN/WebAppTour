@@ -160,11 +160,13 @@ function createMarkerGoogleMap(pos, urlIcon){
   return marker;
 }
 
-function createInfoWindowGoogleMap(content){
+function createInfoWindowGoogleMap(content, maxWidth = 300, maxHeight = 300){
   let infoWindow = new google.maps.InfoWindow({
-      content:content
-    });
-    return infoWindow
+    content:content,
+    maxWidth: maxWidth,
+    maxHeight: maxHeight
+  });
+  return infoWindow
 }
 
 function createIconGoogleMap(url, scaledSize = 17){
@@ -221,4 +223,8 @@ function getPageSize(l){
   if(l < 300) return 30;
   if(l < 400) return 40;
   else return 50;
+}
+
+function removeUnicode(str){
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 }
