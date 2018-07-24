@@ -117,7 +117,7 @@ function renderGuardTable(data) {
       <th class="trn">Name</th>
       <th class="trn">Last visited</th>
       <th class="trn">Speed</th>
-      <th class="trn">Status</th>
+      <th class="trn"></th>
     </tr>
   `
   )
