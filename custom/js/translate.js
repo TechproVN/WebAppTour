@@ -211,6 +211,34 @@ const dictionary = {
   "Device name":{
     vn:"Tổng số chuyến đi tuần"
   },
+  "Image":{
+    vn:"Hình ảnh"
+  },
+  "Description":{
+    vn:"Mô tả"
+  },
+  "Total incidents":{
+    vn:"Tổng số sự cố"
+  },
+  "Asset Map":{
+    vn:"Bản dồ tài sản"
+  },
+  "Code":{
+    vn:"Max code"
+  },
+  "Asset Map":{
+    vn:"Bản dồ tài sản"
+  },
+  "AssetName":{
+    vn:"Teen tài sản"
+  },
+  "Last Property History":{
+    vn:"Lịch sử tài sản cuối"
+  },
+  "Long Property History":{
+    vn:"Lịch sử tài sản dài hạn"
+  },
+  
   
 }
 

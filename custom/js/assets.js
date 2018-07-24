@@ -19,7 +19,7 @@ function renderAssetsTable(data) {
         <th class="trn">Code</th>
         <th class="trn">AssetName</th>
         <th class="trn">Zone</th>
-        <th class="trn">Guard name</th>
+        <th class="trn">Guard Name</th>
         <th class="trn">Last Property History</th>
         <th class="trn">Long Property History</th>
         <th class="trn">Datetime</th>
@@ -40,7 +40,7 @@ function renderAssetsTable(data) {
           <td>${dLongPropertyHistory}</td>
           <td>${dDateTime}</td>
           <td>
-            <button class="btn btn-custom btn-custom-small bg-main-color btnShowMapAsset">Map</button>
+            <button class="btn btn-custom btn-custom-small bg-main-color btnShowMapAsset trn">Map</button>
           </td>
         </tr>
       `)
@@ -77,6 +77,7 @@ async function showAssetsData() {
     resetTblAsset();
     showAlertError("No data available", "", 3000);
   }
+  setDefaultLang();
 }
 
 function resetTblAsset(){
@@ -131,7 +132,7 @@ function showAssetMap(asset){
   $('#modalAssetMap').modal('show');
   setTimeout(() => {
     buildAssetsMap(asset);
-  }, 500);
+  }, 0);
 }
 
 function buildAssetsMapAll(assets){

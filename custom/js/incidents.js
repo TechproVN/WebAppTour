@@ -18,7 +18,7 @@ async function showIncidentsData() {
   let data = await Service.getIncidentsData(sentData);
   arrIncidents.length = 0;
   if(data) {
-    $('#totalIncidents').html(`<strong>Total incidents:</strong> ${data.length}`);
+    $('#totalIncidents').html(`<strong class="trn">Total incidents</strong>: ${data.length}`);
     $('#pagingIncidentsControl').pagination({
       dataSource: data,
       pageSize: 10,
@@ -35,6 +35,7 @@ async function showIncidentsData() {
     rssetTblIncidents();
     showAlertError("No data available", "", 3000);
   }
+  setDefaultLang();
 }
 
 function rssetTblIncidents(){
@@ -81,7 +82,7 @@ function renderIncidentsTable(data) {
           </td>
           <td>${sAlertDescription}</td>
           <td>
-            <button class="btn btn-custom bg-main-color btnShowIncidentMap btn-custom-small"> Map</button>
+            <button class="btn btn-custom bg-main-color btnShowIncidentMap btn-custom-small">Map</button>
           </td>
         </tr>
       `) 
