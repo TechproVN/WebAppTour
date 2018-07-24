@@ -5,6 +5,7 @@
   --bg-main-color: #002080;
   --bg-main-color: #00134d;
   --bg-main-color: #000d33;
+  --bg-main-color: #20232A;
   /* --bg-main-color: #1e9099; */
   /* --bg-main-color: #4eb256; */
   /* /* --bg-main-color: #635808; */
@@ -57,7 +58,7 @@ nav.navbar{
   margin: 0 !important;
 }
 .navbar .dropdown-menu .dropdown-item:hover{
-  background-color: skyblue;
+  background-color: #61DAFB;
 }
 
 .btn-custom {
