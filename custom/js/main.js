@@ -2,6 +2,15 @@ const APP_DOMAIN = 'http://115.79.27.219/tracking/';
 const CENTER_POS_MAP_VIEW = [20.81715284, 106.77411238];
 const TIME_OUT_SHOW_MAP_ON_MODAL = 0;
 
+$(() => {
+  setDefaultLang();
+})
+
+function setDefaultLang(){
+  if(appCurrentLang == "vn") return changeLangIntoVietnamese();
+  changeLangIntoVietnamese()
+}
+
 $('.datepicker').datepicker();
 
 $('.datetimepicker').datetimepicker({

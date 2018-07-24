@@ -9,7 +9,7 @@
 
 .green-text{
   color: green;
-  font-weight: bold;
+  font-weight: bold !important;
 }
 .red-text{
   color: red;

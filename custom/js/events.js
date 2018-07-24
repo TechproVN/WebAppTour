@@ -58,9 +58,9 @@ async function showEventHistoryData(type) {
       data = await Service.getEventHistoryDevice(sentData);
     }
     if(data){
-      headerTblTours = `${type} Name: ${name} - ${fromDate} -> ${toDate}`;
-      $('.headerTblTours').text(headerTblTours)
-      $('#totalTours').html(`<strong>Total tours:</strong> ${data.length}`)
+      headerTblTours = `<span class="trn">${type} Name</span>: ${name} - ${fromDate} -> ${toDate}`;
+      $('.headerTblTours').html(headerTblTours)
+      $('#totalTours').html(`<strong class="trn">Total tours</strong>: ${data.length}`)
       $('#pagingToursControl').pagination({
         dataSource: data,
         pageSize: 10,
@@ -77,6 +77,8 @@ async function showEventHistoryData(type) {
       showAlertError("No data available", "", 3000);
     }
   }
+  if(appCurrentLang == 'vn') changeLangIntoVietnamese();
+  else if(appCurrentLang == 'en') changeLangIntoEnglish();
 }
 
 function resetTblEventHistory(){
@@ -132,11 +134,11 @@ function renderEventHistoryTable(data) {
           <td>
             <div class="btn-group">
               <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Action
+                <span class="trn">Action</span>
               </button>
               <div class="dropdown-menu" >
-                <button class="btn btn-custom btn-success btn-custom-small dropdown-item" style=" margin-top:-5px" onClick = "showEventDetailsMap('${sCheckingCode}')">Map</button>
-                <button class="btn btn-custom btn-info btn-custom-small dropdown-item" style=" margin-top:-5px; margin-left: 5px" onClick = "showEventHistoryDetails('${sCheckingCode}')">Details</button>
+                <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" style=" margin-top:-5px" onClick = "showEventDetailsMap('${sCheckingCode}')">Map</button>
+                <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" style=" margin-top:-5px; margin-left: 5px" onClick = "showEventHistoryDetails('${sCheckingCode}')">Details</button>
               </div>
             </div>
           </td>
@@ -194,6 +196,8 @@ function checkTimeFormat(from, to) {
 async function showEventHistoryDetails(checkingCode) {
   let data = await Service.getEventHistoryDetails(checkingCode);
   renderTableEventHistoryDetails(data);
+  if(appCurrentLang == 'vn') changeLangIntoVietnamese();
+  else if(appCurrentLang == 'en') changeLangIntoEnglish();
   $('#modalEventHistoryDetails').modal('show');
 }
 

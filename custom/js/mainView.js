@@ -85,7 +85,9 @@ async function showGuardInfo() {
     let sosChecking = data.some(g => g.bOnline.toLowerCase() == 'sos');
     if(sosChecking){
       audioSOS.play();
-      showAlertError('There are SOS warning situations', "", 3000);
+      let sure = showAlertWarning('There are SOS warning situations', "");
+      if(sure)
+      audioSOS.pause();
     }
   }else{
     arrCurrentGuards.length = 0;
