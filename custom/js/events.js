@@ -77,8 +77,7 @@ async function showEventHistoryData(type) {
       showAlertError("No data available", "", 3000);
     }
   }
-  if(appCurrentLang == 'vn') changeLangIntoVietnamese();
-  else if(appCurrentLang == 'en') changeLangIntoEnglish();
+  setDefaultLang();
 }
 
 function resetTblEventHistory(){
@@ -196,8 +195,7 @@ function checkTimeFormat(from, to) {
 async function showEventHistoryDetails(checkingCode) {
   let data = await Service.getEventHistoryDetails(checkingCode);
   renderTableEventHistoryDetails(data);
-  if(appCurrentLang == 'vn') changeLangIntoVietnamese();
-  else if(appCurrentLang == 'en') changeLangIntoEnglish();
+  setDefaultLang();
   $('#modalEventHistoryDetails').modal('show');
 }
 

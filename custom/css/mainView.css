@@ -6,7 +6,6 @@
     border: 1px solid #ccc;
   }
 }
-
 .green-text{
   color: green;
   font-weight: bold !important;
@@ -22,7 +21,7 @@
   font-weight: bold!important;
 }
 .guard-map{
-  height: 70vh!important;
+  height: 75vh!important;
   width: 100%!important;
 }
 .card{

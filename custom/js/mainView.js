@@ -211,7 +211,7 @@ async function showCurrentMapGuard(){
 }
 
 function buildCurrentMapGuard(data){
-  $mapArea = $('<div class="map guard-map" id="mapid" style="height: 350px"></div>');
+  $mapArea = $('<div class="map guard-map" id="mapid"></div>');
   $('.card-map-guard').find('.card-body').html($mapArea);
   let mapProp = {
     center: new google.maps.LatLng(20.81715284, 106.77411238),
