@@ -18,9 +18,6 @@
   <!-- datepicker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
 
-  <!-- leaflet css -->
-  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
-
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
@@ -118,13 +115,13 @@
             <div class="card card filter">
               <div class="card-header bg-main-color custom-card-header">
                 <h4>
-                  <i class="fa fa-filter"></i> Filters
+                  <i class="fa fa-filter"></i> <span class="trn">Filters</span>
                 </h4>
               </div>
               <div class="card-body custom-card-body">
                 <div class="row mt-3">
                   <div class="col-12">
-                    <label for="">Guard</label><br>
+                    <label for="" class="trn">Guard</label><br>
                     <select name="" class="form-control guardsCombobox" id="comboboxGuardReportTour">
                       <!-- guard name list -->
                     </select>
@@ -132,14 +129,14 @@
                 </div>
                 <div class="row mt-3">
                   <div class="col-12">
-                      <label for="">Date</label><br>
+                      <label for="" class="trn">Date</label><br>
                       <input type="text" readonly class="form-control datepicker" style="width: 100%" id="reportTourDatetime">
                   </div>
                 </div>
                 <div class="row mt-3">
                   <div class="col-12">
-                    <button class="btn btn-custom bg-main-color pull-right" id="btnViewReportTour">View</button>
-                    <button class="btn btn-custom bg-main-color pull-right" id="btnExportReport2Excel">Export</button>
+                    <button class="btn btn-custom bg-main-color pull-right trn" id="btnViewReportTour">View</button>
+                    <button class="btn btn-custom bg-main-color pull-right trn" id="btnExportReport2Excel">Export</button>
                   </div>
                 </div>
               </div>
@@ -152,7 +149,7 @@
           <div class="card card-tourReport">
             <div class="card-header bg-main-color custom-card-header">
               <h4>
-                <i class="fa fa-exclamation-triangle"></i> Report Tours
+                <i class="fa fa-exclamation-triangle"></i> <span class="trn">Report Tours</span>
               </h4>
             </div>
             <div class="card-body custom-card-body">

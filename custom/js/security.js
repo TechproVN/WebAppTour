@@ -27,7 +27,7 @@ async function showSecurity(){
     }
     $('.headerTblReportSecurity').text(header);
     if(data){
-      $('#totalSecurityReportRows').html(`<strong>Total rows: </strong>${data.length}`);
+      $('#totalSecurityReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
       $('#pagingSecurityReportControl').pagination({
         dataSource: data,
         pageSize: 10,
@@ -43,6 +43,7 @@ async function showSecurity(){
       showAlertError("No data available", "", 3000);
     }
   }
+  setDefaultLang();
 }
 
 function resetTblReportSecurity(){
@@ -59,17 +60,17 @@ function renderSecurityTable(data) {
   $thead.html(
     `
       <tr>
-        <th>Day</th>
-        <th>Date</th>
-        <th>Week No.</th>
-        <th>Guard Name</th>
-        <th>Performance Route</th>
-        <th>Performance Timing</th>
-        <th>Performance Routing</th>
-        <th>Performance Time</th>
-        <th>Idle Time</th>
-        <th>Spot check</th>
-        <th>Remarks</th>
+        <th class="trn">Day</th>
+        <th class="trn">Date</th>
+        <th class="trn">Week No.</th>
+        <th class="trn">Guard Name</th>
+        <th class="trn">Performance Route</th>
+        <th class="trn">Performance Timing</th>
+        <th class="trn">Performance Routing</th>
+        <th class="trn">Performance Time</th>
+        <th class="trn">Idle Time</th>
+        <th class="trn">Spot check</th>
+        <th class="trn">Remarks</th>
       </tr>
     `
   )

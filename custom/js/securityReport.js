@@ -45,7 +45,7 @@ async function showSecurityReport(){
         arrDataChartWeeklyPatrollingPerformance.push([Number(dPerformance_Routes), Number(dPerformance_Timing), Number(dPerformance_Routing), Number(dOverall_performance)]);
       })
       
-      $('#totalSecurityReportRows').html(`<strong>Total rows: </strong>${data.length}`);
+      $('#totalSecurityReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
       $('#pagingSecurityReportControl').pagination({
         dataSource: data,
         pageSize: 10,
@@ -61,6 +61,7 @@ async function showSecurityReport(){
       resetTblSecurityReport();
     }
   }
+  setDefaultLang();
 }
 
 function resetTblSecurityReport(){
@@ -77,14 +78,14 @@ function renderSecurityReportTable(data) {
   $thead.html(
     `
       <tr>
-        <th>Reporting Week</th>
-        <th>Perforamnce Route</th>
-        <th>Perforamnce Timing</th>
-        <th>Perforamnce Routing</th>
-        <th>Overall Perforamnce</th>
-        <th>Working Time</th>
-        <th>Idling Time</th>
-        <th>Spot check</th>
+        <th class="trn">Reporting Week</th>
+        <th class="trn">Performance Route</th>
+        <th class="trn">Performance Timing</th>
+        <th class="trn">Performance Routing</th>
+        <th class="trn">Overall Performance</th>
+        <th class="trn">Working Time</th>
+        <th class="trn">Idling Time</th>
+        <th class="trn">Spot check</th>
       </tr>
     `
   )

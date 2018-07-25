@@ -32,7 +32,7 @@ async function showTourDetailsTable(){
   $('.headerTblReportTour').text(header);
 
   if(data){
-    $('#totalTourReportRows').html(`<strong>Total rows: </strong>${data.length}`);
+    $('#totalTourReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
     $('#pagingToursControl').pagination({
       dataSource: data,
       pageSize: 10,
@@ -47,6 +47,7 @@ async function showTourDetailsTable(){
     resetTblTourReport();
     showAlertError("No data avilable", "", 3000);
   }
+  setDefaultLang();
 }
 
 function resetTblTourReport(){
@@ -64,7 +65,7 @@ function renderTourReportTable(data) {
   $thead.html(
     `
       <tr>
-      <th class="trn">Code</th>
+        <th class="trn">Code</th>
         <th class="trn">Guard</th>
         <th class="trn">Zone</th>
         <th class="trn">Date</th>

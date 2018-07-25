@@ -238,8 +238,120 @@ const dictionary = {
   "Long Property History":{
     vn:"Lịch sử tài sản dài hạn"
   },
-  
-  
+  "Chart Report":{
+    vn:"Biểu đồ báo cáo"
+  },
+  "Export":{
+    vn:"Xuất file Excel"
+  },
+  "Chart":{
+    vn:"Biểu đồ"
+  },
+  "Report Tours":{
+    vn:"Báo cáo chuyến đi tuần"
+  },
+  "Total rows":{
+    vn:"Tổng sô hàng"
+  },
+  "Time":{
+    vn:"Thời gian"
+  },
+  "Schedule":{
+    vn:"Lịch trình"
+  },
+  "Start Date":{
+    vn:"Ngày bắt đầu"
+  },
+  "End Date":{
+    vn:"Ngày kết thúc"
+  },
+  "Data of Patrolling Performance":{
+    vn:"Dữ liệu về hiệu xuất làm việc"
+  },
+  "Day":{
+    vn:"Ngày"
+  },
+  "Week No.":{
+    vn:"Số tuần"
+  },
+  "Performance Route":{
+    vn:"Hiệu suất các tuyến đi tuần"
+  },
+  "Performance Timing":{
+    vn:"Hiệu suất về thòi gian"
+  },
+  "Performance Routing":{
+    vn:"Hiệu suất tuần tra"
+  },
+  "Performance Time":{
+    vn:"Hiêu suất làm việc theo thòi gian"
+  },
+  "Idle Time":{
+    vn:"Thời gian nhàn rỗi"
+  },
+  "Spot check":{
+    vn:"Ngân phiếu"
+  },
+  "Remarks":{
+    vn:"Cột mốc"
+  },
+  "Security Report Chart":{
+    vn:"Biểu đồ báo cáo an ninh"
+  },
+  "Security Report":{
+    vn:"Báo cáo an ninh"
+  },
+  "Security Patrolling Performance":{
+    vn:"Hiệu suất an ninh đi tuần"
+  },
+  "Reporting Week":{
+    vn:"Báo cáo trong tuần"
+  },
+  "Perforamnce Route":{
+    vn:"Hiệu suất các tuyến"
+  },
+  "Overall Performance":{
+    vn:"Tổng hiệu suất"
+  },
+  "Reporting Week":{
+    vn:"Báo cáo trong tuần"
+  },
+  "Working Time":{
+    vn:"Thòi gian làm việc"
+  },
+  "Idling Time":{
+    vn:"Thòi gian nhàn rỗi"
+  },
+  "DateTime":{
+    vn:"Ngày giờ"
+  },
+  "Total Points":{
+    vn:"Tổng sô điểm"
+  },
+  "Update":{
+    vn:"Cập nhật"
+  },
+  "Insert":{
+    vn:"Têm mới"
+  },
+  "Lock":{
+    vn:"Khóa"
+  },
+  "Save":{
+    vn:"Lưu"
+  },
+  "Name":{
+    vn:"Tên"
+  },
+  "Point code":{
+    vn:"Max điểm"
+  },
+  "ID":{
+    vn:"ID"
+  },
+  "Note":{
+    vn:"Ghi chú"
+  },
 }
 
 var translator = $('body').translate({lang: "en", t: dictionary}); //use English

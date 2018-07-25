@@ -21,9 +21,6 @@
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
-  <!-- leaflet css -->
-  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
-
   <!-- pagination css -->
   <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
 
@@ -118,13 +115,13 @@
         <div class="card card filter">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-filter"></i> Filters
+              <i class="fa fa-filter"></i> <span class="trn">Filters</span>
             </h4>
           </div>
           <div class="card-body custom-card-body">
             <div class="row mt-3">
               <div class="col-12">
-                <label for="">Zone</label>
+                <label for="" class="trn">Zone</label>
                 <br>
                 <select name="" class="form-control selectZones" id="jcomboboxZone">
 
@@ -133,10 +130,10 @@
             </div>
             <div class="row mt-3">
               <div class="col-12">
-                <button class="btn btn-custom bg-main-color pull-right" id="btnPointsData">View</button>
-                <button class="btn btn-custom bg-main-color pull-right" id="btnMapAllPoints">Map</button>
-                <button class="btn btn-custom bg-main-color pull-right" id="btnShowInsertPointModal">Insert</button>
-                <button class="btn btn-custom bg-main-color pull-right" id="">Export</button>
+                <button class="btn btn-custom bg-main-color pull-right trn" id="btnPointsData">View</button>
+                <button class="btn btn-custom bg-main-color pull-right trn" id="btnMapAllPoints">Map</button>
+                <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowInsertPointModal">Insert</button>
+                <button class="btn btn-custom bg-main-color pull-right trn" id="">Export</button>
               </div>
             </div>
           </div>
@@ -149,7 +146,7 @@
         <div class="card card-points">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-exclamation-triangle"></i> Point list
+              <i class="fa fa-exclamation-triangle"></i> <span class="trn">Point list</span>
             </h4>
           </div>
           <div class="card-body custom-card-body">
@@ -177,7 +174,7 @@
           <div class="modal-dialog modal-dialog-super-lg-custom">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Point Map</h5>
+                <h5 class="modal-title trn">Point Map</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -198,7 +195,7 @@
           <div class="modal-dialog modal-dialog-super-lg-custom" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Update Point</h5>
+                <h5 class="modal-title trn">Update Point</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -208,31 +205,31 @@
                   <div class="col-lg-8" id="updatePointMap"></div>
                   <div class="col-lg-4">
                     <div class="form-group">
-                      <label for="" class="font-weight-bold">Point code</label>
+                      <label for="" class="font-weight-bold trn">Point code</label>
                       <input type="text" class="form-control" placeholder="Point code" id="txtUpdatepointCode">
                     </div>
                     <div class="form-group">
-                      <label for="" class="font-weight-bold">Name</label>
+                      <label for="" class="font-weight-bold trn">Name</label>
                       <input type="text" class="form-control" id="txtUpdatePointName" placeholder="Enter name">
                     </div>
                     <div class="form-group">
-                      <label for="" class="font-weight-bold">Note</label>
+                      <label for="" class="font-weight-bold trn">Note</label>
                       <input type="text" class="form-control" id="txtUpdatePointNote" placeholder="Enter note">
                     </div>
                     <div>
-                      <label for="" class="font-weight-bold">Lat: </label>
+                      <label for="" class="font-weight-bold trn">Lat: </label>
                       <span id="latUpdatePoint" class="latPoint"></span>
                     </div>
                     <div>
-                      <label for="" class="font-weight-bold">Long: </label>
+                      <label for="" class="font-weight-bold trn">Long: </label>
                       <span id="longUpdatePoint" class="longPoint"></span>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-custom bg-main-color" id="btnUpdatePoint">Update</button>
-                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-custom bg-main-color trn" id="btnUpdatePoint">Update</button>
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
@@ -327,8 +324,6 @@
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
-  <script src="../plugins/leaflet/js/js/leaflet.js"></script>
-
   <!-- translate js plugins -->
   <script src="../plugins/translate.js-master/jquery.translate.js"></script>
 
@@ -338,6 +333,9 @@
   <!-- pagination js -->
   <script src="../plugins/paginationJs/pagination.min.js"></script>
 
+  <!-- custom main.js -->
+  <script src="../custom/js/main.js"></script>
+
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>
 
@@ -346,9 +344,6 @@
 
   <!-- validation js -->
   <script src="../custom/js/validation.js"></script>
-
-  <!-- custom main.js -->
-  <script src="../custom/js/main.js"></script>
 
   <!-- custom points js -->
   <script src="../custom/js/points.js"></script>

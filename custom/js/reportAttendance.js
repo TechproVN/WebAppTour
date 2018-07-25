@@ -10,7 +10,7 @@ async function showDataAttendance(){
   console.log(JSON.stringify(sentData));
   let data = await Service.getDataAttandance(sentData);
   if(data){
-    $('#totalReportAtt').html(`<strong>Total Rows:</strong> ${data.length}`)
+    $('#totalReportAtt').html(`<strong class="trn">Total rows</strong> ${data.length}`)
     $('#pagingReportAttendanceControl').pagination({
       dataSource: data,
       pageSize: 10,
@@ -26,6 +26,7 @@ async function showDataAttendance(){
     showAlertError('No data available', '', 3000);
     resetTblReportAttData();
   }
+  setDefaultLang();
 }
 
 function resetTblReportAttData(){

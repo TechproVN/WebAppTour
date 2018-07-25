@@ -163,7 +163,7 @@ async function showPointsData() {
     arrCurrentPointsOnZone = [];
     if(data) {
       arrCurrentPointsOnZone = [...data];
-      $('#totalPoints').html(`<strong>Total Points:</strong> ${data.length}`)
+      $('#totalPoints').html(`<strong class="trn">Total Points</strong> ${data.length}`)
       $('#pagingPointsControl').pagination({
         dataSource: data,
         pageSize: 10,

@@ -64,6 +64,11 @@ nav.navbar{
 .btn-custom {
   font-size: 0.9em;
   padding: 7px 10px;
+  transition: all 0.3s;
+}
+.btn-custom:hover{
+  background-color: #61DAFB!important;
+  transform: scale(1.06);
 }
 .btn-custom-small{
   font-size: 0.85em;

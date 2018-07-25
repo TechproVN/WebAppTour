@@ -18,17 +18,11 @@
   <!-- datepicker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
 
-  <!-- leaflet css -->
-  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
-
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
   <!-- custom main css -->
   <link rel="stylesheet" href="../custom/css/main.css">
-
-  <!-- main view custom css -->
-  <link rel="stylesheet" href="../custom/css/mainView.css">
 
   <title>Report</title>
 </head>
@@ -118,13 +112,13 @@
           <div class="card card filter">
             <div class="card-header bg-main-color custom-card-header">
               <h4>
-                <i class="fa fa-filter"></i> Filters
+                <i class="fa fa-filter"></i> <span class="trn">Filters</span>
               </h4>
             </div>
             <div class="card-body custom-card-body">
               <div class="row mt-3">
                 <div class="col-12">
-                  <label for="">Guard</label><br>
+                  <label for="" class="trn">Guard</label><br>
                   <select name="" class="form-control" id="jcomboboxGuardReport">
                     <!-- guard name list -->
                   </select>
@@ -132,15 +126,15 @@
               </div>
               <div class="row mt-3">
                 <div class="col-12">
-                    <label for="">Date</label><br>
+                    <label for="" class="trn">Date</label><br>
                     <input type="text" readonly class="form-control datepicker" style="width: 100%" id="reportDatetime">
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-12">
-                  <button class="btn btn-custom bg-main-color pull-right" id="btnViewReport">View</button>
-                  <button class="btn btn-custom bg-main-color pull-right" id="btnExportReport2Excel">Export</button>
-                  <button class="btn btn-custom bg-main-color pull-right" id="btnChartReport">Chart</button>
+                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnViewReport">View</button>
+                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnExportReport2Excel">Export</button>
+                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnChartReport">Chart</button>
                 </div>
               </div>
             </div>
@@ -153,7 +147,7 @@
         <div class="card card-incident">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-exclamation-triangle"></i> Reports
+              <i class="fa fa-exclamation-triangle"></i> <span class="trn">Reports</span>
             </h4>
           </div>
           <div class="card-body custom-card-body">
@@ -182,7 +176,7 @@
           <div class="modal-dialog modal-lg modal-dialog-custom" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="">Chart Report</h5>
+                <h5 class="modal-title trn" id="">Chart Report</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -203,7 +197,7 @@
                 </div>  
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
@@ -246,11 +240,11 @@
   <!-- chartJS -->
   <script src="../plugins/chartJS/Chart.min.js"></script>
 
-  <!-- service request -->
-  <script src="../custom/js/service.js"></script>
-
   <!-- custom main.js -->
   <script src="../custom/js/main.js"></script>
+
+  <!-- service request -->
+  <script src="../custom/js/service.js"></script>
 
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>
