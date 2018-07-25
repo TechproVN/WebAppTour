@@ -17,7 +17,7 @@ async function showSchedule() {
   console.log(123);
   console.log(data);
   if (data) {
-    $('#totalSchedule').html(`<strong>Total Rows:</strong> ${data.length}`)
+    $('#totalSchedule').html(`<strong class="trn">Total Rows</strong>: ${data.length}`)
     $('#pagingScheduleControl').pagination({
       dataSource: data,
       pageSize: 10,
@@ -33,6 +33,7 @@ async function showSchedule() {
     resetTblSchedule();
     showAlertError("No data available", "", 3000);
   }
+  setDefaultLang();
 }
 
 async function insertSchedule() {
@@ -125,8 +126,8 @@ function renderTblSchedule(data) {
           <td>${dTimeEnd}</td>
           <td>${bStatus}</td>
           <td>
-            <button class="btn btn-custom bg-main-color btnShowUpdateScheduleModal btn-custom-small">Update</button>
-            <button class="btn btn-custom bg-main-color btnInactiveShedule btn-custom-small">Delete</button>
+            <button class="btn btn-custom bg-main-color btnShowUpdateScheduleModal btn-custom-small trn">Update</button>
+            <button class="btn btn-custom bg-main-color btnInactiveShedule btn-custom-small trn">Delete</button>
           </td>
         </tr>
       `)

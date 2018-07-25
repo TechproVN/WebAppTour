@@ -73,12 +73,10 @@ function renderPointsTable(data) {
           <td>${dDateTimeAdd}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Action
-              </button>
+              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
               <div class="dropdown-menu" >
-                <button class="btn btn-custom btn-info btnPointUpdate btn-custom-small dropdown-item">Update</button>
-                <button class="btn btn-custom btn-danger btnPointDelete btn-custom-small dropdown-item" style="margin-left:-5px">Lock</button>
+                <button class="btn btn-custom btn-info btnPointUpdate btn-custom-small dropdown-item trn">Update</button>
+                <button class="btn btn-custom btn-danger btnPointDelete btn-custom-small dropdown-item trn" style="margin-left:-5px">Lock</button>
               </div>
             </div>
           </td>
@@ -127,7 +125,6 @@ function buildPointsMap(points, id){
   }
 }
 
-
 function checkPointType(QRCode, RFID){
   if(QRCode != '') return 'QRCode';
   if(RFID != '') return 'RFID';
@@ -163,7 +160,7 @@ async function showPointsData() {
     arrCurrentPointsOnZone = [];
     if(data) {
       arrCurrentPointsOnZone = [...data];
-      $('#totalPoints').html(`<strong class="trn">Total Points</strong> ${data.length}`)
+      $('#totalPoints').html(`<strong class="trn">Total Points</strong>: ${data.length}`)
       $('#pagingPointsControl').pagination({
         dataSource: data,
         pageSize: 10,
@@ -180,6 +177,7 @@ async function showPointsData() {
       showAlertError("No data available", "", 3000);
     }
   }
+  setDefaultLang();
 }
 
 function resetTblPoints(){

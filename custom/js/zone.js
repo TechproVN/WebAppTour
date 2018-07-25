@@ -92,8 +92,8 @@ function renderZonesTable(data) {
           <td>${sZoneName}</td>
           <td>${sZoneAddress}</td>
           <td>
-            <button class="btn btn-custom bg-main-color btnShowUpdateZoneModal btn-custom-small">Update</button>
-            <button class="btn btn-custom bg-main-color btnInactiveZone btn-custom-small">Lock</button>
+            <button class="btn btn-custom bg-main-color btnShowUpdateZoneModal btn-custom-small trn">Update</button>
+            <button class="btn btn-custom bg-main-color btnInactiveZone btn-custom-small trn">Lock</button>
           </td>
         </tr>
       `) 
@@ -119,7 +119,7 @@ function showUpdateZoneModal(zone){
 async function showZones(){
   let zones = await Service.getAllZones();
   if(zones){
-    $('#totalZones').html(`<strong>Total Zones:</strong> ${zones.length}`);
+    $('#totalZones').html(`<strong class="trn">Total Zones</strong>: ${zones.length}`);
     renderZoneOnJcombobox(zones);
     $('#pagingZonesControl').pagination({
       dataSource: zones,
@@ -135,6 +135,7 @@ async function showZones(){
     resetTblZone();
     showAlertError("No data available", "", 3000);
   }
+  setDefaultLang();
 }
 
 function resetTblZone(){

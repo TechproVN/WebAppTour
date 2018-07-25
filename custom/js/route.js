@@ -211,14 +211,15 @@ function showDistanceAndTimeOfRoute(){
   if(arrSelectedPointsOnRoute.length > 0){
     let totalDistance = calDistanceOfRoute(arrSelectedPointsOnRoute);
     currentTotalDistance = totalDistance;
-    $('.sumOfDistance').text(`Total distance: ${totalDistance.toFixed(1)}km`);
+    $('.sumOfDistance').html(`<strong class="trn">Total distance</strong>: ${totalDistance.toFixed(1)}km`);
     let time = totalDistance / 25 * 60;
     currentTimeCompleted = time;
-    $('.timeCompleted').text(`Time completed: ${parseInt(time)} min`)
+    $('.timeCompleted').html(`<strong class="trn">Time completed</strong>: ${parseInt(time)} min`)
   }else{
     $('.sumOfDistance').text('');
     $('.timeCompleted').text('');
   }
+  setDefaultLang();
 }
 
 function renderListOfSelectedPoints(selectedPoints){
@@ -291,7 +292,7 @@ async function showRoutesOnTable(){
   let sentData = { iZoneIDIN: zoneId };
   let routes = await Service.getRoutesOnZone(sentData);
   if(routes){
-    $('#totalRoutes').html(`<strong>Total Routes</strong> ${routes.length}`);
+    $('#totalRoutes').html(`<strong class="trn">Total Routes</strong> ${routes.length}`);
     $('#pagingRoutesControl').pagination({
       dataSource: routes,
       pageSize: 10,
@@ -306,6 +307,7 @@ async function showRoutesOnTable(){
     resetTblRoutes();
     showAlertError("No data available", "", 3000);
   }
+  setDefaultLang();
 }
 
 function resetTblRoutes(){
@@ -346,13 +348,11 @@ function renderTableRoutes(routes){
           <td>${dDateTimeUpdate}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Action
-              </button>
+              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
               <div class="dropdown-menu" >
-                <button class="btn btn-custom btn-success btnRouteViewMap btn-custom-small dropdown-item">Map</button>
-                <button class="btn btn-custom btn-info btnRouteUpdateGuard btn-custom-small dropdown-item">Update Route</button>
-                <button class="btn btn-custom btn-warning btnInactiveRoute btn-custom-small dropdown-item">Lock</button>
+                <button class="btn btn-custom btn-success btnRouteViewMap btn-custom-small dropdown-item trn">Map</button>
+                <button class="btn btn-custom btn-info btnRouteUpdateGuard btn-custom-small dropdown-item trn">Update Route</button>
+                <button class="btn btn-custom btn-warning btnInactiveRoute btn-custom-small dropdown-item trn">Lock</button>
               </div>
             </div>
           </td>
@@ -444,5 +444,5 @@ function calDistanceOfRoute(points){
 }
 
 function toRadian(degree) {
-  return degree*Math.PI/180;
+  return degree * Math.PI/180;
 }

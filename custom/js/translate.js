@@ -1,4 +1,3 @@
-let appCurrentLang = "en";
 
 const dictionary = {
   "Main View": {
@@ -94,6 +93,9 @@ const dictionary = {
   "Guard Name":{
     vn:"Tên bảo vệ "
   },
+  "Guard name":{
+    vn:"Tên bảo vệ "
+  },
   "ID":{
     vn:"ID"
   },
@@ -119,7 +121,7 @@ const dictionary = {
     vn:"Am thanh | Hinh anh"
   },
   "English":{
-    vn:"Tieng Viet"
+    vn:"Tiếng Việt"
   },
   "Filters":{
     vn:"Lọc thông tin"
@@ -176,6 +178,9 @@ const dictionary = {
     vn:"Khoảng cách"
   },
   "Details":{
+    vn:"Chi tiết"
+  },
+  "Detail":{
     vn:"Chi tiết"
   },
   "Close":{
@@ -251,6 +256,9 @@ const dictionary = {
     vn:"Báo cáo chuyến đi tuần"
   },
   "Total rows":{
+    vn:"Tổng sô hàng"
+  },
+  "Total Rows":{
     vn:"Tổng sô hàng"
   },
   "Time":{
@@ -332,7 +340,7 @@ const dictionary = {
     vn:"Cập nhật"
   },
   "Insert":{
-    vn:"Têm mới"
+    vn:"Thêm mới"
   },
   "Lock":{
     vn:"Khóa"
@@ -344,7 +352,10 @@ const dictionary = {
     vn:"Tên"
   },
   "Point code":{
-    vn:"Max điểm"
+    vn:"Mã điểm"
+  },
+  "Point list":{
+    vn:"Danh sách điểm"
   },
   "ID":{
     vn:"ID"
@@ -352,24 +363,211 @@ const dictionary = {
   "Note":{
     vn:"Ghi chú"
   },
+  "GPS":{
+    vn:"GPS"
+  },
+  "QRCode":{
+    vn:"QRCode"
+  },
+  "RFID":{
+    vn:"RFID"
+  },
+  "Datetime updated":{
+    vn:"Ngày giờ cập nhật"
+  },
+  "Point Map":{
+    vn:"Bản đồ các điểm"
+  },
+  "Lat":{
+    vn:"Vĩ độ "
+  },
+  "Lat:":{
+    vn:"Vĩ độ:"
+  },
+  "Long":{
+    vn:"Kinh độ"
+  },
+  "Long:":{
+    vn:"Kinh độ:"
+  },
+  "Update Point":{
+    vn:"Cập nhật điểm"
+  },
+  "Guard Filters":{
+    vn:"Lọc thông tin bảo vệ"
+  },
+  "Guard list":{
+    vn:"Thông tin bảo vệ"
+  },
+  "Phone":{
+    vn:"Sô điện thoại"
+  },
+  "Username":{
+    vn:"Tên người dùng"
+  },
+  "Active":{
+    vn:"Hoạt động"
+  },
+  "Reset Password":{
+    vn:"Thay đổi mật khẩu"
+  },
+  "Send Message":{
+    vn:"Gửi tin nhắn"
+  },
+  "View Map":{
+    vn:"Xem bản đồ"
+  },
+  "Update guard":{
+    vn:"Cập nhật thông tin bảo vệ"
+  },
+  "Message":{
+    vn:"Tin nhắn"
+  },
+  "Send":{
+    vn:"Gửi đi"
+  },
+  "Guard's current position":{
+    vn:"Vị trí hiện tại của bảo vệ"
+  },
+  "Total Guards":{
+    vn:"Tổng số bảo vệ"
+  },
+  "Zones":{
+    vn:"Khu vực"
+  },
+  "Address":{
+    vn:"Địa chỉ"
+  },
+  "Zone ID":{
+    vn:"ID khu vực"
+  },
+  "Zone name":{
+    vn:"Tên khu vực"
+  },
+  "Update Zone":{
+    vn:"Cập nhật khu vực"
+  },
+  "Total Zones":{
+    vn:"Tổng số khu vực"
+  },
+  "Insert Zone":{
+    vn:"Thêm khu vực mới"
+  },
+  "Clear zone":{
+    vn:"Xóa khu vực"
+  },
+  "Route Map":{
+    vn:"Bản đồ tuyến đi"
+  },
+  "Select point":{
+    vn:"Chọn điểm"
+  },
+  "Route":{
+    vn:"Tuyến"
+  },
+  "Route name":{
+    vn:"Tên tuyến"
+  },
+  "Selected zone":{
+    vn:"Khu vực hiện tại"
+  },
+  "Route list":{
+    vn:"Danh sách tuyến đi"
+  },
+  "Total Routes":{
+    vn:"Tổng số tuyến"
+  },
+  "Completion time":{
+    vn:"Thời gian hoàn thành"
+  },
+  "Route list":{
+    vn:"Danh sách tuyến đi"
+  },
+  "Route list":{
+    vn:"Danh sách tuyến đi"
+  },
+  "Update Route":{
+    vn:"Cập nhật tuyến đi"
+  },
+  "Update route":{
+    vn:"Cập nhật tuyến đi"
+  },
+  "Total distance":{
+    vn:"Tổng quãng đường"
+  },
+  "Time completed":{
+    vn:"Thời gian hoàn thành"
+  },
+  "Schedule Name":{
+    vn:"Tên lịch trình"
+  },
+  "Update Schedule":{
+    vn:"Cập nhật lịch trình"
+  },
+  "Start":{
+    vn:"Thời gian bắt đầu"
+  },
+  "End":{
+    vn:"Thời gian kết thúc"
+  },
+  "Insert Schedule":{
+    vn:"Thêm mới lịch trình"
+  },
+  "Delete":{
+    vn:"Xóa"
+  },
+  "Incident Types":{
+    vn:"Các loại sự cố"
+  },
+  "Content":{
+    vn:"Nội dung"
+  },
+  "Insert Incident":{
+    vn:"Thêm mới sự cố"
+  },
+  "Update Incident":{
+    vn:"Cập nhật sự cố"
+  },
+  "Devices":{
+    vn:"Thiết bị"
+  },
+  "Total Devices":{
+    vn:"Tổng số các thiết bị"
+  },
+  "Serial":{
+    vn:"Sô seri"
+  },
+  "Power":{
+    vn:"Năng lượng"
+  },
 }
 
-var translator = $('body').translate({lang: "en", t: dictionary}); //use English
 $('#changeLanguage').click(changeLanguage);
-// translator.lang("vn"); //change to Vietnamese
+var translator = $('body').translate({lang: "en", t: dictionary}); 
+setDefaultLang();
 
-function changeLanguage(){
-  if(appCurrentLang == "vn") return changeLangIntoEnglish();
-  changeLangIntoVietnamese()
+function setDefaultLang(){
+  let appCurrentLang = localStorage.getItem('appCurrentLang');
+  if(appCurrentLang == 'vn') return changeLangIntoVietnamese();
+  changeLangIntoEnglish();
 }
 
 function changeLangIntoEnglish(){
-  appCurrentLang = 'en';
+  localStorage.setItem('appCurrentLang', 'en');
   translator.lang("en");
 }
 
 function changeLangIntoVietnamese(){
-  appCurrentLang = 'vn';
+  localStorage.setItem('appCurrentLang', 'vn');
   translator.lang("vn");
 }
+
+function changeLanguage(){
+  console.log(123);
+  let appCurrentLang = localStorage.getItem('appCurrentLang');
+  if(appCurrentLang == "vn") return changeLangIntoEnglish();
+  changeLangIntoVietnamese()
+}
+
+
 

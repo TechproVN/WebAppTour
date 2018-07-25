@@ -75,7 +75,7 @@ function renderDeviceTable(devices){
   $thead.html(
     `
     <tr>
-      <th class="trn">ID No.</th>
+      <th class="trn">No.</th>
       <th class="trn">Name</th>
       <th class="trn">Serial</th>
       <th class="trn">Status</th>
@@ -97,12 +97,10 @@ function renderDeviceTable(devices){
           <td>${dDateTimeUpdated}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Action
-              </button>
+              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
               <div class="dropdown-menu" >
-                <button class="btn btn-custom bg-info btn-custom-small dropdown-item btnShowDetailDevice">Details</button>
-                <button class="btn btn-custom bg-danger btn-custom-small dropdown-item btnLockDevice">Lock</button>
+                <button class="btn btn-custom bg-info btn-custom-small dropdown-item btnShowDetailDevice trn">Details</button>
+                <button class="btn btn-custom bg-danger btn-custom-small dropdown-item btnLockDevice trn">Lock</button>
               </div>
             </div>
           </td>
@@ -132,7 +130,7 @@ async function showDevices(){
   let devices = await Service.getDevice();
   console.log(devices);
   if(devices){
-    $('#totalDevices').html(`<strong>Total Devices:</strong> ${devices.length}`);
+    $('#totalDevices').html(`<strong class="trn">Total Devices</strong>: ${devices.length}`);
     $('#pagingDevicesControl').pagination({
       dataSource: devices,
       pageSize: 10,
@@ -147,6 +145,7 @@ async function showDevices(){
     resetTblDevice();
     showAlertError("No data available", "", 3000);
   }
+  setDefaultLang();
 }
 
 function resetTblDevice(){

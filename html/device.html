@@ -74,29 +74,29 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-area-chart icon-navbar"></i>
-                Reports
+                <span class="trn">Reports</span>
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="reports.html">Reports</a>
-                <a href="reportTour.html" class="dropdown-item">Daily Patrolling Results</a>
-                <a class="dropdown-item" href="violationReports.html">Violation Reports</a>
-                <a class="dropdown-item" href="security.html">Security</a>
-                <a class="dropdown-item" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item" href="reportAttendance.html">Report Attendance</a>
+                <a class="dropdown-item trn" href="reports.html">Reports</a>
+                <a href="reportTour.html" class="dropdown-item trn">Daily Patrolling Results</a>
+                <a class="dropdown-item trn" href="violationReports.html">Violation Reports</a>
+                <a class="dropdown-item trn" href="security.html">Security</a>
+                <a class="dropdown-item trn" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item trn" href="reportAttendance.html">Report Attendance</a>
               </div>
             </li>
             <li class="nav-item dropdown active-menu-item">
               <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-cog icon-navbar"></i>
-                Settings
+                <span class="trn">Settings</span>
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="points.html">Create Check Points</a>
-                <a class="dropdown-item" href="guard.html">Security Guard Profile</a>
-                <a class="dropdown-item" href="zone.html">Create Zone</a>
-                <a class="dropdown-item" href="route.html">Create Route</a>
-                <a class="dropdown-item" href="schedule.html">Create Schedule</a>
-                <a class="dropdown-item" href="defineIncident.html">Define Incidents</a>
-                <a class="dropdown-item" href="device.html">Define Devices</a>
+                <a class="dropdown-item trn" href="points.html">Create Check Points</a>
+                <a class="dropdown-item trn" href="guard.html">Security Guard Profile</a>
+                <a class="dropdown-item trn" href="zone.html">Create Zone</a>
+                <a class="dropdown-item trn" href="route.html">Create Route</a>
+                <a class="dropdown-item trn" href="schedule.html">Create Schedule</a>
+                <a class="dropdown-item trn" href="defineIncident.html">Define Incidents</a>
+                <a class="dropdown-item trn" href="device.html">Define Devices</a>
               </div>
             </li>
           </ul>
@@ -118,13 +118,13 @@
         <div class="card card filter">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-filter"></i> Filters
+              <i class="fa fa-filter"></i> <span class="trn">Filters</span>
             </h4>
           </div>
           <div class="card-body custom-card-body">
             <div class="row mt-3">
               <div class="col-12">
-                  <button class="btn btn-custom bg-main-color pull-right" id="btnShowInsertDeviceModal">Insert</button>
+                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowInsertDeviceModal">Insert</button>
               </div>
             </div>
           </div>
@@ -138,7 +138,7 @@
         <div class="card card-device">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-exclamation-triangle"></i> Devices</h4>
+              <i class="fa fa-exclamation-triangle"></i> <span class="trn">Devices</span></h4>
           </div>
           <div class="card-body custom-card-body">
             <div class="row my-3">
@@ -164,25 +164,25 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Insert Device</h5>
+                <h5 class="modal-title trn">Insert Device</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                 <div class="form-group">
-                  <label for="">Device Name</label>
+                  <label for="" class="trn">Device Name</label>
                   <input type="text" placeholder="Enter Name" id="txtInsertDeviceName" class="form-control">
                 </div>
                 <div class="form-group">
-                  <label for="">Device Serial</label>
+                  <label for="" class="trn">Device Serial</label>
                   <input type="text" placeholder="Enter Serial" id="txtInsertDeviceSerial" class="form-control">
                 </div>
-                <button class="btn btn-success btn-custom pull-right" id="btnInsertDevice">Insert</button>
+                <button class="btn btn-success btn-custom pull-right trn" id="btnInsertDevice">Insert</button>
               </div>
               
               <div class="modal-footer">
-                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
@@ -197,25 +197,25 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Update Device</h5>
+                <h5 class="modal-title trn">Update Device</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                 <div class="form-group">
-                  <label for="">Device Name</label>
+                  <label for="" class="trn">Device Name</label>
                   <input type="text" placeholder="Enter Name" id="txtUpdateDeviceName" class="form-control">
                 </div>
                 <div class="form-group">
-                  <label for="">Device Serial</label>
+                  <label for="" class="trn">Device Serial</label>
                   <input type="text" placeholder="Enter Serial" id="txtUpdateDeviceSerial" class="form-control">
                 </div>
-                <button class="btn btn-success btn-custom pull-right" id="btnUpdateDevice">Save</button>
+                <button class="btn btn-success btn-custom pull-right trn" id="btnUpdateDevice">Save</button>
               </div>
               
               <div class="modal-footer">
-                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>

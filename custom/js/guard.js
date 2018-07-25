@@ -108,15 +108,13 @@ function renderGuardTable(guards){
           <td>${bActive}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Action
-              </button>
+              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
               <div class="dropdown-menu" >
-                <button class="btn btn-custom bg-danger btn-custom-small dropdown-item btnInactiveGuard">Lock</button>
-                <button class="btn btn-custom btn-info btn-custom-small dropdown-item btnShowUpdateGuardModal">Update</button>
-                <button class="btn btn-custom btn-warning btn-custom-small dropdown-item btnShowModalResetPassword">Reset Password</button>
-                <button class="btn btn-custom btn-primary btn-custom-small dropdown-item btnShowModalSendMessage">Send Message</button>
-                <button class="btn btn-custom btn-success btn-custom-small dropdown-item btnShowMapGuardCurrentPos">View map</button>
+                <button class="btn btn-custom bg-danger btn-custom-small dropdown-item btnInactiveGuard trn">Lock</button>
+                <button class="btn btn-custom btn-info btn-custom-small dropdown-item btnShowUpdateGuardModal trn">Update</button>
+                <button class="btn btn-custom btn-warning btn-custom-small dropdown-item btnShowModalResetPassword trn">Reset Password</button>
+                <button class="btn btn-custom btn-primary btn-custom-small dropdown-item btnShowModalSendMessage trn">Send Message</button>
+                <button class="btn btn-custom btn-success btn-custom-small dropdown-item btnShowMapGuardCurrentPos trn">View map</button>
               </div>
             </div>
           </td>
@@ -190,7 +188,7 @@ async function showGuards(){
   let guards = await Service.getPersonalGuardsInfo();
   if(guards){
     console.log(guards)
-    $('#totalGuards').html(`<strong>Total Guards:</strong> ${guards.length}`);
+    $('#totalGuards').html(`<strong class="trn">Total Guards</strong>:  ${guards.length}`);
     $('#pagingGuardsControl').pagination({
       dataSource: guards,
       pageSize: 10,
@@ -205,6 +203,7 @@ async function showGuards(){
     resetTblPersonalGuardInfo();
     showAlertError("No data available", "", 3000);
   }
+  setDefaultLang();
 }
 
 function resetTblPersonalGuardInfo(){

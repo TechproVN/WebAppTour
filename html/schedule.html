@@ -77,30 +77,30 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-area-chart icon-navbar"></i>
-              Reports
+              <span class="trn">Reports</span>
             </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="reports.html">Reports</a>
-              <a href="reportTour.html" class="dropdown-item">Daily Patrolling Results</a>
-              <a class="dropdown-item" href="violationReports.html">Violation Reports</a>
-              <a class="dropdown-item" href="security.html">Security</a>
-              <a class="dropdown-item" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a>
-              <a class="dropdown-item" href="reportAttendance.html">Report Attendance</a>
+              <a class="dropdown-item trn" href="reports.html">Reports</a>
+              <a href="reportTour.html" class="dropdown-item trn">Daily Patrolling Results</a>
+              <a class="dropdown-item trn" href="violationReports.html">Violation Reports</a>
+              <a class="dropdown-item trn" href="security.html">Security</a>
+              <a class="dropdown-item trn" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a>
+              <a class="dropdown-item trn" href="reportAttendance.html">Report Attendance</a>
             </div>
           </li>
           <li class="nav-item dropdown active-menu-item">
             <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-cog icon-navbar"></i>
-              Settings
+              <span class="trn">Settings</span>
             </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="points.html">Create Check Points</a>
-              <a class="dropdown-item" href="guard.html">Security Guard Profile</a>
-              <a class="dropdown-item" href="zone.html">Create Zone</a>
-              <a class="dropdown-item" href="route.html">Create Route</a>
-              <a class="dropdown-item" href="schedule.html">Create Schedule</a>
-              <a class="dropdown-item" href="defineIncident.html">Define Incidents</a>
-              <a class="dropdown-item" href="device.html">Define Devices</a>
+              <a class="dropdown-item trn" href="points.html">Create Check Points</a>
+              <a class="dropdown-item trn" href="guard.html">Security Guard Profile</a>
+              <a class="dropdown-item trn" href="zone.html">Create Zone</a>
+              <a class="dropdown-item trn" href="route.html">Create Route</a>
+              <a class="dropdown-item trn" href="schedule.html">Create Schedule</a>
+              <a class="dropdown-item trn" href="defineIncident.html">Define Incidents</a>
+              <a class="dropdown-item trn" href="device.html">Define Devices</a>
             </div>
           </li>
         </ul>
@@ -122,7 +122,7 @@
         <div class="card card filter">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-filter"></i> Filters
+              <i class="fa fa-filter"></i> <span class="trn">Filters</span>
             </h4>
           </div>
           <div class="card-body custom-card-body">
@@ -131,8 +131,8 @@
             </div>
             <div class="row mt-3">
               <div class="col-12">
-                <button class="btn btn-custom bg-main-color pull-right" id="btnShowScheduleInsertModal">Insert</button>
-                <button class="btn btn-custom bg-main-color pull-right" id="btnShowSchedule">View</button>
+                <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowScheduleInsertModal">Insert</button>
+                <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowSchedule">View</button>
               </div>
             </div>
           </div>
@@ -145,7 +145,7 @@
         <div class="card card-schedule">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-exclamation-triangle"></i> Schedule
+              <i class="fa fa-exclamation-triangle"></i> <span class="trn">Schedule</span>
             </h4>
           </div>
           <div class="card-body custom-card-body">
@@ -174,19 +174,19 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Insert Schedule</h5>
+                <h5 class="modal-title trn">Insert Schedule</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                 <div class="form-group">
-                  <label for="" class="font-weight-bold">Schedule Name</label>
+                  <label for="" class="font-weight-bold trn">Schedule Name</label>
                   <input type="text" placeholder="" class="form-control" id="txtInsertScheduleName">
                 </div>
                
                 <div class="form-group">
-                  <label for="" class="font-weight-bold">Start</label>
+                  <label for="" class="font-weight-bold trn">Start</label>
                   <div class="input-group date datetimepicker-bootstrap4" id="startTime" data-target-input="nearest" >
                       <input type="text" class="form-control datetimepicker-input" data-target="#startTime" id="txtInsertScheduleStart"/>
                       <div class="input-group-append" data-target="#startTime" data-toggle="datetimepicker">
@@ -195,7 +195,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="" class="font-weight-bold">End</label>
+                  <label for="" class="font-weight-bold trn">End</label>
                   <div class="input-group date datetimepicker-bootstrap4" id="endTime" data-target-input="nearest" >
                       <input type="text" class="form-control datetimepicker-input" data-target="#endTime" id="txtInsertScheduleEnd"/>
                       <div class="input-group-append" data-target="#endTime" data-toggle="datetimepicker">
@@ -205,8 +205,8 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button class="btn btn-success btn-custom pull-right" id="btnInsertSchedule">Insert</button>
-                <button type="button" class="btn btn-custom bg-main-color " data-dismiss="modal">Close</button>
+                <button class="btn btn-success btn-custom pull-right trn" id="btnInsertSchedule">Insert</button>
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
@@ -221,19 +221,19 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Update Incident</h5>
+                <h5 class="modal-title trn">Update Schedule</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                   <div class="form-group">
-                      <label for="" class="font-weight-bold">Schedule Name</label>
+                      <label for="" class="font-weight-bold trn">Schedule Name</label>
                       <input type="text" placeholder="" class="form-control" id="txtUpdateScheduleName">
                     </div>
                    
                     <div class="form-group">
-                      <label for="" class="font-weight-bold">Start</label>
+                      <label for="" class="font-weight-bold trn">Start</label>
                       <div class="input-group date datetimepicker-bootstrap4" id="startTimeUpdate" data-target-input="nearest" >
                           <input type="text" class="form-control datetimepicker-input" data-target="#startTimeUpdate" id="txtUpdateScheduleStart" />
                           <div class="input-group-append" data-target="#startTimeUpdate" data-toggle="datetimepicker">
@@ -242,7 +242,7 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="" class="font-weight-bold">End</label>
+                      <label for="" class="font-weight-bold trn">End</label>
                       <div class="input-group date datetimepicker-bootstrap4" id="endTimeUpdate" data-target-input="nearest" >
                           <input type="text" class="form-control datetimepicker-input" data-target="#endTimeUpdate" id="txtUpdateScheduleEnd"/>
                           <div class="input-group-append" data-target="#endTimeUpdate" data-toggle="datetimepicker">
@@ -253,8 +253,8 @@
                 
               </div>
               <div class="modal-footer">
-                  <button class="btn btn-success btn-custom pull-right" id="btnUpdateSchedule">Save</button>
-                <button type="button" class="btn btn-custom bg-main-color " data-dismiss="modal">Close</button>
+                  <button class="btn btn-success btn-custom pull-right trn" id="btnUpdateSchedule">Save</button>
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>

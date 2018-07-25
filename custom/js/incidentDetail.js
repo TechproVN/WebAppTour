@@ -10,9 +10,8 @@ let currentUpdateIncident = null;
 
 async function showIncidentsType(){
   let data = await Service.getIncidentContent();
-  console.log(data);
   if(data){
-    $('#totalIncidentTypes').html(`<strong>Total Rows:</strong> ${data.length}`)
+    $('#totalIncidentTypes').html(`<strong class="trn">Total Rows</strong>: ${data.length}`)
     $('#pagingIncidentTypesControl').pagination({
       dataSource: data,
       pageSize: 10,
@@ -28,6 +27,7 @@ async function showIncidentsType(){
     resetTblIncidentType();
     showAlertError("No data available", "", 3000);
   }
+  setDefaultLang();
 }
 
 async function insertDefineIncident(){
@@ -68,8 +68,8 @@ function renderIncidentTypes(data) {
           <td>${iIncidentID}</td>
           <td>${sIncidentContent}</td>
           <td>
-            <button class="btn btn-custom bg-main-color btnShowUpdateIncidentModal btn-custom-small">Update</button>
-            <button class="btn btn-custom bg-main-color btnDeleteIncident btn-custom-small">Delete</button>
+            <button class="btn btn-custom bg-main-color btnShowUpdateIncidentModal btn-custom-small trn">Update</button>
+            <button class="btn btn-custom bg-main-color btnDeleteIncident btn-custom-small trn">Delete</button>
           </td>
         </tr>
       `)
