@@ -6,18 +6,16 @@ $(() => {
   $('#btnAttendance').click(makeAttendance);
   $('#txtSearchGuardName').keyup(filterGuards);
   $('#selectGuardGroup').change(filterGuards)
-  showGuardInfo();
   // showEventsInfo();
-  showCurrentMapGuard();
   showGuardGroups();
-
+  showCurrentMapGuard();
+  showGuardInfo();
 })
 
 const audioSOS = new Audio('../custom/audio/alert.wav');
 
 let arrCurrentGuardsSentSMS = [];
 let arrCurrentGuards = [];
-let arrFilterGuards = [];
 
 function filterGuardByGroup(arr, groupID){
   if(groupID == 0) return arr;
@@ -94,14 +92,12 @@ async function showGuardInfo() {
   let data = await Service.getGuardsData();
   if(data){ 
     arrCurrentGuards = data.slice(); 
-    arrFilterGuards = data.slice();
-    renderGuardTable(data);
+    filterGuards();
     renderJcombobox(data);
     let sosChecking = data.some(g => g.bOnline.toLowerCase() == 'sos');
     if(sosChecking){
       audioSOS.play();
-      let sure = showAlertWarning('There are SOS warning situations', "");
-      if(sure)
+      let sure = await showAlertWarning('There are SOS warning situations', "");
       audioSOS.pause();
     }
   }else{
@@ -153,12 +149,12 @@ function renderGuardTable(data) {
       }
 
       $tbody.append(`
-        <tr class="${className}">
+        <tr>
           <td class="trn">
             <input type="checkbox" class="checkbox-guard-sendSMS" data-idguard = "${iGuardId}">
           </td>
           <td>${iGuardId}</td>
-          <td>${icon} ${sGuardName}</td>
+          <td class="${className}">${icon} ${sGuardName}</td>
           <td>${dLastUpdateTime}</td>
           <td>${dSpeedCurrent}</td>
         </tr>

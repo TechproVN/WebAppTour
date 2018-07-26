@@ -10,9 +10,6 @@
   color: green;
   font-weight: bold !important;
 }
-.green-text *{
-  font-weight: bold !important;
-}
 .red-text{
   color: red;
   font-weight: bold;

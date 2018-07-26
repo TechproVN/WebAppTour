@@ -77,36 +77,66 @@ function renderSecurityReportTable(data) {
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblReportSecurity"></table>`)
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
-  $thead.html(
-    `
-      <tr>
-        <th class="trn">Reporting Week</th>
-        <th class="trn">Performance Route</th>
-        <th class="trn">Performance Timing</th>
-        <th class="trn">Performance Routing</th>
-        <th class="trn">Overall Performance</th>
-        <th class="trn">Working Time</th>
-        <th class="trn">Idling Time</th>
-        <th class="trn">Spot check</th>
-      </tr>
-    `
-  )
+  console.log(data);
+  $thead.append('<tr></tr>');
+  $thead.find('tr').append(`<th class="trn">Reporting Week</th>`)
+  data.map(item => item.dWeek).forEach(item => {
+    $thead.find('tr').append(`<th class="trn">${item}</th>`);
+  })
+  // $thead.html(
+  //   `
+  //     <tr>
+  //       <th class="trn">Reporting Week</th>
+  //       <th class="trn">Performance Route</th>
+  //       <th class="trn">Performance Timing</th>
+  //       <th class="trn">Performance Routing</th>
+  //       <th class="trn">Overall Performance</th>
+  //       <th class="trn">Working Time</th>
+  //       <th class="trn">Idling Time</th>
+  //       <th class="trn">Spot check</th>
+  //     </tr>
+  //   `
+  // )
+
+  // data.forEach((security) => {
+  //   const { dIdling_Time_in, dOverall_performance,dPerformance_Timing, dPerformance_Routes, dPerformance_Routing, dWeek, sGuardName, dWorking_Time
+  //   } = security;
+  //   $tbody.append(`
+  //     <tr>
+  //       <td>${dWeek}</td>
+  //       <td>${dPerformance_Routes}</td>
+  //       <td>${dPerformance_Timing}</td>
+  //       <td>${dPerformance_Routing}</td>
+  //       <td>${dOverall_performance}</td>
+  //       <td>${dWorking_Time}</td>
+  //       <td>${dIdling_Time_in}</td>
+  //       <td></td>
+  //     </tr>
+  //   `)
+  // })
+
   if (data) {
-    data.forEach((security) => {
-      const { dIdling_Time_in, dOverall_performance,dPerformance_Timing, dPerformance_Routes, dPerformance_Routing, dWeek, sGuardName, dWorking_Time
-      } = security;
-      $tbody.append(`
-        <tr>
-          <td>${dWeek}</td>
-          <td>${dPerformance_Routes}</td>
-          <td>${dPerformance_Timing}</td>
-          <td>${dPerformance_Routing}</td>
-          <td>${dOverall_performance}</td>
-          <td>${dWorking_Time}</td>
-          <td>${dIdling_Time_in}</td>
-          <td></td>
-        </tr>
-      `)
+    let arrRows = ['Performance Route', 'Performance Timing', 'Performance Routing', 'Overall Performance', 'Working Time', 'Idling Time', 'Spot check'];
+    arrRows.forEach((rowName, index) => {
+      $tbody.append('<tr></tr>');
+      $tbody.find('tr').append(`<td class="trn">${rowName}</td>`);
+      let rowData = [];
+      if(index == 1){
+        rowData = data.map(item => item.dPerformance_Routes);
+      }else if(index == 2){
+        rowData = data.map(item => item.dPerformance_Timing);
+      }else if(index == 3){
+        rowData = data.map(item => item.dPerformance_Routing);
+      }else if(index == 4){
+        rowData = data.map(item => item.dOverall_performance);
+      }else if(index == 5){
+        rowData = data.map(item => item.dWorking_Time);
+      }else if(index == 6){
+        rowData = data.map(item => item.dIdling_Time_in);
+      }
+      rowData.forEach(item => {
+        $tbody.find('tr').append(`<td>${item}</td>`);
+      })
     })
   }
 
