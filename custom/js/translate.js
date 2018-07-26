@@ -219,11 +219,17 @@ const dictionary = {
   "Image":{
     vn:"Hình ảnh"
   },
+  "Audio":{
+    vn:"Âm thanh"
+  },
   "Description":{
     vn:"Mô tả"
   },
   "Total incidents":{
     vn:"Tổng số sự cố"
+  },
+  "Map Incident":{
+    vn:"Bản đồ các sự cố"
   },
   "Asset Map":{
     vn:"Bản dồ tài sản"

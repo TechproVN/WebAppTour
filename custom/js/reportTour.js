@@ -36,11 +36,13 @@ async function showTourDetailsTable(){
     $('#pagingToursControl').pagination({
       dataSource: data,
       pageSize: 10,
+      className: 'paginationjs-theme-green paginationjs-big',
       showGoInput: true,
       showGoButton: true,
       callback: function (data, pagination) {
         let $table = renderTourReportTable(data);
         $('.card-tourReport .table-responsive').html($table);
+        setDefaultLang();
       }
     })
   }else{

@@ -192,11 +192,13 @@ async function showGuards(){
     $('#pagingGuardsControl').pagination({
       dataSource: guards,
       pageSize: 10,
+      className: 'paginationjs-theme-green paginationjs-big',
       showGoInput: true,
       showGoButton: true,
       callback: function (guards, pagination) {
         let $table = renderGuardTable(guards);
         $('.card-guard .table-responsive').html($table);
+        setDefaultLang();
       }
     })
   }else{

@@ -15,12 +15,14 @@ async function showIncidentsType(){
     $('#pagingIncidentTypesControl').pagination({
       dataSource: data,
       pageSize: 10,
+      className: 'paginationjs-theme-green paginationjs-big',
       showGoInput: true,
       showGoButton: true,
       callback: function (data, pagination) {
         // template method of yourself
         let $table = renderIncidentTypes(data);
         $('.card-incident-type .table-responsive').html($table);
+        setDefaultLang();
       }
     })
   }else{

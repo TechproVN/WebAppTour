@@ -164,12 +164,13 @@ async function showPointsData() {
       $('#pagingPointsControl').pagination({
         dataSource: data,
         pageSize: 10,
+        className: 'paginationjs-theme-green paginationjs-big',
         showGoInput: true,
         showGoButton: true,
         callback: function (data, pagination) {
-          // template method of yourself
           let $table = renderPointsTable(data);
           $('.card-points .table-responsive').html($table);
+          setDefaultLang();
         }
       })
     }else{

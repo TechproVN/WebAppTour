@@ -47,6 +47,9 @@ nav.navbar{
 .navbar .nav-item:hover, .active-menu-item{
   background-color: skyblue;
 }
+.navbar .nav-item, .active-menu-item{
+  transition: all 0.3s;
+}
 
 .navbar .dropdown-menu {
   background-color: var(--bg-main-color); 
@@ -88,6 +91,9 @@ nav.navbar{
   font-size: 2.2em;
   color: lightblue;
   margin-right: 15px;
+}
+.custom-table{
+  min-height: 200px;
 }
 .custom-table td, .custom-table th{
   padding-top:10px !important; 

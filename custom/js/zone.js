@@ -124,11 +124,13 @@ async function showZones(){
     $('#pagingZonesControl').pagination({
       dataSource: zones,
       pageSize: 10,
+      className: 'paginationjs-theme-green paginationjs-big',
       showGoInput: true,
       showGoButton: true,
       callback: function (zones, pagination) {
         let $table = renderZonesTable(zones);
         $('.card-zone .table-responsive').html($table);
+        setDefaultLang();
       }
     })
   } else{

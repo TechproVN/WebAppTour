@@ -21,12 +21,14 @@ async function showSchedule() {
     $('#pagingScheduleControl').pagination({
       dataSource: data,
       pageSize: 10,
+      className: 'paginationjs-theme-green paginationjs-big',
       showGoInput: true,
       showGoButton: true,
       callback: function (data, pagination) {
         // template method of yourself
         let $table = renderTblSchedule(data);
         $('.card-schedule .table-responsive').html($table);
+        setDefaultLang();
       }
     })
   } else {

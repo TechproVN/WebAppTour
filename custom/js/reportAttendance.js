@@ -14,12 +14,14 @@ async function showDataAttendance(){
     $('#pagingReportAttendanceControl').pagination({
       dataSource: data,
       pageSize: 10,
+      className: 'paginationjs-theme-green paginationjs-big',
       showGoInput: true,
       showGoButton: true,
       callback: function (data, pagination) {
         // template method of yourself
         let $table = renderReportAttTable(data);
         $('.card-reportAttendance .table-responsive').html($table);
+        setDefaultLang();
       }
     })
   }else{

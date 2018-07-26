@@ -16,6 +16,7 @@ $(async () => {
   arrGuardList = await showGuardList();
   arrRouteList = await showRouteList();
   arrDeviceList = await showDeviceList();
+  
   if(!arrGuardList) arrGuardList = [];
   if(!arrRouteList) arrRouteList = [];
   if(!arrDeviceList) arrDeviceList = [];
@@ -64,12 +65,14 @@ async function showEventHistoryData(type) {
       $('#pagingToursControl').pagination({
         dataSource: data,
         pageSize: 10,
+        className: 'paginationjs-theme-green paginationjs-big',
         showGoInput: true,
         showGoButton: true,
         callback: function (data, pagination) {
           // template method of yourself
           let $table = renderEventHistoryTable(data);
           $('.card-tour .table-responsive').html($table);
+          setDefaultLang();
         }
       })
     }else{

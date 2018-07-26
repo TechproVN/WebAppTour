@@ -134,11 +134,13 @@ async function showDevices(){
     $('#pagingDevicesControl').pagination({
       dataSource: devices,
       pageSize: 10,
+      className: 'paginationjs-theme-green paginationjs-big',
       showGoInput: true,
       showGoButton: true,
       callback: function (devices, pagination) {
         let $table = renderDeviceTable(devices);
         $('.card-device .table-responsive').html($table);
+        setDefaultLang();
       }
     })
   }else{

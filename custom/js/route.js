@@ -231,7 +231,7 @@ function renderListOfSelectedPoints(selectedPoints){
       if(iQRCode != '') type = 'QRCode';
       if(iRFID != '') type = 'RFID';
       $('#selectedPointsOnRoute').append(`
-        <div class="alert alert-success alert-dismissible fade show" role="alert" data-point="${iPointID}" style="cursor: pointer;">${iPointID} - ${type} - Lat: ${dPointLat} Lng: ${dPointLong}
+        <div class="alert alert-success alert-dismissible fade show" role="alert" data-point="${iPointID}" style="cursor: pointer;">${iPointID} - ${type}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
           </button>
@@ -296,11 +296,13 @@ async function showRoutesOnTable(){
     $('#pagingRoutesControl').pagination({
       dataSource: routes,
       pageSize: 10,
+      className: 'paginationjs-theme-green paginationjs-big',
       showGoInput: true,
       showGoButton: true,
       callback: function (data, pagination) {
         let $table = renderTableRoutes(data);
         $('.card-route .table-responsive').html($table);
+        setDefaultLang();
       }
     })
   }else{

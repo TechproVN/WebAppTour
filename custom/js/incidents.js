@@ -22,12 +22,14 @@ async function showIncidentsData() {
     $('#pagingIncidentsControl').pagination({
       dataSource: data,
       pageSize: 10,
+      className: 'paginationjs-theme-green paginationjs-big',
       showGoInput: true,
       showGoButton: true,
       callback: function (data, pagination) {
         console.log(data);
         let $table = renderIncidentsTable(data);
         $('.card-incident .table-responsive').html($table);
+        setDefaultLang();
       }
     })
     data.forEach(item => arrIncidents.push(item));

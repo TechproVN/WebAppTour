@@ -66,11 +66,13 @@ async function showAssetsData() {
     $('#pagingAssetsControl').pagination({
       dataSource: data,
       pageSize: 10,
+      className: 'paginationjs-theme-green paginationjs-big',
       showGoInput: true,
       showGoButton: true,
       callback: function (data, pagination) {
         let $table = renderAssetsTable(data);
         $('.card-asset .table-responsive').html($table);
+        setDefaultLang();
       }
     })
   } else{
