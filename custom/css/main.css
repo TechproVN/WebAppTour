@@ -45,7 +45,7 @@ nav.navbar{
   font-size: 1em;
 }
 .navbar .nav-item:hover, .active-menu-item{
-  background-color: skyblue;
+  background-color: #61DAFB;
 }
 .navbar .nav-item, .active-menu-item{
   transition: all 0.3s;

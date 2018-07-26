@@ -1,4 +1,3 @@
-
 const dictionary = {
   "Main View": {
     vn: "Trang Chủ"
@@ -126,9 +125,6 @@ const dictionary = {
   "Filters":{
     vn:"Lọc thông tin"
   },
-  "Filters":{
-    vn:"Lọc thông tin"
-  },
   "Start Time":{
     vn:"Thời gian bắt đầu"
   },
@@ -235,7 +231,7 @@ const dictionary = {
     vn:"Bản dồ tài sản"
   },
   "Code":{
-    vn:"Max code"
+    vn:"Mã code"
   },
   "Asset Map":{
     vn:"Bản dồ tài sản"
@@ -541,7 +537,7 @@ const dictionary = {
     vn:"Tổng số các thiết bị"
   },
   "Serial":{
-    vn:"Sô seri"
+    vn:"Số seri"
   },
   "Power":{
     vn:"Năng lượng"

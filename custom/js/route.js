@@ -165,7 +165,7 @@ function renderPointsOnZone(points){
         $('#pointsOnZone').append(`
         <li class="list-group-item">
           <input type="checkbox" class="checkbox-custom checkboxPoint" style="margin-right: 10px" value="${iPointID}">
-          <span class="point">PointID ${iPointID} - ${type}</span>
+          <span class="point">${iPointID} - ${type}</span>
         </li>
       `)
       $('#pointsOnZone').find('.checkboxPoint').last().change(function(e){

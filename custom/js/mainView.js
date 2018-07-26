@@ -4,26 +4,40 @@ $(() => {
   $('#btnSendSMSGuards').click(sendSMSGuards);
   $('#btnShowModalSendSMSGuards').click(showModalSendSMSGuards)
   $('#btnAttendance').click(makeAttendance);
-  $('#txtSearchGuardName').keyup(filterGuardByName)
+  $('#txtSearchGuardName').keyup(filterGuards);
+  $('#selectGuardGroup').change(filterGuards)
   showGuardInfo();
   // showEventsInfo();
   showCurrentMapGuard();
-  
+  showGuardGroups();
+
 })
 
 const audioSOS = new Audio('../custom/audio/alert.wav');
 
 let arrCurrentGuardsSentSMS = [];
 let arrCurrentGuards = [];
+let arrFilterGuards = [];
 
-function filterGuardByName(e){
-  let { value } = e.target;
+function filterGuardByGroup(arr, groupID){
+  if(groupID == 0) return arr;
+  return arr.filter(g => g.iGuardGroupID == groupID)
+}
+
+function filterGuardByName(arr, value){
   value = removeUnicode(value);
-  if(!Validation.checkEmpty(value)) return renderGuardTable(arrCurrentGuards);
-  let filter = arrCurrentGuards.filter(g => {
+  if(!Validation.checkEmpty(value)) return arr;
+  return arr.filter(g => {
     let name = removeUnicode(g.sGuardName).toLowerCase();
     return name.indexOf(value.toLowerCase()) > -1
   });
+}
+
+function filterGuards(){
+  let groupID = $('#selectGuardGroup').val();
+  let name = $('#txtSearchGuardName').val();
+  let arrFilterName = filterGuardByName(arrCurrentGuards, name);
+  let filter = filterGuardByGroup(arrFilterName, groupID);
   renderGuardTable(filter);
 }
 
@@ -79,7 +93,8 @@ function showModalSendSMSGuards(){
 async function showGuardInfo() {
   let data = await Service.getGuardsData();
   if(data){ 
-    arrCurrentGuards = data;
+    arrCurrentGuards = data.slice(); 
+    arrFilterGuards = data.slice();
     renderGuardTable(data);
     renderJcombobox(data);
     let sosChecking = data.some(g => g.bOnline.toLowerCase() == 'sos');
@@ -240,6 +255,18 @@ function buildCurrentMapGuard(data){
         let infoWindow = createInfoWindowGoogleMap(mes);
         infoWindow.open(mymap, marker);
       }
+    })
+  }
+}
+
+async function showGuardGroups(){
+  let data = await Service.getGroup();
+  $('#selectGuardGroup').html('');
+  $('#selectGuardGroup').append(`<option value="0">All</option>`)
+  if(data){
+    data.forEach(group => {
+      const { iGuardGroupID, sGroupName } = group;
+      $('#selectGuardGroup').append(`<option value="${iGuardGroupID}">${sGroupName}</option>`);
     })
   }
 }

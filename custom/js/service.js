@@ -535,4 +535,16 @@ class Service {
     });
    return data;
   }
+
+  static async getGroup() {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/getGroup.php`,
+      method: 'post',
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+  // getGroup
 }
