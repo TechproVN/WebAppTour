@@ -97,19 +97,21 @@ function renderGuardTable(guards){
       <th class="trn">Name</th>
       <th class="trn">Phone</th>
       <th class="trn">Username</th>
+      <th class="trn">Groupname</th>
       <th class="trn">Active</th>
     </tr>
   `
   )
   if (guards) {
     guards.forEach(guard => {
-      const { iGuardID, sGuardName, sGuardPhone, sGuardUserName, bActive} = guard
+      const { iGuardID, sGuardName, sGuardPhone, sGuardUserName, bActive, sGroupName} = guard
       $tbody.append(`
         <tr>
           <td>${iGuardID}</td>
           <td>${sGuardName}</td>
           <td>${sGuardPhone}</td>
-          <td>${sGuardUserName}</td>
+          <td>${sGuardUserName}</td> 
+          <td>${sGroupName}</td> 
           <td>${bActive}</td>
           <td>
             <div class="btn-group">
