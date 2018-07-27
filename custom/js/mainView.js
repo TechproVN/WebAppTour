@@ -91,6 +91,10 @@ function showModalSendSMSGuards(){
 async function showGuardInfo() {
   let data = await Service.getGuardsData();
   if(data){ 
+    let onlineNum = getNumOfOnline(data);
+    let sosNum = getnumOfSOS(data);
+    let total = data.length;
+    showNumOfGuardsTypes(total, onlineNum, sosNum);
     arrCurrentGuards = data.slice(); 
     filterGuards();
     renderJcombobox(data);
@@ -103,6 +107,22 @@ async function showGuardInfo() {
   }else{
     arrCurrentGuards.length = 0;
   }
+}
+
+function getNumOfOnline(data){
+  let onlineNum = data.filter(g => g.bOnline.toLowerCase() == 'online').length;
+  return onlineNum;
+}
+
+function getnumOfSOS(data){
+  let sosNum = data.filter(g => g.bOnline.toLowerCase() == 'sos').length;
+  return sosNum
+}
+
+function showNumOfGuardsTypes(total, online, sos){
+  $('#totalNumOfGuard').html(`<strong class="trn">Totals</strong>: ${total}`);
+  $('#totalNumOfGuardSOS').html(`<strong class="trn red-text">SOS</strong>: ${sos}`);
+  $('#totalNumOfGuardOnline').html(`<strong class="trn green-text">Online</strong>: ${online}`);
 }
 
 function renderJcombobox(data) {
