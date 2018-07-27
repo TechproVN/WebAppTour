@@ -542,6 +542,12 @@ const dictionary = {
   "Power":{
     vn:"Năng lượng"
   },
+  "Totals":{
+    vn:"Tổng"
+  },
+  "Total":{
+    vn:"Tổng"
+  },
 }
 
 $('#changeLanguage').click(changeLanguage);

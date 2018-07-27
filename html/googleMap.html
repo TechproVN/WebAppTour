@@ -95,31 +95,37 @@
       return vars;
   }
 
-    async function getGuardGPSCurrent(sentData) {
+    function getGuardGPSCurrent(sentData) {
       var id = sentData.iGuardID;
-      var url = `${APP_DOMAIN}api/GetGuardGPSCurrent.php?iGuardID=${id}`;
-      var data = await fetch(url);
-      var jsonData = await data.json();
+      var url =  APP_DOMAIN + 'api/GetGuardGPSCurrent.php?iGuardID=' + id;
+      //var data = fetch(url);
+      var jsonData = data.json();
       if(!Array.isArray(jsonData)) return null;
       if(jsonData.length == 0) return null;
       return jsonData;
     }
 
-    async function getPointChecking(sentData) {
+    function getPointChecking(sentData) {
       var code = sentData.sCheckingCode;
-      var url = `${APP_DOMAIN}api/GetPointChecking.php?sCheckingCode=${code}`;
-      var data = await fetch(url);
-      var jsonData = await data.json();
+      var url = APP_DOMAIN + 'api/GetPointChecking.php?sCheckingCode=' + code;
+      //var data = fetch(url);
+      var jsonData = data.json();
       if(!Array.isArray(jsonData)) return null;
       if(jsonData.length == 0) return null;
       return jsonData;
     }
   
-    async function buildMap(iGuardID, sCheckingCode){
-      var sentGuardData = { iGuardID };
-      var guardGPSCurrent = await getGuardGPSCurrent(sentGuardData);
-      console.log(guardGPSCurrent);
-      const { dGuardLatCurrent, dGuardLongCurrent, sMessage, bOnline } = guardGPSCurrent[0];
+    function buildMap(iGuardID, sCheckingCode){
+      var sentGuardData = {iGuardID: iGuardID};
+      var guardGPSCurrent = getGuardGPSCurrent(sentGuardData);
+      //console.log(guardGPSCurrent);
+      //const { dGuardLatCurrent, dGuardLongCurrent, sMessage, bOnline } = guardGPSCurrent[0];
+	  
+	  var dGuardLatCurrent = guardGPSCurrent[0].guardGPSCurrent;
+	  var dGuardLongCurrent = guardGPSCurrent[0].dGuardLongCurrent;
+	  var sMessage = guardGPSCurrent[0].sMessage;
+	  var bOnline = guardGPSCurrent[0].bOnline;
+	  
       var latGuard = Number(dGuardLatCurrent);
       var lngGuard = Number(dGuardLongCurrent);
       var mapProp = createMapPropGoogleMap(18, latGuard, lngGuard)
@@ -133,11 +139,16 @@
       guardMarker.setMap(mymap);
       var infoWindowGuard = createInfoWindowGoogleMap(sMessage);
       infoWindowGuard.open(mymap, guardMarker);
-      const pointChekingSentData = { iGuardID, sCheckingCode };
-      var checkingPointData = await getPointChecking(pointChekingSentData);
+      const pointChekingSentData = { iGuardID: iGuardID, sCheckingCode: sCheckingCode };
+      var checkingPointData = getPointChecking(pointChekingSentData);
       if(checkingPointData){
-        checkingPointData.forEach(checkedPoint => {
-          var { Lat, Long, Status, Message, ImageUrl } = checkedPoint;
+        checkingPointData.forEach(function(checkedPoint){
+          //var { Lat, Long, Status, Message, ImageUrl } = checkedPoint;
+		  var Lat = checkedPoint.Lat;
+		  var Long = checkedPoint.Long;
+		  var Status = checkedPoint.Status;
+		  var Message = checkedPoint.Message;
+		  var ImageUrl = checkedPoint.ImageUrl;
           var url = '';
           switch(Status){
             case 1: 
@@ -158,7 +169,7 @@
           marker.setMap(mymap);
           var mes = Message;
           if(Status == 4){
-            mes = `${Message}<br><img src="${APP_DOMAIN}${ImageUrl}" class="img-fluid">`
+            mes = Message + '<br><img src="' + APP_DOMAIN + ImageUrl + 'class="img-fluid">'
             var infoWindow = createInfoWindowGoogleMap(mes);
             google.maps.event.addListener(marker, 'click', function() {
               infoWindow.open(mymap, marker);
