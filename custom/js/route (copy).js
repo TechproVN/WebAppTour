@@ -23,15 +23,11 @@ $(() => {
     showRouteMap(null);
   }) 
   $('#btnSaveSelectedPoints').click(saveRoute);
-  $('#selectZonesFilter').change(showRoutesOnTable);
-  $('#modalUpdateRouteGuard').find('.btn.btnSaveRouteUpdateGuard').click(updateRoute);
   showSelectDevices();
   showRouteMap();
   showAllZones();
   showPointsOnZone();
   showRoutesOnTable();
-  showGuardIdOnCombobox();
-  showZonesOnJcomboboxFilter();
 })
 
 var arrSelectedPointsOnRoute = [];
@@ -119,16 +115,6 @@ function renderZoneOnJcombobox(data) {
   if (data) {
     data.forEach(zone => {
       $('.selectZones').append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
-    })
-  }
-}
-
-function renderZoneOnJcomboboxFilter(data) {
-  $('#selectZonesFilter').html('');
-  $('#selectZonesFilter').append(`<option value="0">All</option>`)
-  if (data) {
-    data.forEach(zone => {
-      $('#selectZonesFilter').append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
     })
   }
 }
@@ -250,7 +236,7 @@ async function saveRoute(){
   if(!Validation.checkEmpty(RouteName)) return showAlertError("Invalid save", "Please enter route name", 3000);
   let arrPoints = arrSelectedPointsOnRoute.map((p, index) => {
     const { iPointID } = p;
-    return { PointID: iPointID, No: index + 1 }
+    return {PointID: iPointID, No: index + 1}
   })
   let Distance = Number(currentTotalDistance.toFixed(1));
   let TimeComplete = parseInt(currentTimeCompleted);
@@ -259,13 +245,6 @@ async function saveRoute(){
   console.log(JSON.stringify(sentData));
   let response = await Service.saveRoute(sentData);
   console.log(response);
-  // send request second time on saving route
-  let arrPoints_2 = arrPoints.reverse();
-  let routeName_2 = `${RouteName} - copy`;
-  let sentData_2 = { RouteID: 0, RouteName: routeName_2, bStatusIN: 1, Point: arrPoints_2, ZoneID, TimeComplete, Distance };
-  let response_2 = await Service.saveRoute(sentData_2);
-  console.log(response_2);
-  
   showAlertSuccess("Save successfully!", "", 2000);
   resetAfterSavingRoute();
 }
@@ -367,14 +346,8 @@ function renderTableRoutes(routes){
           </td>
         </tr>
       `)
-      $tbody.find('.btn.btnRouteUpdateGuard').last().click(function(){
-        showUpdateRouteGuardModal(route);
-      })
       $tbody.find('.btn.btnRouteViewMap').last().click(function(){
         showRouteViewMapModal(route);
-      })
-      $tbody.find('.btn.btnInactiveRoute').last().click(function(){
-        deleteRoute(route);
       })
     })
   }
@@ -392,40 +365,7 @@ async function showRouteViewMapModal(route){
   }, TIME_OUT_SHOW_MAP_ON_MODAL);
 }
 
-function showUpdateRouteGuardModal(route){
-  currentUpdateRoute = Object.assign({}, route);
-  const { bActive, dDateTimeUpdate, dDistance, iGuardID, iRouteID, iTimeComplete, iZoneID, sRouteName, sZoneName, sGuardName, iSpeed, iDeviceID
-  } = route;
-  $('#routeUpdateInfo').text(`${sRouteName} on zone ${sZoneName}`)
-  $('#txtUpdateRouteName').val(sRouteName);
-  $('#txtUpdateSpeed').val(iSpeed);
-  $('#txtUpdateCompletionTime').val(iTimeComplete);
-  $('#selectUpdateRouteDevice').val(iDeviceID);
-  $('#modalUpdateRouteGuard').modal('show');
-}
 
-async function showGuardIdOnCombobox(){
-  let guards = await Service.getPersonalGuardsInfo();
-  $('.selectGuards').html('');
-  guards.forEach(guard => {
-    const { iGuardID, sGuardName } = guard;
-    $('.selectGuards').append(`<option value="${iGuardID}">${sGuardName}</option>`)
-  })
-}
-
-async function updateRoute(){
-  const { iRouteID } = currentUpdateRoute;
-  let iDeivceIDIN = $('#selectUpdateRouteDevice').val(); 
-  let iCompletionTimeIN = $('#txtUpdateCompletionTime').val();
-  let iSpeedIN = $('#txtUpdateSpeed').val();
-  let sRouteNameIN = $('#txtUpdateRouteName').val();
-  let sentData = { iDeivceIDIN, iRouteIDIN: iRouteID, iSpeedIN, iCompletionTimeIN, sRouteNameIN };
-  console.log(JSON.stringify(sentData));
-  let response = await Service.updateRouteDetail(sentData);
-  showRoutesOnTable();
-  console.log(response);
-  showAlertSuccess("Updated successfully!", "", 3000);
-}
 
 function calDistanceOfRoute(points){
   let sumOfDistance = 0;
