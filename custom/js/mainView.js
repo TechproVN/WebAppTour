@@ -107,6 +107,7 @@ async function showGuardInfo() {
   }else{
     arrCurrentGuards.length = 0;
   }
+  setDefaultLang();
 }
 
 function getNumOfOnline(data){
@@ -140,8 +141,7 @@ function renderGuardTable(data) {
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
 
-  $thead.html(
-    `
+  $thead.html(`
     <tr>
       <th class="trn">
         <input type="checkbox" class="checkbox-all-guards">
@@ -151,9 +151,7 @@ function renderGuardTable(data) {
       <th class="trn">Last visited</th>
       <th class="trn">Speed</th>
     </tr>
-  `
-  )
-  
+  `)
   if (data) {
     data.forEach(guard => {
       const { iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline } = guard

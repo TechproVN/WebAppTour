@@ -227,3 +227,14 @@ function getPageSize(l){
 function removeUnicode(str){
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 }
+
+async function showGuardGroups(){
+  let data = await Service.getGroup();
+  $('.selectGuardGroup').html('');
+  if(data){
+    data.forEach(group => {
+      const { iGuardGroupID, sGroupName } = group;
+      $('.selectGuardGroup').append(`<option value="${iGuardGroupID}">${sGroupName}</option>`);
+    })
+  }
+}

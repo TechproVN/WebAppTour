@@ -9,6 +9,9 @@ $(() => {
   });
   $('#btnShowGuardInsertModal').click(showGuardModalInsert);
   $('#btnSendMessageGuard').click(sendMessageGuard);
+  $('#btnShowGuardsTbl').click(showGuards);
+  showGuardGroupsFilter()
+  showGuardGroups();
   showGuards();
 })
 
@@ -19,8 +22,9 @@ async function insertGuard(){
   let phone = $('#txtInsertGuardPhone').val();
   let username = $('#txtInsertGuardUsername').val();
   let password = $('#txtInsertGuardPassword').val();
+  let iGroupIDIN = $('#selectInsertGuardGroup').val();
   if(checkValidation(name, username, phone, password)){
-    let sentData = { sGuardNameIN: name, sGuardPhone: phone, sGuardUsername: username, sGuardPassword: password, iGuardIDIN: 0, bStatusIN: 1 };
+    let sentData = { sGuardNameIN: name, sGuardPhone: phone, sGuardUsername: username, sGuardPassword: password, iGuardIDIN: 0, bStatusIN: 1, iGroupIDIN };
     console.log(JSON.stringify(sentData));
     let response = await Service.insertGuard(sentData);
     console.log(response);
@@ -60,8 +64,9 @@ async function updateGuard(){
   let name = $('#txtUpdateGuardName').val();
   let phone = $('#txtUpdateGuardPhone').val();
   let username = $('#txtUpdateGuardUsername').val();
+  let iGroupIDIN = $('#selectUpdateGuardGroup').val();
   if(checkValidation(name, username, phone, 'password')){
-    let sentData = { sGuardNameIN: name, sGuardPhone: phone, sGuardUsername: username, sGuardPassword: 0, iGuardIDIN: id, bStatusIN: 2 };
+    let sentData = { sGuardNameIN: name, sGuardPhone: phone, sGuardUsername: username, sGuardPassword: 0, iGuardIDIN: id, bStatusIN: 2, iGroupIDIN };
     let response = await Service.updateGuard(sentData);
     console.log(response);
     showAlertSuccess("Updated successfully!", "", 2000);
@@ -171,11 +176,12 @@ function showGuardModalResetPass(guard){
 }
 
 function showGuardModalUpdate(guard){
-  const { iGuardID, sGuardName, sGuardPhone, sGuardUserName, bActive} = guard
+  const { iGuardID, sGuardName, sGuardPhone, sGuardUserName, iGuardGroupID} = guard
   $('#txtUpdateGuardID').val(iGuardID);
   $('#txtUpdateGuardPhone').val(sGuardPhone);
   $('#txtUpdateGuardName').val(sGuardName);
   $('#txtUpdateGuardUsername').val(sGuardUserName);
+  $('#selectUpdateGuardGroup').val(iGuardGroupID);
   $('#modalUpdateGuard').modal('show');
 }
 
@@ -185,7 +191,10 @@ function showGuardModalInsert(){
 }
 
 async function showGuards(){
-  let guards = await Service.getPersonalGuardsInfo();
+  let iGroupIDIN = $('#selectFilterGuardByGroup').val();
+  if(!iGroupIDIN) iGroupIDIN = 0;
+  let sentData = { iGroupIDIN };
+  let guards = await Service.getPersonalGuardsInfo(sentData);
   if(guards){
     console.log(guards)
     $('#totalGuards').html(`<strong class="trn">Total Guards</strong>:  ${guards.length}`);
@@ -274,4 +283,18 @@ async function buildCurrentPosGuardMap(iGuardID, sCheckingCode){
     }
   }
 }
+
+async function showGuardGroupsFilter(){
+  let data = await Service.getGroup();
+  $('#selectFilterGuardByGroup').html('');
+  if(data){
+    $('#selectFilterGuardByGroup').append(`<option value="0">All</option>`);
+    data.forEach(group => {
+      const { iGuardGroupID, sGroupName } = group;
+      $('#selectFilterGuardByGroup').append(`<option value="${iGuardGroupID}">${sGroupName}</option>`);
+    })
+  }
+}
+
+
 

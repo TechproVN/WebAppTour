@@ -30,10 +30,11 @@ class Service {
     return data;
   }
 
-  static async getPersonalGuardsInfo() {
+  static async getPersonalGuardsInfo(sentData) {
     let data = await $.ajax({
       url: `${APP_DOMAIN}api/GetGuardInformation.php`,
       method: 'post',
+      data: JSON.stringify(sentData)
     });
     let parsedData = JSON.parse(data)
     if (Array.isArray(parsedData) && parsedData.length > 0)

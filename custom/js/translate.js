@@ -548,6 +548,12 @@ const dictionary = {
   "Total":{
     vn:"Tổng"
   },
+  "Groups":{
+    vn:"Nhóm"
+  },
+  "Group":{
+    vn:"Nhóm"
+  },
 }
 
 $('#changeLanguage').click(changeLanguage);

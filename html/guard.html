@@ -121,12 +121,16 @@
           <div class="card-body custom-card-body">
             <div class="row mt-3">
               <div class="col-12">
-                
+                <div class="form-group">
+                  <label for="" class="font-weight-bold trn">Groups</label>
+                  <select name="" id="selectFilterGuardByGroup" class="form-control"></select>
+                </div> 
               </div>
             </div>
             <div class="row mt-3">
               <div class="col-12">
                 <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowGuardInsertModal">Insert</button>
+                <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowGuardsTbl">View</button>
               </div>
             </div>
           </div>
@@ -188,8 +192,15 @@
                   </div>
                   <div class="form-group">
                     <label for="" class="trn">Password</label>
-                    <input type="text" class="form-control" placeholder="Enter password..." id="txtInsertGuardPassword">
+                    <input type="password" class="form-control" placeholder="Enter password..." id="txtInsertGuardPassword">
                   </div>
+                  <div class="form-group">
+                    <label for="" class="trn">Group</label>
+                    <select name="" id="selectInsertGuardGroup" class="form-control selectGuardGroup">
+                      <option value=""></option>
+                    </select>
+                  </div>
+
                   <button class="btn bg-main-color btn-custom trn" type="submit">Save</button>
                 </form>
               </div>
@@ -231,6 +242,12 @@
                   <div class="form-group">
                     <label for="" class="trn">Username</label>
                     <input type="text" class="form-control" placeholder="Enter username..." id="txtUpdateGuardUsername">
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="trn">Group</label>
+                    <select name="" id="selectUpdateGuardGroup" class="form-control selectGuardGroup">
+                      <option value=""></option>
+                    </select>
                   </div>
                   <button class="btn bg-main-color btn-custom trn" type="submit">Save</button>
                 </form>
