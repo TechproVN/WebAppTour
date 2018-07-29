@@ -46,6 +46,7 @@ function renderPointsTable(data) {
   $thead.html(
     `
       <tr>
+        <th class="trn">#</th>
         <th class="trn">ID</th>
         <th class="trn">Zone</th>
         <th class="trn">Name</th>
@@ -53,7 +54,7 @@ function renderPointsTable(data) {
         <th class="trn">GPS</th>
         <th class="trn">QRCode</th>
         <th class="trn">RFID</th>
-        <th class="trn">Datetime updated</th>
+        <th class="trn">Updated</th>
         <th class="trn"></th>
       </tr>
     `
@@ -63,6 +64,7 @@ function renderPointsTable(data) {
       const {sZoneName, sPointCode, dDateTimeAdd, iPointID, sPointName, sPointNote, iGPS, iQRCode, iRFID} = point;
       $tbody.append(`
         <tr>
+          <td></td>
           <td>${iPointID}</td>
           <td>${sZoneName}</td>
           <td>${sPointName}</td>
