@@ -6,15 +6,17 @@ $(() => {
     showAllIncidentMap(arrIncidents);
   })
   formatTodayIncident();
-
 })
 
 const arrIncidents = [];
 
 async function showIncidentsData() {
-  let datetime = $('#incidentDatetime').val();
-  if(datetime == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
-  let sentData = { dDateTime: changeFormatDateTime(datetime) };
+  let fromDate = $('#incidentFromDatetime').val();
+  let toDate = $('#incidentToDatetime').val();
+  if(fromDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
+  if(toDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
+  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate)};
+  console.log(sentData);
   let data = await Service.getIncidentsData(sentData);
   arrIncidents.length = 0;
   if(data) {

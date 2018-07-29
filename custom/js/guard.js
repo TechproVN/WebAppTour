@@ -93,10 +93,10 @@ function renderGuardTable(guards){
   $thead.html(
     `
     <tr>
-      <th class="trn">ID</th>
-      <th class="trn">Name</th>
-      <th class="trn">Phone</th>
-      <th class="trn">Username</th>
+      <th class="trn">ID.</th>
+      <th class="trn">Full name</th>
+      <th class="trn">Phone number</th>
+      <th class="trn">User name</th>
       <th class="trn">Group</th>
       <th class="trn">Position</th>
       <th class="trn">Active</th>
