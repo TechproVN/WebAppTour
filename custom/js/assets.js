@@ -16,28 +16,28 @@ function renderAssetsTable(data) {
   $thead.html(
     `
       <tr>
+        <th class="trn">#</th>
         <th class="trn">Code</th>
-        <th class="trn">AssetName</th>
+        <th class="trn">Asset name</th>
         <th class="trn">Zone</th>
-        <th class="trn">Guard Name</th>
-        <th class="trn">Last Property History</th>
-        <th class="trn">Long Property History</th>
-        <th class="trn">Datetime</th>
+        <th class="trn">Route</th>
+        <th class="trn">Guard</th>
+        <th class="trn">Checked at</th>
         <th class="trn"></th>
       </tr>
     `
   )
   if(data){
     data.forEach(asset => {
-      const { AssetCode, AssetName, sZoneName, sGuardName, dLatPropertyHistory, dLongPropertyHistory, dDateTime } = asset;
+      const { AssetCode, AssetName, sZoneName, sRouteName, sGuardName,  dDateTime, dLatPropertyHistory, dLongPropertyHistory} = asset;
       $tbody.append(`
         <tr>
+          <td></td>
           <td>${AssetCode}</td>
           <td>${AssetName}</td>
           <td>${sZoneName}</td>
+          <td>${sRouteName}</td>
           <td>${sGuardName}</td>
-          <td>${dLatPropertyHistory}</td>
-          <td>${dLongPropertyHistory}</td>
           <td>${dDateTime}</td>
           <td>
             <button class="btn btn-custom btn-custom-small bg-main-color btnShowMapAsset trn">Map</button>
@@ -54,11 +54,13 @@ function renderAssetsTable(data) {
 }
 
 async function showAssetsData() {
-  let datetime = $('#assetDatetime').val();
-  if(datetime == '') return showAlertError("Datetime required", "", 3000);
-  let sentData = {dDateTime : changeFormatDateTime(datetime)};
+  let fromDate = $('#assetFromDatetime').val();
+  let toDate = $('#assetToDatetime').val();
+  if(fromDate == '') return showAlertError("Datetime required", "", 3000);
+  if(toDate == '') return showAlertError("Datetime required", "", 3000);
+  let sentData = {fromDate : changeFormatDateTime(fromDate), toDate : changeFormatDateTime(toDate)};
+  console.log(sentData);
   let data = await Service.getAssetsData(sentData);
-  console.log(data);
   arrCurrentAssets.length = 0;
   if(data){
     arrCurrentAssets = data.slice();
