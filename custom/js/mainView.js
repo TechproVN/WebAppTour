@@ -1,15 +1,16 @@
 
-$(async () => {
+$(() => {
 
   $('#btnSendSMSGuards').click(sendSMSGuards);
   $('#btnShowModalSendSMSGuards').click(showModalSendSMSGuards)
   $('#btnAttendance').click(makeAttendance);
   $('#txtSearchGuardName').keyup(filterGuards);
   $('#selectGuardGroup').change(filterGuards)
- 
-  await showGuardGroups();
+  
+  showGuardGroups();
   showCurrentMapGuard();
   showGuardInfo();
+
 })
 
 const audioSOS = new Audio('../custom/audio/alert.wav');
@@ -23,8 +24,8 @@ function filterGuardByGroup(arr, groupID){
 }
 
 function filterGuardByName(arr, value){
-  value = removeUnicode(value);
   if(!Validation.checkEmpty(value)) return arr;
+  value = removeUnicode(value);
   return arr.filter(g => {
     let name = removeUnicode(g.sGuardName).toLowerCase();
     return name.indexOf(value.toLowerCase()) > -1
@@ -37,6 +38,7 @@ function filterGuards(){
   let arrFilterName = filterGuardByName(arrCurrentGuards, name);
   let filter = filterGuardByGroup(arrFilterName, groupID);
   renderGuardTable(filter);
+  console.log(filter);
 }
 
 async function makeAttendance(){
@@ -102,7 +104,9 @@ async function showGuardInfo() {
     let sosNum = getnumOfSOS(data);
     let total = data.length;
     showNumOfGuardsTypes(total, onlineNum, sosNum);
-    filterGuards();
+    setTimeout(() => {
+      filterGuards();
+    }, 200);
     showSOSNotification(data);
   } else{
     arrCurrentGuards.length = 0;
@@ -135,6 +139,7 @@ function renderGuardTable(data) {
       <th class="trn">Speed</th>
     </tr>
   `)
+  let $checkboxHead = $thead.find('.checkbox-all-guards');
   if (data) {
     data.forEach((guard, index) => {
       const { iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline } = guard
@@ -143,8 +148,7 @@ function renderGuardTable(data) {
       if(bOnline == 'SOS') {
         icon = '<i class="fa fa-exclamation-triangle red-text" aria-hidden="true"></i>';
         className = 'red-text';
-      }
-      if(bOnline == 'Online') {
+      }else if(bOnline == 'Online') {
         icon = '<i class="fa fa-circle green-text" aria-hidden="true"></i>';
         className = 'green-text';
       }
@@ -159,11 +163,12 @@ function renderGuardTable(data) {
           <td>${dSpeedCurrent}</td>
         </tr>
       `)
-      let $ele = $tbody.find('.checkbox-guard-sendSMS').last()
+      let $ele = $tbody.find('.checkbox-guard-sendSMS').last();
       $ele.change(e => {
+        console.log('check 1 element');
         let { checked } = e.target;
         if(!checked){
-          $thead.find('.checkbox-all-guards').prop({'checked': false});
+          $checkboxHead.prop({'checked': false});
         }
         checkOneGuard(e, guard);
       })
@@ -171,16 +176,12 @@ function renderGuardTable(data) {
       if(cond) $ele.prop({'checked': true});
     })
   }
-  
-  let $checkboxHead = $thead.find('.checkbox-all-guards');
-  console.log(123);
   $checkboxHead.change(e => {
     checkAllGuards(e);
     let { checked } = e.target;
-    console.log(checked);
+    console.log('check many elements');
     $tbody.find('.checkbox-guard-sendSMS').prop({'checked': checked});
   })
-  console.log(456);
   let l1 = arrCurrentGuardsSentSMS.length;
   let l2 = arrCurrentGuards.length;
   if(l1 == l2){
