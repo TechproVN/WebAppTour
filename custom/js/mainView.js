@@ -1,5 +1,5 @@
 
-$(() => {
+$(async () => {
 
   $('#btnSendSMSGuards').click(sendSMSGuards);
   $('#btnShowModalSendSMSGuards').click(showModalSendSMSGuards)
@@ -7,7 +7,7 @@ $(() => {
   $('#txtSearchGuardName').keyup(filterGuards);
   $('#selectGuardGroup').change(filterGuards)
   // showEventsInfo();
-  showGuardGroups();
+  await showGuardGroups();
   showCurrentMapGuard();
   showGuardInfo();
 })
@@ -88,28 +88,6 @@ function showModalSendSMSGuards(){
   
 }
 
-async function showGuardInfo() {
-  let data = await Service.getGuardsData();
-  if(data){ 
-    let onlineNum = getNumOfOnline(data);
-    let sosNum = getnumOfSOS(data);
-    let total = data.length;
-    showNumOfGuardsTypes(total, onlineNum, sosNum);
-    arrCurrentGuards = data.slice(); 
-    filterGuards();
-    renderJcombobox(data);
-    let sosChecking = data.some(g => g.bOnline.toLowerCase() == 'sos');
-    if(sosChecking){
-      audioSOS.play();
-      let sure = await showAlertWarning('There are SOS warning situations', "");
-      audioSOS.pause();
-    }
-  }else{
-    arrCurrentGuards.length = 0;
-  }
-  setDefaultLang();
-}
-
 function getNumOfOnline(data){
   let onlineNum = data.filter(g => g.bOnline.toLowerCase() == 'online').length;
   return onlineNum;
@@ -126,13 +104,35 @@ function showNumOfGuardsTypes(total, online, sos){
   $('#totalNumOfGuardOnline').html(`<strong class="trn green-text">Online</strong>: ${online}`);
 }
 
-function renderJcombobox(data) {
+function renderGuardJcombobox(data) {
+  $('#selectGuardName').html()
   if (data) {
     $('#selectGuardName').append('<option value="0">All</option>');
     data.forEach(guard => {
       $('#selectGuardName').append(`<option value="${guard.iGuardId}">${guard.sGuardName}</option>`)
     })
   }
+}
+
+async function showGuardInfo() {
+  let data = await Service.getGuardsData();
+  if(data){ 
+    let onlineNum = getNumOfOnline(data);
+    let sosNum = getnumOfSOS(data);
+    let total = data.length;
+    showNumOfGuardsTypes(total, onlineNum, sosNum);
+    arrCurrentGuards = data.slice(); 
+    filterGuards();
+    let sosChecking = data.some(g => g.bOnline.toLowerCase() == 'sos');
+    if(sosChecking){
+      audioSOS.play();
+      let sure = await showAlertWarning('There are SOS warning situations', "");
+      audioSOS.pause();
+    }
+  } else{
+    arrCurrentGuards.length = 0;
+  }
+  setDefaultLang();
 }
 
 function renderGuardTable(data) {
@@ -165,7 +165,6 @@ function renderGuardTable(data) {
         icon = '<i class="fa fa-circle" aria-hidden="true" style="color: green"></i>';
         className = 'green-text';
       }
-
       $tbody.append(`
         <tr>
           <td class="trn">
@@ -177,7 +176,6 @@ function renderGuardTable(data) {
           <td>${dSpeedCurrent}</td>
         </tr>
       `)
-      // ${bOnline}
       let $ele = $tbody.find('.checkbox-guard-sendSMS').last()
       $ele.change((e) => {
         let { checked } = e.target;
@@ -190,18 +188,18 @@ function renderGuardTable(data) {
       if(cond) $ele.prop({'checked': true});
     })
   }
+  
   let $checkboxHead = $thead.find('.checkbox-all-guards')
+  console.log(123);
   $checkboxHead.change((e) => {
     checkAllGuards(e);
+    let { checked } = e.target;
+    console.log(checked);
     $tbody.find('.checkbox-guard-sendSMS').each((index, ele) => {
-      let { checked } = e.target;
-      if(checked){
-        $(ele).prop({'checked': true});
-      }else{
-        $(ele).prop({'checked': false});
-      }
+      $(ele).prop({'checked': checked});
     })
   })
+  console.log(456);
   let l1 = arrCurrentGuardsSentSMS.length;
   let l2 = arrCurrentGuards.length;
   if(l1 == l2){

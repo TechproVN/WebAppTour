@@ -267,6 +267,7 @@ async function saveRoute(){
   console.log(response_2);
   
   showAlertSuccess("Save successfully!", "", 2000);
+  showRoutesOnTable();
   resetAfterSavingRoute();
 }
 

@@ -554,6 +554,12 @@ const dictionary = {
   "Group":{
     vn:"Nhóm"
   },
+  "Groupname":{
+    vn:"Tên nhóm"
+  },
+  "Group Name":{
+    vn:"Tên nhóm"
+  },
 }
 
 $('#changeLanguage').click(changeLanguage);

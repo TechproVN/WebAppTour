@@ -238,3 +238,7 @@ async function showGuardGroups(){
     })
   }
 }
+
+function shuffleArray(arr){
+  
+}

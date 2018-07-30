@@ -298,11 +298,9 @@
   <script src="../custom/js/mainView.js"></script>
 
   <script>
-    let i = 0;
     const interval = setInterval(() => {
       showGuardInfo();
       showCurrentMapGuard();
-      console.log(i++);
     }, 60000);
 
     $(window).on('beforeunload', () => {
