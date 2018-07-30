@@ -245,26 +245,52 @@ function renderListOfSelectedPoints(selectedPoints){
 }
 
 async function saveRoute(){
-  let RouteName = $('#txtSaveRouteName').val();
+  let routeName = $('#txtSaveRouteName').val();
   if(arrSelectedPointsOnRoute.length == 0) return showAlertError("Invalid save", "Please choose points", 3000);
-  if(!Validation.checkEmpty(RouteName)) return showAlertError("Invalid save", "Please enter route name", 3000);
+  if(!Validation.checkEmpty(routeName)) return showAlertError("Invalid save", "Please enter route name", 3000);
   let arrPoints = arrSelectedPointsOnRoute.map((p, index) => {
     const { iPointID } = p;
     return { PointID: iPointID, No: index + 1 }
   })
+  let arrLength = arrSelectedPointsOnRoute.length;
   let Distance = Number(currentTotalDistance.toFixed(1));
   let TimeComplete = parseInt(currentTimeCompleted);
   let ZoneID = $('#selectRouteZone').val();
-  let sentData = { RouteID: 0, RouteName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete, Distance };
+  let routeName_1 = `${routeName} - 1`;
+  let sentData = { RouteID: 0, RouteName: routeName_1, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete, Distance };
   console.log(JSON.stringify(sentData));
   let response = await Service.saveRoute(sentData);
   console.log(response);
   // send request second time on saving route
-  let arrPoints_2 = arrPoints.reverse();
-  let routeName_2 = `${RouteName} - copy`;
+  let arrPoints_2 = arrSelectedPointsOnRoute.map((p, index) => {
+    const { iPointID } = p;
+    return { PointID: iPointID, No: arrLength - index };
+  }).reverse();
+  let routeName_2 = `${routeName} - 2`;
   let sentData_2 = { RouteID: 0, RouteName: routeName_2, bStatusIN: 1, Point: arrPoints_2, ZoneID, TimeComplete, Distance };
+  console.log(JSON.stringify(sentData_2));
   let response_2 = await Service.saveRoute(sentData_2);
   console.log(response_2);
+
+  let lastElementArr = arrSelectedPointsOnRoute[arrLength - 1];
+  console.log(lastElementArr)
+  let arrTemp = [lastElementArr];
+  arrSelectedPointsOnRoute.forEach((p, index) => {
+    if(index != arrLength - 1){
+      arrTemp.push(p);
+    }
+  })
+  let arrPoints_3 = arrTemp.map((p, index) => {
+    const { iPointID } = p;
+    return { PointID: iPointID, No: index + 1 };
+  })
+
+  console.log(arrPoints_3);
+  let routeName_3 = `${routeName} - 3`;
+  let sentData_3 = { RouteID: 0, RouteName: routeName_3, bStatusIN: 1, Point: arrPoints_3, ZoneID, TimeComplete, Distance };
+  console.log(JSON.stringify(sentData_3));
+  let response_3 = await Service.saveRoute(sentData_3);
+  console.log(response_3);
   
   showAlertSuccess("Save successfully!", "", 2000);
   showRoutesOnTable();

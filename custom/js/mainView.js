@@ -6,7 +6,7 @@ $(async () => {
   $('#btnAttendance').click(makeAttendance);
   $('#txtSearchGuardName').keyup(filterGuards);
   $('#selectGuardGroup').change(filterGuards)
-  // showEventsInfo();
+ 
   await showGuardGroups();
   showCurrentMapGuard();
   showGuardInfo();
@@ -88,51 +88,35 @@ function showModalSendSMSGuards(){
   
 }
 
-function getNumOfOnline(data){
-  let onlineNum = data.filter(g => g.bOnline.toLowerCase() == 'online').length;
-  return onlineNum;
-}
-
-function getnumOfSOS(data){
-  let sosNum = data.filter(g => g.bOnline.toLowerCase() == 'sos').length;
-  return sosNum
-}
-
 function showNumOfGuardsTypes(total, online, sos){
   $('#totalNumOfGuard').html(`<strong class="trn">Totals</strong>: ${total}`);
   $('#totalNumOfGuardSOS').html(`<strong class="trn red-text">SOS</strong>: ${sos}`);
   $('#totalNumOfGuardOnline').html(`<strong class="trn green-text">Online</strong>: ${online}`);
 }
 
-function renderGuardJcombobox(data) {
-  $('#selectGuardName').html()
-  if (data) {
-    $('#selectGuardName').append('<option value="0">All</option>');
-    data.forEach(guard => {
-      $('#selectGuardName').append(`<option value="${guard.iGuardId}">${guard.sGuardName}</option>`)
-    })
-  }
-}
-
 async function showGuardInfo() {
   let data = await Service.getGuardsData();
   if(data){ 
+    arrCurrentGuards = data.slice(); 
     let onlineNum = getNumOfOnline(data);
     let sosNum = getnumOfSOS(data);
     let total = data.length;
     showNumOfGuardsTypes(total, onlineNum, sosNum);
-    arrCurrentGuards = data.slice(); 
     filterGuards();
-    let sosChecking = data.some(g => g.bOnline.toLowerCase() == 'sos');
-    if(sosChecking){
-      audioSOS.play();
-      let sure = await showAlertWarning('There are SOS warning situations', "");
-      audioSOS.pause();
-    }
+    showSOSNotification(data);
   } else{
     arrCurrentGuards.length = 0;
   }
   setDefaultLang();
+}
+
+async function showSOSNotification(guards){
+  let sosChecking = guards.some(g => g.bOnline.toLowerCase() == 'sos');
+  if(sosChecking){
+    audioSOS.play();
+    let sure = await showAlertWarning('There are SOS warning situations', "");
+    audioSOS.pause();
+  }
 }
 
 function renderGuardTable(data) {
@@ -140,7 +124,6 @@ function renderGuardTable(data) {
   $table.html('');
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
-
   $thead.html(`
     <tr>
       <th class="trn">
@@ -153,31 +136,31 @@ function renderGuardTable(data) {
     </tr>
   `)
   if (data) {
-    data.forEach(guard => {
+    data.forEach((guard, index) => {
       const { iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline } = guard
       let icon = '';
       let className = '';
       if(bOnline == 'SOS') {
-        icon = '<i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: red"></i>';
+        icon = '<i class="fa fa-exclamation-triangle red-text" aria-hidden="true"></i>';
         className = 'red-text';
       }
       if(bOnline == 'Online') {
-        icon = '<i class="fa fa-circle" aria-hidden="true" style="color: green"></i>';
+        icon = '<i class="fa fa-circle green-text" aria-hidden="true"></i>';
         className = 'green-text';
       }
       $tbody.append(`
         <tr>
           <td class="trn">
-            <input type="checkbox" class="checkbox-guard-sendSMS" data-idguard = "${iGuardId}">
+            <input type="checkbox" class="checkbox-guard-sendSMS">
           </td>
-          <td>${iGuardId}</td>
+          <td>${index + 1}</td>
           <td class="${className}">${icon} ${sGuardName}</td>
           <td>${dLastUpdateTime}</td>
           <td>${dSpeedCurrent}</td>
         </tr>
       `)
       let $ele = $tbody.find('.checkbox-guard-sendSMS').last()
-      $ele.change((e) => {
+      $ele.change(e => {
         let { checked } = e.target;
         if(!checked){
           $thead.find('.checkbox-all-guards').prop({'checked': false});
@@ -189,15 +172,13 @@ function renderGuardTable(data) {
     })
   }
   
-  let $checkboxHead = $thead.find('.checkbox-all-guards')
+  let $checkboxHead = $thead.find('.checkbox-all-guards');
   console.log(123);
-  $checkboxHead.change((e) => {
+  $checkboxHead.change(e => {
     checkAllGuards(e);
     let { checked } = e.target;
     console.log(checked);
-    $tbody.find('.checkbox-guard-sendSMS').each((index, ele) => {
-      $(ele).prop({'checked': checked});
-    })
+    $tbody.find('.checkbox-guard-sendSMS').prop({'checked': checked});
   })
   console.log(456);
   let l1 = arrCurrentGuardsSentSMS.length;
@@ -281,6 +262,26 @@ async function showGuardGroups(){
       $('#selectGuardGroup').append(`<option value="${iGuardGroupID}">${sGroupName}</option>`);
     })
   }
+}
+
+function renderGuardJcombobox(data) {
+  $('#selectGuardName').html()
+  if (data) {
+    $('#selectGuardName').append('<option value="0">All</option>');
+    data.forEach(guard => {
+      $('#selectGuardName').append(`<option value="${guard.iGuardId}">${guard.sGuardName}</option>`)
+    })
+  }
+}
+
+function getNumOfOnline(data){
+  let onlineNum = data.filter(g => g.bOnline.toLowerCase() == 'online').length;
+  return onlineNum;
+}
+
+function getnumOfSOS(data){
+  let sosNum = data.filter(g => g.bOnline.toLowerCase() == 'sos').length;
+  return sosNum
 }
 
 
