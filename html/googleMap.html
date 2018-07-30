@@ -98,7 +98,7 @@
     function getGuardGPSCurrent(sentData) {
       var id = sentData.iGuardID;
       var url =  APP_DOMAIN + 'api/GetGuardGPSCurrent.php?iGuardID=' + id;
-      //var data = fetch(url);
+      var data = fetch(url);
       var jsonData = data.json();
       if(!Array.isArray(jsonData)) return null;
       if(jsonData.length == 0) return null;
@@ -108,7 +108,7 @@
     function getPointChecking(sentData) {
       var code = sentData.sCheckingCode;
       var url = APP_DOMAIN + 'api/GetPointChecking.php?sCheckingCode=' + code;
-      //var data = fetch(url);
+      var data = fetch(url);
       var jsonData = data.json();
       if(!Array.isArray(jsonData)) return null;
       if(jsonData.length == 0) return null;

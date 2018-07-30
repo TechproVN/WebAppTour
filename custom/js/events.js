@@ -59,7 +59,7 @@ async function showEventHistoryData(type) {
       data = await Service.getEventHistoryDevice(sentData);
     }
     if(data){
-      headerTblTours = `<span class="trn">${type} Name</span>: ${name} - ${fromDate} -> ${toDate}`;
+      headerTblTours = `<span class="trn">${type} Name</span>: ${name} - From: ${fromDate} -> To: ${toDate}`;
       $('.headerTblTours').html(headerTblTours)
       $('#totalTours').html(`<strong class="trn">Total tours</strong>: ${data.length}`)
       $('#pagingToursControl').pagination({

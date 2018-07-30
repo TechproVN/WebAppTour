@@ -6,15 +6,17 @@ $(() => {
     showAllIncidentMap(arrIncidents);
   })
   formatTodayIncident();
-
 })
 
 const arrIncidents = [];
 
 async function showIncidentsData() {
-  let datetime = $('#incidentDatetime').val();
-  if(datetime == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
-  let sentData = { dDateTime: changeFormatDateTime(datetime) };
+  let fromDate = $('#incidentFromDatetime').val();
+  let toDate = $('#incidentToDatetime').val();
+  if(fromDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
+  if(toDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
+  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate)};
+  console.log(sentData);
   let data = await Service.getIncidentsData(sentData);
   arrIncidents.length = 0;
   if(data) {
@@ -54,11 +56,12 @@ function renderIncidentsTable(data) {
     `
       <tr>
         <th class="trn"></th>
-        <th class="trn">Name</th>
+        <th class="trn">Guard</th>
         <th class="trn">Zone</th>
+        <th class="trn">Route</th>
         <th class="trn">Date</th>
         <th class="trn">Started</th>
-        <th class="trn">Finihed</th>
+        <th class="trn">Finished</th>
         <th class="trn">Image</th>
         <th class="trn">Description</th>
         <th class="trn">Map</th>
@@ -67,7 +70,7 @@ function renderIncidentsTable(data) {
   )
   if(data){
     data.forEach(incident => {
-      const { sGuardName, sZoneName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, sAlertDescription, ImageUrl } = incident;
+      const { sGuardName, sZoneName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, sAlertDescription, ImageUrl, sRouteName } = incident;
       let img = `${APP_DOMAIN}${ImageUrl}`;
       $tbody.append(`
         <tr>
@@ -76,6 +79,7 @@ function renderIncidentsTable(data) {
           </td>
           <td>${sGuardName}</td>
           <td>${sZoneName}</td>
+          <td>${sRouteName}</td>
           <td>${dDateTimeIntinial}</td>
           <td>${dDateTimeStart}</td>
           <td>${dDateTimeEnd}</td>

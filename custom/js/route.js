@@ -333,13 +333,14 @@ function renderTableRoutes(routes){
   $thead.html(
     `
       <tr>
+        <th class="trn">#</th>
         <th class="trn">Zone</th>
         <th class="trn">Route</th>
         <th class="trn">Device</th>
-        <th class="trn">Completion time</th>
-        <th class="trn">Speed</th>
         <th class="trn">Distance</th>
-        <th class="trn">Datetime updated</th>
+        <th class="trn">Speed</th>
+        <th class="trn">Completion time</th>
+        <th class="trn">Updated</th>
         <th class="trn"></th>
       </tr>
     `
@@ -349,12 +350,13 @@ function renderTableRoutes(routes){
       const { sDeviceName, dDateTimeUpdate, dDistance, iSpeed, iTimeComplete, sRouteName, sZoneName } = route;
       $tbody.append(`
         <tr>
+          <td></td>
           <td>${sZoneName}</td>
           <td>${sRouteName}</td>
           <td>${sDeviceName}</td>
-          <td>${iTimeComplete}</td>
-          <td>${iSpeed}</td>
-          <td>${dDistance}</td>
+          <td>${dDistance} km</td>
+          <td>${iSpeed} km/h</td>
+          <td>${iTimeComplete} min</td>
           <td>${dDateTimeUpdate}</td>
           <td>
             <div class="btn-group">

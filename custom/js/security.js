@@ -62,10 +62,10 @@ function renderSecurityTable(data) {
   $thead.html(
     `
       <tr>
+        <th class="trn">Week No.</th>
         <th class="trn">Day</th>
         <th class="trn">Date</th>
-        <th class="trn">Week No.</th>
-        <th class="trn">Guard Name</th>
+        <th class="trn">Guard</th>
         <th class="trn">Performance Route</th>
         <th class="trn">Performance Timing</th>
         <th class="trn">Performance Routing</th>
@@ -81,9 +81,9 @@ function renderSecurityTable(data) {
       const { dDAYNAME, dDateTimeUpdate, dIdling_Time_in, dPerfomance_Time, dPerformance_Routes, dPerformance_Routing, dPerformance_Timing, dWeek, sGuardName } = security;
       $tbody.append(`
         <tr>
+          <td>${dWeek}</td>
           <td>${dDAYNAME}</td>
           <td>${dDateTimeUpdate}</td>
-          <td>${dWeek}</td>
           <td>${sGuardName}</td>
           <td>${dPerformance_Routes}</td>
           <td>${dPerformance_Timing}</td>
