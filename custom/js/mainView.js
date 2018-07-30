@@ -38,7 +38,6 @@ function filterGuards(){
   let arrFilterName = filterGuardByName(arrCurrentGuards, name);
   let filter = filterGuardByGroup(arrFilterName, groupID);
   renderGuardTable(filter);
-  console.log(filter);
 }
 
 async function makeAttendance(){
@@ -106,7 +105,7 @@ async function showGuardInfo() {
     showNumOfGuardsTypes(total, onlineNum, sosNum);
     setTimeout(() => {
       filterGuards();
-    }, 200);
+    }, 100);
     showSOSNotification(data);
   } else{
     arrCurrentGuards.length = 0;
@@ -118,7 +117,7 @@ async function showSOSNotification(guards){
   let sosChecking = guards.some(g => g.bOnline.toLowerCase() == 'sos');
   if(sosChecking){
     audioSOS.play();
-    let sure = await showAlertWarning('There are SOS warning situations', "");
+    await showAlertWarning('There are SOS warning situations', "");
     audioSOS.pause();
   }
 }
@@ -165,7 +164,6 @@ function renderGuardTable(data) {
       `)
       let $ele = $tbody.find('.checkbox-guard-sendSMS').last();
       $ele.change(e => {
-        console.log('check 1 element');
         let { checked } = e.target;
         if(!checked){
           $checkboxHead.prop({'checked': false});
@@ -179,7 +177,6 @@ function renderGuardTable(data) {
   $checkboxHead.change(e => {
     checkAllGuards(e);
     let { checked } = e.target;
-    console.log('check many elements');
     $tbody.find('.checkbox-guard-sendSMS').prop({'checked': checked});
   })
   let l1 = arrCurrentGuardsSentSMS.length;
