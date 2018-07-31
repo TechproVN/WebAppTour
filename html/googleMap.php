@@ -98,11 +98,8 @@
     function getGuardGPSCurrent(sentData) {
       var id = sentData.iGuardID;
       var url = 'http://115.79.27.219/tracking/api/GetGuardGPSCurrent.php?iGuardID=' + id;
-      //var data = fetch(url);
-      //var jsonData = data.json();
-      $.get(url, function(data){
-        console.log(data);
-      });
+      var data = fetch(url);
+      var jsonData = data.json();
       if(!Array.isArray(jsonData)) return null;
       if(jsonData.length == 0) return null;
       return jsonData;
@@ -111,11 +108,8 @@
     function getPointChecking(sentData) {
       var code = sentData.sCheckingCode;
       var url = 'http://115.79.27.219/tracking/api/?sCheckingCode=' + code;
-      //var data = fetch(url);
-      //var jsonData = data.json();
-      $.get(url, function(data){
-        console.log(data);
-      });
+      var data = fetch(url);
+      var jsonData = data.json();
       if(!Array.isArray(jsonData)) return null;
       if(jsonData.length == 0) return null;
       return jsonData;
