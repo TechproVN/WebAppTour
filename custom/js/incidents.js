@@ -20,26 +20,36 @@ async function showIncidentsData() {
   let data = await Service.getIncidentsData(sentData);
   arrIncidents.length = 0;
   if(data) {
-    $('#totalIncidents').html(`<strong class="trn">Total incidents</strong>: ${data.length}`);
-    $('#pagingIncidentsControl').pagination({
-      dataSource: data,
-      pageSize: 10,
-      className: 'paginationjs-theme-green paginationjs-big',
-      showGoInput: true,
-      showGoButton: true,
-      callback: function (data, pagination) {
-        console.log(data);
-        let $table = renderIncidentsTable(data);
-        $('.card-incident .table-responsive').html($table);
-        setDefaultLang();
-      }
-    })
+    showIncidentListPagination(data);
     data.forEach(item => arrIncidents.push(item));
   }else{
     rssetTblIncidents();
     showAlertError("No data available", "", 3000);
   }
   setDefaultLang();
+}
+
+function showIncidentListPagination(data){
+  $('#totalIncidents').html(`<strong class="trn">Total incidents</strong>: ${data.length}`);
+  $('#pagingIncidentsControl').pagination({
+    dataSource: data,
+    pageSize: 10,
+    className: 'paginationjs-theme-green paginationjs-big',
+    showGoInput: true,
+    showGoButton: true,
+    callback: function (data, pagination) {
+      console.log(data);
+      let $table = renderIncidentsTable(data);
+      $('.card-incident .table-responsive').html($table);
+      setDefaultLang();
+    }
+  })
+}
+
+async function showIncidentListDefault(){
+  let today = getCurrentDate();
+  let yesterday = getYesterday();
+  let fromDate = `${today.year}`
 }
 
 function rssetTblIncidents(){

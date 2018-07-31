@@ -240,5 +240,41 @@ async function showGuardGroups(){
 }
 
 function shuffleArray(arr){
-  
+  let l = arr.length;
+  for (let index = 0; index < l; index++) {
+    let randomInt = Math.floor(Math.random() * l);
+    let temp = arr[index];
+    arr[index] = arr[randomInt];
+    arr[randomInt] = temp;
+  }
+  return arr;
+}
+
+function getCurrentDate(){
+  let now = new Date();
+  let year = now.getFullYear();
+  let month = now.getMonth();
+  let day = now.getDate();
+  return { year, month, day };
+}
+
+function getYesterday(){
+  let timestampe = Date.now();
+  let yesterdayTimeStamp = timestampe - (1000*60*60*60*24);
+  let yesterday = new Date(yesterdayTimeStamp);
+  let year = yesterday.getFullYear();
+  let month = yesterday.getMonth();
+  let day = yesterday.getDate();
+  return { year, month, day };
+}
+
+function getCurrentDateTime(){
+  let now = new Date();
+  let year = now.getFullYear();
+  let month = now.getMonth();
+  let day = now.getDate();
+  let hour = now.getHours();
+  let min = now.getMinutes();
+  let sec = now.getSeconds();
+  return { year, month, day, hour, min, sec };
 }

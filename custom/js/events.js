@@ -20,11 +20,32 @@ $(async () => {
   if(!arrGuardList) arrGuardList = [];
   if(!arrRouteList) arrRouteList = [];
   if(!arrDeviceList) arrDeviceList = [];
+
+  showTourListsByDefault();
 })
+
 let arrGuardList = [];
 let arrRouteList = [];
 let arrDeviceList = [];
 let headerTblTours = '';
+
+async function showTourListsByDefault(){
+  let { year, month, day, hour, min } = getCurrentDateTime();
+  let fromDate = `${year}-${month}-${day} 00:00`;
+  let toDate = `${year}-${month}-${day} ${hour}:${min}`;
+  $(`#fromDateTime`).val(fromDate);
+  $(`#toDateTime`).val(toDate);
+  let sentData = { fromDate, toDate };
+  sentData.GuardID = 1;
+  console.log(JSON.stringify(sentData));
+  data = await Service.getEventHistoryDataGuard(sentData);
+  if(data){
+    showToursListPagination(data, name, 'guard', fromDate, toDate);
+  }else {
+    showAlertError("No data available", "", 3000);
+  }
+  setDefaultLang();
+}
 
 function showAllIncidentsMap() {
   $('#modalEventMap').modal('show');
@@ -59,28 +80,32 @@ async function showEventHistoryData(type) {
       data = await Service.getEventHistoryDevice(sentData);
     }
     if(data){
-      headerTblTours = `<span class="trn">${type} Name</span>: ${name} - From: ${fromDate} -> To: ${toDate}`;
-      $('.headerTblTours').html(headerTblTours)
-      $('#totalTours').html(`<strong class="trn">Total tours</strong>: ${data.length}`)
-      $('#pagingToursControl').pagination({
-        dataSource: data,
-        pageSize: 10,
-        className: 'paginationjs-theme-green paginationjs-big',
-        showGoInput: true,
-        showGoButton: true,
-        callback: function (data, pagination) {
-          // template method of yourself
-          let $table = renderEventHistoryTable(data);
-          $('.card-tour .table-responsive').html($table);
-          setDefaultLang();
-        }
-      })
-    }else{
+      showToursListPagination(data, name, type,fromDate, toDate);
+    }else {
       resetTblEventHistory();
       showAlertError("No data available", "", 3000);
     }
   }
   setDefaultLang();
+}
+
+function showToursListPagination(data, name, type, fromDate, toDate){
+  headerTblTours = `<span class="trn">${type} Name</span>: ${name} - From: ${fromDate} -> To: ${toDate}`;
+  $('.headerTblTours').html(headerTblTours)
+  $('#totalTours').html(`<strong class="trn">Total tours</strong>: ${data.length}`)
+  $('#pagingToursControl').pagination({
+    dataSource: data,
+    pageSize: 10,
+    className: 'paginationjs-theme-green paginationjs-big',
+    showGoInput: true,
+    showGoButton: true,
+    callback: function (data, pagination) {
+      // template method of yourself
+      let $table = renderEventHistoryTable(data);
+      $('.card-tour .table-responsive').html($table);
+      setDefaultLang();
+    }
+  })
 }
 
 function resetTblEventHistory(){
@@ -188,7 +213,7 @@ function checkTimeFormat(from, to) {
     let toDate = new Date(to).getTime();
     if (fromDate >= toDate) {
       valid = false;
-      errMsg += 'From date must be smaller than end date\n';
+      errMsg += 'Start date must be sooner than end date\n';
     }
   }
   if (!valid) showAlertError("Invalid date", errMsg, 6000);

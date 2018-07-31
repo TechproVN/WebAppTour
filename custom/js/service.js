@@ -547,5 +547,91 @@ class Service {
       return parsedData;
     return null;
   }
-  // getGroup
+
+  static async getGroupData() {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetGroupData.php`,
+      method: 'post',
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async deleteGroup(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateGroup.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async insertGroup(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateGroup.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async updateGroup(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateGroup.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async getAssetsData(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/getassetsdata.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async updateAsset(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/Updateasset.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async deleteAsset(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/Updateasset.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async insertAsset(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/Updateasset.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
+  static async updatePointQuestion(sentData){
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdatePointQuestion.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+   return data;
+  }
+
 }

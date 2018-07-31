@@ -36,10 +36,13 @@ $(() => {
 
   const arrPropsReport = ['iTime_per_Route', 'iExpected_Executed_Routes', 'iActual_Executed_Routes', 'iTime_spent_on_resolving_non_conformities', 'iMissed_routes_due_to_resolving_non_conformities', 'iCorrected_Executed_Routes', 'dPerformance_Routes', 'iSuccessful_routes_within_time_schedule', 'dPerformance_Timing', 'iSuccessful_routes_with_correct_routing', 'dPerformance_Routing', 'iRouting_Mistakes', 'dOverall_performance', 'iNumber_of_reports_issued', 'iActual_Patrolling_Time', 'iAllowed_Interval_between_trip', 'iTotal_patroling_time_in_minutes', 'dPerfomance_Time', 'iTotal_Idling_Time', 'dIdling_Time_in'];
 
+  const unitsOfData = ['min', '', '', 'min', '', '', '%', '', '%','', '%', '', '%', '','min', 'min', 'min', '%', 'min', '%'];
+
   let currentDataChartTimePerformance = [];
   let currentDataChartPatrollingPerformance = [];
   let arrGuardList = [];
   let guardHeader = '';
+
   function showChartReport(){
     buildChartPatrollingPerformance();
     buildChartTimePerformance();
@@ -149,28 +152,26 @@ function renderReportTable(data){
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
 
-  $thead.html(
-    `
+  $thead.html(`
       <tr>
-        <th class="trn">No./STT</th>
+        <th class="trn text-center">No./STT</th>
         <th class="trn">Criteria/Các tiêu chí</th>
-        <th class="trn">Cal/Tính</th>
-        <th class="trn">
+        <th class="trn text-center">Cal/Tính</th>
+        <th class="trn text-center">
           Patrol Guard Route/Tuyến tuần tra</br>
           (Route 1 Checkpoint 1-17)
         </th>
       </tr>
-    `
-  )
+    `)
   if (data) {
     for(let i = 0; i < 20; i++){
       $tbody.append(`
-      <tr>
-        <td>${i + 1}</td>
-        <td>${arrCriteriaReport[i]}</td>
-        <td>${arrReportCal[i]}</td>
-        <td>${data[0][arrPropsReport[i]]}</td>
-      </tr>
+        <tr>
+          <td class="text-center">${i + 1}</td>
+          <td>${arrCriteriaReport[i]}</td>
+          <td class="text-center">${arrReportCal[i]} ${unitsOfData[i]}</td>
+          <td class="text-center">${data[0][arrPropsReport[i]]}</td>
+        </tr>
       `)
     }
   }

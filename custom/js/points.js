@@ -7,7 +7,7 @@ $(() => {
   $('#btnShowInsertPointModal').click(showInsertPointModal);
   $('#btnUpdatePoint').click(updatePoint);
   $('#btnInsertPoint').click(insertPoint);
-
+  $('#btnSavetPointQuestions').click(savePointQuestions)
   showAllZones();
   
 })
@@ -16,6 +16,7 @@ var arrNewAddedPoints = [];
 var arrCurrentPointsOnZone = [];
 var arrZones = [];
 let currentUpdatedPoint = null;
+let currentUpdateQuestionPoint = null;
 
 async function showAllZones() {
   let data = await Service.getAllZones();
@@ -25,26 +26,49 @@ async function showAllZones() {
   showPointsData();
 }
 
+function showPointQuestionsModal(point){
+  $('#modalPointQuestions').modal('show');
+  let txtPointQuestion = $('.pointQuestions');
+  const { sPointQuestion1, sPointQuestion2, sPointQuestion3 } = point;
+  txtPointQuestion.eq(0).val(sPointQuestion1);
+  txtPointQuestion.eq(1).val(sPointQuestion2);
+  txtPointQuestion.eq(2).val(sPointQuestion3);
+  currentUpdateQuestionPoint = Object.assign({}, point);
+}
+
+async function savePointQuestions(){
+  let txtPointQuestion = $('.pointQuestions');
+  let q1 = txtPointQuestion.eq(0).val();
+  let q2 = txtPointQuestion.eq(1).val();
+  let q3 = txtPointQuestion.eq(2).val();
+  let checkEmpty1 = Validation.checkEmpty(q1);
+  let checkEmpty2 = Validation.checkEmpty(q2);
+  let checkEmpty3 = Validation.checkEmpty(q3);
+  if(!checkEmpty1 && !checkEmpty2 && !checkEmpty3) return showAlertError("Invalid data!!", "You have to add at least 1 question");
+  let { iPointID } = currentUpdateQuestionPoint;
+  let sentData = { iPointID, sPointQuestion1: q1, sPointQuestion2: q2, sPointQuestion3: q3 };
+  let response = await Service.updatePointQuestion(sentData);
+  console.log(response);
+  showAlertSuccess("Save questions successfully", "", 3000);
+  showPointsData();
+}
+
 function renderZoneOnJcombobox(data) {
+  $('.selectZones').html('');
   if (data) {
-    for(let i = 0; i < $('.selectZones').length; i++){
-      $('.selectZones').eq(i).html('');
-      data.forEach(zone => {
-        $('.selectZones').eq(i).append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
-      })
-    }
+    data.forEach(zone => {
+      const { iZoneID, sZoneName } = zone;
+      $('.selectZones').append(`<option value="${iZoneID}">${sZoneName}</option>`)
+    })
   }
 }
 
 function renderPointsTable(data) {
-  // let $table = $('#tblPoints');
+  console.log(data)
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblPoints"></table>`)
-  // $table.html('');
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
-
-  $thead.html(
-    `
+  $thead.html(`
       <tr>
         <th class="trn">#</th>
         <th class="trn">ID</th>
@@ -57,14 +81,13 @@ function renderPointsTable(data) {
         <th class="trn">Updated</th>
         <th class="trn"></th>
       </tr>
-    `
-  )
+    `)
   if (data) {
-    data.forEach((point) => {
+    data.forEach((point, index) => {
       const {sZoneName, sPointCode, dDateTimeAdd, iPointID, sPointName, sPointNote, iGPS, iQRCode, iRFID} = point;
       $tbody.append(`
         <tr>
-          <td></td>
+          <td>${index + 1}</td>
           <td>${iPointID}</td>
           <td>${sZoneName}</td>
           <td>${sPointName}</td>
@@ -79,6 +102,7 @@ function renderPointsTable(data) {
               <div class="dropdown-menu" >
                 <button class="btn btn-custom btn-info btnPointUpdate btn-custom-small dropdown-item trn">Update</button>
                 <button class="btn btn-custom btn-danger btnPointDelete btn-custom-small dropdown-item trn" style="margin-left:-5px">Lock</button>
+                <button class="btn btn-custom btn-success btnPointQuestions btn-custom-small dropdown-item trn" style="margin-left:-5px">Add Questions</button>
               </div>
             </div>
           </td>
@@ -89,6 +113,9 @@ function renderPointsTable(data) {
       })
       $tbody.find('.btn.btnPointDelete').last().click(function(){
         inActivePoint(point);
+      })
+      $tbody.find('.btn.btnPointQuestions').last().click(function(){
+        showPointQuestionsModal(point);
       })
     })
   }
@@ -162,25 +189,29 @@ async function showPointsData() {
     arrCurrentPointsOnZone = [];
     if(data) {
       arrCurrentPointsOnZone = [...data];
-      $('#totalPoints').html(`<strong class="trn">Total Points</strong>: ${data.length}`)
-      $('#pagingPointsControl').pagination({
-        dataSource: data,
-        pageSize: 10,
-        className: 'paginationjs-theme-green paginationjs-big',
-        showGoInput: true,
-        showGoButton: true,
-        callback: function (data, pagination) {
-          let $table = renderPointsTable(data);
-          $('.card-points .table-responsive').html($table);
-          setDefaultLang();
-        }
-      })
+      showPointsPagination(data);
     }else{
       resetTblPoints();
       showAlertError("No data available", "", 3000);
     }
   }
   setDefaultLang();
+}
+
+function showPointsPagination(data){
+  $('#totalPoints').html(`<strong class="trn">Total Points</strong>: ${data.length}`)
+  $('#pagingPointsControl').pagination({
+    dataSource: data,
+    pageSize: 10,
+    className: 'paginationjs-theme-green paginationjs-big',
+    showGoInput: true,
+    showGoButton: true,
+    callback: function (data, pagination) {
+      let $table = renderPointsTable(data);
+      $('.card-points .table-responsive').html($table);
+      setDefaultLang();
+    }
+  })
 }
 
 function resetTblPoints(){
@@ -359,3 +390,4 @@ function checkValidInsertPoint(name, note){
   }
   return valid;
 }
+
