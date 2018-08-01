@@ -17,7 +17,7 @@
 
   <!-- Google Map API -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
-
+  <script src="https://code.jquery.com/jquery-1.2.6.pack.js" integrity="sha256-S05WFQCaAbncHHNyVpwouLpwXi0VRGkoIfvjLWaj+eY=" crossorigin="anonymous"></script>
   <script>
 
     var URL_OBJECT, sCheckingCode, iGuardID;
@@ -95,37 +95,45 @@
       return vars;
   }
 
-    function getGuardGPSCurrent(sentData) {
-      var id = sentData.iGuardID;
-      var url = 'http://115.79.27.219/tracking/api/GetGuardGPSCurrent.php?iGuardID=' + id;
+    function getGuardGPSCurrent() {
+      //var id = sentData.iGuardID;
+      var url = 'http://115.79.27.219/tracking/api/GetGuardGPSCurrent.php?iGuardID=' + iGuardID;
       //var data = fetch(url);
-      //var jsonData = data.json();
-      $.get(url, function(data){
+      //var jsonData;
+      //console.log(url);
+      $.getJSON(url, function(data){
+        //jsonData = data;
         console.log(data);
+        return data;
       });
-      if(!Array.isArray(jsonData)) return null;
-      if(jsonData.length == 0) return null;
-      return jsonData;
+      //console.log(jsonData);
+      //if(!Array.isArray(jsonData)) return null;
+      //if(jsonData.length == 0) return null;
+      //return jsonData;
     }
 
     function getPointChecking(sentData) {
-      var code = sentData.sCheckingCode;
-      var url = 'http://115.79.27.219/tracking/api/?sCheckingCode=' + code;
+      //var code = sentData.sCheckingCode;
+      var url = 'http://115.79.27.219/tracking/api/?sCheckingCode=' + sCheckingCode;
       //var data = fetch(url);
       //var jsonData = data.json();
       $.get(url, function(data){
-        console.log(data);
+        //console.log(data);
+        return data;
       });
-      if(!Array.isArray(jsonData)) return null;
-      if(jsonData.length == 0) return null;
-      return jsonData;
+      //if(!Array.isArray(jsonData)) return null;
+      //if(jsonData.length == 0) return null;
+      //return jsonData;
     }
   
     function buildMap(iGuardID, sCheckingCode){
-      var sentGuardData = iGuardID;
-      var guardGPSCurrent = getGuardGPSCurrent(sentGuardData);
+      //var sentGuardData = iGuardID;
+      var guardGPSCurrent = getGuardGPSCurrent(iGuardID);
       console.log(guardGPSCurrent);
-      const { dGuardLatCurrent, dGuardLongCurrent, sMessage, bOnline } = guardGPSCurrent[0];
+      dGuardLatCurrent = guardGPSCurrent.dGuardLatCurrent;
+      dGuardLongCurrent = guardGPSCurrent.dGuardLongCurrent;
+      sMessage = guardGPSCurrent.sMessage; 
+      bOnline = guardGPSCurrent.bOnline;;
       var latGuard = Number(dGuardLatCurrent);
       var lngGuard = Number(dGuardLongCurrent);
       var mapProp = createMapPropGoogleMap(18, latGuard, lngGuard)
