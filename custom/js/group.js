@@ -51,8 +51,8 @@ function renderGroupTable(data){
     `
     <tr>
       <th class="trn">No.</th>
-      <th class="trn">Group Name</th>
       <th class="trn">Group ID</th>
+      <th class="trn">Group Name</th>
       <th class="trn">Leader</th>
       <th class="trn"></th>
     </tr>
@@ -64,8 +64,8 @@ function renderGroupTable(data){
       $tbody.append(`
         <tr>
           <td>${index + 1}</td>
-          <td>${sGroupName}</td>
           <td>${iGuardGroupID}</td>
+          <td>${sGroupName}</td>
           <td>${sGuardName}</td>
           <td>
             <div class="btn-group">

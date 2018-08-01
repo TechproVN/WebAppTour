@@ -74,10 +74,10 @@ function renderAssetTable(data){
   $thead.html(
     `
     <tr>
-      <th class="trn">Asset Name</th>
-      <th class="trn">Asset Code</th>
-      <th class="trn">Zone Name</th>
-      <th class="trn">Route Name</th>
+      <th class="trn">Asset name</th>
+      <th class="trn">Asset code</th>
+      <th class="trn">Zone</th>
+      <th class="trn">Route</th>
       <th class="trn">Lat</th>
       <th class="trn">Long</th>
       <th class="trn"></th>
