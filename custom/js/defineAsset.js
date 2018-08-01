@@ -4,42 +4,65 @@ $(() => {
   $('#btnInsertAsset').click(insertAsset);
   $('#btnUpdateAsset').click(updateAsset);
   showRouteList();
-  showZones();
+  showZoneList();
+  showZoneList('selectZonesWithAll', true);
   showAssets();
 })
 
 let currentUpdateAsset = null;
+let arrCurrentAssetsOnZone = [];
 
 async function insertAsset(){
-  let name = $('#txtInsertGroupName').val();
-  let guardId = $('#selectInsertGuardLeader').val();
-  if(!Validation.checkEmpty(name)){
-    showAlertError("Invalid data", "Group Name must be filled");
-  } else{
-    let sentData = { sGroupNameIN: name, iGuardIDIN: guardId, iGroupIDIN: 0, bStatusIN: 1 };
-    console.log(JSON.stringify(sentData));
-    let response = await Service.insertGroup(sentData);
-    console.log(response);
-    showGroups();
+  let name = $('#txtInsertPropertyName').val();
+  let code = $('#txtInsertPropertyCode').val();
+  let lat = $('#latInsertAsset').text();
+  let lng = $('#longInsertAsset').text();
+  let zone = $('#selectZoneInsertAsset').val();
+  let route = $('#selectRouteInsertAsset').val();
+  if(!Validation.checkEmpty(lat) || !Validation.checkEmpty(lng))
+  return showAlertError("Invalid data!!", "You have to choose asset by clicking on map", 4000);
+  if(!Validation.checkEmpty(name) || !Validation.checkEmpty(code))
+  return showAlertError("Invalid data!!", "Name and Code must be filled in", 4000);
+  let sentData = { sPropertyCodeIN: code, sPropertyNameIN: name, iZoneIDIN: zone, iRouteIDIN: route, dPropertyLatIN: Number(lat), dPropertyLongIN: Number(lng), iPropertyIDIN: 0, bStatusIN: 1 };
+  console.log(JSON.stringify(sentData));
+  let response = await Service.insertAsset(sentData);
+  console.log(response);
+  const { Result, Msg } = JSON.parse(response)[0];
+  if(Result == 1){
+    showAssets();
     showAlertSuccess("Insert Successfully", "", 3000);
+  } else{
+    showAlertError("Insert Unsuccessfully", Msg, 3000);
   }
 }
 
 function showInsertAssetModal(){
+  currentUpdatedPoint = null;
+  let $mapArea = $('<div id="mapAssetInsert" class="mymap"></div>'); 
+  $('#insertAssetMap').html($mapArea);
+  $('#latInsertAsset').text('');
+  $('#longInsertAsset').text('');
+  $('#txtInsertPropertyCode').val('');
+  $('#txtInsertPropertyName').val('');
   $('#modalInsertAsset').modal('show');
-  $('#txtInsertGroupName').val('');
+  buildAssetsMap(arrCurrentAssetsOnZone, 'mapAssetInsert');
 }
 
-async function deleteAsset(group){
+async function deleteAsset(asset){
   let sure = await showAlertWarning("Are you sure?", "");
   if(sure){
-    const { iGuardGroupID, iGuardIDLeader, sGroupName } = group;
-    let sentData = { iGroupIDIN: iGuardGroupID, iGuardIDIN: iGuardIDLeader, sGroupNameIN: sGroupName, bStatusIN: 3 }
+    const {sAssetCode, sAssetName, iRouteID, iAssetID, iZoneID } = asset;
+    let sentData = { sPropertyCodeIN: sAssetCode, sPropertyNameIN: sAssetName, iZoneIDIN: iZoneID, iRouteIDIN: iRouteID, dPropertyLatIN: 0, dPropertyLongIN: 0, iPropertyIDIN: iAssetID, bStatusIN: 3 };
     console.log(JSON.stringify(sentData));
-    let response = await Service.deleteGroup(sentData);
+    let response = await Service.deleteAsset(sentData);
     console.log(response);
-    showGroups();
-    showAlertSuccess("Locked Successfully", "", 3000);
+    const { Result, Msg } = JSON.parse(response)[0];
+    if(Result == 1){
+      showAssets();
+      showAlertSuccess("Deleted Successfully", "", 3000);
+    }else{
+      showAlertError("Deleted Unsuccessfully", Msg, 3000);
+    }
   }
 }
 
@@ -95,42 +118,6 @@ function renderAssetTable(data){
   return $table;
 }
 
-async function updateAsset(){
-  let name = $('#txtUpdateGroupName').val();
-  let guardId =  $('#selectUpdateGuardLeader').val();
-  let { iGuardGroupID } = currentUpdateGroup;
-  if(!Validation.checkEmpty(name)) return showAlertError("Invalid data", "Group Name must be filled");
-  let sentData = { sGroupNameIN: name, iGuardIDIN: guardId, iGroupIDIN: iGuardGroupID, bStatusIN: 2 };
-  console.log(JSON.stringify(sentData));
-  let response = await Service.updateGroup(sentData);
-  console.log(response);
-  showGroups();
-  showAlertSuccess("Insert Successfully", "", 3000);
-}
-
-function showUpdateAssetModal(asset){
-  currentUpdateAsset = Object.assign({}, asset);
-  const { sGroupName, iGuardIDLeader } = asset;
-  $('#modalUpdateAsset').modal('show');
-  $('#txtUpdateGroupName').val(sGroupName);
-  $('#selectUpdateGuardLeader').val(iGuardIDLeader);
-}
-
-async function showAssets(){
-  let zoneId = $('#selectFilterAssetByZone').val();
-  if(!zoneId) zoneId = 0;
-  let sentData = { iZoneID: zoneId };
-  let data = await Service.getAssetsData(sentData);
-  console.log(data);
-  if(data){
-    showAssetPagination(data);
-  }else{
-    resetTblAssets();
-    showAlertError("No data available", "", 3000);
-  }
-  setDefaultLang();
-}
-
 function showAssetPagination(data){
   $('#totalAssets').html(`<strong class="trn">Total Assets</strong>: ${data.length}`);
   $('#pagingAssetsControl').pagination({
@@ -147,21 +134,61 @@ function showAssetPagination(data){
   })
 }
 
+async function showAssets(){
+  let zoneId = $('#selectFilterAssetByZone').val();
+  if(!zoneId) zoneId = 0;
+  let sentData = { iZoneID: zoneId };
+  let data = await Service.getAssetsData(sentData);
+  console.log(data);
+  arrCurrentAssetsOnZone.length = 0;
+  if(data){
+    arrCurrentAssetsOnZone = data.slice();
+    showAssetPagination(data);
+  }else{
+    resetTblAssets();
+    showAlertError("No data available", "", 3000);
+  }
+  setDefaultLang();
+}
+
 function resetTblAssets(){
   $('#totalAssets').html('');
   $('#pagingAssetsControl').html('');
   $('#tblAsset').html('');
 }
 
-async function showZones(){
-  let data = await Service.getAllZones();
-  console.log(data);
-  $('.selectZone').html('');
-  $('.selectZone').append(`<option value="0">All</option>`);
-  data.forEach(zone => {
-    const { iZoneID, sZoneName } = zone;
-    $('.selectZone').append(`<option value="${iZoneID}">${sZoneName}</option>`);
-  })
+function showUpdateAssetModal(asset){
+  const { dPropertyLat, dPropertyLong, sAssetName, sAssetCode, iZoneID, iRouteID } = asset
+  currentUpdateAsset = Object.assign({}, asset);
+  let $mapArea = $('<div id="mapAssetUpdate" class="mymap"></div>'); 
+  $('#updateAssetMap').html($mapArea);
+  $('#txtUpdatePropertyName').val(sAssetName);
+  $('#txtUpdatePropertyCode').val(sAssetCode);
+  $('#selectZoneUpdateAsset').val(iZoneID);
+  $('#selectRouteUpdateAsset').val(iRouteID);
+  $('#latUpdateAsset').text(dPropertyLat);
+  $('#longUpdateAsset').text(dPropertyLong);
+    
+  $('#modalUpdateAsset').modal('show');
+  buildAssetsMap([asset], 'mapAssetUpdate');
+}
+
+async function updateAsset(){
+  let name = $('#txtUpdatePropertyName').val();
+  let code = $('#txtUpdatePropertyCode').val();
+  let zone = $('#selectZoneUpdateAsset').val();
+  let route = $('#selectRouteUpdateAsset').val();
+  let lat = $('#latUpdateAsset').text();
+  let lng = $('#longUpdateAsset').text();
+  let { iAssetID } = currentUpdateAsset
+  if(!Validation.checkEmpty(name) || !Validation.checkEmpty(code))
+  return showAlertError("Invalid data!!", "Name and Code must be filled in", 4000);
+  let sentData = { sPropertyCodeIN: code, sPropertyNameIN: name, iZoneIDIN: zone, iRouteIDIN: route, dPropertyLatIN: Number(lat), dPropertyLongIN: Number(lng), iPropertyIDIN: iAssetID, bStatusIN: 2 };
+  console.log(JSON.stringify(sentData));
+  let response = await Service.updateAsset(sentData);
+  console.log(response);
+  showAssets();
+  showAlertSuccess("Insert Successfully", "", 3000);
 }
 
 function buildAssetsMap(assets, id){
@@ -177,9 +204,9 @@ function buildAssetsMap(assets, id){
 
   //show all points
   if(assets && assets.length > 0){
-    points.forEach(asset => {
+    assets.forEach(asset => {
       const { sAssetName, dPropertyLat, dPropertyLong } = asset;
-      let mes = `<div style="font-size: 0.9em">ID: ${iPointID} - ${type}</div>`;
+      let mes = `<div style="font-size: 0.9em">${sAssetName}</div>`;
       let lat = Number(dPropertyLat);
       let lng = Number(dPropertyLong)
       let pos = new google.maps.LatLng(lat, lng);
@@ -204,3 +231,4 @@ function handleClickAssetMap(mymap, event){
   let marker = createMarkerGoogleMap(pos, icon);
   marker.setMap(mymap);
 }
+

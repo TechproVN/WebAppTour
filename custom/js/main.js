@@ -132,6 +132,20 @@ async function showGuardList(){
   return guards;
 }
 
+async function showZoneList(className = 'selectZones', withAll = false){
+  let data = await Service.getAllZones();
+  let selectZonesEle = $(`.${className}`);
+  selectZonesEle.html('');
+  if(withAll) selectZonesEle.append(`<option value="0">All</option>`)
+  if(data){
+    data.forEach(zone => {
+      const { iZoneID, sZoneName } = zone;
+      selectZonesEle.append(`<option value="${iZoneID}">${sZoneName}</option>`)
+    });
+  }
+  return data;
+}
+
 function checkDate(from, to){
   let valid = true;
   let msgErr = '';
