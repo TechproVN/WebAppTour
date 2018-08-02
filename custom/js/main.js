@@ -35,6 +35,14 @@ function changeFormatDateTime(time){
   return `${y}-${m}-${d}`;
 }
 
+// function changeToVietnameseFormatDateTime(time){
+//   let arr = time.split('/');
+//   let y = arr[2];
+//   let d = arr[1];
+//   let m = arr[0];
+//   return `${d}/${m}/${y}`;
+// }
+
 function showAlertError(title, text, timer){
   swal({
     title: title,

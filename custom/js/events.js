@@ -12,7 +12,7 @@ $(async () => {
   });
   $('#btnIncidentsMap').click(showAllIncidentsMap)
   // set up time default when page onload 
-  // formatTodayEvent();
+  formatTodayEvent();
   arrGuardList = await showGuardList();
   arrRouteList = await showRouteList();
   arrDeviceList = await showDeviceList();
@@ -184,23 +184,14 @@ async function formatTodayEvent() {
   let sentData = { GuardID, fromDate, toDate };
   let data = await Service.getEventHistoryDataGuard(sentData);
   if(data){
-    $('#totalTours').html(`<strong>Total tours:</strong> ${data.length}`)
-    $('#pagingToursControl').pagination({
-      dataSource: data,
-      pageSize: 10,
-      showGoInput: true,
-      showGoButton: true,
-      callback: function (data, pagination) {
-        // template method of yourself
-        console.log(data);
-        let $table = renderEventHistoryTable(data);
-        $('.card-tour .table-responsive').html($table);
-      }
-    })
+    showToursListPagination();
   }else{
-
+    resetTblEventHistory();
+    showAlertError("No data available", "", 3000);
   }
 }
+
+
 
 function checkTimeFormat(from, to) {
   let valid = true;
