@@ -2,8 +2,9 @@
 $(() => {
   
   $('#btnViewReport').click(showReportData);
-  $('#btnExportReport2Excel').click(export2Excel);
+  $('#btnExportReport2Excel').click(openPrintReportWindow);
   $('#btnChartReport').click(showChartReport);
+  $('#btnPrintDailyReport').click(printDailyReportContent);
   showGuardReportPage();
   formatTodayReport();
 
@@ -178,16 +179,21 @@ function renderReportTable(data){
   $table.append($thead).append($tbody);
 }
 
+function showTimeReportOnHeader(time){
+  $('.fromDateReport').text(`${time} 11:00AM`);
+  $('.toDateReport').text(`${time} 11:59PM`);
+}
+
 async function showReportData(){
   let id = $('#jcomboboxGuardReport').val();
   if(!id) GuardID = 1;
   else GuardID = Number(id);
   let time = $('#reportDatetime').val();
   if(time == '') return alert('No date time submitted');
+  showTimeReportOnHeader(time);
   let dDateTime = changeFormatDateTime(time);
   let sentData = { GuardID, dDateTime }
   const data = await Service.getReportData(sentData);
-  console.log(GuardID);
   let guard = arrGuardList.find(g => g.iGuardId == GuardID);
   if (guard) {
     const { sGuardName } = guard;
@@ -242,4 +248,64 @@ function export2Excel(){
   });
 }
   
-  
+function openPrintReportWindow(){
+  let report = $('.card-daily-report-of-guard').html();
+  let head = renderHeaderOfPage();
+    setTimeout(() => {
+      let html = `<html>
+                  ${head}
+                <body>
+                  ${report}
+                </body>
+              </html>`;
+    let windowObject = window.open("", "PrintWindow",
+    "width=850,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+    windowObject.document.write(html);
+    windowObject.document.write('<script type="text/javascript">$(window).load(function() { window.print(); window.close(); });</script>');
+    windowObject.document.close();
+    windowObject.focus();
+  }, 200);
+}
+
+function openPrintModalPrintingReport(){
+  let content = $('.card-daily-report-of-guard').html();
+  $('#modalPrintReport').find('.modal-body').html(content);
+  $('#modalPrintReport').modal('show');
+}
+
+function renderHeaderOfPage(){
+  let head = `<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- font awesome css -->
+    <link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap core css -->
+    <link rel="stylesheet" href="../MDB Free/css/bootstrap.min.css">
+
+    <!-- Meterial Design Bootstrap -->
+    <link rel="stylesheet" href="../MDB Free/css/mdb.min.css">
+
+    <!-- datepicker css -->
+    <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
+
+    <!-- bootstrap datetime picker css -->
+    <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+
+    <!-- custom main css -->
+    <link rel="stylesheet" href="../custom/css/main.css">
+
+    <title>Report</title>
+  </head>`
+  return head;
+}
+
+function printDailyReportContent(){
+  $('#modalPrintReport').modal('hide');
+  setTimeout(() => {
+    $('#modalPrintReport').find('.modal-body').printElement();
+  }, 200);
+	
+}

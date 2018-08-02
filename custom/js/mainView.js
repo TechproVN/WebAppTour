@@ -17,6 +17,8 @@ const audioSOS = new Audio('../custom/audio/alert.wav');
 
 let arrCurrentGuardsSentSMS = [];
 let arrCurrentGuards = [];
+let arrFilterGuards = [];
+let checkedAllGuardFilter = false;
 
 function filterGuardByGroup(arr, groupID){
   if(groupID == 0) return arr;
@@ -36,8 +38,14 @@ function filterGuards(){
   let groupID = $('#selectGuardGroup').val();
   let name = $('#txtSearchGuardName').val();
   let arrFilterName = filterGuardByName(arrCurrentGuards, name);
-  let filter = filterGuardByGroup(arrFilterName, groupID);
-  renderGuardTable(filter);
+  arrFilterGuards = filterGuardByGroup(arrFilterName, groupID);
+  renderGuardTable(arrFilterGuards);
+  if(checkedAllGuardFilter) {
+    arrCurrentGuardsSentSMS.length = 0;
+    arrFilterGuards.forEach(guard => {
+      arrCurrentGuardsSentSMS.push(guard);
+    })
+  }
 }
 
 async function makeAttendance(){
@@ -167,26 +175,26 @@ function renderGuardTable(data) {
         let { checked } = e.target;
         if(!checked){
           $checkboxHead.prop({'checked': false});
+          checkedAllGuardFilter = false;
         }
         checkOneGuard(e, guard);
       })
-      let cond = arrCurrentGuardsSentSMS.some(g => g.iGuardId == iGuardId);
-      if(cond) $ele.prop({'checked': true});
+      if(!checkedAllGuardFilter){
+        let cond = arrCurrentGuardsSentSMS.some(g => g.iGuardId == iGuardId);
+        if(cond) $ele.prop({'checked': true});
+      }
     })
   }
-  $checkboxHead.change(e => {
-    checkAllGuards(e);
+  $checkboxHead.change(e => { 
+    checkAllGuards(e) 
     let { checked } = e.target;
     $tbody.find('.checkbox-guard-sendSMS').prop({'checked': checked});
   })
-  let l1 = arrCurrentGuardsSentSMS.length;
-  let l2 = arrCurrentGuards.length;
-  if(l1 == l2){
+  if(checkedAllGuardFilter) {
     $checkboxHead.prop({'checked': true});
-  }else{
-    $checkboxHead.prop({'checked': false});
+    $tbody.find('.checkbox-guard-sendSMS').prop({'checked': true});
   }
-
+  else $checkboxHead.prop({'checked': false});
   $table.append($thead).append($tbody);
 }
 
@@ -203,9 +211,10 @@ function checkOneGuard(e, guard){
 
 function checkAllGuards(e){
   let { checked } = e.target;
+  checkedAllGuardFilter = checked;
   arrCurrentGuardsSentSMS.length = 0;
   if(checked){
-      arrCurrentGuards.forEach(guard => {
+      arrFilterGuards.forEach(guard => {
       arrCurrentGuardsSentSMS.push(guard);
     })
   }
