@@ -50,7 +50,7 @@ function renderGroupTable(data){
   $thead.html(
     `
     <tr>
-      <th class="trn">No.</th>
+      <th class="trn">#</th>
       <th class="trn">Group ID</th>
       <th class="trn">Group Name</th>
       <th class="trn">Leader</th>

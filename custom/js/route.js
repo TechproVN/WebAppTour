@@ -372,11 +372,11 @@ function renderTableRoutes(routes){
     `
   )
   if (routes) {
-    routes.forEach(route => {
+    routes.forEach((route, index) => {
       const { sDeviceName, dDateTimeUpdate, dDistance, iSpeed, iTimeComplete, sRouteName, sZoneName } = route;
       $tbody.append(`
         <tr>
-          <td></td>
+          <td>${index + 1}</td>
           <td>${sZoneName}</td>
           <td>${sRouteName}</td>
           <td>${sDeviceName}</td>
