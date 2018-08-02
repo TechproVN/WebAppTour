@@ -1,10 +1,9 @@
-
 $(() => {
   
   $('#btnViewReport').click(showReportData);
   $('#btnExportReport2Excel').click(openPrintReportWindow);
   $('#btnChartReport').click(showChartReport);
-  $('#btnPrintDailyReport').click(printDailyReportContent);
+  // $('#btnPrintDailyReport').click(printDailyReportContent);
   showGuardReportPage();
   formatTodayReport();
 
@@ -51,10 +50,10 @@ $(() => {
     $('#modalChartReport').modal('show');
   }
 
-function buildChartPatrollingPerformance(){
+function buildChartPatrollingPerformance(id = 'chartPatrollingPerformance'){
   let $chartArea = $('<canvas style="width: 100%" height="300"></canvas>');
-  $('#chartPatrollingPerformance').html($chartArea);
-  let $chartPatrolling = $('#chartPatrollingPerformance > canvas');
+  $(`#${id}`).html($chartArea);
+  let $chartPatrolling = $(`#${id} > canvas`);
   let ctx = $chartPatrolling[0].getContext('2d');
   var chartPatroll = new Chart(ctx, {
     type: 'bar',
@@ -109,12 +108,13 @@ function buildChartPatrollingPerformance(){
         }
     }
   });
+  return chartPatroll;
 }
 
-function buildChartTimePerformance(){
+function buildChartTimePerformance(id = 'chartTimePerformance'){
   let $chartArea = $('<canvas style="width: 100%" height="300"></canvas>');
-  $('#chartTimePerformance').html($chartArea);
-  let $chartTiming = $('#chartTimePerformance > canvas');
+  $(`#${id}`).html($chartArea);
+  let $chartTiming = $(`#${id} > canvas`);
   let ctx = $chartTiming[0].getContext('2d');
   var chartTime = new Chart(ctx, {
     type: 'pie',
@@ -145,6 +145,7 @@ function buildChartTimePerformance(){
       },
     }
   });
+  return chartTime;
 }
 
 function renderReportTable(data){
@@ -249,10 +250,14 @@ function export2Excel(){
 }
   
 function openPrintReportWindow(){
-  let report = $('.card-daily-report-of-guard').html();
-  let head = renderHeaderOfPage();
-    setTimeout(() => {
-      let html = `<html>
+  buildChartPatrollingPerformance('printingPatrollingPerformanceChart')
+  buildChartTimePerformance('printingTimePerformanceChart');
+  let head = renderHeadOfPage();
+  let script = renderScript();
+  setTimeout(() => {
+    let report = $('.printing-area').html();
+    console.log(report);
+  let html = `<html>
                   ${head}
                 <body>
                   ${report}
@@ -264,16 +269,16 @@ function openPrintReportWindow(){
     windowObject.document.write('<script type="text/javascript">$(window).load(function() { window.print(); window.close(); });</script>');
     windowObject.document.close();
     windowObject.focus();
-  }, 200);
+  }, 500);
 }
 
-function openPrintModalPrintingReport(){
-  let content = $('.card-daily-report-of-guard').html();
-  $('#modalPrintReport').find('.modal-body').html(content);
-  $('#modalPrintReport').modal('show');
-}
+// function openPrintModalPrintingReport(){
+//   let content = $('.card-daily-report-of-guard').html();
+//   $('#modalPrintReport').find('.modal-body').html(content);
+//   $('#modalPrintReport').modal('show');
+// }
 
-function renderHeaderOfPage(){
+function renderHeadOfPage(){
   let head = `<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -302,10 +307,14 @@ function renderHeaderOfPage(){
   return head;
 }
 
+function renderScript(){
+  let script = `<script src="../plugins/chartJS/Chart.min.js"></script>`;
+  return script;
+}
+
 function printDailyReportContent(){
   $('#modalPrintReport').modal('hide');
   setTimeout(() => {
     $('#modalPrintReport').find('.modal-body').printElement();
   }, 200);
-	
 }
