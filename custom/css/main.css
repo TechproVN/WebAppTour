@@ -149,6 +149,9 @@ nav.navbar{
   max-width: 90% !important;
   max-height: 600px !important;
 }
+.modal-dialog.small-dialog-modal{
+  max-width: 300px;
+}
 .list-group-item{
   padding: 5px!important;
 }
