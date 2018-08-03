@@ -9,7 +9,6 @@ async function showDataAttendance(){
   let sentData = { dDateTimeIN : changeFormatDateTime(date) };
   console.log(JSON.stringify(sentData));
   let data = await Service.getDataAttandance(sentData);
-  showTimeReportAtt(date);
   if(data){
     showReportAttPagination(data)
   }else{
@@ -77,12 +76,6 @@ function renderReportAttTable(data) {
 
   $table.append($thead).append($tbody);
   return $table;
-}
-
-
-function showTimeReportAtt(time){
-  $('.fromDateReportAtt').text(`${time} 11:00AM`);
-  $('.toDateReportAtt').text(`${time} 11:59PM`);
 }
 
 function showImageReportAtt(imgUrl){
