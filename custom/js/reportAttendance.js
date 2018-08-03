@@ -58,8 +58,13 @@ function renderReportAttTable(data) {
     console.log(data);
     data.forEach((report) => {
       const { bCheck, dDateTimeCheck, sGuardName, sImageUrl } = report;
-      const imgUrl = `${APP_DOMAIN}${sImageUrl}`;
-      const img = `<img src="${imgUrl}" alt="Image here" class="img-report-att" style="width:80px; height: 120px">`
+      let img;
+      console.log(typeof sImageUrl)
+      if(!sImageUrl) img = 'No Image';
+      else{
+        const imgUrl = `${APP_DOMAIN}${sImageUrl}`;
+       img = `<img src="${imgUrl}" alt="Image here" class="img-report-att" style="width:80px; height: 120px">`
+      }
       $tbody.append(`
         <tr>
           <td>${sGuardName}</td>
@@ -68,6 +73,7 @@ function renderReportAttTable(data) {
           <td>${bCheck}</td>
         </tr>
       `)
+      if(sImageUrl)
       $tbody.find('.img-report-att').last().click(() => {
         showImageReportAtt(imgUrl);
       })
