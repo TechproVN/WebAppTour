@@ -58,11 +58,11 @@ function renderReportAttTable(data) {
     console.log(data);
     data.forEach((report) => {
       const { bCheck, dDateTimeCheck, sGuardName, sImageUrl } = report;
-      let img;
+      let img, imgUrl;
       console.log(typeof sImageUrl)
       if(!sImageUrl) img = 'No Image';
       else{
-        const imgUrl = `${APP_DOMAIN}${sImageUrl}`;
+        imgUrl = `${APP_DOMAIN}${sImageUrl}`;
        img = `<img src="${imgUrl}" alt="Image here" class="img-report-att" style="width:80px; height: 120px">`
       }
       $tbody.append(`
