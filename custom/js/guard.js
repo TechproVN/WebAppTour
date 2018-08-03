@@ -93,6 +93,7 @@ function renderGuardTable(guards){
   $thead.html(
     `
     <tr>
+      <th class="trn">#</th>
       <th class="trn">ID.</th>
       <th class="trn">Full name</th>
       <th class="trn">Phone number</th>
@@ -104,10 +105,11 @@ function renderGuardTable(guards){
   `
   )
   if (guards) {
-    guards.forEach(guard => {
+    guards.forEach((guard, index) => {
       const { iGuardID, sGuardName, sGuardPhone, sGuardUserName, bActive, sGroupName, sPosition} = guard
       $tbody.append(`
         <tr>
+          <td>${index + 1}</td>
           <td>${iGuardID}</td>
           <td>${sGuardName}</td>
           <td>${sGuardPhone}</td>

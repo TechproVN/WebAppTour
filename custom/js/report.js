@@ -171,8 +171,8 @@ function renderReportTable(data){
         <tr>
           <td class="text-center">${i + 1}</td>
           <td>${arrCriteriaReport[i]}</td>
-          <td class="text-center">${arrReportCal[i]} ${unitsOfData[i]}</td>
-          <td class="text-center">${data[0][arrPropsReport[i]]}</td>
+          <td class="text-center">${arrReportCal[i]}</td>
+          <td class="text-center">${data[0][arrPropsReport[i]]} ${unitsOfData[i]} </td>
         </tr>
       `)
     }
