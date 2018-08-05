@@ -365,7 +365,9 @@ function renderTableRoutes(routes){
         <th class="trn">Device</th>
         <th class="trn">Distance</th>
         <th class="trn">Speed</th>
-        <th class="trn">Completion time</th>
+        <th class="trn">Min time</th>
+        <th class="trn">Max time</th>
+        <th class="trn">Tour execute</th>
         <th class="trn">Updated</th>
         <th class="trn"></th>
       </tr>
@@ -373,7 +375,7 @@ function renderTableRoutes(routes){
   )
   if (routes) {
     routes.forEach((route, index) => {
-      const { sDeviceName, dDateTimeUpdate, dDistance, iSpeed, iTimeComplete, sRouteName, sZoneName } = route;
+      const { sDeviceName, dDateTimeUpdate, dDistance, iSpeed, iTimeComplete, sRouteName, sZoneName, iMinTime, iTourExecute} = route;
       $tbody.append(`
         <tr>
           <td>${index + 1}</td>
@@ -382,7 +384,9 @@ function renderTableRoutes(routes){
           <td>${sDeviceName}</td>
           <td>${dDistance} km</td>
           <td>${iSpeed} km/h</td>
+          <td>${iMinTime} min</td>
           <td>${iTimeComplete} min</td>
+          <td>${iTourExecute}</td>
           <td>${dDateTimeUpdate}</td>
           <td>
             <div class="btn-group">

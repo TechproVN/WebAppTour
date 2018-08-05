@@ -113,8 +113,8 @@
 
   <div class="container-fluid">
 
-    <div class="row my-3 row-custom">
-      <div class="col-lg-6 mb-4">
+    <div class="row my-2 row-custom">
+      <div class="col-lg-8 mb-1">
         <!-- card route map start-->
         <div class="card card-route-map card-insert-route">
           <div class="card-header bg-main-color custom-card-header">
@@ -128,9 +128,9 @@
         </div>
         <!-- card route map start-->
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="row">
-          <div class="col-6 mb-4">
+          <div class="col-6 mb-1">
             <div class="card card-points card-insert-route">
               <div class="card-header custom-card-header bg-main-color">
                 <h4>
@@ -152,7 +152,7 @@
             </div>
 
           </div>
-          <div class="col-6 mb-4">
+          <div class="col-6 mb-1">
             <div class="card card-insert-route">
               <div class="card-header bg-main-color custom-card-header">
                 <div class="row">
@@ -186,32 +186,7 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-2">
-          <div class="card card-filter">
-          <div class="card-header bg-main-color custom-card-header">
-            <h4>
-              <i class="fa fa-filter"></i> <span class="trn">Search</span>
-            </h4>
-          </div>
-          <div class="card-body custom-card-body">
-            <div class="row mt-3">
-              <div class="col-12">
-                <label for="" class="trn">by Zone</label>
-                <br>
-                <select class="form-control selectZones" id="selectZonesFilter">
-
-                </select>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <!-- <button class="btn btn-custom bg-main-color pull-right" id="btnPointsData">View</button> -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-10">
+      <div class="col-lg-12">
         <div class="card card-route">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
@@ -254,15 +229,29 @@
                     <input type="text" placeholder="Enter name.." id="txtUpdateRouteName" class="form-control">
                   </div>
                   <div class="form-group">
-                    <label for="" class="font-weight-bold trn">Speed</label>
-                    <input type="text" placeholder="Speed" id="txtUpdateSpeed" class="form-control">
+                    <input type="radio" name="radioIPChecked" value="5">
+                    <label for="" class="font-weight-bold">Walking (~5km/h)</label>
+                    <input type="radio" name="radioIPChecked" value="25">
+                    <label for="" class="font-weight-bold">Motorcycle (~25km/h)</label>
                   </div>
                   <div class="form-group">
-                    <label for="" class="font-weight-bold trn">Completion Time</label>
-                    <input type="text" placeholder="Completion Time" id="txtUpdateCompletionTime" class="form-control">
+                    <label for="" class="font-weight-bold trn">Speed (km/h)</label>
+                    <input type="text" placeholder="Speed (km/h)" id="txtUpdateSpeed" class="form-control">
                   </div>
                   <div class="form-group">
-                    <label for="" class="font-weight-bold trn">Device</label>
+                    <label for="" class="font-weight-bold trn">Min time (min)</label>
+                    <input type="text" placeholder="Min time (min)" id="txtUpdateMinTime" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold trn">Max time (min)</label>
+                    <input type="text" placeholder="Max time (min)" id="txtUpdateCompletionTime" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold trn">Tour execute</label>
+                    <input type="text" placeholder="Tour execute" id="txtTourExecute" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold trn">Device use</label>
                     <select id="selectUpdateRouteDevice" class="selectDevice form-control"></select>
                   </div>
                 </div>
