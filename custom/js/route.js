@@ -48,7 +48,7 @@ function buildRouteMap(data){
   let lngCenter = CENTER_POS_MAP_VIEW[1];
   let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   let mymap = new google.maps.Map($(`#routeMap`)[0], mapProp);
-  let icon = '../img/Checked.png';
+  let icon = '../img/point.png';
   
   if(data){
     let arrPointsCoordination = [];
@@ -60,7 +60,7 @@ function buildRouteMap(data){
       let lat = Number(dPointLat);
       let lng = Number(dPointLong);
       let pos = new google.maps.LatLng(lat, lng);
-      let mes = `${index + 1} - ${iPointID} - ${type}`;
+      let mes = `${index + 1} - ${type}`;
       arrPointsCoordination.push([lat, lng])
       let marker = createMarkerGoogleMap(pos, icon);
       marker.setMap(mymap);
