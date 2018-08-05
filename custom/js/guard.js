@@ -77,7 +77,7 @@ async function updateGuard(){
 async function inActiveGuard(id){
   let sure = await showAlertWarning("Are you sure?", "");
   if(sure){
-    let sentData = { sGuardNameIN: 0, sGuardPhone: 0, sGuardUsername: 0, sGuardPassword: 0, iGuardIDIN: id, bStatusIN: 3 };
+    let sentData = { sGuardNameIN: 0, sGuardPhone: 0, sGuardUsername: 0, sGuardPassword: 0, iGuardIDIN: id,  iGroupIDIN:0, bStatusIN: 3 };
     let response = await Service.inActiveGuard(sentData);
     console.log(response);
     showAlertSuccess("Inactive successfully!", "", 2000);
