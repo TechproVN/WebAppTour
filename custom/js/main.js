@@ -200,12 +200,12 @@ function createIconGoogleMap(url, scaledSize = 17){
   return icon;
 }
 
-function createPolylineGoogleMap(path){
+function createPolylineGoogleMap(path, strokeColor = 'red', strokeOpacity = 0.8, strokeWeight = 4){
   let polyline = new google.maps.Polyline({
     path: path,
-    strokeColor: "red",
-    strokeOpacity: 0.8,
-    strokeWeight: 4
+    strokeColor: strokeColor,
+    strokeOpacity: strokeOpacity,
+    strokeWeight: strokeWeight
   });
   return polyline;
 }
@@ -240,9 +240,9 @@ function getUrlVars() {
 
 function getPageSize(l){
   if(l < 100) return 10;
-  if(l < 250) return 20;
-  if(l < 300) return 30;
-  if(l < 400) return 40;
+  if(l < 250) return 15;
+  if(l < 400) return 20;
+  if(l < 600) return 30;
   else return 50;
 }
 

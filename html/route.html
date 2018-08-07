@@ -118,8 +118,8 @@
         <!-- card route map start-->
         <div class="card card-route-map card-insert-route">
           <div class="card-header bg-main-color custom-card-header">
-            <h4>
-              <i class="fa fa-filter"></i> <span class="trn">Route Map</span>
+            <h4 class="trn">
+              Route Map
             </h4>
           </div>
           <div class="card-body custom-card-body">
@@ -134,7 +134,7 @@
             <div class="card card-points card-insert-route">
               <div class="card-header custom-card-header bg-main-color">
                 <h4>
-                  <i class="fa fa-filter"></i> <span class="trn">Select point</span>
+                  <span class="trn">Select point</span>
                 </h4>
               </div>
               <div class="card-body custom-card-body">
@@ -158,7 +158,7 @@
                 <div class="row">
                   <div class="col-lg-8">
                       <h4>
-                        <i class="fa fa-filter"></i> <span class="trn">Route</span>
+                         <span class="trn">Route</span>
                       </h4>
                   </div>
                   <div class="col-lg-4">
@@ -221,10 +221,8 @@
                     <input type="text" placeholder="Enter name.." id="txtUpdateRouteName" class="form-control">
                   </div>
                   <div class="form-group">
-                    <input type="radio" name="radioIPChecked" value="5">
-                    <label for="" class="font-weight-bold">Walking (~5km/h)</label>
-                    <input type="radio" name="radioIPChecked" value="25">
-                    <label for="" class="font-weight-bold">Motorcycle (~25km/h)</label>
+                    <label for="" class="font-weight-bold trn">Dístance (km)</label>
+                    <input type="text" placeholder="Distance (km)" id="txtUpdateDistance" class="form-control" disabled>
                   </div>
                   <div class="form-group">
                     <label for="" class="font-weight-bold trn">Speed (km/h)</label>
@@ -235,7 +233,7 @@
                     <input type="text" placeholder="Min time (min)" id="txtUpdateMinTime" class="form-control" disabled>
                   </div>
                   <div class="form-group">
-                    <label for="" class="font-weight-bold trn">Max time (min)</label>
+                    <label for="" class="font-weight-bold trn">Max time (max)</label>
                     <input type="text" placeholder="Max time (min)" id="txtUpdateCompletionTime" class="form-control">
                   </div>
                   <div class="form-group">
@@ -249,7 +247,67 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-custom bg-main-color btnSaveRouteUpdateGuard trn" data-dismiss="modal">Save</button>
+                  <button type="button" class="btn btn-custom btn-success btnSaveRouteUpdateGuard trn" data-dismiss="modal">Save</button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <!-- Modal Insert Route Guard -->
+        <div class="modal fade" id="modalInsertRouteGuard">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title trn">Insert route</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">  
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold trn">Route Name</label>
+                    <input type="text" placeholder="Enter name.." id="txtInsertRouteName" class="form-control">
+                  </div>
+                  <div>
+                    <label for="" class="font-weight-bold trn">Type of Route</label><br>
+                    <span class="trn">Circle Line</span>
+                    <input type="radio" class="txtInsertRouteType" checked name="txtInsertRouteType">
+                    <span class="trn">Circle Straight</span>
+                    <input type="radio" id="txtInsertRouteType" class="txtInsertRouteType" name="txtInsertRouteType">
+                  </div><br>
+                  
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold trn">Dístance (km)</label>
+                    <input type="text" placeholder="Distance (km)" id="txtInsertDistance" class="form-control" disabled>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold trn">Speed (km/h)</label>
+                    <input type="text" placeholder="Speed (km/h)" id="txtInsertSpeed" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold trn">Min time (min)</label>
+                    <input type="text" placeholder="Min time (min)" id="txtInsertMinTime" class="form-control" disabled>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold trn">Max time (max)</label>
+                    <input type="text" placeholder="Max time (min)" id="txtInsertMaxTime" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold trn">Tour execute</label>
+                    <input type="text" placeholder="Tour execute" id="txtInsertTourExecute" class="form-control" disabled>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="font-weight-bold trn">Device use</label>
+                    <select id="selectInsertRouteDevice" class="selectDevice form-control"></select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-custom btn-success btnSaveInsertRoute trn" data-dismiss="modal">Save</button>
                 </div>
               </div>
             </div>

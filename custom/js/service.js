@@ -634,4 +634,18 @@ class Service {
    return data;
   }
 
+  static async getRouteCreatedData(sentData) {
+    // sentData = { iZoneIDIN: 14 }
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetRouteCreatedData.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    if(!data) return null;
+    let parsedData = JSON.parse(data);
+    console.log(JSON.parse(data));
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
 }

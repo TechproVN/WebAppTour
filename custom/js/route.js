@@ -13,66 +13,123 @@ $(() => {
       })
       showDistanceAndTimeOfRoute();
       setTimeout(() => {
-        showRouteMap(arrSelectedPointsOnRoute);
+        showRouteMap();
       }, 100)
     }
   }); 
-  $('#selectRouteZone').change(() => {
+  $('#selectRouteZone').change((e) => {
     showPointsOnZone();
     $('#selectedPointsOnRoute').html('');
-    showRouteMap(null);
+    showRouteMap();
   }) 
-  $('#btnSaveSelectedPoints').click(saveRoute);
+  $('#btnSaveSelectedPoints').click(showInsertRouteModal);
   $('#selectZonesFilter').change(showRoutesOnTable);
   $('#modalUpdateRouteGuard').find('.btn.btnSaveRouteUpdateGuard').click(updateRoute);
+
+  $('#btnSaveInsertRoute').click(saveRoute);
   showSelectDevices();
-  showRouteMap();
   showAllZones();
   showPointsOnZone();
   showRoutesOnTable();
   // showGuardIdOnCombobox();
-  showZonesOnJcomboboxFilter();
+  // showZonesOnJcomboboxFilter();
+
+  showRouteMap();
 })
 
 var arrSelectedPointsOnRoute = [];
 var arrPointsOnZone = [];
 var currentTotalDistance = 0;
-var currentTimeCompleted = 0;
 var currentUpdateRoute = null;
 var currentMapAllRoute = null;
+var arrCurrentRoutesOnZone = [];
+var currentSelectedRoutePolyline = null;
+
+function showInsertRouteModal(){
+  if(arrSelectedPointsOnRoute.length == 0) return showAlertError("No Points on route!!!", "Please choose point map to create a route", 6000);
+  $('#txtInsertRouteName').val('');
+  $('#txtInsertDistance').val(currentTotalDistance);
+  $('#txtInsertSpeed').val('');
+  $('#txtInsertMinTime').val('');
+  $('#txtInsertCompletionTime').val('');
+  $('#txtInsertTourExecute').val('');
+  $('#modalInsertRouteGuard').modal('show');
+}
+
+function showMinTimeAndTourExecuteInsertRoute(e){
+  let val = e.target.value;
+  if(!Validation.checkIsNumber(val)){
+    $('#txtInsertMinTime').val('');
+    $('#txtInsertTourExecute').val('');
+  }else{
+    if(!currentTotalDistance){
+      $('#txtInsertMinTime').val('');
+      $('#txtInsertTourExecute').val('');
+    }else{
+      let speed = Number(val);
+      let minTime = Math.floor(currentTotalDistance/speed * 60);
+      let tourExecute = Math.floor(1440/minTime);
+      $('#txtInsertMinTime').val(minTime);
+      $('#txtInsertTourExecute').val(tourExecute);
+    }
+  }
+}
+
+$('#txtInsertSpeed').keyup(showMinTimeAndTourExecuteInsertRoute);
+
 // routeMap
-function buildRouteMap(data){
+function buildRouteMap(){
   let $mapArea = $(`<div id="routeMap" class="map"></div>`);
   $('.card-route-map').find('.card-body').html($mapArea);
   let latCenter = CENTER_POS_MAP_VIEW[0];
   let lngCenter = CENTER_POS_MAP_VIEW[1];
   let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   currentMapAllRoute = new google.maps.Map($(`#routeMap`)[0], mapProp);
-  let icon = '../img/Checked.png';
-  
-  if(data){
-    let arrPointsCoordination = [];
-    data.forEach((point, index) => {
-      const { dPointLat, dPointLong, iPointID, iQRCode, iRFID} = point;
-      let type = 'GPS';
-      if(iQRCode != '') type = 'QRCode';
-      if(iRFID != '') type = 'RFID';
-      let lat = Number(dPointLat);
-      let lng = Number(dPointLong);
-      let pos = new google.maps.LatLng(lat, lng);
-      let mes = `${index + 1} - ${type}`;
-      arrPointsCoordination.push([lat, lng])
-      let marker = createMarkerGoogleMap(pos, icon);
-      marker.setMap(currentMapAllRoute);
-      let infoWindow = createInfoWindowGoogleMap(mes);
+  let iconChecked = '../img/Checked.png';
+  let iconRoutePoint = '../img/RoutePoint.png';
+  if(arrSelectedPointsOnRoute){
+    console.log('red')
+    currentSelectedRoutePolyline = buildPolylineRoute(arrSelectedPointsOnRoute, iconRoutePoint, 'red');
+  }
+  if(arrCurrentRoutesOnZone && arrCurrentRoutesOnZone.length > 0)
+  arrCurrentRoutesOnZone.forEach(route => {
+    arrPoints = JSON.parse(route.PointObject);
+    console.log('green');
+    buildPolylineRoute(arrPoints, iconChecked, 'green');
+  })
+}
+
+function buildPolylineRoute(data, icon, strokeColor){
+  let arrPointsCoordination = [];
+  data.forEach((point, index) => {
+    const { dPointLat, dPointLong, iPointID } = point;
+    let type = getTypeOfPoint(point);
+    let lat = Number(dPointLat);
+    let lng = Number(dPointLong);
+    let pos = new google.maps.LatLng(lat, lng);
+    let mes = `${index + 1} - ${type}`;
+    arrPointsCoordination.push([lat, lng])
+    let marker = createMarkerGoogleMap(pos, icon);
+    marker.setMap(currentMapAllRoute);
+    let infoWindow = createInfoWindowGoogleMap(mes);
+    marker.addListener('click', () => {
       infoWindow.open(currentMapAllRoute, marker);
     })
-    let path = arrPointsCoordination.map(point => {
-      return new google.maps.LatLng(point[0], point[1]);
-    });
-    let polyline = createPolylineGoogleMap(path);
-    polyline.setMap(currentMapAllRoute);
-  }
+  })
+  let path = arrPointsCoordination.map(point => {
+    return new google.maps.LatLng(point[0], point[1]);
+  });
+  let polyline = createPolylineGoogleMap(path, strokeColor);
+  polyline.setMap(currentMapAllRoute);
+  return polyline;
+}
+
+function getTypeOfPoint(point){
+  const { iQRCode, iRFID} = point;
+  let type = 'GPS';
+  if(iQRCode != '') type = 'QRCode';
+  if(iRFID != '') type = 'RFID';
+  return type;
 }
 
 function buildRouteMapOnModal(data){
@@ -109,9 +166,14 @@ function buildRouteMapOnModal(data){
   }
 }
 
-function showRouteMap(data){
-  
-  buildRouteMap(data);
+async function showRouteMap(){
+  let iZoneIDIN = $('#selectRouteZone').val();
+  console.log(iZoneIDIN);
+  let sentData = { iZoneIDIN };
+  console.log(JSON.stringify(sentData))
+  arrCurrentRoutesOnZone = await Service.getRouteCreatedData(sentData);
+  console.log(arrCurrentRoutesOnZone);
+  buildRouteMap();
 }
 
 function renderZoneOnJcombobox(data) {
@@ -148,6 +210,7 @@ async function showPointsOnZone(){
   if(!iZoneID) iZoneID = 1;
   let sentData = { iZoneID };
   let points = await Service.getPointsDataOnZone(sentData);
+  console.log(points);
   if(points) arrPointsOnZone = points.slice();
   else arrPointsOnZone = [];
   arrSelectedPointsOnRoute = [];
@@ -211,26 +274,16 @@ function showSelectedPointWhenRemoveAlert(point){
 function showDistanceAndTimeOfRoute(){
   if(arrSelectedPointsOnRoute.length > 0){
     let totalDistance = calDistanceOfRoute(arrSelectedPointsOnRoute);
-    currentTotalDistance = totalDistance;
-    $('.sumOfDistance').html(`<strong class="trn">Total distance</strong>: ${totalDistance.toFixed(1)}km`);
-    let time = totalDistance / 25 * 60;
-    currentTimeCompleted = time;
-    $('.timeCompleted').html(`<strong class="trn">Time completed</strong>: ${parseInt(time)} min`)
-  }else{
-    $('.sumOfDistance').text('');
-    $('.timeCompleted').text('');
+    currentTotalDistance = Number(totalDistance.toFixed(2));
   }
-  setDefaultLang();
 }
 
 function renderListOfSelectedPoints(selectedPoints){
   $('#selectedPointsOnRoute').html('');
   if(selectedPoints){
     selectedPoints.forEach(point => {
-      const { iPointID, dPointLat, dPointLong, iQRCode, iRFID } = point;
-      let type = 'GPS';
-      if(iQRCode != '') type = 'QRCode';
-      if(iRFID != '') type = 'RFID';
+      const { iPointID } = point;
+      let type = getTypeOfPoint(point);
       $('#selectedPointsOnRoute').append(`
         <div class="alert alert-success alert-dismissible fade show" role="alert" data-point="${iPointID}" style="cursor: pointer;">${iPointID} - ${type}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -246,16 +299,20 @@ function renderListOfSelectedPoints(selectedPoints){
 }
 
 async function saveRoute(){
-  let routeName = $('#txtSaveRouteName').val();
-  if(arrSelectedPointsOnRoute.length == 0) return showAlertError("Invalid save", "Please choose points", 3000);
-  if(!Validation.checkEmpty(routeName)) return showAlertError("Invalid save", "Please enter route name", 3000);
+  let routeName = $('#txtInsertRouteName').val();
+  let type = $('#txtInsertRouteType').val();
+  let distance = $('#txtInsertDistance').val();
+  let speed = $('#txtInsertSpeed').val();
+  let minTime = $('#txtInsertMinTime').val();
+  let maxTime = $('#txtInsertCompletionTime').val();
+  let tourEx = $('#txtInsertTourExecute').val();
+  let deviceId = $('#selectInsertRouteDevice').val();
   let arrPoints = arrSelectedPointsOnRoute.map((p, index) => {
     const { iPointID } = p;
     return { PointID: iPointID, No: index + 1 }
   })
   let arrLength = arrSelectedPointsOnRoute.length;
   let Distance = Number(currentTotalDistance.toFixed(1));
-  let TimeComplete = parseInt(currentTimeCompleted);
   let ZoneID = $('#selectRouteZone').val();
   let routeName_1 = `${routeName} - 1`;
   let sentData = { RouteID: 0, RouteName: routeName_1, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete, Distance };
@@ -304,7 +361,7 @@ function resetAfterSavingRoute(){
   renderListOfSelectedPoints(null);
   $('.sumOfDistance').text('');
   $('.timeCompleted').text('');
-  buildRouteMap(null);
+  buildRouteMap();
   showPointsOnZone();
 }
 
@@ -432,12 +489,35 @@ function showUpdateRouteGuardModal(route){
   } = route;
   $('#routeUpdateInfo').text(`Route - ${sRouteName} on zone ${sZoneName}`)
   $('#txtUpdateRouteName').val(sRouteName);
+  $('#txtUpdateDistance').val(dDistance);
   $('#txtUpdateSpeed').val(iSpeed);
   $('#txtUpdateMinTime').val(iMinTime);
   $('#txtUpdateCompletionTime').val(iTimeComplete);
-  $('#txtTourExecute').val(iTourExecute);
+  $('#txtUpdateTourExecute').val(iTourExecute);
   $('#selectUpdateRouteDevice').val(iDeviceID);
   $('#modalUpdateRouteGuard').modal('show');
+}
+
+$('#txtUpdateSpeed').keyup(showMinTimeAndTourExecute);
+$('#txtUpdateCompletionTime').keyup(showTourExecute);
+
+function showMinTimeAndTourExecute(e){
+  let val = e.target.value;
+  if(!Validation.checkIsNumber(val)){
+    $('#txtUpdateMinTime').val('');
+    $('#txtUpdateTourExecute').val('');
+  }else{
+    let { dDistance } = currentUpdateRoute;
+    let speed = Number(val);
+    let minTime = Math.floor(dDistance/speed * 60);
+    let tourExecute = Math.floor(1440/minTime);
+    $('#txtUpdateMinTime').val(minTime);
+    $('#txtUpdateTourExecute').val(tourExecute);
+  }
+}
+
+function showTourExecute(){
+
 }
 
 async function showGuardIdOnCombobox(){
@@ -495,3 +575,4 @@ function calDistanceOfRoute(points){
 function toRadian(degree) {
   return degree * Math.PI/180;
 }
+
