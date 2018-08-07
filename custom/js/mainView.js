@@ -19,6 +19,8 @@ let arrCurrentGuardsSentSMS = [];
 let arrCurrentGuards = [];
 let arrFilterGuards = [];
 let checkedAllGuardFilter = false;
+let mainMapGuard = null;
+
 
 function filterGuardByGroup(arr, groupID){
   if(groupID == 0) return arr;
@@ -51,9 +53,11 @@ function filterGuards(){
 async function makeAttendance(){
   if(arrCurrentGuardsSentSMS.length == 0)
     return showAlertError("You have not chosen guard", "Please choose at least 1", 4000);
+    let list = selectGuardWithOnlineOrSOS();
+    if(list.length == 0) return showAlertError("No online guard is chosen!!", "Please choose guard online or sos");
   let sure = await showAlertWarning("Are you sure", "");
   if(sure){
-    let arrID = arrCurrentGuardsSentSMS.map(g => g.iGuardId);
+    let arrID = list.map(g => g.iGuardId);
     let sentData = { iGuardID: arrID };
     let response = await Service.makeAttendance(sentData);
     console.log(response);
@@ -64,14 +68,24 @@ async function makeAttendance(){
 async function sendSMSGuards(){
   let sMessageContent = $('#textareaSendSMSGuards').val();
   let arrID = [];
-  arrCurrentGuardsSentSMS.forEach(g => arrID.push(g.iGuardId));
-  let sentData = { sMessageContent, iGuardID: arrID };
-  console.log(JSON.stringify(sentData));
-  let response = await Service.sendSMSToGuards(sentData);
-  console.log(response);
-  showAlertSuccess("Send message successfully", "", 2000);
-  $('#modalSendSMSGuards').modal('hide');
-  resetSMSAfterSending();
+  let listOfGuardsToSendSMS = selectGuardWithOnlineOrSOS();
+  if(listOfGuardsToSendSMS.length > 0){
+    listOfGuardsToSendSMS.forEach(g => arrID.push(g.iGuardId));
+    let sentData = { sMessageContent, iGuardID: arrID };
+    console.log(JSON.stringify(sentData));
+    let response = await Service.sendSMSToGuards(sentData);
+    console.log(response);
+    showAlertSuccess("Send message successfully", "", 2000);
+    $('#modalSendSMSGuards').modal('hide');
+    resetSMSAfterSending();
+  } 
+}
+
+function selectGuardWithOnlineOrSOS(){
+  return arrCurrentGuardsSentSMS.filter(g => {
+    let { bOnline } = g;
+    return bOnline.toLowerCase() == 'online' || bOnline.toLowerCase() == 'sos';
+  })
 }
 
 function resetSMSAfterSending(){
@@ -84,14 +98,16 @@ function showModalSendSMSGuards(){
   if(arrCurrentGuardsSentSMS.length > 0){
     $('#textareaSendSMSGuards').val('');
     let guardNames = '';
-    arrCurrentGuardsSentSMS.forEach(g => {
+    let listOfGuardsToSendSMS = selectGuardWithOnlineOrSOS();
+    if(listOfGuardsToSendSMS.length == 0) return showAlertError("No guard is online!!!", "Please choose guard is online or sos");
+    listOfGuardsToSendSMS.forEach(g => {
       const { sGuardName } = g;
       guardNames += `${sGuardName}, `;
     })
     guardNames = guardNames.substring(0, guardNames.length - 2);
     $('#guardNameList').text(guardNames);
     $('#modalSendSMSGuards').modal('show');
-  }else{
+  } else{
     showAlertError("You have not chosen guard", "Please choose at least 1");
   }
   
@@ -133,7 +149,7 @@ async function showSOSNotification(guards){
 function renderGuardTable(data) {
   let $table = $('#tblGuard')
   $table.html('');
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
   $thead.html(`
     <tr>
@@ -176,6 +192,8 @@ function renderGuardTable(data) {
         if(!checked){
           $checkboxHead.prop({'checked': false});
           checkedAllGuardFilter = false;
+        }else{
+          showOneCurrentGuardOnMap(guard);
         }
         checkOneGuard(e, guard);
       })
@@ -196,6 +214,18 @@ function renderGuardTable(data) {
   }
   else $checkboxHead.prop({'checked': false});
   $table.append($thead).append($tbody);
+}
+
+function showOneCurrentGuardOnMap(guard){
+  let { dGuardLatCurrent, dGuardLongCurrent, bOnline } = guard;
+  let cond = bOnline.toLowerCase() == 'online' || bOnline.toLowerCase() == 'sos';
+  if(mainMapGuard && cond){
+    console.log(guard); 
+    let lat = Number(dGuardLatCurrent);
+    let lng = Number(dGuardLongCurrent);
+    mainMapGuard.setCenter(new google.maps.LatLng(lat, lng));
+    mainMapGuard.setZoom(18);
+  }
 }
 
 function checkOneGuard(e, guard){
@@ -232,7 +262,7 @@ function buildCurrentMapGuard(data){
     center: new google.maps.LatLng(20.81715284, 106.77411238),
     zoom: 15,
   };
-  let mymap = new google.maps.Map($('#mapid')[0], mapProp);
+  mainMapGuard = new google.maps.Map($('#mapid')[0], mapProp);
   if(data){
     data.forEach(guard => {
       let { dGuardLatCurrent, dGuardLongCurrent, dLastUpdateTime, sGuardName, bOnline
@@ -244,16 +274,16 @@ function buildCurrentMapGuard(data){
       if(bOnline.trim('').toLowerCase() == 'online'){
         let icon = '../img/Guard.png';
         let marker = createMarkerGoogleMap(pos, icon);
-        marker.setMap(mymap);
+        marker.setMap(mainMapGuard);
         let infoWindow = createInfoWindowGoogleMap(mes);
-        infoWindow.open(mymap, marker);
+        infoWindow.open(mainMapGuard, marker);
       }
       if(bOnline.trim().toLowerCase() == 'sos'){
         let icon = '../img/alert.png';
         let marker = createMarkerGoogleMap(pos, icon);
-        marker.setMap(mymap);
+        marker.setMap(mainMapGuard);
         let infoWindow = createInfoWindowGoogleMap(mes);
-        infoWindow.open(mymap, marker);
+        infoWindow.open(mainMapGuard, marker);
       }
     })
   }

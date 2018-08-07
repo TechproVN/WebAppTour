@@ -9,7 +9,7 @@ $(() => {
   $('#btnInsertPoint').click(insertPoint);
   $('#btnSavetPointQuestions').click(savePointQuestions)
   showAllZones();
-  
+  showIncidentContent();
 })
 
 var arrNewAddedPoints = [];
@@ -28,25 +28,22 @@ async function showAllZones() {
 
 function showPointQuestionsModal(point){
   $('#modalPointQuestions').modal('show');
-  let txtPointQuestion = $('.pointQuestions');
-  const { sPointQuestion1, sPointQuestion2, sPointQuestion3 } = point;
-  txtPointQuestion.eq(0).val(sPointQuestion1);
-  txtPointQuestion.eq(1).val(sPointQuestion2);
-  txtPointQuestion.eq(2).val(sPointQuestion3);
+  console.log(point);
+  let selectPointQuestion = $('.pointQuestions');
+  const { iQuestionAlert1, iQuestionAlert2, iQuestionAlert3 } = point;
+  selectPointQuestion.eq(0).val(iQuestionAlert1);
+  selectPointQuestion.eq(1).val(iQuestionAlert2);
+  selectPointQuestion.eq(2).val(iQuestionAlert3);
   currentUpdateQuestionPoint = Object.assign({}, point);
 }
 
 async function savePointQuestions(){
-  let txtPointQuestion = $('.pointQuestions');
-  let q1 = txtPointQuestion.eq(0).val();
-  let q2 = txtPointQuestion.eq(1).val();
-  let q3 = txtPointQuestion.eq(2).val();
-  let checkEmpty1 = Validation.checkEmpty(q1);
-  let checkEmpty2 = Validation.checkEmpty(q2);
-  let checkEmpty3 = Validation.checkEmpty(q3);
-  if(!checkEmpty1 && !checkEmpty2 && !checkEmpty3) return showAlertError("Invalid data!!", "You have to add at least 1 question");
+  let selectPointQuestion = $('.pointQuestions');
+  let q1 = selectPointQuestion.eq(0).val();
+  let q2 = selectPointQuestion.eq(1).val();
+  let q3 = selectPointQuestion.eq(2).val();
   let { iPointID } = currentUpdateQuestionPoint;
-  let sentData = { iPointID, sPointQuestion1: q1, sPointQuestion2: q2, sPointQuestion3: q3 };
+  let sentData = { iPointID, iQuestionAlert1: q1, iQuestionAlert2: q2, iQuestionAlert3: q3 };
   let response = await Service.updatePointQuestion(sentData);
   console.log(response);
   showAlertSuccess("Save questions successfully", "", 3000);
@@ -389,5 +386,16 @@ function checkValidInsertPoint(name, note){
     showAlertError("Invalid data", msgErr, 3000);
   }
   return valid;
+}
+
+async function showIncidentContent(){
+  let incidentsContent = await Service.getIncidentContent();
+  let pointsQuestion = $('.pointQuestions')
+  pointsQuestion.html('');
+  if(!incidentsContent) return;
+  incidentsContent.forEach(incident => {
+    let { iAlertContentID, sAlertContent } = incident;
+    pointsQuestion.append(`<option value="${iAlertContentID}">${sAlertContent}</option>`)
+  })
 }
 

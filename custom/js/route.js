@@ -30,7 +30,7 @@ $(() => {
   showAllZones();
   showPointsOnZone();
   showRoutesOnTable();
-  showGuardIdOnCombobox();
+  // showGuardIdOnCombobox();
   showZonesOnJcomboboxFilter();
 })
 
@@ -39,16 +39,16 @@ var arrPointsOnZone = [];
 var currentTotalDistance = 0;
 var currentTimeCompleted = 0;
 var currentUpdateRoute = null;
+var currentMapAllRoute = null;
 // routeMap
 function buildRouteMap(data){
   let $mapArea = $(`<div id="routeMap" class="map"></div>`);
   $('.card-route-map').find('.card-body').html($mapArea);
-
   let latCenter = CENTER_POS_MAP_VIEW[0];
   let lngCenter = CENTER_POS_MAP_VIEW[1];
   let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
-  let mymap = new google.maps.Map($(`#routeMap`)[0], mapProp);
-  let icon = '../img/point.png';
+  currentMapAllRoute = new google.maps.Map($(`#routeMap`)[0], mapProp);
+  let icon = '../img/Checked.png';
   
   if(data){
     let arrPointsCoordination = [];
@@ -63,15 +63,15 @@ function buildRouteMap(data){
       let mes = `${index + 1} - ${type}`;
       arrPointsCoordination.push([lat, lng])
       let marker = createMarkerGoogleMap(pos, icon);
-      marker.setMap(mymap);
+      marker.setMap(currentMapAllRoute);
       let infoWindow = createInfoWindowGoogleMap(mes);
-      infoWindow.open(mymap, marker);
+      infoWindow.open(currentMapAllRoute, marker);
     })
     let path = arrPointsCoordination.map(point => {
       return new google.maps.LatLng(point[0], point[1]);
     });
     let polyline = createPolylineGoogleMap(path);
-    polyline.setMap(mymap);
+    polyline.setMap(currentMapAllRoute);
   }
 }
 
@@ -84,7 +84,6 @@ function buildRouteMapOnModal(data){
   let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   let mymap = new google.maps.Map($(`#routeMapOnModal`)[0], mapProp);
   let icon = '../img/Checked.png';
-
   if(data){
     let arrPointsCoordination = [];
     data.forEach((point, index) => {
@@ -111,6 +110,7 @@ function buildRouteMapOnModal(data){
 }
 
 function showRouteMap(data){
+  
   buildRouteMap(data);
 }
 
@@ -156,6 +156,7 @@ async function showPointsOnZone(){
 
 function renderPointsOnZone(points){
   $('#pointsOnZone').html('');
+  console.log(points);
   if(points){
     points.forEach(point => {
       const { iPointID, dPointLat, dPointLong, iQRCode, iRFID } = point;
@@ -455,7 +456,7 @@ async function updateRoute(){
   let iMinTime = $('#txtUpdateMinTime').val();
   let iSpeedIN = $('#txtUpdateSpeed').val();
   let sRouteNameIN = $('#txtUpdateRouteName').val();
-  iTourExecute =  $('#txtTourExecute').val();
+  let iTourExecute =  $('#txtUpdateTourExecute').val();
   let sentData = { iDeivceIDIN, iRouteIDIN: iRouteID, iSpeedIN, iCompletionTimeIN, sRouteNameIN, iMinTime, iTourExecute };
   console.log(JSON.stringify(sentData));
   let response = await Service.updateRouteDetail(sentData);

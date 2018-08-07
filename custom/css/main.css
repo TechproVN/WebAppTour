@@ -99,6 +99,9 @@ nav.navbar{
   padding-top:10px !important; 
   padding-bottom:10px !important; 
 }
+.custom-table-header th{
+  color: blueviolet;
+}
 .custom-card-header{
   padding-top: 5px !important;
   padding-bottom: 0 !important;
@@ -144,7 +147,6 @@ nav.navbar{
 .modal-dialog.modal-dialog-custom {
   max-width: 80% !important;
 }
-
 .modal-dialog.modal-dialog-super-lg-custom {
   max-width: 90% !important;
   max-height: 600px !important;

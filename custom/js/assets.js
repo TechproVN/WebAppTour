@@ -10,7 +10,7 @@ let arrCurrentAssets = [];
 
 function renderAssetsTable(data) {
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblAssets"></table>`);
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
 
   $thead.html(
