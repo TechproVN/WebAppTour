@@ -427,12 +427,14 @@ async function showRouteViewMapModal(route){
 
 function showUpdateRouteGuardModal(route){
   currentUpdateRoute = Object.assign({}, route);
-  const { bActive, dDateTimeUpdate, dDistance, iGuardID, iRouteID, iTimeComplete, iZoneID, sRouteName, sZoneName, sGuardName, iSpeed, iDeviceID
+  const { bActive, dDateTimeUpdate, dDistance, iGuardID, iRouteID, iMinTime, iTimeComplete, iTourExecute, iZoneID, sRouteName, sZoneName, sGuardName, iSpeed, iDeviceID
   } = route;
-  $('#routeUpdateInfo').text(`${sRouteName} on zone ${sZoneName}`)
+  $('#routeUpdateInfo').text(`Route - ${sRouteName} on zone ${sZoneName}`)
   $('#txtUpdateRouteName').val(sRouteName);
   $('#txtUpdateSpeed').val(iSpeed);
+  $('#txtUpdateMinTime').val(iMinTime);
   $('#txtUpdateCompletionTime').val(iTimeComplete);
+  $('#txtTourExecute').val(iTourExecute);
   $('#selectUpdateRouteDevice').val(iDeviceID);
   $('#modalUpdateRouteGuard').modal('show');
 }
@@ -450,9 +452,11 @@ async function updateRoute(){
   const { iRouteID } = currentUpdateRoute;
   let iDeivceIDIN = $('#selectUpdateRouteDevice').val(); 
   let iCompletionTimeIN = $('#txtUpdateCompletionTime').val();
+  let iMinTime = $('#txtUpdateMinTime').val();
   let iSpeedIN = $('#txtUpdateSpeed').val();
   let sRouteNameIN = $('#txtUpdateRouteName').val();
-  let sentData = { iDeivceIDIN, iRouteIDIN: iRouteID, iSpeedIN, iCompletionTimeIN, sRouteNameIN };
+  iTourExecute =  $('#txtTourExecute').val();
+  let sentData = { iDeivceIDIN, iRouteIDIN: iRouteID, iSpeedIN, iCompletionTimeIN, sRouteNameIN, iMinTime, iTourExecute };
   console.log(JSON.stringify(sentData));
   let response = await Service.updateRouteDetail(sentData);
   showRoutesOnTable();
