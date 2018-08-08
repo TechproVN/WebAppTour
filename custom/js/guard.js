@@ -9,13 +9,55 @@ $(() => {
   });
   $('#btnShowGuardInsertModal').click(showGuardModalInsert);
   $('#btnSendMessageGuard').click(sendMessageGuard);
-  $('#btnShowGuardsTbl').click(showGuards);
+  $('#selectFilterGuardByGroup').change(showGuards);
+  $('#btnConfirmPass').click(saveNewPassword);
   showGuardGroupsFilter()
   showGuardGroups();
   showGuards();
 })
 
 var currentSendMessageGuard = null;
+
+async function saveNewPassword(){
+  let pass = $('#txtUpdateGuardPassword').val();
+  let repass = $('#txtUpdateGuardRepassword').val();
+  if(!validateResetPassword(pass, repass)) return;
+  let sentData = {};
+  let response = Service.resetGuardPassword(sentData);
+  console.log(response);
+  showAlertSuccess("Reset successfully", "", 4000);
+}
+
+function validateResetPassword(pass, repass){
+  let err = '';
+  let valid = true;
+  if(!checkPass(pass)){
+    valid = false;
+    err += 'Password is required and more than 6 characters\n'
+  }
+  if(!checkPass(repass)){
+    valid = false;
+    err += 'Repassword is required and more than 6 characters\n'
+  }
+  if(pass != repass) {
+    valid = false;
+    err += 'Repassword and password must be the same\n'
+  }
+  if(!valid) showAlertError("Invalid data!!!", err);
+  return valid;
+}
+
+function checkPass(pass){
+  if(!Validation.checkEmpty(pass)) return false;
+  if(pass.trim().length < 6 ) return false;
+  return true;
+}
+
+function showModalResetPass(){
+  $('#txtUpdateGuardPassword').val('');
+  $('#txtUpdateGuardRepassword').val('');
+  $('#modalResetPassword').modal('show');
+}
 
 async function insertGuard(){
   let name = $('#txtInsertGuardName').val();
@@ -138,7 +180,7 @@ function renderGuardTable(guards){
         showGuardModalUpdate(guard);
       })
       $tbody.find('.btn.btnShowModalResetPassword').last().click(() => {
-        showGuardModalResetPass(guard);
+        showModalResetPass();
       })
       $tbody.find('.btn.btnShowModalSendMessage').last().click(() => {
         showModalSendMessage(guard);
@@ -177,10 +219,6 @@ async function sendMessageGuard(){
   showAlertSuccess("Send successfully!", "", 2000);
 }
 
-function showGuardModalResetPass(guard){
-  const { iGuardID, sGuardName, sGuardPhone, sGuardUserName, bActive} = guard
-}
-
 function showGuardModalUpdate(guard){
   const { iGuardID, sGuardName, sGuardPhone, sGuardUserName, iGuardGroupID} = guard
   $('#txtUpdateGuardID').val(iGuardID);
@@ -201,26 +239,28 @@ async function showGuards(){
   if(!iGroupIDIN) iGroupIDIN = 0;
   let sentData = { iGroupIDIN };
   let guards = await Service.getPersonalGuardsInfo(sentData);
-  if(guards){
-    console.log(guards)
-    $('#totalGuards').html(`<strong class="trn">Total Guards</strong>:  ${guards.length}`);
-    $('#pagingGuardsControl').pagination({
-      dataSource: guards,
-      pageSize: 10,
-      className: 'paginationjs-theme-green paginationjs-big',
-      showGoInput: true,
-      showGoButton: true,
-      callback: function (guards, pagination) {
-        let $table = renderGuardTable(guards);
-        $('.card-guard .table-responsive').html($table);
-        setDefaultLang();
-      }
-    })
-  }else{
+  if(guards) showGuardPagination();
+  else{
     resetTblPersonalGuardInfo();
     showAlertError("No data available", "", 3000);
   }
   setDefaultLang();
+}
+
+function showGuardPagination(){
+  $('#totalGuards').html(`<strong class="trn">Total Guards</strong>:  ${guards.length}`);
+  $('#pagingGuardsControl').pagination({
+    dataSource: guards,
+    pageSize: 10,
+    className: 'paginationjs-theme-green paginationjs-big',
+    showGoInput: true,
+    showGoButton: true,
+    callback: function (guards, pagination) {
+      let $table = renderGuardTable(guards);
+      $('.card-guard .table-responsive').html($table);
+      setDefaultLang();
+    }
+  })
 }
 
 function resetTblPersonalGuardInfo(){

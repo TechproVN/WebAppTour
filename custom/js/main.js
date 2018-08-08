@@ -300,3 +300,34 @@ function getCurrentDateTime(){
   let sec = now.getSeconds();
   return { year, month, day, hour, min, sec };
 }
+
+function calDistanceOfRoute(points){
+  let sumOfDistance = 0;
+  points.forEach((point, index) => {
+    if(index != points.length - 1){
+      const { dPointLat, dPointLong } = point;
+      let lat1 = Number(dPointLat);
+      let lon1 = Number(dPointLong);
+      const lat2 = Number(points[index + 1].dPointLat);
+      const lon2 = Number(points[index + 1].dPointLong);
+      let R = 6371; // km
+      let φ1 = toRadian(lat1);
+      let φ2 = toRadian(lat2);
+      let Δφ = toRadian(lat2-lat1);
+      let Δλ = toRadian(lon2-lon1);
+
+      let a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+            let d = R * c;
+      sumOfDistance += d;
+    }
+  })
+  return sumOfDistance;
+}
+
+function toRadian(degree) {
+  return degree * Math.PI/180;
+}

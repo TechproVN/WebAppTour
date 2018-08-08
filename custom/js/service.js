@@ -643,7 +643,6 @@ class Service {
     });
     if(!data) return null;
     let parsedData = JSON.parse(data);
-    console.log(JSON.parse(data));
     if (Array.isArray(parsedData) && parsedData.length > 0)
       return parsedData;
     return null;

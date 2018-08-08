@@ -19,11 +19,11 @@ $(() => {
   }); 
   $('#selectRouteZone').change((e) => {
     showPointsOnZone();
+    showRoutesOnTable();
     $('#selectedPointsOnRoute').html('');
     showRouteMap();
   }) 
   $('#btnSaveSelectedPoints').click(showInsertRouteModal);
-  $('#selectZonesFilter').change(showRoutesOnTable);
   $('#modalUpdateRouteGuard').find('.btn.btnSaveRouteUpdateGuard').click(updateRoute);
 
   $('#btnSaveInsertRoute').click(saveRoute);
@@ -53,29 +53,34 @@ function showInsertRouteModal(){
   $('#txtInsertMinTime').val('');
   $('#txtInsertCompletionTime').val('');
   $('#txtInsertTourExecute').val('');
-  $('#modalInsertRouteGuard').modal('show');
+  $('#modalInsertRoute').modal('show');
 }
 
-function showMinTimeAndTourExecuteInsertRoute(e){
+$('#txtInsertSpeed').keyup(e => showMinTime(e, true));
+$('#txtInsertCompletionTime').keyup(e => showTourExecute(e, true));
+$('#txtUpdateSpeed').keyup(e => showMinTime(e, false));
+$('#txtUpdateCompletionTime').keyup(e => showTourExecute(e, false));
+
+function showMinTime(e, insert){
   let val = e.target.value;
-  if(!Validation.checkIsNumber(val)){
-    $('#txtInsertMinTime').val('');
-    $('#txtInsertTourExecute').val('');
-  }else{
-    if(!currentTotalDistance){
-      $('#txtInsertMinTime').val('');
-      $('#txtInsertTourExecute').val('');
-    }else{
-      let speed = Number(val);
-      let minTime = Math.floor(currentTotalDistance/speed * 60);
-      let tourExecute = Math.floor(1440/minTime);
-      $('#txtInsertMinTime').val(minTime);
-      $('#txtInsertTourExecute').val(tourExecute);
-    }
-  }
+  let txtMinTime = $('.txtMinTime');
+  let cond = !Validation.checkPositiveNumber(val);
+  if(cond) return txtMinTime.val('');
+  let speed = Number(val);
+  let distance = $('#txtUpdateDistance').val();
+  if(insert) distance = $('#txtInsertDistance').val();
+  if(Validation.checkPositiveNumber(distance)) distance =  Number(distance);
+  let minTime = Math.floor(distance/speed * 60);
+  txtMinTime.val(minTime);
 }
 
-$('#txtInsertSpeed').keyup(showMinTimeAndTourExecuteInsertRoute);
+function showTourExecute(e){
+  let val = e.target.value;
+  let txtTourEx = $('.tourExecute');
+  if(!Validation.checkPositiveNumber(val)) return txtTourEx.val('');
+  let tourEx = 1440/Number(val);
+  txtTourEx.val(tourEx);
+}
 
 // routeMap
 function buildRouteMap(){
@@ -88,19 +93,18 @@ function buildRouteMap(){
   let iconChecked = '../img/Checked.png';
   let iconRoutePoint = '../img/RoutePoint.png';
   if(arrSelectedPointsOnRoute){
-    console.log('red')
     currentSelectedRoutePolyline = buildPolylineRoute(arrSelectedPointsOnRoute, iconRoutePoint, 'red');
   }
   if(arrCurrentRoutesOnZone && arrCurrentRoutesOnZone.length > 0)
   arrCurrentRoutesOnZone.forEach(route => {
     arrPoints = JSON.parse(route.PointObject);
-    console.log('green');
     buildPolylineRoute(arrPoints, iconChecked, 'green');
   })
 }
 
 function buildPolylineRoute(data, icon, strokeColor){
   let arrPointsCoordination = [];
+  if(!data) return;
   data.forEach((point, index) => {
     const { dPointLat, dPointLong, iPointID } = point;
     let type = getTypeOfPoint(point);
@@ -135,7 +139,6 @@ function getTypeOfPoint(point){
 function buildRouteMapOnModal(data){
   let $mapArea = $(`<div id="routeMapOnModal" class="map"></div>`);
   $('#modalViewMapRoute').find('.modal-body').html($mapArea);
-
   let latCenter = CENTER_POS_MAP_VIEW[0];
   let lngCenter = CENTER_POS_MAP_VIEW[1];
   let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
@@ -168,11 +171,8 @@ function buildRouteMapOnModal(data){
 
 async function showRouteMap(){
   let iZoneIDIN = $('#selectRouteZone').val();
-  console.log(iZoneIDIN);
   let sentData = { iZoneIDIN };
-  console.log(JSON.stringify(sentData))
   arrCurrentRoutesOnZone = await Service.getRouteCreatedData(sentData);
-  console.log(arrCurrentRoutesOnZone);
   buildRouteMap();
 }
 
@@ -185,20 +185,20 @@ function renderZoneOnJcombobox(data) {
   }
 }
 
-function renderZoneOnJcomboboxFilter(data) {
-  $('#selectZonesFilter').html('');
-  $('#selectZonesFilter').append(`<option value="0">All</option>`)
-  if (data) {
-    data.forEach(zone => {
-      $('#selectZonesFilter').append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
-    })
-  }
-}
+// function renderZoneOnJcomboboxFilter(data) {
+//   $('#selectZonesFilter').html('');
+//   $('#selectZonesFilter').append(`<option value="0">All</option>`)
+//   if (data) {
+//     data.forEach(zone => {
+//       $('#selectZonesFilter').append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
+//     })
+//   }
+// }
 
-async function showZonesOnJcomboboxFilter(){
-  let data = await Service.getAllZones();
-  renderZoneOnJcomboboxFilter(data);
-}
+// async function showZonesOnJcomboboxFilter(){
+//   let data = await Service.getAllZones();
+//   renderZoneOnJcomboboxFilter(data);
+// }
 
 async function showAllZones(){
   let data = await Service.getAllZones();
@@ -300,59 +300,61 @@ function renderListOfSelectedPoints(selectedPoints){
 
 async function saveRoute(){
   let routeName = $('#txtInsertRouteName').val();
-  let type = $('#txtInsertRouteType').val();
-  let distance = $('#txtInsertDistance').val();
+  let type = $('.txtInsertRouteType').prop('checked');
+  console.log(type);
   let speed = $('#txtInsertSpeed').val();
   let minTime = $('#txtInsertMinTime').val();
   let maxTime = $('#txtInsertCompletionTime').val();
   let tourEx = $('#txtInsertTourExecute').val();
-  let deviceId = $('#selectInsertRouteDevice').val();
-  let arrPoints = arrSelectedPointsOnRoute.map((p, index) => {
+  let iDeviceID = $('#selectInsertRouteDevice').val();
+  if(!validateRouteData(routeName, speed, minTime, maxTime, tourEx)) 
+  return $('#modalInsertRoute').modal('show'); 
+  let arr_1 = arrSelectedPointsOnRoute.map((p, index) => {
     const { iPointID } = p;
     return { PointID: iPointID, No: index + 1 }
   })
-  let arrLength = arrSelectedPointsOnRoute.length;
-  let Distance = Number(currentTotalDistance.toFixed(1));
+  let arrPoints = arr_1.slice();
+  if(!type) {
+    let arr_2 = arrPoints.concat(arr_1.reverse());
+    arr_2.splice(arr_1.length, 1);
+    arrPoints = arr_2;
+  }
   let ZoneID = $('#selectRouteZone').val();
-  let routeName_1 = `${routeName} - 1`;
-  let sentData = { RouteID: 0, RouteName: routeName_1, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete, Distance };
+  let sentData = { RouteID: 0, RouteName: routeName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete: maxTime, Distance: currentTotalDistance, MinTime: minTime, TourExecute: tourEx, iDeviceID};
   console.log(JSON.stringify(sentData));
   let response = await Service.saveRoute(sentData);
   console.log(response);
-  // send request second time on saving route
-  let arrPoints_2 = arrSelectedPointsOnRoute.map((p, index) => {
-    const { iPointID } = p;
-    return { PointID: iPointID, No: arrLength - index };
-  }).reverse();
-  let routeName_2 = `${routeName} - 2`;
-  let sentData_2 = { RouteID: 0, RouteName: routeName_2, bStatusIN: 1, Point: arrPoints_2, ZoneID, TimeComplete, Distance };
-  console.log(JSON.stringify(sentData_2));
-  let response_2 = await Service.saveRoute(sentData_2);
-  console.log(response_2);
-
-  let lastElementArr = arrSelectedPointsOnRoute[arrLength - 1];
-  console.log(lastElementArr)
-  let arrTemp = [lastElementArr];
-  arrSelectedPointsOnRoute.forEach((p, index) => {
-    if(index != arrLength - 1){
-      arrTemp.push(p);
-    }
-  })
-  let arrPoints_3 = arrTemp.map((p, index) => {
-    const { iPointID } = p;
-    return { PointID: iPointID, No: index + 1 };
-  })
-
-  console.log(arrPoints_3);
-  let routeName_3 = `${routeName} - 3`;
-  let sentData_3 = { RouteID: 0, RouteName: routeName_3, bStatusIN: 1, Point: arrPoints_3, ZoneID, TimeComplete, Distance };
-  console.log(JSON.stringify(sentData_3));
-  let response_3 = await Service.saveRoute(sentData_3);
-  console.log(response_3);
-  
+  $('#modalInsertRoute').modal('show');
   showAlertSuccess("Save successfully!", "", 2000);
   showRoutesOnTable();
   resetAfterSavingRoute();
+}
+
+function validateRouteData(name, speed, min, max, tourEx){
+  let err = '';
+  let valid = true;
+  if(!Validation.checkEmpty(name)) {
+    err += 'Name is required!!\n';
+    valid = false;
+  }
+  if(!Validation.checkPositiveNumber(speed)) {
+    err += 'Speed must be positive number!!\n';
+    valid = false;
+  }
+  if(!Validation.checkPositiveNumber(min)) {
+    err += 'Min Time must be positive number!!\n';
+    valid = false;
+  }
+  if(!Validation.checkPositiveNumber(max)) {
+    err += 'Time Completion must be positive number!!\n';
+    valid = false;
+  }
+  if(!Validation.checkPositiveNumber(tourEx)) {
+    err += 'TourExecute must be positive number!!\n';
+    valid = false;
+  }
+  if(!valid) showAlertError('Invalid data!!', err);
+  return valid;
 }
 
 function resetAfterSavingRoute(){
@@ -379,7 +381,7 @@ async function deleteRoute(route){
 }
 
 async function showRoutesOnTable(){
-  let zoneId = $('#selectZonesFilter').val();
+  let zoneId = $('#selectRouteZone').val();
   if(!zoneId) zoneId = 0;
   let sentData = { iZoneIDIN: zoneId };
   let routes = await Service.getRoutesOnZone(sentData);
@@ -498,28 +500,6 @@ function showUpdateRouteGuardModal(route){
   $('#modalUpdateRouteGuard').modal('show');
 }
 
-$('#txtUpdateSpeed').keyup(showMinTimeAndTourExecute);
-$('#txtUpdateCompletionTime').keyup(showTourExecute);
-
-function showMinTimeAndTourExecute(e){
-  let val = e.target.value;
-  if(!Validation.checkIsNumber(val)){
-    $('#txtUpdateMinTime').val('');
-    $('#txtUpdateTourExecute').val('');
-  }else{
-    let { dDistance } = currentUpdateRoute;
-    let speed = Number(val);
-    let minTime = Math.floor(dDistance/speed * 60);
-    let tourExecute = Math.floor(1440/minTime);
-    $('#txtUpdateMinTime').val(minTime);
-    $('#txtUpdateTourExecute').val(tourExecute);
-  }
-}
-
-function showTourExecute(){
-
-}
-
 async function showGuardIdOnCombobox(){
   let guards = await Service.getPersonalGuardsInfo();
   $('.selectGuards').html('');
@@ -537,6 +517,7 @@ async function updateRoute(){
   let iSpeedIN = $('#txtUpdateSpeed').val();
   let sRouteNameIN = $('#txtUpdateRouteName').val();
   let iTourExecute =  $('#txtUpdateTourExecute').val();
+  if(!validateRouteData(sRouteNameIN, iSpeedIN, iMinTime, 10, iTourExecute)) return;
   let sentData = { iDeivceIDIN, iRouteIDIN: iRouteID, iSpeedIN, iCompletionTimeIN, sRouteNameIN, iMinTime, iTourExecute };
   console.log(JSON.stringify(sentData));
   let response = await Service.updateRouteDetail(sentData);
@@ -545,34 +526,5 @@ async function updateRoute(){
   showAlertSuccess("Updated successfully!", "", 3000);
 }
 
-function calDistanceOfRoute(points){
-  let sumOfDistance = 0;
-  points.forEach((point, index) => {
-    if(index != points.length - 1){
-      const { dPointLat, dPointLong } = point;
-      let lat1 = Number(dPointLat);
-      let lon1 = Number(dPointLong);
-      const lat2 = Number(points[index + 1].dPointLat);
-      const lon2 = Number(points[index + 1].dPointLong);
-      let R = 6371; // km
-      let φ1 = toRadian(lat1);
-      let φ2 = toRadian(lat2);
-      let Δφ = toRadian(lat2-lat1);
-      let Δλ = toRadian(lon2-lon1);
 
-      let a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-            Math.cos(φ1) * Math.cos(φ2) *
-            Math.sin(Δλ/2) * Math.sin(Δλ/2);
-            let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-            let d = R * c;
-      sumOfDistance += d;
-    }
-  })
-  return sumOfDistance;
-}
-
-function toRadian(degree) {
-  return degree * Math.PI/180;
-}
 
