@@ -74,13 +74,14 @@ function renderIncidentsTable(data) {
         <th class="trn">Finished</th>
         <th class="trn">Image</th>
         <th class="trn">Description</th>
+        <th class="trn">Action</th>
         <th class="trn">Map</th>
       </tr>
     `
   )
   if(data){
     data.forEach(incident => {
-      const { sGuardName, sZoneName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, sAlertDescription, ImageUrl, sRouteName } = incident;
+      const { sGuardName, sZoneName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, sAlertDescription, ImageUrl, sRouteName, ProcessAlert } = incident;
       let img = `${APP_DOMAIN}${ImageUrl}`;
       $tbody.append(`
         <tr>
@@ -97,6 +98,7 @@ function renderIncidentsTable(data) {
             <img src="${img}" alt="Image here" style="width:60px; height: 80px" onClick="showIncidentImage('${img}')">
           </td>
           <td>${sAlertDescription}</td>
+          <td>${ProcessAlert}</td>
           <td>
             <button class="btn btn-custom bg-main-color btnShowIncidentMap btn-custom-small">Map</button>
           </td>
