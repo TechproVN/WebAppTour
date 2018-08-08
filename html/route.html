@@ -230,15 +230,15 @@
                   </div>
                   <div class="form-group">
                     <label for="" class="font-weight-bold trn">Min time (min)</label>
-                    <input type="text" placeholder="Min time (min)" id="txtUpdateMinTime" class="form-control" disabled>
+                    <input type="text" placeholder="Min time (min)" id="txtUpdateMinTime" class="form-control txtMinTime" disabled>
                   </div>
                   <div class="form-group">
-                    <label for="" class="font-weight-bold trn">Max time (max)</label>
-                    <input type="text" placeholder="Max time (min)" id="txtUpdateCompletionTime" class="form-control">
+                    <label for="" class="font-weight-bold trn">Time Completion (max)</label>
+                    <input type="text" placeholder="Max time (min)" id="txtUpdateCompletionTime" class="form-control timeComplete">
                   </div>
                   <div class="form-group">
                     <label for="" class="font-weight-bold trn">Tour execute</label>
-                    <input type="text" placeholder="Tour execute" id="txtUpdateTourExecute" class="form-control" disabled>
+                    <input type="text" placeholder="Tour execute" id="txtUpdateTourExecute" class="form-control tourExecute" disabled>
                   </div>
                   <div class="form-group">
                     <label for="" class="font-weight-bold trn">Device use</label>
@@ -247,7 +247,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-custom btn-success btnSaveRouteUpdateGuard trn" data-dismiss="modal">Save</button>
+                  <button type="button" class="btn btn-custom btn-success btnSaveRouteUpdateGuard trn">Save</button>
                 </div>
               </div>
             </div>
@@ -258,7 +258,7 @@
     <div class="row">
       <div class="col-12">
         <!-- Modal Insert Route Guard -->
-        <div class="modal fade" id="modalInsertRouteGuard">
+        <div class="modal fade" id="modalInsertRoute">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -275,9 +275,9 @@
                   <div>
                     <label for="" class="font-weight-bold trn">Type of Route</label><br>
                     <span class="trn">Circle Line</span>
-                    <input type="radio" class="txtInsertRouteType" checked name="txtInsertRouteType">
-                    <span class="trn">Circle Straight</span>
-                    <input type="radio" id="txtInsertRouteType" class="txtInsertRouteType" name="txtInsertRouteType">
+                    <input type="radio" class="txtInsertRouteType" checked name="txtInsertRouteType" value="circle">
+                    <span class="trn">Straight Line</span>
+                    <input type="radio" id="txtInsertRouteType" class="txtInsertRouteType" name="txtInsertRouteType" value="straight">
                   </div><br>
                   
                   <div class="form-group">
@@ -286,19 +286,19 @@
                   </div>
                   <div class="form-group">
                     <label for="" class="font-weight-bold trn">Speed (km/h)</label>
-                    <input type="text" placeholder="Speed (km/h)" id="txtInsertSpeed" class="form-control">
+                    <input type="text" placeholder="Speed (km/h)" id="txtInsertSpeed" class="form-control speed">
                   </div>
                   <div class="form-group">
                     <label for="" class="font-weight-bold trn">Min time (min)</label>
-                    <input type="text" placeholder="Min time (min)" id="txtInsertMinTime" class="form-control" disabled>
+                    <input type="text" placeholder="Min time (min)" id="txtInsertMinTime" class="form-control txtMinTime" disabled>
                   </div>
                   <div class="form-group">
-                    <label for="" class="font-weight-bold trn">Max time (max)</label>
-                    <input type="text" placeholder="Max time (min)" id="txtInsertMaxTime" class="form-control">
+                    <label for="" class="font-weight-bold trn">Time Completion (max)</label>
+                    <input type="text" placeholder="Time Completion (min)" id="txtInsertCompletionTime" class="form-control">
                   </div>
                   <div class="form-group">
                     <label for="" class="font-weight-bold trn">Tour execute</label>
-                    <input type="text" placeholder="Tour execute" id="txtInsertTourExecute" class="form-control" disabled>
+                    <input type="text" placeholder="Tour execute" id="txtInsertTourExecute" class="form-control tourExecute" disabled>
                   </div>
                   <div class="form-group">
                     <label for="" class="font-weight-bold trn">Device use</label>
@@ -307,7 +307,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-custom btn-success btnSaveInsertRoute trn" data-dismiss="modal">Save</button>
+                  <button type="button" class="btn btn-custom btn-success  trn" id="btnSaveInsertRoute">Save</button>
                 </div>
               </div>
             </div>

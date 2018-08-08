@@ -132,7 +132,7 @@
             <div class="row mt-3">
               <div class="col-12">
                 <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowGuardInsertModal">Insert</button>
-                <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowGuardsTbl">View</button>
+                
               </div>
             </div>
           </div>
@@ -315,6 +315,37 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="modal fade" id="modalResetPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="">Password</label>
+                  <input type="password" class="form-control" id="txtUpdateGuardPassword" placeholder="Password...">
+                </div>
+                <div class="form-group">
+                  <label for="">Repassword</label>
+                  <input type="password" class="form-control" id="txtUpdateGuardRepassword" placeholder="Enter password again...">
+                </div>
+                <button type="button" class="btn btn-custom btn-success" id="btnConfirmPass">Confirm</button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
   </div>
 
   <!-- Google Map API -->
