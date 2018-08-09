@@ -115,7 +115,7 @@ function showImageZoomed(img){
 }
 
 function showIncidentImage(urlImage){
-  showImageZoomed(urlImage);
+  // showImageZoomed(urlImage);
   $('#incidentImg').attr({src: urlImage})
   $('#modalIncidentImage').modal('show');
 }
