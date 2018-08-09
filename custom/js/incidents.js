@@ -5,6 +5,8 @@ $(() => {
   $('#btnIncidentsMap').click(function(){
     showAllIncidentMap(arrIncidents);
   })
+  $(".zoom-image").spritezoom({});
+    
   formatTodayIncident();
 })
 
@@ -16,7 +18,6 @@ async function showIncidentsData() {
   if(fromDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
   if(toDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
   let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate)};
-  console.log(sentData);
   let data = await Service.getIncidentsData(sentData);
   arrIncidents.length = 0;
   if(data) {
@@ -38,7 +39,6 @@ function showIncidentListPagination(data){
     showGoInput: true,
     showGoButton: true,
     callback: function (data, pagination) {
-      console.log(data);
       let $table = renderIncidentsTable(data);
       $('.card-incident .table-responsive').html($table);
       setDefaultLang();
@@ -65,7 +65,6 @@ function renderIncidentsTable(data) {
   $thead.html(
     `
       <tr>
-        <th class="trn"></th>
         <th class="trn">Guard</th>
         <th class="trn">Zone</th>
         <th class="trn">Route</th>
@@ -84,9 +83,6 @@ function renderIncidentsTable(data) {
       let img = `${APP_DOMAIN}${ImageUrl}`;
       $tbody.append(`
         <tr>
-          <td>
-            <input type="checkbox" class="checkbox-custom checkbox-incident">
-          </td>
           <td>${sGuardName}</td>
           <td>${sZoneName}</td>
           <td>${sRouteName}</td>
@@ -112,8 +108,13 @@ function renderIncidentsTable(data) {
   return $table;
 }
 
+function showImageZoomed(img){
+  $(".zoom-image").attr({'href': img})
+}
+
 function showIncidentImage(urlImage){
-  $('#incidentImg').attr({src: `${urlImage}`})
+  showImageZoomed(urlImage);
+  $('#incidentImg').attr({src: urlImage})
   $('#modalIncidentImage').modal('show');
 }
 
