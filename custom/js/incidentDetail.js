@@ -64,11 +64,11 @@ function renderIncidentTypes(data) {
   )
   if (data) {
     data.forEach((incident) => {
-      const { iIncidentID, sIncidentContent } = incident;
+      const { iAlertContentID, sAlertContent } = incident;
       $tbody.append(`
         <tr>
-          <td>${iIncidentID}</td>
-          <td>${sIncidentContent}</td>
+          <td>${iAlertContentID}</td>
+          <td>${sAlertContent}</td>
           <td>
             <button class="btn btn-custom bg-main-color btnShowUpdateIncidentModal btn-custom-small trn">Update</button>
             <button class="btn btn-custom bg-main-color btnDeleteIncident btn-custom-small trn">Delete</button>
