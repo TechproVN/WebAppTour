@@ -89,17 +89,17 @@ function renderIncidentTypes(data) {
 }
 
 function showUpdateIncidentModal(incident){
-  const { sIncidentContent } = incident;
+  const { sAlertContent } = incident;
   currentUpdateIncident = Object.assign({}, incident);
   $('#modalUpdateDefineIncident').modal('show');
-  $('#txtUpdateIncidentContent').val(sIncidentContent);
+  $('#txtUpdateIncidentContent').val(sAlertContent);
 }
 
 async function updateIncident(){
   let content = $('#txtUpdateIncidentContent').val();
   if(!Validation.checkEmpty(content)) return showAlertError("invalid data", "Content must be filled");
-  const { iIncidentID } = currentUpdateIncident;
-  let sentData = { sAlertContent: content, iAlertContentID: iIncidentID, bStatusIN: 2 };
+  const { iAlertContentID } = currentUpdateIncident;
+  let sentData = { sAlertContent: content, iAlertContentID: iAlertContentID, bStatusIN: 2 };
   console.log(sentData);
   let response = await Service.updateIncident(sentData);
   console.log(response);
@@ -110,8 +110,8 @@ async function updateIncident(){
 async function deleteIncident(incident){
   let sure = await showAlertWarning("Are you sure?", "");
   if(sure){
-    const { iIncidentID } = incident;
-    let sentData = { iAlertContentID: iIncidentID, sAlertContent: 0, bStatusIN: 3 };
+    const { iAlertContentID } = incident;
+    let sentData = { iAlertContentID: iAlertContentID, sAlertContent: 0, bStatusIN: 3 };
     console.log(JSON.stringify(sentData));
     let response = await Service.deleteIncident(sentData);
     console.log(response);
