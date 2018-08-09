@@ -127,62 +127,60 @@
     }
   
     function buildMap(iGuardID, sCheckingCode){
-      //var sentGuardData = iGuardID;
-      var guardGPSCurrent = getGuardGPSCurrent(iGuardID);
-      console.log(guardGPSCurrent);
-      dGuardLatCurrent = guardGPSCurrent.dGuardLatCurrent;
-      dGuardLongCurrent = guardGPSCurrent.dGuardLongCurrent;
-      sMessage = guardGPSCurrent.sMessage; 
-      bOnline = guardGPSCurrent.bOnline;;
-      var latGuard = Number(dGuardLatCurrent);
-      var lngGuard = Number(dGuardLongCurrent);
-      var mapProp = createMapPropGoogleMap(18, latGuard, lngGuard)
-      var mapArea = document.getElementById('mapid');
-      var mymap = new google.maps.Map(mapArea, mapProp);
-      
-      var urlGuard = '../img/Guard.png';
-      var mainPos = new google.maps.LatLng(latGuard, lngGuard);
-      var guardMarker = createMarkerGoogleMap(mainPos, urlGuard);
-  
-      guardMarker.setMap(mymap);
-      var infoWindowGuard = createInfoWindowGoogleMap(sMessage);
-      infoWindowGuard.open(mymap, guardMarker);
-      const pointChekingSentData = { iGuardID, sCheckingCode };
-      var checkingPointData = getPointChecking(pointChekingSentData);
-      if(checkingPointData){
-        checkingPointData.forEach(checkedPoint => {
-          var { Lat, Long, Status, Message, ImageUrl } = checkedPoint;
-          var url = '';
-          switch(Status){
-            case 1: 
-              url = '../img/Checked.png'; 
-              break;
-            case 2: 
-              url = '../img/None.png'; 
-              break;
-            case 3: 
-              url = '../img/Waiting.png'; 
-              break;
-            case 4: 
-              url = '../img/error.png'; 
-              break;
-          }
-          var pos = new google.maps.LatLng(Lat, Long);
-          var marker = createMarkerGoogleMap(pos, url);
-          marker.setMap(mymap);
-          var mes = Message;
-          if(Status == 4){
-            mes = `${Message}<br><img src="${APP_DOMAIN}${ImageUrl}" class="img-fluid">`
-            var infoWindow = createInfoWindowGoogleMap(mes);
-            google.maps.event.addListener(marker, 'click', function() {
-              infoWindow.open(mymap, marker);
-            });
-          }else{
-            var infoWindow = createInfoWindowGoogleMap(mes);
-            infoWindow.open(mymap, marker);
-          }
+      var mapProp = createMapPropGoogleMap(17,20.81715284, 106.77411238, 16);
+        var mapArea = document.getElementById('mapid');
+        var mymap = new google.maps.Map(mapArea, mapProp);
+
+        getPointChecking(iGuardID, sCheckingCode).then(function(checkingPointData)
+        {
+            if(checkingPointData)
+            {
+                var listpoint = JSON.parse(checkingPointData);
+                for (var i in listpoint) 
+                {
+                    var url = '';
+                    switch(listpoint[i].Status){
+                        case 1: 
+                        url = '../img/Checked.png'; 
+                        break;
+                        case 2: 
+                        url = '../img/None.png'; 
+                        break;
+                        case 3: 
+                        url = '../img/Waiting.png'; 
+                        break;
+                        case 4: 
+                        url = '../img/error.png'; 
+                        break;
+                    }
+                        var pos = new google.maps.LatLng(listpoint[i].Lat, listpoint[i].Long);
+                        var marker = createMarkerGoogleMap(pos, url);
+                        marker.setMap(mymap);
+                        var mes = listpoint[i].Message;
+                        if(listpoint[i].Status != 4){
+                            var infoWindow = createInfoWindowGoogleMap(mes);
+                            infoWindow.open(mymap, marker);
+                        }
+                }
+            }
         })
-      }
+
+        getGuardGPSCurrent(iGuardID).then(function(guardGPSCurrent){
+            dGuardLatCurrent = guardGPSCurrent[0].dGuardLatCurrent;
+            dGuardLongCurrent = guardGPSCurrent[0].dGuardLongCurrent;
+            sMessage = guardGPSCurrent[0].sMessage; 
+            bOnline = guardGPSCurrent[0].bOnline;;
+            var latGuard = Number(dGuardLatCurrent);
+            var lngGuard = Number(dGuardLongCurrent);    
+            var urlGuard = '../img/Guard.png';
+            var mainPos = new google.maps.LatLng(latGuard, lngGuard);
+            var guardMarker = createMarkerGoogleMap(mainPos, urlGuard);
+        
+            guardMarker.setMap(mymap);
+            var infoWindowGuard = createInfoWindowGoogleMap(sMessage);
+            infoWindowGuard.open(mymap, guardMarker);
+            //createMapPropGoogleMap(dGuardLatCurrent, dGuardLongCurrent)
+        })
     }
   
   </script>
