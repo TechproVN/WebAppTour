@@ -239,7 +239,8 @@ async function showGuards(){
   if(!iGroupIDIN) iGroupIDIN = 0;
   let sentData = { iGroupIDIN };
   let guards = await Service.getPersonalGuardsInfo(sentData);
-  if(guards) showGuardPagination();
+  console.log(guards);
+  if(guards) showGuardPagination(guards);
   else{
     resetTblPersonalGuardInfo();
     showAlertError("No data available", "", 3000);
@@ -247,7 +248,8 @@ async function showGuards(){
   setDefaultLang();
 }
 
-function showGuardPagination(){
+function showGuardPagination(guards){
+  if(!guards) return;
   $('#totalGuards').html(`<strong class="trn">Total Guards</strong>:  ${guards.length}`);
   $('#pagingGuardsControl').pagination({
     dataSource: guards,
