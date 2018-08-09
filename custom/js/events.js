@@ -12,7 +12,7 @@ $(async () => {
   });
   $('#btnIncidentsMap').click(showAllIncidentsMap)
   // set up time default when page onload 
-  formatTodayEvent();
+  // formatTodayEvent();
   arrGuardList = await showGuardList();
   arrRouteList = await showRouteList();
   arrDeviceList = await showDeviceList();
@@ -31,14 +31,15 @@ let headerTblTours = '';
 
 async function showTourListsByDefault(){
   let { year, month, day, hour, min } = getCurrentDateTime();
-  let fromDate = `${year}-${month}-${day} 00:00`;
-  let toDate = `${year}-${month}-${day} ${hour}:${min}`;
+  let fromDate = `${year}-${month + 1}-${day} 00:00`;
+  let toDate = `${year}-${month + 1}-${day} ${hour}:${min}`;
   $(`#fromDateTime`).val(fromDate);
   $(`#toDateTime`).val(toDate);
-  let sentData = { fromDate, toDate };
-  sentData.GuardID = 1;
+  let GuardID = $('#selectGuardName').val();
+  let sentData = { fromDate, toDate, GuardID };
   console.log(JSON.stringify(sentData));
   data = await Service.getEventHistoryDataGuard(sentData);
+  console.log(data);
   if(data){
     showToursListPagination(data, name, 'guard', fromDate, toDate);
   }else {
@@ -117,7 +118,7 @@ function resetTblEventHistory(){
 
 function renderEventHistoryTable(data) {
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblEventHistory" style="min-height: 150px"></table>`);
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
 
   $thead.html(
@@ -177,20 +178,19 @@ function renderEventHistoryTable(data) {
   return $table;
 }
 
-async function formatTodayEvent() {
-  let GuardID = 0;
-  let fromDate = null;
-  let toDate = null;
-  let sentData = { GuardID, fromDate, toDate };
-  let data = await Service.getEventHistoryDataGuard(sentData);
-  if(data){
-    showToursListPagination();
-  }else{
-    resetTblEventHistory();
-    showAlertError("No data available", "", 3000);
-  }
-}
-
+// async function formatTodayEvent() {
+//   let GuardID = 0;
+//   let fromDate = null;
+//   let toDate = null;
+//   let sentData = { GuardID, fromDate, toDate };
+//   let data = await Service.getEventHistoryDataGuard(sentData);
+//   if(data){
+//     showToursListPagination();
+//   }else{
+//     resetTblEventHistory();
+//     showAlertError("No data available", "", 3000);
+//   }
+// }
 
 
 function checkTimeFormat(from, to) {
@@ -221,7 +221,7 @@ async function showEventHistoryDetails(checkingCode) {
 function renderTableEventHistoryDetails(data) {
   let $table = $('#tblEventHistoryDetails');
   $table.html('');
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
 
   $thead.html(

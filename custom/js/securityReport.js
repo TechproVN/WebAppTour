@@ -4,6 +4,7 @@ $(async() => {
   let data = await loadGuardsOnCombobox();
   if(data) arrGuardList = data;
   else arrGuardList = [];
+  showSecurityReportByDefault();
 })
 
 let arrDataChartWorkingTimeVsIdlingTime = [];
@@ -26,7 +27,6 @@ async function showSecurityReport(){
     arrDataChartWeeklyPatrollingPerformance.length = 0;
     arrLabelsChartWorkingTimeVsIdlingTime.length = 0;
 
-    
     let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
     if(guard) {
       const { sGuardName } = guard;
@@ -53,6 +53,47 @@ async function showSecurityReport(){
   setDefaultLang();
 }
 
+async function showSecurityReportByDefault(){
+  let currentDate = getCurrentDate();
+  let prevMonth = getPreviousMonth();
+  let fromDate = `${prevMonth.month + 1}/${prevMonth.day}/${prevMonth.year}`;
+  let toDate = `${currentDate.month + 1}/${currentDate.day}/${currentDate.year}`;
+  $('#fromDateReportSecurity').val(fromDate);
+  $('#toDateReportSecurity').val(toDate);
+  let iGuardIDIN = $('#selectGuardNameReportSecurity').val();
+  let sentData = { iGuardIDIN, fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate) };
+  
+  let data = await Service.getReportPerformanceChart(sentData);
+  console.log(data);
+  arrDataChartWorkingTimeVsIdlingTime.length = 0;
+  arrDataChartWeeklyPatrollingPerformance.length = 0;
+  arrLabelsChartWorkingTimeVsIdlingTime.length = 0;
+
+  let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
+  if(guard) {
+    const { sGuardName } = guard;
+    guardHeader = `${sGuardName} - ${fromDate} -> ${toDate}`
+  }
+  $('.headerTblReportSecurityWeek').text(guardHeader);
+
+  if(data){
+    data.forEach(weekData => {
+      const { dIdling_Time_in, dWorking_Time, dWeek, dPerformance_Routes, dPerformance_Timing, dPerformance_Routing, dOverall_performance } = weekData;
+
+      arrDataChartWorkingTimeVsIdlingTime.push([Number(dIdling_Time_in), Number(dWorking_Time)]);
+
+      arrLabelsChartWorkingTimeVsIdlingTime.push(dWeek);
+
+      arrDataChartWeeklyPatrollingPerformance.push([Number(dPerformance_Routes), Number(dPerformance_Timing), Number(dPerformance_Routing), Number(dOverall_performance)]);
+    })
+    renderSecurityReportTable(data);
+  }else{
+    showAlertError("No data available", "", 3000);
+    resetTblSecurityReport();
+  }
+  setDefaultLang();
+}
+
 function resetTblSecurityReport(){
   $('#tblReportSecurity').find('tbody').html('');
   $('#totalSecurityReportRows').html('');
@@ -63,7 +104,7 @@ function resetTblSecurityReport(){
 function renderSecurityReportTable(data) {
   let $table = $('#tblReportSecurity');
   $table.html('');
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
   console.log(data);
   

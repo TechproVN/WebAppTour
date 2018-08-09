@@ -44,7 +44,7 @@ async function deleteGroup(group){
 
 function renderGroupTable(data){
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table min-height-table" id="tblGroup"></table>`)
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
 
   $thead.html(

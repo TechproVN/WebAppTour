@@ -282,11 +282,21 @@ function getCurrentDate(){
 
 function getYesterday(){
   let timestampe = Date.now();
-  let yesterdayTimeStamp = timestampe - (1000*60*60*60*24);
+  let yesterdayTimeStamp = timestampe - (1000*60*60*24);
   let yesterday = new Date(yesterdayTimeStamp);
   let year = yesterday.getFullYear();
   let month = yesterday.getMonth();
   let day = yesterday.getDate();
+  return { year, month, day };
+}
+
+function getPreviousMonth(){
+  let timestampe = Date.now();
+  let prevMonthTimeStamp = timestampe - (1000*60*60*24*30);
+  let prevMonth = new Date(prevMonthTimeStamp);
+  let year = prevMonth.getFullYear();
+  let month = prevMonth.getMonth();
+  let day = prevMonth.getDate();
   return { year, month, day };
 }
 

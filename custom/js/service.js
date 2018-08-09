@@ -592,6 +592,7 @@ class Service {
       method: 'post',
       data: JSON.stringify(sentData)
     });
+    console.log(data);
     let parsedData = JSON.parse(data)
     if (Array.isArray(parsedData) && parsedData.length > 0)
       return parsedData;

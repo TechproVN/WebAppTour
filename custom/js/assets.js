@@ -3,7 +3,7 @@ $(() => {
   $('#btnShowMapAllAssets').click(() => {
     showAssetMapAll(arrCurrentAssets)
   });
-  formatTodayAssets();
+  showAssetsListDefault();
 })
 
 let arrCurrentAssets = [];
@@ -64,24 +64,28 @@ async function showAssetsData() {
   arrCurrentAssets.length = 0;
   if(data){
     arrCurrentAssets = data.slice();
-    $('#totalAssets').html(`<strong>Total Assets</strong>: ${data.length}`)
-    $('#pagingAssetsControl').pagination({
-      dataSource: data,
-      pageSize: 10,
-      className: 'paginationjs-theme-green paginationjs-big',
-      showGoInput: true,
-      showGoButton: true,
-      callback: function (data, pagination) {
-        let $table = renderAssetsTable(data);
-        $('.card-asset .table-responsive').html($table);
-        setDefaultLang();
-      }
-    })
+    showAssetPagination(data);
   } else{
     resetTblAsset();
     showAlertError("No data available", "", 3000);
   }
   setDefaultLang();
+}
+
+function showAssetPagination(data){
+  $('#totalAssets').html(`<strong>Total Assets</strong>: ${data.length}`)
+  $('#pagingAssetsControl').pagination({
+    dataSource: data,
+    pageSize: 10,
+    className: 'paginationjs-theme-green paginationjs-big',
+    showGoInput: true,
+    showGoButton: true,
+    callback: function (data, pagination) {
+      let $table = renderAssetsTable(data);
+      $('.card-asset .table-responsive').html($table);
+      setDefaultLang();
+    }
+  })
 }
 
 function resetTblAsset(){
@@ -90,18 +94,26 @@ function resetTblAsset(){
   $('#tblAssets').find('tbody').html('');
 }
 
-function formatTodayAssets() {
-  let now = new Date();
-  let year = now.getFullYear();
-  let month = now.getMonth() + 1;
-  let day = now.getDate();
-
-  let mon = month < 10 ? `0${month}` : month;
-  let d = day < 10 ? `0${day}` : day;
- 
-  $('#assetDatetime').val(`${mon}/${d}/${year}`);
-
-  showAssetsData();
+async function showAssetsListDefault(){
+  let today = getCurrentDate();
+  let yesterday = getYesterday();
+  let fromDate = `${yesterday.month + 1}/${yesterday.day}/${yesterday.year}`;
+  let toDate = `${today.month + 1}/${today.day}/${today.year}`;
+  $('#assetFromDatetime').val(fromDate);
+  $('#assetToDatetime').val(toDate);
+  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate) };
+  console.log(sentData);
+  let data = await Service.getAssetsData(sentData);
+  console.log(data);
+  arrCurrentAssets.length = 0;
+  if(data){
+    arrCurrentAssets = data.slice();
+    showAssetPagination(data);
+  } else{
+    resetTblAsset();
+    showAlertError("No data available", "", 3000);
+  }
+  setDefaultLang();
 }
 
 function buildAssetsMap(asset){

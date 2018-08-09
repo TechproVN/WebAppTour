@@ -14,8 +14,6 @@ function showInsertScheduleModal() {
 
 async function showSchedule() {
   let data = await Service.getSchedule();
-  console.log(123);
-  console.log(data);
   if (data) {
     $('#totalSchedule').html(`<strong class="trn">Total Rows</strong>: ${data.length}`)
     $('#pagingScheduleControl').pagination({
@@ -98,7 +96,7 @@ function resetTblSchedule() {
 
 function renderTblSchedule(data) {
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblSchedule"></table>`)
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
   $thead.html(
     `

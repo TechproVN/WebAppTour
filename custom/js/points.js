@@ -63,7 +63,7 @@ function renderZoneOnJcombobox(data) {
 function renderPointsTable(data) {
   console.log(data)
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblPoints"></table>`)
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
   $thead.html(`
       <tr>

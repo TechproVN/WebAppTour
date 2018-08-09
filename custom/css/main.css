@@ -101,6 +101,7 @@ nav.navbar{
 }
 .custom-table-header th{
   color: blueviolet;
+  font-weight: bold;
 }
 .custom-card-header{
   padding-top: 5px !important;

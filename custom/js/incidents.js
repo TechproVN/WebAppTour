@@ -5,9 +5,10 @@ $(() => {
   $('#btnIncidentsMap').click(function(){
     showAllIncidentMap(arrIncidents);
   })
-  $(".zoom-image").spritezoom({});
+  // $(".zoom-image").spritezoom({});
     
-  formatTodayIncident();
+  // formatTodayIncident();
+  showIncidentListDefault();
 })
 
 const arrIncidents = [];
@@ -49,7 +50,21 @@ function showIncidentListPagination(data){
 async function showIncidentListDefault(){
   let today = getCurrentDate();
   let yesterday = getYesterday();
-  let fromDate = `${today.year}`
+  let fromDate = `${yesterday.month + 1}/${yesterday.day}/${yesterday.year}`;
+  let toDate = `${today.month + 1}/${today.day}/${today.year}`;
+  $('#incidentFromDatetime').val(fromDate);
+  $('#incidentToDatetime').val(toDate);
+  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate) };
+  let data = await Service.getIncidentsData(sentData);
+  arrIncidents.length = 0;
+  if(data) {
+    showIncidentListPagination(data);
+    data.forEach(item => arrIncidents.push(item));
+  }else{
+    rssetTblIncidents();
+    showAlertError("No data available", "", 3000);
+  }
+  setDefaultLang();
 }
 
 function rssetTblIncidents(){
@@ -60,7 +75,7 @@ function rssetTblIncidents(){
 
 function renderIncidentsTable(data) {
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblIncidents"></table>`);
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
   $thead.html(
     `

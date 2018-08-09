@@ -4,6 +4,7 @@ $(async () => {
   console.log(data);
   if(data) arrGuardList = data;
   else arrGuardList = [];
+  showSecurityReportByDefault();
 })
 
 let arrGuardList = [];
@@ -23,29 +24,58 @@ async function showSecurity(){
     console.log(guard);
     if(guard){
       const { sGuardName } = guard;
-      header = `${sGuardName} - ${from} -> ${to}`
+      header = `${sGuardName} - ${from} -> ${to}`;
     }
-    $('.headerTblReportSecurity').text(header);
-    if(data){
-      $('#totalSecurityReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
-      $('#pagingSecurityReportControl').pagination({
-        dataSource: data,
-        pageSize: 10,
-        className: 'paginationjs-theme-green paginationjs-big',
-        showGoInput: true,
-        showGoButton: true,
-        callback: function (data, pagination) {
-          let $table = renderSecurityTable(data);
-          $('.card-securityReport .table-responsive').html($table);
-          setDefaultLang();
-        }
-      })
-    }else{
+    if(data) showSecurityPagination(data, header)
+    else{
       resetTblReportSecurity();
       showAlertError("No data available", "", 3000);
     }
   }
   setDefaultLang();
+}
+
+async function showSecurityReportByDefault(){
+  let yesterday = getYesterday();
+  let today = getCurrentDate();
+  let fromDate = `${yesterday.month + 1}/${yesterday.day}/${yesterday.year}`;
+  let toDate = `${today.month + 1}/${today.day}/${today.year}`;
+  $(`#fromDateReportSecurity`).val(fromDate);
+  $(`#toDateReportSecurity`).val(toDate);
+  let GuardID = $('#selectGuardNameReportSecurity').val();
+  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate), GuardID };
+  console.log(JSON.stringify(sentData));
+  data = await Service.getReportPerformance(sentData);
+  console.log(data);
+  let header = '';
+  let guard = arrGuardList.find(g => g.iGuardId == GuardID);
+  if(guard){
+    const { sGuardName } = guard;
+    header = `${sGuardName} - ${from} -> ${to}`;
+  }
+  if(data) showSecurityPagination(data, header)
+  else{
+    resetTblReportSecurity();
+    showAlertError("No data available", "", 3000);
+  }
+  setDefaultLang();
+}
+
+function showSecurityPagination(data, header){
+  $('.headerTblReportSecurity').text(header);
+  $('#totalSecurityReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
+  $('#pagingSecurityReportControl').pagination({
+    dataSource: data,
+    pageSize: 10,
+    className: 'paginationjs-theme-green paginationjs-big',
+    showGoInput: true,
+    showGoButton: true,
+    callback: function (data, pagination) {
+      let $table = renderSecurityTable(data);
+      $('.card-securityReport .table-responsive').html($table);
+      setDefaultLang();
+    }
+  })
 }
 
 function resetTblReportSecurity(){
@@ -57,7 +87,7 @@ function resetTblReportSecurity(){
 
 function renderSecurityTable(data) {
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblReportSecurity"></table>`)
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
   $thead.html(
     `

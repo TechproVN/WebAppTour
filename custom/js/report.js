@@ -151,7 +151,7 @@ function buildChartTimePerformance(id = 'chartTimePerformance'){
 function renderReportTable(data){
   let $table = $('#tblReports');
   $table.html('');
-  let $thead = $('<thead></thead>');
+  let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
 
   $thead.html(`
