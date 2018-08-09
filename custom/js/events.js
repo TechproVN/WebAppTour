@@ -36,12 +36,14 @@ async function showTourListsByDefault(){
   $(`#fromDateTime`).val(fromDate);
   $(`#toDateTime`).val(toDate);
   let GuardID = $('#selectGuardName').val();
+  let guard = arrGuardList.find(g => g.iGuardId == GuardID.trim());
+  let name = guard.sGuardName;
   let sentData = { fromDate, toDate, GuardID };
   console.log(JSON.stringify(sentData));
   data = await Service.getEventHistoryDataGuard(sentData);
   console.log(data);
   if(data){
-    showToursListPagination(data, name, 'guard', fromDate, toDate);
+    showToursListPagination(data, name, 'Guard', fromDate, toDate);
   }else {
     showAlertError("No data available", "", 3000);
   }
