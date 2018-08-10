@@ -91,7 +91,7 @@ function buildRouteMap(){
   let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
   currentMapAllRoute = new google.maps.Map($(`#routeMap`)[0], mapProp);
   let iconChecked = '../img/Checked.png';
-  let iconRoutePoint = '../img/RoutePoint.png';
+  let iconRoutePoint = '../img/point.png';
   if(arrSelectedPointsOnRoute){
     currentSelectedRoutePolyline = buildPolylineRoute(arrSelectedPointsOnRoute, iconRoutePoint, 'red');
   }
