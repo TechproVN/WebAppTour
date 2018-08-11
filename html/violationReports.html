@@ -122,13 +122,22 @@
           </div>
           <div class="card-body custom-card-body">
             <div class="row mt-3">
-              <div class="col-12">
-                
+              <div class="col-sm-4">
+                <label for="" class="trn">From date:</label>
+                <br>
+                <input type="text" readonly class="form-control datepicker" style="width: 100%" id="incidentFromDatetime">
               </div>
+              <div class="col-sm-4">
+                <label for="" class="trn">To date:</label>
+                <br>
+                <input type="text" readonly class="form-control datepicker" style="width: 100%" id="incidentToDatetime">
+              </div>
+              <div class="col-sm-4"></div>
             </div>
             <div class="row mt-3">
               <div class="col-12">
-                <button class="btn btn-custom bg-main-color pull-right" id="btnShowGuardInsertModal">Insert</button>
+                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnViewIncidentsReport">View</button>
+                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnReportIncidentsData">Report</button>
               </div>
             </div>
           </div>
@@ -158,7 +167,7 @@
               <div class="table-responsive">
                 <table class="table table-hover table-striped table-condensed text-center custom-table min-height-table border" id="tblViolationMin">
                   <!-- Points content here -->
-                  <thead>
+                  <!-- <thead>
                     <tr>
                       <th rowspan="2">Day</th>
                       <th rowspan="2">Date</th>
@@ -183,7 +192,7 @@
                       <th>Irrigation</th>
                       <th>Others</th>
                     </tr>
-                  </thead>
+                  </thead> -->
                 </table>
               </div>
             </div>
@@ -215,20 +224,22 @@
   <!-- sweetalert js -->
   <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
 
-  <!-- leafletjs -->
-  <script src="../plugins/leaflet/js/leaflet.js"></script>
-
   <!-- translate js plugins -->
   <script src="../plugins/translate.js-master/jquery.translate.js"></script>
-
-  <!-- translate js -->
-  <script src="../custom/js/translate.js"></script>
 
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
+  <!-- validation js -->
+  <script src="../custom/js/validation.js"></script>
+
   <!-- main js -->
   <script src="../custom/js/main.js"></script>
+
+  <!-- translate js -->
+  <script src="../custom/js/translate.js"></script>
+
+  <script src="../custom/js/violationReport.js"></script>
 
 </body>
 

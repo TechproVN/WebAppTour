@@ -648,4 +648,17 @@ class Service {
       return parsedData;
     return null;
   }
+  // http://115.79.27.219/tracking/api/GetIncidentReport.php
+  static async getIncidentReport(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetIncidentReport.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    if(!data) return null;
+    let parsedData = JSON.parse(data);
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
 }
