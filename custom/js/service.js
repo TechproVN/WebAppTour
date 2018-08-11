@@ -186,7 +186,7 @@ class Service {
 
   static async getReportData(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}api/ReportGuard.php`,
+      url: `${APP_DOMAIN}api/Report/ReportGuardByDate.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     })
