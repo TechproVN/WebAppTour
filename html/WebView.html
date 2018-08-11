@@ -174,8 +174,8 @@
           var urlGuard = '../img/Guard.png';
           var mainPos = new google.maps.LatLng(latGuard, lngGuard);
           var guardMarker = createMarkerGoogleMap(mainPos, urlGuard);
-
           guardMarker.setMap(mymap);
+          mymap.setCenter(mainPos);
           var infoWindowGuard = createInfoWindowGoogleMap(sMessage);
           infoWindowGuard.open(mymap, guardMarker);
           //createMapPropGoogleMap(dGuardLatCurrent, dGuardLongCurrent)
