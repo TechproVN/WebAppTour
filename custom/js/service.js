@@ -208,7 +208,7 @@ class Service {
 
   static async updateRouteDetail(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}api/UpdateRouteDetail.php`,
+      url: `${APP_DOMAIN}api/UpdateRoute.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     })

@@ -170,8 +170,8 @@ function buildRouteMapOnModal(data){
 }
 
 async function showRouteMap(){
-  let iZoneIDIN = $('#selectRouteZone').val();
-  let sentData = { iZoneIDIN };
+  let iZoneID = $('#selectRouteZone').val();
+  let sentData = { iZoneID };
   arrCurrentRoutesOnZone = await Service.getRouteCreatedData(sentData);
   buildRouteMap();
 }
@@ -319,8 +319,8 @@ async function saveRoute(){
     arr_2.splice(arr_1.length, 1);
     arrPoints = arr_2;
   }
-  let ZoneID = $('#selectRouteZone').val();
-  let sentData = { RouteID: 0, RouteName: routeName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete: maxTime, Distance: currentTotalDistance, MinTime: minTime, TourExecute: tourEx, iDeviceID};
+  let iZoneID = $('#selectRouteZone').val();
+  let sentData = { iRouteID: 0, sRouteName: routeName, bStatusIN: 1, Point: arrPoints, iZoneID, iTimeComplete: maxTime, dDistance: currentTotalDistance, iMinTime: minTime, iTourExecute: tourEx, iDeviceID, iSpeed: speed};
   console.log(JSON.stringify(sentData));
   let response = await Service.saveRoute(sentData);
   console.log(response);
@@ -371,8 +371,10 @@ async function deleteRoute(route){
   let sure = await showAlertWarning("Are you sure", "");
   if(sure){
     const { iRouteID } = route;
-    let sentData = { RouteID: iRouteID, bStatusIN: 2, RouteName: 0, Point: null, ZoneID: 0, TimeComplete: 0, Distance: 0 }
-    console.log(JSON.stringify(sentData));
+    let sentData = { iRouteID: iRouteID, bStatusIN: 3, sRouteName: 0, Point: null, iZoneID: 0, iTimeComplete: 0, dDistance: 0, iMinTime: 0, iTourExecute: 0, iDeviceID:0, iSpeed:0};
+    //let sentData = { RouteID: 0, RouteName: routeName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete: maxTime, Distance: currentTotalDistance, MinTime: minTime, TourExecute: tourEx, iDeviceID};
+    //console.log(JSON.stringify(sentData));
+    console.log(sentData);
     let response = await Service.deleteRoute(sentData);
     console.log(response);
     showRoutesOnTable();
@@ -383,7 +385,7 @@ async function deleteRoute(route){
 async function showRoutesOnTable(){
   let zoneId = $('#selectRouteZone').val();
   if(!zoneId) zoneId = 0;
-  let sentData = { iZoneIDIN: zoneId };
+  let sentData = { iZoneID: zoneId };
   let routes = await Service.getRoutesOnZone(sentData);
   if(routes){
     $('#totalRoutes').html(`<strong class="trn">Total Routes</strong> ${routes.length}`);
@@ -511,14 +513,15 @@ async function showGuardIdOnCombobox(){
 
 async function updateRoute(){
   const { iRouteID } = currentUpdateRoute;
-  let iDeivceIDIN = $('#selectUpdateRouteDevice').val(); 
-  let iCompletionTimeIN = $('#txtUpdateCompletionTime').val();
+  let iDeviceID = $('#selectUpdateRouteDevice').val(); 
+  let iTimeComplete = $('#txtUpdateCompletionTime').val();
   let iMinTime = $('#txtUpdateMinTime').val();
-  let iSpeedIN = $('#txtUpdateSpeed').val();
-  let sRouteNameIN = $('#txtUpdateRouteName').val();
+  let iSpeed = $('#txtUpdateSpeed').val();
+  let sRouteName = $('#txtUpdateRouteName').val();
   let iTourExecute =  $('#txtUpdateTourExecute').val();
-  if(!validateRouteData(sRouteNameIN, iSpeedIN, iMinTime, 10, iTourExecute)) return;
-  let sentData = { iDeivceIDIN, iRouteIDIN: iRouteID, iSpeedIN, iCompletionTimeIN, sRouteNameIN, iMinTime, iTourExecute };
+  if(!validateRouteData(sRouteName, iSpeed, iMinTime, iTimeComplete, iTourExecute)) return;
+  let sentData = { iDeviceID, iRouteID, iSpeed, iTimeComplete, sRouteName, dDistance: 0, iMinTime, iTourExecute, iZoneID: 0, Point: null, bStatusIN: 2};
+  //let sentData = { RouteID: 0, RouteName: routeName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete: maxTime, Distance: currentTotalDistance, MinTime: minTime, TourExecute: tourEx, iDeviceID};
   console.log(JSON.stringify(sentData));
   let response = await Service.updateRouteDetail(sentData);
   showRoutesOnTable();
