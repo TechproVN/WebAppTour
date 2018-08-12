@@ -651,7 +651,7 @@ class Service {
   // http://115.79.27.219/tracking/api/GetIncidentReport.php
   static async getIncidentReport(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}api/GetIncidentReport.php`,
+      url: `${APP_DOMAIN}api/Report/ReportIncident.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
