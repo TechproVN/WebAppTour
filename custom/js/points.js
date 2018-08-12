@@ -266,7 +266,7 @@ async function inActivePoint(point){
   let sure = await showAlertWarning("Are you sure!", "");
   if(sure){
     let zoneId = $('#selectZoneInsertPoint').val();
-    let sentData = { iPointIDIN: iPointID, bStatusIN: 3, iZoneIDIN: zoneId,  sPointCodeIN: 0, dGPSLatIN: 0, dGPSLongIN: 0 };
+    let sentData = { iPointIDIN: iPointID, bStatusIN: 3, iZoneIDIN: zoneId,  sPointCodeIN: 0, sQRCodeIN: 0, sPointCodeIN: 0, sRFIDCodeIN: 0, sPointNameIN: 0, sPointNoteIN: 0, dGPSLatIN: 0, dGPSLongIN: 0 };
     // {"iPointIDIN":"78","bStatusIN":4,"iZoneIDIN":null,"sPointCodeIN":null,"dGPSLatIN":null,"dGPSLongIN": null}
     console.log(JSON.stringify(sentData))
     let response = await Service.inActivePoint(sentData);
