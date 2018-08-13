@@ -7,12 +7,92 @@ $(() => {
   $('#btnViewIncidentsReportByWeek').click(() => {
     showIncidentReport('week');
   })
+  $('#btnViewChartIncidentsReportByMonth').click(() => {
+    showChartIncidentReport('month');
+  })
+  $('#btnViewChartIncidentsReportByWeek').click(() => {
+    showChartIncidentReport('week');
+  })
   showWeeksSelect();
   showMonthsSelect();
   showDataInCurrentMonth();
-  setCurrentWeek()
+  setCurrentWeek();
+  
 })
 
+const arrColors = [ '#8d6e63', '#616161', '#78909c', '#ffb74d', '#66bb6a', '#80d8ff', '#00acc1', '#5c6bc0', '#f48fb1', '#e1bee7', 'red', 'green', 'blue','orange','violet', 'yellow', 'pink', 'purple', 'cyan', 'teal', 'lime', 'ambe' ];
+
+let arrIncidents = [];
+let arrRows = [];
+
+async function showChartIncidentReport(type){
+  let sentData = { iWeek: 0, iMonth: 0 };
+  let header = ''
+  if(type.toLowerCase() == 'week') {
+    let week = $('#reportWeek').val();
+    sentData.iWeek = week;
+    header = `Report in Week ${week}`;
+  }else{
+    let month = $('#reportMonth').val();
+    sentData.iMonth = month;
+    header = `Report in ${arrMonths[Number(month) - 1]}`;
+  }
+  let data = await Service.reportIncidentWeekOrMonthChart(sentData);
+  if(!data) return showAlertError("No data avalable", "");
+  buildReportIncidentWeekOrMonthChart(data, header);
+  $('#modalChartIncidentReport').modal('show');
+}
+
+function getColors(l){
+  let arr = [];
+  for(let i = 0; i < l; i++){
+    arr.push(arrColors[i]);
+  }
+  return arr;
+}
+
+function getChartDataSetIncidentWeekOrMonth(data){
+  return data.map(item => Number(item.Percent));
+}
+
+function getChartLabelsIncidentReport(data){
+  return data.map(item => item.sAlertContent);
+}
+
+function buildReportIncidentWeekOrMonthChart(currentData, title){
+  let $chartCanvas = $('<canvas style="width: 100%" height="300"></canvas>');
+  $('#modalChartIncidentReport').find('.modal-body').html($chartCanvas);
+  let ctx = $chartCanvas[0].getContext('2d');
+  let labels = getChartLabelsIncidentReport(currentData);
+  let data = getChartDataSetIncidentWeekOrMonth(currentData);
+  console.log(currentData);
+  console.log(data);
+  let colors = getColors(currentData.length);
+  var chartTime = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Something of Votes',
+            data: data,
+            backgroundColor: colors,
+            // borderColor: [],
+            borderWidth: 1
+        }]
+    },
+    options:{
+      title: {
+        display: true,
+        text: title
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+    }
+  });
+  return chartTime;
+}
 
 function showDataInCurrentMonth(){
   let d = new Date();
@@ -26,19 +106,6 @@ function setCurrentWeek(){
   let currentWeek = getWeek(d);
   $('#reportWeek').val(currentWeek)
 }
-
-function get4DayAgo(){
-  let timestamp = Date.now();
-  let oldTimeStamp = timestamp - (1000*60*60*24*4);
-  let d = new Date(oldTimeStamp);
-  let year = d.getFullYear();
-  let month = d.getMonth();
-  let day = d.getDate();
-  return { year, month, day };
-}
-
-let arrIncidents = [];
-let arrRows = [];
 
 function renderTblIncidentReport(){
   let $table = $('#tblViolationMin');
@@ -93,6 +160,7 @@ async function showIncidentReport(type){
   arrIncidents = getIncidentsArr(data);
   arrRows = getRowsViolationsByDate(data);
   renderTblIncidentReport();
+  if(!data) showAlertError("No data available!!", "");
 }
 
 function getIncidentsArr(data){

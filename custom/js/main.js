@@ -121,13 +121,15 @@ async function loadGuardsOnCombobox(){
   return guards;
 }
 
-async function showRouteList(){
+async function showRouteList(withAll){
   let routes = await Service.getRoutelist();
-  $('.selectRouteName').html('');
+  let $select = $('.selectRouteName');
+  $select.html('');
   if(routes){
+    if(withAll) $select.append(`<option value="0">All</option>`);
     routes.forEach(route => {
       const { iRouteID, sRouteName } = route;
-      $('.selectRouteName').append(`<option value="${iRouteID}">${sRouteName}</option>`)
+      $select.append(`<option value="${iRouteID}">${sRouteName}</option>`)
     })
   }
   return routes;
@@ -166,6 +168,20 @@ async function showZoneList(className = 'selectZones', withAll = false){
     data.forEach(zone => {
       const { iZoneID, sZoneName } = zone;
       selectZonesEle.append(`<option value="${iZoneID}">${sZoneName}</option>`)
+    });
+  }
+  return data;
+}
+
+async function showIncidentsList(withAll){
+  let data = await Service.getIncidentContent();
+  let $select = $(`.selectIncident`);
+  $select.html('');
+  if(withAll) $select.append(`<option value="0">All</option>`)
+  if(data){
+    data.forEach(incident => {
+      const { iAlertContentID, sAlertContent } = incident;
+      $select.append(`<option value="${iAlertContentID}">${sAlertContent}</option>`)
     });
   }
   return data;
@@ -369,14 +385,18 @@ function toRadian(degree) {
   return degree * Math.PI/180;
 }
 
+function getWeek(d){
+  
+}
+
 function getWeek( d ) { 
 
   // Create a copy of this date object  
-  var target  = new Date(d.valueOf());  
+  var target = new Date(d.valueOf());  
   
   // ISO week date weeks start on monday  
   // so correct the day number  
-  var dayNr   = (d.getDay() + 6) % 7;  
+  var dayNr = (d.getDay() + 6) % 7;  
 
   // Set the target to the thursday of this week so the  
   // target date is in the right year  
@@ -384,7 +404,7 @@ function getWeek( d ) {
 
   // ISO 8601 states that week 1 is the week  
   // with january 4th in it  
-  var jan4    = new Date(target.getFullYear(), 0, 4);  
+  var jan4 = new Date(target.getFullYear(), 0, 4);  
 
   // Number of days between target date and january 4th  
   var dayDiff = (target - jan4) / 86400000;    
@@ -396,3 +416,4 @@ function getWeek( d ) {
   return weekNr;    
 
 }
+

@@ -1,10 +1,23 @@
 $(async() => {
   $('#btnShowReportSecuriity').click(showSecurityReport);
   $('#btnShowReportSecuriityChart').click(showChartSecurityReport)
+  $('#btnViewMonthlyPatrorllingReport').click(() => {
+    showSecurityReport('month');
+  })
+  $('#btnViewWeeklyPatrorllingReport').click(() => {
+    showSecurityReport('week');
+  })
+  $('#btnViewChartWeeklyPatrorllingReport').click(() => {
+
+  })
   let data = await loadGuardsOnCombobox();
   if(data) arrGuardList = data;
   else arrGuardList = [];
-  showSecurityReportByDefault();
+  showMonthsSelect();
+  showWeeksSelect();
+  showRouteList(true);
+  // showSecurityReportByDefault();
+
 })
 
 let arrDataChartWorkingTimeVsIdlingTime = [];
@@ -13,86 +26,89 @@ let arrLabelsChartWorkingTimeVsIdlingTime = [];
 let arrGuardList = [];
 let guardHeader = '';
 
-async function showSecurityReport(){
-  let iGuardIDIN = $('#selectGuardNameReportSecurity').val();
-  let from = $('#fromDateReportSecurity').val();
-  let to = $('#toDateReportSecurity').val();
-  if(checkDate(from, to)){
-    let fromDate = changeFormatDateTime(from);
-    let toDate = changeFormatDateTime(to);
-    let sentData = { iGuardIDIN, fromDate, toDate };
-    let data = await Service.getReportPerformanceChart(sentData);
-    console.log(data);
-    arrDataChartWorkingTimeVsIdlingTime.length = 0;
-    arrDataChartWeeklyPatrollingPerformance.length = 0;
-    arrLabelsChartWorkingTimeVsIdlingTime.length = 0;
-
-    let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
-    if(guard) {
-      const { sGuardName } = guard;
-      guardHeader = `${sGuardName} - ${from} -> ${to}`
-    }
-    $('.headerTblReportSecurityWeek').text(guardHeader);
-
-    if(data){
-      data.forEach(weekData => {
-        const { dIdling_Time_in, dWorking_Time, dWeek, dPerformance_Routes, dPerformance_Timing, dPerformance_Routing, dOverall_performance } = weekData;
-
-        arrDataChartWorkingTimeVsIdlingTime.push([Number(dIdling_Time_in), Number(dWorking_Time)]);
-
-        arrLabelsChartWorkingTimeVsIdlingTime.push(dWeek);
-
-        arrDataChartWeeklyPatrollingPerformance.push([Number(dPerformance_Routes), Number(dPerformance_Timing), Number(dPerformance_Routing), Number(dOverall_performance)]);
-      })
-      renderSecurityReportTable(data);
-    }else{
-      showAlertError("No data available", "", 3000);
-      resetTblSecurityReport();
-    }
+async function showSecurityReport(type){
+  let iRouteID = $('#selectRouteNameReportSecurity').val();
+  let sentData = { iRouteID, iWeek: 0, iMonth: 0 };
+  if(type.toLowerCase() == 'week'){
+    let week = $('#reportWeek').val();
+    sentData.iWeek = week;
+  }else{
+    let month = $('#reportMonth').val();
+    sentData.iMonth = month;
   }
-  setDefaultLang();
-}
-
-async function showSecurityReportByDefault(){
-  let currentDate = getCurrentDate();
-  let prevMonth = getPreviousMonth();
-  let fromDate = `${prevMonth.month + 1}/${prevMonth.day}/${prevMonth.year}`;
-  let toDate = `${currentDate.month + 1}/${currentDate.day}/${currentDate.year}`;
-  $('#fromDateReportSecurity').val(fromDate);
-  $('#toDateReportSecurity').val(toDate);
-  let iGuardIDIN = $('#selectGuardNameReportSecurity').val();
-  let sentData = { iGuardIDIN, fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate) };
-  
+  console.log(JSON.stringify(sentData));
   let data = await Service.getReportPerformanceChart(sentData);
   console.log(data);
-  arrDataChartWorkingTimeVsIdlingTime.length = 0;
-  arrDataChartWeeklyPatrollingPerformance.length = 0;
-  arrLabelsChartWorkingTimeVsIdlingTime.length = 0;
+  // arrDataChartWorkingTimeVsIdlingTime.length = 0;
+  // arrDataChartWeeklyPatrollingPerformance.length = 0;
+  // arrLabelsChartWorkingTimeVsIdlingTime.length = 0;
 
-  let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
-  if(guard) {
-    const { sGuardName } = guard;
-    guardHeader = `${sGuardName} - ${fromDate} -> ${toDate}`
-  }
-  $('.headerTblReportSecurityWeek').text(guardHeader);
+  // let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
+  // if(guard) {
+  //   const { sGuardName } = guard;
+  //   guardHeader = `${sGuardName} - ${from} -> ${to}`
+  // }
+  // $('.headerTblReportSecurityWeek').text(guardHeader);
 
-  if(data){
-    data.forEach(weekData => {
-      const { dIdling_Time_in, dWorking_Time, dWeek, dPerformance_Routes, dPerformance_Timing, dPerformance_Routing, dOverall_performance } = weekData;
+  // if(data){
+  //   data.forEach(weekData => {
+  //     const { dIdling_Time_in, dWorking_Time, dWeek, dPerformance_Routes, dPerformance_Timing, dPerformance_Routing, dOverall_performance } = weekData;
 
-      arrDataChartWorkingTimeVsIdlingTime.push([Number(dIdling_Time_in), Number(dWorking_Time)]);
+  //     arrDataChartWorkingTimeVsIdlingTime.push([Number(dIdling_Time_in), Number(dWorking_Time)]);
 
-      arrLabelsChartWorkingTimeVsIdlingTime.push(dWeek);
+  //     arrLabelsChartWorkingTimeVsIdlingTime.push(dWeek);
 
-      arrDataChartWeeklyPatrollingPerformance.push([Number(dPerformance_Routes), Number(dPerformance_Timing), Number(dPerformance_Routing), Number(dOverall_performance)]);
-    })
-    renderSecurityReportTable(data);
-  }else{
-    showAlertError("No data available", "", 3000);
-    resetTblSecurityReport();
-  }
+  //     arrDataChartWeeklyPatrollingPerformance.push([Number(dPerformance_Routes), Number(dPerformance_Timing), Number(dPerformance_Routing), Number(dOverall_performance)]);
+  //   })
+  //   renderSecurityReportTable(data);
+  // }else{
+  //   showAlertError("No data available", "", 3000);
+  //   resetTblSecurityReport();
+  // }
+  renderSecurityReportTable(data);
   setDefaultLang();
 }
+
+// async function showSecurityReportByDefault(){
+//   let currentDate = getCurrentDate();
+//   let prevMonth = getPreviousMonth();
+//   let fromDate = `${prevMonth.month + 1}/${prevMonth.day}/${prevMonth.year}`;
+//   let toDate = `${currentDate.month + 1}/${currentDate.day}/${currentDate.year}`;
+//   $('#fromDateReportSecurity').val(fromDate);
+//   $('#toDateReportSecurity').val(toDate);
+//   let iGuardIDIN = $('#selectGuardNameReportSecurity').val();
+//   let sentData = { iGuardIDIN, fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate) };
+  
+//   let data = await Service.getReportPerformanceChart(sentData);
+//   console.log(data);
+//   arrDataChartWorkingTimeVsIdlingTime.length = 0;
+//   arrDataChartWeeklyPatrollingPerformance.length = 0;
+//   arrLabelsChartWorkingTimeVsIdlingTime.length = 0;
+
+//   let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
+//   if(guard) {
+//     const { sGuardName } = guard;
+//     guardHeader = `${sGuardName} - ${fromDate} -> ${toDate}`
+//   }
+//   $('.headerTblReportSecurityWeek').text(guardHeader);
+
+//   if(data){
+//     data.forEach(weekData => {
+//       const { dIdling_Time_in, dWorking_Time, dWeek, dPerformance_Routes, dPerformance_Timing, dPerformance_Routing, dOverall_performance } = weekData;
+
+//       arrDataChartWorkingTimeVsIdlingTime.push([Number(dIdling_Time_in), Number(dWorking_Time)]);
+
+//       arrLabelsChartWorkingTimeVsIdlingTime.push(dWeek);
+
+//       arrDataChartWeeklyPatrollingPerformance.push([Number(dPerformance_Routes), Number(dPerformance_Timing), Number(dPerformance_Routing), Number(dOverall_performance)]);
+//     })
+//     renderSecurityReportTable(data);
+//   }else{
+//     showAlertError("No data available", "", 3000);
+//     resetTblSecurityReport();
+//   }
+//   setDefaultLang();
+// }
 
 function resetTblSecurityReport(){
   $('#tblReportSecurity').find('tbody').html('');
@@ -107,7 +123,6 @@ function renderSecurityReportTable(data) {
   let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
   console.log(data);
-  
   if (data) {
     $thead.append('<tr></tr>');
     $thead.find('tr').append(`<th class="trn">Reporting Week</th>`)

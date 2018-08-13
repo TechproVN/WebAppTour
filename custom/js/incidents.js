@@ -6,6 +6,7 @@ $(() => {
     showAllIncidentMap(arrIncidents);
   })
   $(".zoom-image").elevateZoom();
+  showIncidentsList(true);
   showIncidentListDefault();
 })
 
@@ -14,11 +15,11 @@ const arrIncidents = [];
 async function showIncidentsData() {
   let fromDate = $('#incidentFromDatetime').val();
   let toDate = $('#incidentToDatetime').val();
+  let IncidentID = $('#selectIncident').val();
   if(fromDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
   if(toDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
-  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate), IncidentID: 0};
+  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate), IncidentID };
   let data = await Service.getIncidentsData(sentData);
-  console.log
   arrIncidents.length = 0;
   if(data) {
     showIncidentListPagination(data);
@@ -54,7 +55,6 @@ async function showIncidentListDefault(){
   $('#incidentFromDatetime').val(fromDate);
   $('#incidentToDatetime').val(toDate);
   let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate), IncidentID: 0 };
-  console.log(JSON.stringify(sentData));
   let data = await Service.getIncidentsData(sentData);
   arrIncidents.length = 0;
   if(data) {

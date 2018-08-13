@@ -687,4 +687,18 @@ class Service {
       return parsedData;
     return null;
   }
+
+  static async reportIncidentWeekOrMonthChart(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/Report/ReportIncidentWeekOrMonthChart.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    if(!data) return null;
+    let parsedData = JSON.parse(data);
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
 }

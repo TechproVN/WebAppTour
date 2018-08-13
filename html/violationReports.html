@@ -121,14 +121,20 @@
             </h4>
           </div>
           <div class="card-body custom-card-body">
-              
-            <div class="row mt-3">
+            <div class="row my-3">
               <div class="col-sm-4">
                 <label for="" class="trn">by Month:</label>
                 <div class="input-group">
                   <select id="reportMonth" class="form-control selectMonth"></select>
                   <div class="input-group-append">
-                      <button class="btn btn-custom bg-main-color trn" id="btnViewIncidentsReportByMonth" style="margin-top: 0">View</button>
+                      <!-- <button class="btn btn-custom bg-main-color trn" id="btnViewIncidentsReportByMonth" style="margin-top: 0">View</button> -->
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                          <div class="dropdown-menu" style="padding-right: 10px">
+                            <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewIncidentsReportByMonth">View</button>
+                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartIncidentsReportByMonth">Chart</button>
+                          </div>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -137,17 +143,21 @@
                 <div class="input-group">
                   <select id="reportWeek" class="form-control selectWeek"></select>
                   <div class="input-group-append">
-                      <button class="btn btn-custom bg-main-color trn" id="btnViewIncidentsReportByWeek" style="margin-top: 0">View</button>
+                      <!-- <button class="btn btn-custom bg-main-color trn" id="btnViewIncidentsReportByWeek" style="margin-top: 0">View</button> -->
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                          <div class="dropdown-menu" style="padding-right: 10px">
+                            <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewIncidentsReportByWeek">View</button>
+                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartIncidentsReportByWeek">Chart</button>
+                          </div>
+                      </div>
                   </div>
                 </div>
               </div>
+             
               <div class="col-sm-4"></div>
             </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnReportIncidentsData">Report</button>
-              </div>
-            </div>
+           
           </div>
         </div>
         <!-- guard action card end -->
@@ -206,6 +216,29 @@
             </div>
           </div>
           <!-- card violationMin end -->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+          <div class="modal fade" id="modalChartIncidentReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Chart Report</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
       </div>
     </div>
     
