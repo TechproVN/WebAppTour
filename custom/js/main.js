@@ -1,6 +1,7 @@
 const APP_DOMAIN = 'http://115.79.27.219/tracking/';
 const CENTER_POS_MAP_VIEW = [20.81715284, 106.77411238];
 const TIME_OUT_SHOW_MAP_ON_MODAL = 0;
+const arrMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 $('.datepicker').datepicker();
 
@@ -95,6 +96,22 @@ function showGuardsOnCombobox(guards){
       const { iGuardId, sGuardName } = g;
       $('.guardsCombobox').append(`<option value="${iGuardId}">${sGuardName}</option>`)
     })
+  }
+}
+
+function showMonthsSelect(){
+  let $select = $('.selectMonth');
+  $select.html('');
+  for(let i = 1; i <= 12; i++){
+    $select.append(`<option value="${i}">${arrMonths[i - 1]}</option>`);
+  }
+}
+
+function showWeeksSelect(){
+  let $select = $('.selectWeek');
+  $select.html('');
+  for(let i = 1; i <= 52; i++){
+    $select.append(`<option value="${i}">Week ${i}</option>`);
   }
 }
 
@@ -300,6 +317,16 @@ function getPreviousMonth(){
   return { year, month, day };
 }
 
+function getTomorrow(){
+  let timestamp = Date.now();
+  let tomorrowTimestamp = timestamp + (1000*60*60*24);
+  let tomorrow = new Date(tomorrowTimestamp);
+  let year = tomorrow.getFullYear();
+  let month = tomorrow.getMonth();
+  let day = tomorrow.getDate();
+  return { year, month, day };
+}
+
 function getCurrentDateTime(){
   let now = new Date();
   let year = now.getFullYear();
@@ -340,4 +367,32 @@ function calDistanceOfRoute(points){
 
 function toRadian(degree) {
   return degree * Math.PI/180;
+}
+
+function getWeek( d ) { 
+
+  // Create a copy of this date object  
+  var target  = new Date(d.valueOf());  
+  
+  // ISO week date weeks start on monday  
+  // so correct the day number  
+  var dayNr   = (d.getDay() + 6) % 7;  
+
+  // Set the target to the thursday of this week so the  
+  // target date is in the right year  
+  target.setDate(target.getDate() - dayNr + 3);  
+
+  // ISO 8601 states that week 1 is the week  
+  // with january 4th in it  
+  var jan4    = new Date(target.getFullYear(), 0, 4);  
+
+  // Number of days between target date and january 4th  
+  var dayDiff = (target - jan4) / 86400000;    
+
+  // Calculate week number: Week 1 (january 4th) plus the    
+  // number of weeks between target date and january 4th    
+  var weekNr = 1 + Math.ceil(dayDiff / 7);    
+
+  return weekNr;    
+
 }

@@ -1,18 +1,30 @@
 
 
 $(() => {
-  $('#btnViewIncidentsReport').click(showIncidentReport);
-  formatCurrentTime();
-  showIncidentReport();
+  $('#btnViewIncidentsReportByMonth').click(() => {
+    showIncidentReport('month');
+  })
+  $('#btnViewIncidentsReportByWeek').click(() => {
+    showIncidentReport('week');
+  })
+  showWeeksSelect();
+  showMonthsSelect();
+  showDataInCurrentMonth();
+  setCurrentWeek()
 })
 
-function formatCurrentTime(){
-  let today = getCurrentDate();
-  let prevDay = get4DayAgo();
-  let to = `${today.month + 1}/${today.day}/${today.year}`;
-  let from = `${prevDay.month + 1}/${prevDay.day}/${prevDay.year}`;
-  $('#incidentFromDatetime').val(from);
-  $('#incidentToDatetime').val(to);
+
+function showDataInCurrentMonth(){
+  let d = new Date();
+  let currentMonth = d.getMonth() + 1;
+  $('#reportMonth').val(currentMonth);
+  showIncidentReport('month');
+}
+
+function setCurrentWeek(){
+  let d = new Date();
+  let currentWeek = getWeek(d);
+  $('#reportWeek').val(currentWeek)
 }
 
 function get4DayAgo(){
@@ -33,59 +45,70 @@ function renderTblIncidentReport(){
   $table.html('');
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
-  $thead.append(`
-    <tr>
-      <th rowspan="2">Day</th>
-      <th rowspan="2">Date</th>
-      <th rowspan="2">Weekend NO.</th>
-      <th rowspan="2">Number of Violation</th>
-      <th colspan="${arrIncidents.length}">Types of Violation</th>
-    </tr>
-    <tr class="trIncident"></tr>
-  `)
-  arrIncidents.forEach(item => {
-    $thead.find('tr.trIncident').append(`<th>${item}</th>`);
-  });
-  arrRows.forEach(row => {
-    const { sDay, iWeek, dDate } = row;
-    $tbody.append(`
+  
+  if(arrIncidents){
+    $thead.append(`
       <tr>
-        <td>${sDay}</td>
-        <td>${dDate}</td>
-        <td>${iWeek}</td>
-        <td>${getNumOfViolationsByDate(row)}</td>
+        <th rowspan="2">Day</th>
+        <th rowspan="2">Date</th>
+        <th rowspan="2">Weekend NO.</th>
+        <th rowspan="2">Number of Violation</th>
+        <th colspan="${arrIncidents.length}">Types of Violation</th>
       </tr>
+      <tr class="trIncident"></tr>
     `)
     arrIncidents.forEach(item => {
-      $tbody.find('tr').last().append(`<td>${row[item]}</td>`);
+      $thead.find('tr.trIncident').append(`<th>${item}</th>`);
+    });
+  }
+  if(arrRows){
+    arrRows.forEach(row => {
+      const { sDay, iWeek, dDate } = row;
+      $tbody.append(`
+        <tr>
+          <td>${sDay}</td>
+          <td>${dDate}</td>
+          <td>${iWeek}</td>
+          <td>${getNumOfViolationsByDate(row)}</td>
+        </tr>
+      `)
+      arrIncidents.forEach(item => {
+        $tbody.find('tr').last().append(`<td>${row[item]}</td>`);
+      })
     })
-  })
+  }
   $table.append($thead).append($tbody);
 }
 
-async function showIncidentReport(){
-  let from = $('#incidentFromDatetime').val();
-  let to = $('#incidentToDatetime').val();
-  if(!checkDate(from, to)) return;
-  let sentData = { dfromDate: changeFormatDateTime(from), dtoDate: changeFormatDateTime(to) };
-  let data = await Service.getIncidentReport(sentData);
+async function showIncidentReport(type){
+  let sentData = { iWeek: 0, iMonth: 0 };
+  if(type.toLowerCase() == 'week'){
+    let week = $('#reportWeek').val();
+    sentData.iWeek = week;
+  }else{
+    let month = $('#reportMonth').val();
+    sentData.iMonth = month;
+  }
+  let data = await Service.reportIncidentWeekOrMonth(sentData);
   arrIncidents = getIncidentsArr(data);
   arrRows = getRowsViolationsByDate(data);
-  console.log(data);
   renderTblIncidentReport();
 }
 
 function getIncidentsArr(data){
+  if(!data) return null;
+  if(data.length == 0) return null;
   let incidentsSet = new Set(data.map(incident => incident.sAlertContent));
   return [...incidentsSet];
 }
 
 function getRowsViolationsByDate(data){
+  if(!data) return null;
+  if(data.length == 0) return null;
   let dateSet = new Set(data.map(item => item.dDate));
   let arrRows = []
   dateSet.forEach(value => {
     let arrTemp = data.filter(item => item.dDate == value);
-    console.log(arrTemp);
     let acc = arrTemp.reduce((acc, incident, index) => {
       const { sAlertContent, iCountAlert } = incident;
       if(index == 0){

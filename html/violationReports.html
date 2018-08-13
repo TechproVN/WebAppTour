@@ -121,22 +121,30 @@
             </h4>
           </div>
           <div class="card-body custom-card-body">
+              
             <div class="row mt-3">
               <div class="col-sm-4">
-                <label for="" class="trn">From date:</label>
-                <br>
-                <input type="text" readonly class="form-control datepicker" style="width: 100%" id="incidentFromDatetime">
+                <label for="" class="trn">by Month:</label>
+                <div class="input-group">
+                  <select id="reportMonth" class="form-control selectMonth"></select>
+                  <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnViewIncidentsReportByMonth" style="margin-top: 0">View</button>
+                  </div>
+                </div>
               </div>
               <div class="col-sm-4">
-                <label for="" class="trn">To date:</label>
-                <br>
-                <input type="text" readonly class="form-control datepicker" style="width: 100%" id="incidentToDatetime">
+                <label for="" class="trn">by Week:</label>
+                <div class="input-group">
+                  <select id="reportWeek" class="form-control selectWeek"></select>
+                  <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnViewIncidentsReportByWeek" style="margin-top: 0">View</button>
+                  </div>
+                </div>
               </div>
               <div class="col-sm-4"></div>
             </div>
             <div class="row mt-3">
               <div class="col-12">
-                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnViewIncidentsReport">View</button>
                   <button class="btn btn-custom bg-main-color pull-right trn" id="btnReportIncidentsData">Report</button>
               </div>
             </div>

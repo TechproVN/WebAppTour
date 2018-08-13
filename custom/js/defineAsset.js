@@ -188,7 +188,7 @@ async function updateAsset(){
   let response = await Service.updateAsset(sentData);
   console.log(response);
   showAssets();
-  showAlertSuccess("Insert Successfully", "", 3000);
+  showAlertSuccess("Update Successfully", "", 3000);
 }
 
 function buildAssetsMap(assets, id){

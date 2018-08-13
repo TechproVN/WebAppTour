@@ -96,9 +96,9 @@ function resetTblAsset(){
 
 async function showAssetsListDefault(){
   let today = getCurrentDate();
-  let yesterday = getYesterday();
-  let fromDate = `${yesterday.month + 1}/${yesterday.day}/${yesterday.year}`;
-  let toDate = `${today.month + 1}/${today.day}/${today.year}`;
+  let tomorrow = getTomorrow();
+  let fromDate = `${today.month + 1}/${today.day}/${today.year}`;
+  let toDate = `${tomorrow.month + 1}/${tomorrow.day}/${tomorrow.year}`;
   $('#assetFromDatetime').val(fromDate);
   $('#assetToDatetime').val(toDate);
   let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate) };

@@ -4,7 +4,8 @@ $(() => {
   $('#btnExportReport2Excel').click(openPrintReportWindow);
   $('#btnChartReport').click(showChartReport);
   // $('#btnPrintDailyReport').click(printDailyReportContent);
-  showGuardReportPage();
+  showRouteList();
+  // showGuardReportPage();
   formatTodayReport();
 
 })
@@ -181,20 +182,20 @@ function renderReportTable(data){
 }
 
 function showTimeReportOnHeader(time){
-  $('.fromDateReport').text(`${time} 11:00AM`);
+  $('.fromDateReport').text(`${time} 00:00AM`);
   $('.toDateReport').text(`${time} 11:59PM`);
 }
 
 async function showReportData(){
-  let id = $('#jcomboboxGuardReport').val();
-  if(!id) GuardID = 1;
-  else GuardID = Number(id);
+  let RouteID = $('#selectRouteList').val();
   let time = $('#reportDatetime').val();
   if(time == '') return alert('No date time submitted');
   showTimeReportOnHeader(time);
   let dDateTime = changeFormatDateTime(time);
-  let sentData = { GuardID, dDateTime }
-  const data = await Service.getReportData(sentData);
+  let sentData = { RouteID, dDateTime }
+  console.log(JSON.stringify(sentData));
+  const data = await Service.reportRoutebydate(sentData);
+  console.log(data);
   let guard = arrGuardList.find(g => g.iGuardId == GuardID);
   if (guard) {
     const { sGuardName } = guard;
@@ -214,16 +215,6 @@ async function showReportData(){
   }
 }
 
-function renderGuardCombobox(data){
-  $('#jcomboboxGuardReport').html('');
-  if(data){
-    data.forEach(guard => {
-      const { iGuardId, sGuardName } = guard;
-      $('#jcomboboxGuardReport').append(`<option value="${iGuardId}">${sGuardName}</option>`)
-    })
-  }
-}
-
 async function showGuardReportPage(){
   const data = await Service.getGuardsData();
   if(data) arrGuardList = data;
@@ -233,7 +224,7 @@ async function showGuardReportPage(){
 
 function formatTodayReport() {
   $('#reportDatetime').val(formatToday());
-  showReportData();
+  setTimeout(showReportData, 200);
 }
 
 function export2Excel(){

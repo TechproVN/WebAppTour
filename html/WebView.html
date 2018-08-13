@@ -95,7 +95,7 @@
           vars[key] = value;
       });
       return vars;
-  }
+    }
 
     function getGuardGPSCurrent(iGuardID) {
       //var id = sentData.iGuardID;
@@ -125,7 +125,7 @@
     function buildMap(iGuardID, sCheckingCode)
     {
 
-      var mapProp = createMapPropGoogleMap(17,20.81715284, 106.77411238, 16);
+      var mapProp = createMapPropGoogleMap(17,20.81715284, 106.77411238, 14);
       var mapArea = document.getElementById('mapid');
       var mymap = new google.maps.Map(mapArea, mapProp);
 

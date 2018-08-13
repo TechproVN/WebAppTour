@@ -5,9 +5,7 @@ $(() => {
   $('#btnIncidentsMap').click(function(){
     showAllIncidentMap(arrIncidents);
   })
-  // $(".zoom-image").spritezoom({});
-    
-  // formatTodayIncident();
+  $(".zoom-image").elevateZoom();
   showIncidentListDefault();
 })
 
@@ -50,12 +48,13 @@ function showIncidentListPagination(data){
 
 async function showIncidentListDefault(){
   let today = getCurrentDate();
-  let yesterday = getYesterday();
-  let fromDate = `${yesterday.month + 1}/${yesterday.day}/${yesterday.year}`;
-  let toDate = `${today.month + 1}/${today.day}/${today.year}`;
+  let tomorrow = getTomorrow();
+  let fromDate = `${today.month + 1}/${today.day}/${today.year}`;
+  let toDate = `${tomorrow.month + 1}/${tomorrow.day}/${tomorrow.year}`;
   $('#incidentFromDatetime').val(fromDate);
   $('#incidentToDatetime').val(toDate);
-  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate) };
+  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate), IncidentID: 0 };
+  console.log(JSON.stringify(sentData));
   let data = await Service.getIncidentsData(sentData);
   arrIncidents.length = 0;
   if(data) {
@@ -132,7 +131,7 @@ function showImageZoomed(img){
 
 function showIncidentImage(urlImage){
   // showImageZoomed(urlImage);
-  $('#incidentImg').attr({src: urlImage})
+  $('#incidentImg').attr({src: urlImage, 'data-zoom-image': urlImage});
   $('#modalIncidentImage').modal('show');
 }
 
@@ -167,7 +166,7 @@ function buildIncidentMap(incident){
 }
 
 function buildAllIncidentMap(incidents){
-  $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
+  $mapArea = $('<div id="mapIncident" style="height: 400px"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
   let latCenter = CENTER_POS_MAP_VIEW[0];
   let lngCenter = CENTER_POS_MAP_VIEW[1];

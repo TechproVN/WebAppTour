@@ -251,10 +251,7 @@ function renderTableEventHistoryDetails(data) {
         </tr>
       `)
     })
-  } else {
-    alert('No data');
-  }
-
+  } 
   $table.append($thead).append($tbody);
 }
 
