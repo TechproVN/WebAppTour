@@ -18,8 +18,9 @@ async function showIncidentsData() {
   let toDate = $('#incidentToDatetime').val();
   if(fromDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
   if(toDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
-  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate)};
+  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate), IncidentID: 0};
   let data = await Service.getIncidentsData(sentData);
+  console.log
   arrIncidents.length = 0;
   if(data) {
     showIncidentListPagination(data);
