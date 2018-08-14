@@ -70,34 +70,36 @@ function renderTourReportTable(data) {
   $thead.html(
     `
       <tr>
-        <th class="trn">Code</th>
-        <th class="trn">Guard</th>
-        <th class="trn">Zone</th>
+        <th class="trn">Route</th>
         <th class="trn">Date</th>
-        <th class="trn">Started</th>
-        <th class="trn">Finished</th>
-        <th class="trn">No.</th>
-        <th class="trn">Time</th>
-        <th class="trn">Schedule</th>
-        <th class="trn">Point</th>
+        <th class="trn">Day</th>
+        <th class="trn">Week</th>
+        <th class="trn">Month</th>
+        <th class="trn">Per. routes</th>
+        <th class="trn">Per. Routing</th>
+        <th class="trn">Per. Timing</th>
+        <th class="trn">Per. Time</th>
+        <th class="trn">Idling Time</th>
+        <th class="trn">Number issued</th>        
       </tr>
     `
   )
   if (data) {
     data.forEach((tour) => {
-      const { dDateTimeEnd, dDateTimeIntinial, dDateTimeStart, dPointChecked, dTimeSchedule, dTimeTour, iNoTour, sCheckingCode, sGuardName, sZoneName } = tour;
+      const {dDateReport, sDayName, iWeek, iMonth, sRouteName, dPerformance_Routes, dPerformance_Routing, dPerformance_Timing, dPerfomance_Time, dIdling_Time_in, iNumber_of_reports_issued} = tour;
       $tbody.append(`
         <tr>
-          <td>${sCheckingCode}</td>
-          <td>${sGuardName}</td>
-          <td>${sZoneName}</td>
-          <td>${dDateTimeIntinial}</td>
-          <td>${dDateTimeStart}</td>
-          <td>${dDateTimeEnd}</td>
-          <td>${iNoTour}</td>
-          <td>${dTimeTour}</td>
-          <td>${dTimeSchedule}</td>
-          <td>${dPointChecked}</td>
+          <td>${sRouteName}</td>
+          <td>${dDateReport}</td>
+          <td>${sDayName}</td>
+          <td>${iWeek}</td>
+          <td>${iMonth}</td>
+          <td>${dPerformance_Routes} %</td>
+          <td>${dPerformance_Routing} %</td>
+          <td>${dPerformance_Timing} %</td>
+          <td>${dPerfomance_Time} %</td>
+          <td>${dIdling_Time_in} %</td>
+          <td>${iNumber_of_reports_issued}</td>
         </tr>
       `)
     })
