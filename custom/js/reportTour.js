@@ -35,7 +35,7 @@ async function showChart(type){
 }
 
 function buildLineChart(chartData, type){
-  let $chartCanvas = $('<canvas style="width: 100%" height="300"></canvas>');
+  let $chartCanvas = $('<canvas style="width: 100%" height="400"></canvas>');
   $('#modalChartReport').find('#lineChart').html($chartCanvas);
   let ctx = $chartCanvas[0].getContext('2d');
   
@@ -140,7 +140,7 @@ function getLabelsChart(chartData, type){
 }
 
 function buildBarChart(data, type){
-  let $chartCanvas = $('<canvas style="width: 100%" height="300"></canvas>');
+  let $chartCanvas = $('<canvas style="width: 100%" height="400"></canvas>');
   $('#modalChartReport').find('#barChart').html($chartCanvas);
   let ctx = $chartCanvas[0].getContext('2d');
   let chartData = data.map(item => Number(item.iNumber_of_reports_issued));
