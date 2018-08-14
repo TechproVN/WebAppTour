@@ -1,7 +1,8 @@
 $(() => {
   $('#btnViewReportTour').click(showTourDetailsTable);
   $('#reportTourDatetime').val(formatToday());
-  loadGuardsOnCombobox();
+  //loadGuardsOnCombobox();
+  showRouteList();
   showTourDetailsTable();
 })
 
@@ -16,20 +17,21 @@ async function loadGuardsOnCombobox(){
 
 
 async function showTourDetailsTable(){
-  let iGuardIDIN = $('#comboboxGuardReportTour').val();
-  let date = $('#reportTourDatetime').val();
-  if(date.trim() == '') return showAlertError("Invalid datetime", "Datetime must be filled", 3000);
+  let iGuardIDIN = $('#selectRouteList').val();
+  //let date = $('#reportTourDatetime').val();
+  //if(date.trim() == '') return showAlertError("Invalid datetime", "Datetime must be filled", 3000);
+  //let sentData = {iGuardIDIN, dDateTimeIN: changeFormatDateTime(date)};
   let sentData = {iGuardIDIN, dDateTimeIN: changeFormatDateTime(date)};
   let data = await Service.getTourDetail(sentData);
-  console.log(data);
-  let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
-  console.log(guard);
-  let header = '';
-  if(guard){
-    const { sGuardName } = guard;
-    header = `${sGuardName} - ${date}`;
-  }
-  $('.headerTblReportTour').text(header);
+  //console.log(data);
+  //let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
+  //console.log(guard);
+  //let header = '';
+  //if(guard){
+    //const { sGuardName } = guard;
+    //header = `${sGuardName} - ${date}`;
+  //}
+  //$('.headerTblReportTour').text(header);
 
   if(data){
     $('#totalTourReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
