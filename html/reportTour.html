@@ -124,21 +124,22 @@
                 <div class="row mt-3">
                   <div class="col-12">
                     <label for="" class="trn">by Route</label><br>
-
-                    <select name="" class="form-control selectRouteName form-control-sm" id="selectRouteName">
-
-                    </select>
+                    <select name="" class="form-control selectRouteName form-control-sm" id="selectRouteName"></select>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row my-4">
                   <div class="col-12">
                     <label for="" class="trn">by Month</label>
                     <div class="input-group">
-                      <select name="" id="reportMonth" class="form-control form-control-sm selectMonth">
-                            <!-- option content guard name -->
-                      </select>
+                      <select name="" id="reportMonth" class="form-control form-control-sm selectMonth"></select>
                       <div class="input-group-append">
-                        <button class="btn btn-custom bg-main-color trn" id="btnShowReportMonth" style="margin-top: 0">View</button>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                          <div class="dropdown-menu" style="padding-right: 10px">
+                            <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnShowReportMonth" style="margin-top: 0">View</button>
+                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="">Chart</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -147,19 +148,23 @@
                   <div class="col-12">
                     <label for="" class="trn">by Week</label>
                     <div class="input-group">
-                      <select name="" id="reportWeek" class="form-control form-control-sm selectWeek">
-                            <!-- option content guard name -->
-                      </select>
+                      <select name="" id="reportWeek" class="form-control form-control-sm selectWeek"></select>
                       <div class="input-group-append">
-                        <button class="btn btn-custom bg-main-color trn" id="btnShowReportWeek" style="margin-top: 0">View</button>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                          <div class="dropdown-menu" style="padding-right: 10px">
+                            <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnShowReportWeek" style="margin-top: 0">View</button>
+                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="">Chart</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
             <!-- card filter end -->
         </div>
+      </div>
     
         <div class="col-lg-9">
           <!-- card Points start -->

@@ -1,58 +1,37 @@
 $(async () => {
   $('#btnShowSecuriity').click(showSecurity);
-  let data = await loadGuardsOnCombobox();
-  console.log(data);
-  if(data) arrGuardList = data;
-  else arrGuardList = [];
-  showSecurityReportByDefault();
+  $('#btnViewReportByWeek').click(() => {
+    showSecurity('week');
+  })
+  $('#btnViewReportByMonth').click(() => {
+    showSecurity('month');
+  })
+  showMonthsSelect();
+  showWeeksSelect();
+  showRouteList(true);
+  setDefaultLoading();
+  // showSecurityReportByDefault();
 })
 
-let arrGuardList = [];
 
-async function showSecurity(){
-  let iGuardIDIN = $('#selectGuardNameReportSecurity').val();
-  let from = $('#fromDateReportSecurity').val();
-  let to = $('#toDateReportSecurity').val();
-  if(checkDate(from, to)){
-    let fromDate = changeFormatDateTime(from);
-    let toDate = changeFormatDateTime(to);
-    let sentData = { iGuardIDIN, fromDate, toDate };
-    let data = await Service.getReportPerformance(sentData);
-    console.log(data);
-    let header = '';
-    let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
-    console.log(guard);
-    if(guard){
-      const { sGuardName } = guard;
-      header = `${sGuardName} - ${from} -> ${to}`;
-    }
-    if(data) showSecurityPagination(data, header)
-    else{
-      resetTblReportSecurity();
-      showAlertError("No data available", "", 3000);
-    }
-  }
-  setDefaultLang();
+function setDefaultLoading(){
+  let d = new Date();
+  let month = d.getMonth();
+  let week = getWeek();
+  console.log(week)
+  $('#reportMonth').val(month + 1);
+  $('#reportWeek').val(Number(week));
+  showSecurity('month');
 }
 
-async function showSecurityReportByDefault(){
-  let yesterday = getYesterday();
-  let today = getCurrentDate();
-  let fromDate = `${yesterday.month + 1}/${yesterday.day}/${yesterday.year}`;
-  let toDate = `${today.month + 1}/${today.day}/${today.year}`;
-  $(`#fromDateReportSecurity`).val(fromDate);
-  $(`#toDateReportSecurity`).val(toDate);
-  let GuardID = $('#selectGuardNameReportSecurity').val();
-  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate), GuardID };
-  console.log(JSON.stringify(sentData));
-  data = await Service.getReportPerformance(sentData);
+async function showSecurity(type){
+  let iRouteID = $('#selectRouteName').val();
+  let sentData = { iRouteID, iWeek: 0, iMonth: 0 };
+  if(type.toLowerCase() == 'week') sentData.iWeek = $('#reportWeek').val();
+  else sentData.iMonth = $('#reportMonth').val();
+  let data = await Service.getReportPerformance(sentData);
   console.log(data);
   let header = '';
-  let guard = arrGuardList.find(g => g.iGuardId == GuardID);
-  if(guard){
-    const { sGuardName } = guard;
-    header = `${sGuardName} - ${from} -> ${to}`;
-  }
   if(data) showSecurityPagination(data, header)
   else{
     resetTblReportSecurity();
@@ -60,6 +39,7 @@ async function showSecurityReportByDefault(){
   }
   setDefaultLang();
 }
+
 
 function showSecurityPagination(data, header){
   $('.headerTblReportSecurity').text(header);

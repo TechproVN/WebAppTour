@@ -121,29 +121,44 @@
             </h4>
           </div>
           <div class="card-body custom-card-body">
-            <div class="row mt-3">
-              <div class="col-md-4">
-                <label for="" class="trn">by Guard</label>
-                <select id="selectGuardNameReportSecurity" class="guardsCombobox form-control">
-                  <!-- option content guard name -->
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label for="" class="trn">Started date</label>
-                <br>
-                <input type="text" readonly class="form-control datepicker" style="width: 100%" id="fromDateReportSecurity">
-              </div>
-              <div class="col-md-4">
-                <label for="" class="trn">Finished date</label>
-                <br>
-                <input type="text" readonly class="datepicker form-control" style="width: 100%" id="toDateReportSecurity">
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowSecuriity">View</button>
-              </div>
-            </div>
+              <div class="row mt-3">
+                  <div class="col-md-4">
+                    <label for="" class="trn">by Route</label>
+                    <select id="selectRouteName" class="selectRouteName form-control">
+                      <!-- option content guard name -->
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="" class="trn">by Month</label>
+                    <div class="input-group">
+                      <div class="input-group-append">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                            <div class="dropdown-menu" style="padding-right: 10px">
+                              <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewReportByMonth">View</button>
+                              <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartMonthlyPatrollingReport">Chart</button>
+                            </div>
+                        </div>
+                      </div>
+                      <select id="reportMonth" class="form-control selectMonth"></select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="" class="trn">by Week</label>
+                    <div class="input-group">
+                      <div class="input-group-append">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                          <div class="dropdown-menu" style="padding-right: 10px">
+                            <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewReportByWeek">View</button>
+                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartWeeklyPatrorllingReport">Chart</button>
+                          </div>
+                        </div>
+                      </div>
+                      <select id="reportWeek" class="form-control selectWeek"></select>
+                    </div>
+                  </div>
+                </div>
           </div>
         </div>
         <!-- guard action card end -->
@@ -209,9 +224,6 @@
 
   <!-- sweetalert js -->
   <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
-
-  <!-- leafletjs -->
-  <script src="../plugins/leaflet/js/leaflet.js"></script>
 
   <!-- translate js plugins -->
   <script src="../plugins/translate.js-master/jquery.translate.js"></script>
