@@ -145,7 +145,7 @@ function buildBarChart(data, type){
   let ctx = $chartCanvas[0].getContext('2d');
   let chartData = data.map(item => Number(item.iNumber_of_reports_issued));
   let length = chartData.length;
-  let arrLabels = getLabelsChart(chartData, type);
+  let arrLabels = getLabelsChart(data, type);
 
   const { arrBgColor1, arrBorderColor1 } = getColorVsBgColor(length);
   var chartTime = new Chart(ctx, {
