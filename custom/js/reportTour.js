@@ -1,55 +1,57 @@
 $(() => {
-  $('#btnViewReportTour').click(showTourDetailsTable);
-  $('#reportTourDatetime').val(formatToday());
-  loadGuardsOnCombobox();
-  showTourDetailsTable();
+  $('#btnShowReportWeek').click(() => {
+    showTourDetailsTable('week');
+  })
+  $('#btnShowReportMonth').click(() => {
+    showTourDetailsTable('month');
+  })
+
+  showRouteList(true);
+  showMonthsSelect();
+  showWeeksSelect();
+  setDefaultLoading();
 })
 
-let arrGuardList = [];
-
-async function loadGuardsOnCombobox(){
-  let guards = await Service.getGuardsData();
-  if(guards) arrGuardList = guards;
-  else arrGuardList = [];
-  showGuardsOnCombobox(guards);
+function setDefaultLoading(){
+  let d = new Date();
+  let month = d.getMonth();
+  let week = getWeek();
+  console.log(week)
+  $('#reportMonth').val(month + 1);
+  $('#reportWeek').val(Number(week));
+  showTourDetailsTable('month');
 }
 
-
-async function showTourDetailsTable(){
-  let iGuardIDIN = $('#comboboxGuardReportTour').val();
-  let date = $('#reportTourDatetime').val();
-  if(date.trim() == '') return showAlertError("Invalid datetime", "Datetime must be filled", 3000);
-  let sentData = {iGuardIDIN, dDateTimeIN: changeFormatDateTime(date)};
+async function showTourDetailsTable(type){
+  let iRouteID = $('#selectRouteName').val();
+  let sentData = { iRouteID, iWeek: 0, iMonth: 0 };
+  if(type.toLowerCase() == 'month') sentData.iMonth = $('#reportMonth').val();
+  else sentData.iWeek = $('#reportWeek').val();
   let data = await Service.getTourDetail(sentData);
   console.log(data);
-  let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
-  console.log(guard);
-  let header = '';
-  if(guard){
-    const { sGuardName } = guard;
-    header = `${sGuardName} - ${date}`;
-  }
-  $('.headerTblReportTour').text(header);
-
-  if(data){
-    $('#totalTourReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
-    $('#pagingToursControl').pagination({
-      dataSource: data,
-      pageSize: 10,
-      className: 'paginationjs-theme-green paginationjs-big',
-      showGoInput: true,
-      showGoButton: true,
-      callback: function (data, pagination) {
-        let $table = renderTourReportTable(data);
-        $('.card-tourReport .table-responsive').html($table);
-        setDefaultLang();
-      }
-    })
-  }else{
+  $('.headerTblReportTour').text('');
+  if(data) showReportPagination(data);
+  else{
     resetTblTourReport();
     showAlertError("No data avilable", "", 3000);
   }
   setDefaultLang();
+}
+
+function showReportPagination(data){
+  $('#totalTourReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
+  $('#pagingToursControl').pagination({
+    dataSource: data,
+    pageSize: 10,
+    className: 'paginationjs-theme-green paginationjs-big',
+    showGoInput: true,
+    showGoButton: true,
+    callback: function (data, pagination) {
+      let $table = renderTourReportTable(data);
+      $('.card-tourReport .table-responsive').html($table);
+      setDefaultLang();
+    }
+  })
 }
 
 function resetTblTourReport(){
