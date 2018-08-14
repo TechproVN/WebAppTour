@@ -5,7 +5,6 @@ $(() => {
   $('#btnIncidentsMap').click(function(){
     showAllIncidentMap(arrIncidents);
   })
-  $(".zoom-image").elevateZoom();
   showIncidentsList(true);
   showIncidentListDefault();
 })
@@ -125,13 +124,8 @@ function renderIncidentsTable(data) {
   return $table;
 }
 
-function showImageZoomed(img){
-  $(".zoom-image").attr({'href': img})
-}
-
 function showIncidentImage(urlImage){
-  // showImageZoomed(urlImage);
-  $('#incidentImg').attr({src: urlImage, 'data-zoom-image': urlImage});
+  $('#incidentImg').attr({ src: urlImage });
   $('#modalIncidentImage').modal('show');
 }
 
