@@ -201,19 +201,22 @@
       <div class="row">
         <div class="col-12">
           <div class="modal fade" id="modalChartReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" >Modal chart report</h5>
+                  <h5 class="modal-title">Chart report</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  
+                  <div class="row">
+                    <div class="col-md-6" id="lineChart"></div>
+                    <div class="col-md-6" id="barChart"></div>
+                  </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>
@@ -251,9 +254,8 @@
   <!-- pagination js -->
   <script src="../plugins/paginationJs/pagination.min.js"></script>
 
-  <!-- leaflet js -->
-  <script src="../plugins/leaflet/js/leaflet.js"></script>
-
+  <!-- chart js -->
+  <script src="../plugins/chartJS/Chart.min.js"></script>
   <!-- table2Excel plugins -->
   <script src="../plugins/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel/dist/jquery.table2excel.min.js"></script>
 

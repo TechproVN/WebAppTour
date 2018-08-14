@@ -18,73 +18,74 @@ $(() => {
   setDefaultLoading();
 })
 
-let arrLabels = [];
-let arrPerformance_Routing = [];
-
-
 async function showChart(type){
   let iRouteID = $('#selectRouteName').val();
   let sentData = { iRouteID, iWeek: 0, iMonth: 0 };
-  if(type.toLowerCase() == 'week') sentData.iMonth = $('#reportMonth').val();
+  if(type.toLowerCase() == 'month') sentData.iMonth = $('#reportMonth').val();
   else sentData.iWeek = $('#reportWeek').val();
   let data = await Service.getTourDetail(sentData);
   console.log(data);
   if(!data) return showAlertError("No data available!!", "", 5000);
-  // buildLineChart(data);
-  // buildBarChart(data);
+  setTimeout(() => {
+    buildLineChart(data, type);
+    buildBarChart(data, type);
+  }, 200);
+  $('#modalChartReport').modal('show');
+  
 }
 
-function buildLineChart(data){
-
-}
-
-function buildBarChart(data){
-
-}
-
-function buildChartWeeklyPatrollingPerformance(){
-  $chartArea = $('<canvas style="width: 100%" height="300" id="chartWeeklyPatrollingPerformance"></canvas>');
-  $('#modalSecurityReportChart').find('.chartWeeklyPatrollingPerformance').html($chartArea);
-  let $chartWeeklyPatrolling = $('#chartWeeklyPatrollingPerformance');
-  let ctx = $chartWeeklyPatrolling[0].getContext('2d');
-  // ctx.height(500);
+function buildLineChart(chartData, type){
+  let $chartCanvas = $('<canvas style="width: 100%" height="300"></canvas>');
+  $('#modalChartReport').find('#lineChart').html($chartCanvas);
+  let ctx = $chartCanvas[0].getContext('2d');
+  
   let bgColor1 = 'rgba(255, 99, 132, 0.2)';
   let bgColor2 = 'rgba(75, 192, 192, 0.2)';
   let bgColor3 = 'rgba(153, 102, 255, 0.2)';
   let bgColor4 = 'rgba(255, 159, 64, 0.2)';
+  let bgColor5 = 'rgba(100, 159, 64, 0.2)';
 
   let borderColor1 = 'rgba(75, 192, 192, 1)';
   let borderColor2 = 'rgba(153, 102, 255, 1)';
   let borderColor3 = 'rgba(255, 159, 64, 1)';
   let borderColor4 = 'red';
+  let borderColor5 = 'pink';
 
+  let arrLabels = getLabelsChart(chartData, type);
+  
   var chartPatroll = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: arrLabelsChartWorkingTimeVsIdlingTime,
+        labels:arrLabels,
         datasets: [{
 					label: "Performance Routes",
 					backgroundColor: borderColor1,
 					borderColor: borderColor1,
-					data: arrDataChartWeeklyPatrollingPerformance.map(a => a[0]),
+					data: chartData.map(item => Number(item.dPerformance_Routes)),
+					fill: false,
+				}, {
+					label: "Performance Routing",
+					backgroundColor: borderColor2,
+					borderColor: borderColor2,
+					data: chartData.map(item => Number(item.dPerformance_Routing)),
 					fill: false,
 				},{
 					label: "Performance Timing",
-					backgroundColor: borderColor2,
-					borderColor: borderColor2,
-					data: arrDataChartWeeklyPatrollingPerformance.map(a => a[1]),
-					fill: false,
-				},{
-					label: "Performance Routing",
 					backgroundColor: borderColor3,
 					borderColor: borderColor3,
-					data: arrDataChartWeeklyPatrollingPerformance.map(a => a[2]),
+					data: chartData.map(item => Number(item.dPerformance_Timing)),
 					fill: false,
 				},{
-					label: "Overall Performance",
+					label: "Performance Time",
 					backgroundColor: borderColor4,
 					borderColor: borderColor4,
-					data: arrDataChartWeeklyPatrollingPerformance.map(a => a[3]),
+					data: chartData.map(item => Number(item.dPerfomance_Time)),
+					fill: false,
+				},{
+					label: "Idling Time",
+					backgroundColor: borderColor5,
+					borderColor: borderColor5,
+					data: chartData.map(item => Number(item.dIdling_Time_in)),
 					fill: false,
 				}]
     },
@@ -93,7 +94,7 @@ function buildChartWeeklyPatrollingPerformance(){
       maintainAspectRatio: false,
       title: {
         display: true,
-        text: 'Weekly Patroll Performance'
+        text: ''
       },
       tooltips: {
         mode: 'index',
@@ -133,30 +134,31 @@ function buildChartWeeklyPatrollingPerformance(){
   });
 }
 
-function buildBarChart(data){
-  $chart = $('<canvas style="width: 100%" height="300"></canvas>');
-  $('#modalChartReport').find('.modal-body').html($chart);
-  let ctx = $chart[0].getContext('2d');
-  let length = arrDataChartWorkingTimeVsIdlingTime.length;
-  const { arrBgColor1, arrBorderColor1, arrBgColor2, arrBorderColor2 } = getColorVsBgColor(length);
+function getLabelsChart(chartData, type){
+  if(type.toLowerCase() == 'week') return chartData.map(item => item.sDayName);
+  return chartData.map(item => item.iWeek);
+}
+
+function buildBarChart(data, type){
+  let $chartCanvas = $('<canvas style="width: 100%" height="300"></canvas>');
+  $('#modalChartReport').find('#barChart').html($chartCanvas);
+  let ctx = $chartCanvas[0].getContext('2d');
+  let chartData = data.map(item => Number(item.iNumber_of_reports_issued));
+  let length = chartData.length;
+  let arrLabels = getLabelsChart(chartData, type);
+
+  const { arrBgColor1, arrBorderColor1 } = getColorVsBgColor(length);
   var chartTime = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: arrLabelsChartWorkingTimeVsIdlingTime,
+      labels: arrLabels,
       datasets: [{
-        label: 'Idling Time',
-        data: arrDataChartWorkingTimeVsIdlingTime.map(arr => arr[0]),
+        label: 'Number of Report Issues',
+        data: chartData,
         backgroundColor: arrBgColor1,
         borderColor: arrBorderColor1,
         borderWidth: 1
       },
-      {
-        label: 'Working Time',
-        data: arrDataChartWorkingTimeVsIdlingTime.map(arr => arr[1]),
-        backgroundColor: arrBgColor2,
-        borderColor: arrBorderColor2,
-        borderWidth: 1
-      }
     ],
     },  
     options:{
@@ -170,7 +172,7 @@ function buildBarChart(data){
       },
       title: {
         display: true,
-        text: 'Working Time Vs Idling Time'
+        text: ''
       },
     },
   });
@@ -270,4 +272,25 @@ function renderTourReportTable(data) {
 
   $table.append($thead).append($tbody);
   return $table;
+}
+
+function getColorVsBgColor(length){
+  let arrBgColor1 = [];
+  let arrBorderColor1 = [];
+  let arrBgColor2 = [];
+  let arrBorderColor2 = [];
+
+  let bgColor1 = 'rgba(255, 99, 132, 0.2)';
+  let borderColor1 = 'rgba(255,99,132,1)';
+  let bgColor2 = 'rgba(255, 159, 64, 0.2)';
+  let borderColor2 = 'rgba(255, 159, 64, 1)';
+
+  for(let i = 0; i < length; i++){
+    arrBgColor1.push(bgColor1);
+    arrBorderColor1.push(borderColor1);
+    arrBgColor2.push(bgColor2);
+    arrBorderColor2.push(borderColor2);
+  }
+
+  return { arrBgColor1, arrBorderColor1, arrBgColor2, arrBorderColor2 };
 }
