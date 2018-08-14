@@ -411,9 +411,21 @@ function getWeek( d ) {
 
   // Calculate week number: Week 1 (january 4th) plus the    
   // number of weeks between target date and january 4th    
-  var weekNr = 1 + Math.ceil(dayDiff / 7);    
-
-  return weekNr;    
-
+  if(new Date(target.getFullYear(), 0, 1).getDay() < 5) {
+    // Calculate week number: Week 1 (january 4th) plus the    
+    // number of weeks between target date and january 4th    
+    return 1 + Math.ceil(dayDiff / 7);    
+  }
+  else {  // jan 4th is on the next week (so next week is week 1)
+    return Math.ceil(dayDiff / 7); 
+  }
+  
 }
+
+function weekOfYear(date){
+  var d = new Date(+date);
+  d.setHours(0,0,0);
+  d.setDate(d.getDate()+4-(d.getDay()||7));
+  return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
+};
 

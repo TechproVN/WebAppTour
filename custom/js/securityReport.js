@@ -1,6 +1,7 @@
 $(async() => {
-  $('#btnShowReportSecuriity').click(showSecurityReport);
-  $('#btnShowReportSecuriityChart').click(showChartSecurityReport)
+  // $('#btnShowReportSecuriity').click(showSecurityReport);
+  // $('#btnShowReportSecuriityChart').click(showChartSecurityReport);
+
   $('#btnViewMonthlyPatrorllingReport').click(() => {
     showSecurityReport('month');
   })
@@ -8,7 +9,10 @@ $(async() => {
     showSecurityReport('week');
   })
   $('#btnViewChartWeeklyPatrorllingReport').click(() => {
-
+    showChartSecurityReport('week');
+  })
+  $('#btnViewChartMonthlyPatrollingReport').click(() => {
+    showChartSecurityReport('month');
   })
   let data = await loadGuardsOnCombobox();
   if(data) arrGuardList = data;
@@ -16,6 +20,7 @@ $(async() => {
   showMonthsSelect();
   showWeeksSelect();
   showRouteList(true);
+  setDefaultLoading();
   // showSecurityReportByDefault();
 
 })
@@ -24,7 +29,7 @@ let arrDataChartWorkingTimeVsIdlingTime = [];
 let arrDataChartWeeklyPatrollingPerformance = [];
 let arrLabelsChartWorkingTimeVsIdlingTime = [];
 let arrGuardList = [];
-let guardHeader = '';
+let titleHeader = '';
 
 async function showSecurityReport(type){
   let iRouteID = $('#selectRouteNameReportSecurity').val();
@@ -36,37 +41,38 @@ async function showSecurityReport(type){
     let month = $('#reportMonth').val();
     sentData.iMonth = month;
   }
-  console.log(JSON.stringify(sentData));
   let data = await Service.getReportPerformanceChart(sentData);
-  console.log(data);
-  // arrDataChartWorkingTimeVsIdlingTime.length = 0;
-  // arrDataChartWeeklyPatrollingPerformance.length = 0;
-  // arrLabelsChartWorkingTimeVsIdlingTime.length = 0;
-
-  // let guard = arrGuardList.find(g => g.iGuardId == iGuardIDIN);
-  // if(guard) {
-  //   const { sGuardName } = guard;
-  //   guardHeader = `${sGuardName} - ${from} -> ${to}`
-  // }
-  // $('.headerTblReportSecurityWeek').text(guardHeader);
-
-  // if(data){
-  //   data.forEach(weekData => {
-  //     const { dIdling_Time_in, dWorking_Time, dWeek, dPerformance_Routes, dPerformance_Timing, dPerformance_Routing, dOverall_performance } = weekData;
-
-  //     arrDataChartWorkingTimeVsIdlingTime.push([Number(dIdling_Time_in), Number(dWorking_Time)]);
-
-  //     arrLabelsChartWorkingTimeVsIdlingTime.push(dWeek);
-
-  //     arrDataChartWeeklyPatrollingPerformance.push([Number(dPerformance_Routes), Number(dPerformance_Timing), Number(dPerformance_Routing), Number(dOverall_performance)]);
-  //   })
-  //   renderSecurityReportTable(data);
-  // }else{
-  //   showAlertError("No data available", "", 3000);
-  //   resetTblSecurityReport();
-  // }
+ 
+  $('.headerTblReportSecurityWeek').text('');
   renderSecurityReportTable(data);
+  if(!data){
+    showAlertError("No data available", "", 3000);
+    resetTblSecurityReport();
+  }
   setDefaultLang();
+}
+
+function setDefaultLoading(){
+  let d = new Date();
+  let month = d.getMonth();
+  let week = getWeek();
+  console.log(week)
+  $('#reportMonth').val(month + 1);
+  $('#reportWeek').val(Number(week));
+  showSecurityReport('month');
+}
+
+// Returns the ISO week of the date.
+function getWeek() {
+  var date = new Date(Date.now());
+  date.setHours(0, 0, 0, 0);
+  // Thursday in current week decides the year.
+  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  // January 4 is always in week 1.
+  var week1 = new Date(date.getFullYear(), 0, 4);
+  // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+                        - 3 + (week1.getDay() + 6) % 7) / 7);
 }
 
 // async function showSecurityReportByDefault(){
@@ -122,7 +128,7 @@ function renderSecurityReportTable(data) {
   $table.html('');
   let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
-  console.log(data);
+
   if (data) {
     $thead.append('<tr></tr>');
     $thead.find('tr').append(`<th class="trn">Reporting Week</th>`)
@@ -158,11 +164,33 @@ function renderSecurityReportTable(data) {
   $table.append($thead).append($tbody);
 }
 
-function showChartSecurityReport(){
+async function showChartSecurityReport(type){
+  let iRouteID = $('#selectRouteNameReportSecurity').val();
+  let sentData = { iRouteID, iWeek: 0, iMonth: 0 };
+  if(type.toLowerCase() == 'week') sentData.iWeek = $('#reportWeek').val();
+  else sentData.iMonth = $('#reportMonth').val();
+  let data = await Service.getReportPerformanceChart(sentData);
+  arrDataChartWorkingTimeVsIdlingTime.length = 0;
+  arrDataChartWeeklyPatrollingPerformance.length = 0;
+  arrLabelsChartWorkingTimeVsIdlingTime.length = 0;
+  getChartData(data);
   buildChartWorkingTimeVsIdlingTime();
   buildChartWeeklyPatrollingPerformance();
-  $('.headerChartReportSecurity').text(guardHeader)
+  $('.headerChartReportSecurity').text('')
   $('#modalSecurityReportChart').modal('show');
+}
+
+function getChartData(data){
+  if(!data) return;
+  data.forEach(weekData => {
+    const { dIdling_Time_in, dWorking_Time, dWeek, dPerformance_Routes, dPerformance_Timing, dPerformance_Routing, dOverall_performance } = weekData;
+
+    arrDataChartWorkingTimeVsIdlingTime.push([Number(dIdling_Time_in), Number(dWorking_Time)]);
+
+    arrLabelsChartWorkingTimeVsIdlingTime.push(dWeek);
+
+    arrDataChartWeeklyPatrollingPerformance.push([Number(dPerformance_Routes), Number(dPerformance_Timing), Number(dPerformance_Routing), Number(dOverall_performance)]);
+  })
 }
 
 function buildChartWeeklyPatrollingPerformance(){
@@ -181,8 +209,6 @@ function buildChartWeeklyPatrollingPerformance(){
   let borderColor3 = 'rgba(255, 159, 64, 1)';
   let borderColor4 = 'red';
 
-  console.log('patrolling '+arrDataChartWeeklyPatrollingPerformance)
-// arrDataChartWeeklyPatrollingPerformance
   var chartPatroll = new Chart(ctx, {
     type: 'line',
     data: {
@@ -264,25 +290,8 @@ function buildChartWorkingTimeVsIdlingTime(){
   let $chartWorkingTimeVsIdlingTime = $('#chartWorkingTimeVsIdlingTime');
 
   let ctx = $chartWorkingTimeVsIdlingTime[0].getContext('2d');
-  console.log(arrDataChartWorkingTimeVsIdlingTime);
-  // ctx.height(500);
-  // $chartWorkingTimeVsIdlingTime.height(500);
-  let bgColor1 = 'rgba(255, 99, 132, 0.2)';
-  let borderColor1 = 'rgba(255,99,132,1)';
-  let bgColor2 = 'rgba(255, 159, 64, 0.2)';
-  let borderColor2 = 'rgba(255, 159, 64, 1)';
-
-  let arrBgColor1 = [];
-  let arrBorderColor1 = [];
-  let arrBgColor2 = [];
-  let arrBorderColor2 = [];
-
-  arrDataChartWorkingTimeVsIdlingTime.forEach(item => {
-    arrBgColor1.push(bgColor1);
-    arrBorderColor1.push(borderColor1);
-    arrBgColor2.push(bgColor2);
-    arrBorderColor2.push(borderColor2);
-  })
+  let length = arrDataChartWorkingTimeVsIdlingTime.length;
+  const { arrBgColor1, arrBorderColor1, arrBgColor2, arrBorderColor2 } = getColorVsBgColor(length);
   var chartTime = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -316,8 +325,27 @@ function buildChartWorkingTimeVsIdlingTime(){
         display: true,
         text: 'Working Time Vs Idling Time'
       },
-      
     },
-      
   });
+}
+
+function getColorVsBgColor(length){
+  let arrBgColor1 = [];
+  let arrBorderColor1 = [];
+  let arrBgColor2 = [];
+  let arrBorderColor2 = [];
+
+  let bgColor1 = 'rgba(255, 99, 132, 0.2)';
+  let borderColor1 = 'rgba(255,99,132,1)';
+  let bgColor2 = 'rgba(255, 159, 64, 0.2)';
+  let borderColor2 = 'rgba(255, 159, 64, 1)';
+
+  for(let i = 0; i < length; i++){
+    arrBgColor1.push(bgColor1);
+    arrBorderColor1.push(borderColor1);
+    arrBgColor2.push(bgColor2);
+    arrBorderColor2.push(borderColor2);
+  }
+
+  return { arrBgColor1, arrBorderColor1, arrBgColor2, arrBorderColor2 };
 }
