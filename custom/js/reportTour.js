@@ -35,6 +35,7 @@ async function showTourDetailsTable(type){
     resetTblTourReport();
     showAlertError("No data avilable", "", 3000);
   }
+
   setDefaultLang();
 }
 
