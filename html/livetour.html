@@ -24,10 +24,10 @@
   <!-- pagination css -->
   <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
 
-  <!-- custom main css -->
+  <!-- main view custom css -->
   <link rel="stylesheet" href="../custom/css/main.css">
 
-  <title>Report Tour</title>
+  <title>Tours</title>
 </head>
 
 <body>
@@ -50,7 +50,7 @@
                 <span class="trn">Main View</span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active-menu-item">
               <a class="nav-link" href="tours.html">
                 <i class="fa fa-street-view icon-navbar"></i>
                 <span class="trn">Tours</span>
@@ -68,7 +68,7 @@
                 <span class="trn">Assets</span>
               </a>
             </li>
-            <li class="nav-item dropdown active-menu-item">
+            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-area-chart icon-navbar"></i>
                 <span class="trn">Reports</span>
@@ -110,127 +110,149 @@
 
   <div class="container-fluid">
 
-      <div class="row my-3 row-custom">
-
-        <div class="col-lg-2 mb-4">
-            <!-- card filter start -->
-            <div class="card card filter">
-              <div class="card-header bg-main-color custom-card-header">
-                <h4>
-                  <i class="fa fa-filter"></i> <span class="trn">Search</span>
-                </h4>
-              </div>
-              <div class="card-body custom-card-body">
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <label for="" class="trn">by Route</label><br>
-                    <select name="" class="form-control selectRouteName form-control-sm" id="selectRouteName"></select>
-                  </div>
-                </div>
-                <div class="row my-4">
-                  <div class="col-12">
-                    <label for="" class="trn">by Month</label>
-                    <div class="input-group">
-                      <select name="" id="reportMonth" class="form-control form-control-sm selectMonth"></select>
-                      <div class="input-group-append">
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                          <div class="dropdown-menu" style="padding-right: 10px">
-                            <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnShowReportMonth" style="margin-top: 0">View</button>
-                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnShowChartByMonth">Chart</button>
-                          </div>
-                        </div>
-                      </div>
+    <div class="row my-3 row-custom">
+      <!-- filter and incident card -->
+      <div class="col-12">
+        <!-- card filter start -->
+        <div class="card card filter">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-filter"></i> <span class="trn">Filters</span>
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row">
+                <div class="col-md-4">
+                  <label for="" class="trn">by Guard</label>
+                  <div class="input-group">
+                    <select name="" id="selectGuardName" class="form-control form-control-sm  selectGuardName">
+                        <!-- option content guard name -->
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnShowEventHistoryDataByGuard" style="margin-top: 0px">View</button>
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label for="" class="trn">by Week</label>
-                    <div class="input-group">
-                      <select name="" id="reportWeek" class="form-control form-control-sm selectWeek"></select>
-                      <div class="input-group-append">
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                          <div class="dropdown-menu" style="padding-right: 10px">
-                            <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnShowReportWeek" style="margin-top: 0">View</button>
-                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnShowChartByWeek">Chart</button>
-                          </div>
-                        </div>
-                      </div>
+              <div class="col-md-4">
+                <label for="" class="trn">by Route</label>
+                <div class="input-group">
+                  <select name="" id="selectRouteName" class="form-control form-control-sm selectRouteName">
+                        <!-- option content guard name -->
+                  </select>
+                  <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnShowEventHistoryDataByRoute" style="margin-top: 0">View</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                  <label for="" class="trn">by Device</label>
+                  <div class="input-group">
+                    <select name="" id="selectDeviceName" class="form-control form-control-sm selectDeviceName">
+                        <!-- option content guard name -->
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnShowEventHistoryDataByDevice" style="margin-top: 0" >View</button>
                     </div>
-                </div>
-              </div>
-            </div>
-            <!-- card filter end -->
-        </div>
-      </div>
-    
-        <div class="col-lg-10">
-          <!-- card Points start -->
-          <div class="card card-tourReport">
-            <div class="card-header bg-main-color custom-card-header">
-              <h4>
-                <i class="fa fa-exclamation-triangle"></i> <span class="trn">Report Tours</span>
-              </h4>
-            </div>
-            <div class="card-body custom-card-body">
-              <div class="row my-3">
-                <div class="col-12">
-                  <div class="text-center font-weight-bold green-text headerTblReportTour" style="font-size: 1.2em"></div>
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col-sm-8">
-                  <div id="pagingToursControl"></div>
-                </div>
-                <div class="col-sm-4">
-                  <div id="totalTourReportRows"></div>
-                </div>
-              </div>
-              <div class="table-responsive">
-                
+                  </div>
               </div>
             </div>
           </div>
-          <!-- card Points end -->
         </div>
-
+        <!-- card filter end -->
       </div>
 
-      <div class="row">
-        <div class="col-12">
-          <div class="modal fade" id="modalChartReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog  modal-lg modal-dialog-custom" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Chart report</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-tour">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-exclamation-triangle"></i> <span class="trn">Tour lists</span></h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="headerTblTours text-center font-weight-bold green-text" style="font-size: 1.2em"></div>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-sm-8">
+                <div id="pagingToursControl"></div>
+              </div>
+              <div class="col-sm-4">
+                <div id="totalTours">
+
                 </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-md-6" id="lineChart"></div>
-                    <div class="col-md-6" id="barChart"></div>
-                  </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <!-- Large event history details modal-->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+          id="modalEventHistoryDetails">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title trn" id="exampleModalLabel">Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped text-center custom-table" id="tblEventHistoryDetails">
+                    <!-- event history detail content -->
+                  </table>
                 </div>
-                <div class="modal-footer">
-            
-                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    
+    </div>
+   
+    <div class="row">
+      <div class="col-12">
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" id="modalEventMap">
+          <div class="modal-dialog modal-dialog-custom">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title trn" id="exampleModalLabel">Tour Map</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-  
+
+  <!-- Google Map API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
+
   <!-- JQuery core -->
   <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
-
-  <!-- jQuery translate.js -->
-  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
 
   <!-- popper js core -->
   <script src="../MDB Free/js/popper.min.js"></script>
@@ -248,30 +270,29 @@
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
   
   <!-- sweetalert js -->
-  <script 
-  src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
 
   <!-- pagination js -->
   <script src="../plugins/paginationJs/pagination.min.js"></script>
 
-  <!-- chart js -->
-  <script src="../plugins/chartJS/Chart.min.js"></script>
-  <!-- table2Excel plugins -->
-  <script src="../plugins/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel/dist/jquery.table2excel.min.js"></script>
+  <!-- translate js plugins -->
+  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
+
+  <!-- main js -->
+  <script src="../custom/js/main.js"></script>
+
+  <!-- translate language -->
+  <script src="../custom/js/translate.js"></script>
 
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
-  <!-- custom main.js -->
-  <script src="../custom/js/main.js"></script>
+  <!-- validation js -->
+  <script src="../custom/js/validation.js"></script>
 
-  <!-- translate js -->
-  <script src="../custom/js/translate.js"></script>
+  <!-- custom incident js -->
+  <script src="../custom/js/livetour.js"></script>
 
-  <!-- reportTour js -->
-  <script src="../custom/js/reportTour.js"></script>
-  
- 
 </body>
 
 </html>

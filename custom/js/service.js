@@ -157,7 +157,7 @@ class Service {
   }
 
   static async getEventHistoryDetails(checkingCode) {
-    let sentDate = {
+    let sentDate = {  
       CheckingCode: checkingCode
     };
     let data = await $.ajax({
