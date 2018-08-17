@@ -157,9 +157,9 @@ function renderGuardTable(data) {
         <input type="checkbox" class="checkbox-all-guards">
       </th>
       <th class="trn">#</th>
-      <th class="trn">Name</th>
-      <th class="trn">Last visited</th>
-      <th class="trn">Speed</th>
+      <th class="trn text-left">Name</th>
+      <th class="trn">Last login</th>
+      <th class="trn">Speed (km/h)</th>
     </tr>
   `)
   let $checkboxHead = $thead.find('.checkbox-all-guards');
@@ -181,7 +181,7 @@ function renderGuardTable(data) {
             <input type="checkbox" class="checkbox-guard-sendSMS">
           </td>
           <td>${index + 1}</td>
-          <td class="${className}">${icon} ${sGuardName}</td>
+          <td class="text-left ${className}">${icon} ${sGuardName}</td>
           <td>${dLastUpdateTime}</td>
           <td>${dSpeedCurrent}</td>
         </tr>
@@ -265,9 +265,9 @@ function buildCurrentMapGuard(data){
   mainMapGuard = new google.maps.Map($('#mapid')[0], mapProp);
   if(data){
     data.forEach(guard => {
-      let { dGuardLatCurrent, dGuardLongCurrent, dLastUpdateTime, sGuardName, bOnline
+      let { dGuardLatCurrent, dGuardLongCurrent, sGuardName, bOnline
       } = guard;
-      let mes = `${sGuardName} - ${dLastUpdateTime}`;
+      let mes = `${sGuardName}`;
       let lat = Number(dGuardLatCurrent);
       let lng = Number(dGuardLongCurrent);
       let pos =  new google.maps.LatLng(lat,lng);

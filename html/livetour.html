@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- font awesome css -->
+  <link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+
+  <!-- Bootstrap core css -->
+  <link rel="stylesheet" href="../MDB Free/css/bootstrap.min.css">
+
+  <!-- Meterial Design Bootstrap -->
+  <link rel="stylesheet" href="../MDB Free/css/mdb.min.css">
+
+  <!-- datepicker css -->
+  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
+
+  <!-- bootstrap datetime picker css -->
+  <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+
+  <!-- pagination css -->
+  <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
+
+  <!-- main view custom css -->
+  <link rel="stylesheet" href="../custom/css/main.css">
+
+  <title>Tours</title>
+</head>
+
+<body>
+  <!-- navbar start-->
+  <nav class="navbar navbar-expand-lg bg-main-color white-text" style="padding-top: 0; padding-bottom: 0">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <i class="fa fa-shield icon-custom" style="color: whitesmoke"></i>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa fa-bars icon-custom" style="color: white"></i>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="mainView.html">
+                <i class="fa fa-home icon-navbar"></i>
+                <span class="trn">Main View</span>
+              </a>
+            </li>
+            <li class="nav-item active-menu-item">
+              <a class="nav-link" href="livetour.html">
+                <i class="fa fa-street-view icon-navbar"></i>
+                <span class="trn">Live Tour</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="liveincident.html">
+                <i class="fa fa-exclamation-triangle icon-navbar"></i>
+                <span class="trn">Live Incident</span>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="liveattendance.html">
+                  <i class="fa fa-exclamation-triangle icon-navbar"></i>
+                  <span class="trn">Live Attendance</span>
+                </a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="assets.html">
+                <i class="fa fa-briefcase icon-navbar"></i>
+                <span class="trn">Assets</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-area-chart icon-navbar"></i>
+                <span class="trn">Reports</span>
+              </a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item trn" href="reports.html">Reports</a>
+                <a href="reportTour.html" class="dropdown-item trn">Daily Patrolling Results</a>
+                <a class="dropdown-item trn" href="violationReports.html">Violation Reports</a>
+                <a class="dropdown-item trn" href="security.html">Security</a>
+                <a class="dropdown-item trn" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item trn" href="reportAttendance.html">Report Attendance</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cog icon-navbar"></i>
+                <span class="trn">Settings</span>
+              </a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item trn" href="points.html">Create Check Points</a>
+                <a class="dropdown-item trn" href="group.html">Create Group-guard</a>
+                <a class="dropdown-item trn" href="guard.html">Security Guard Profile</a>
+                <a class="dropdown-item trn" href="zone.html">Create Zone</a>
+                <a class="dropdown-item trn" href="route.html">Create Route</a>
+                <a class="dropdown-item trn" href="schedule.html">Create Schedule</a>
+                <a class="dropdown-item trn" href="defineAssets.html">Create Asset</a>
+                <a class="dropdown-item trn" href="device.html">Create Device</a>
+                <a class="dropdown-item trn" href="defineIncident.html">Define Incidents</a>
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
+  
+          </ul>
+        </div>
+      </div>
+    </nav>
+  <!-- navbar end -->
+
+  <div class="container-fluid">
+
+    <div class="row my-3 row-custom">
+      <!-- filter and incident card -->
+      <div class="col-12">
+        <!-- card filter start -->
+        <div class="card card filter">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-filter"></i> <span class="trn">Filters</span>
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row">
+                <div class="col-md-4">
+                  <label for="" class="trn">by Guard</label>
+                  <div class="input-group">
+                    <select name="" id="selectGuardName" class="form-control form-control-sm  selectGuardName">
+                        <!-- option content guard name -->
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnShowLiveTourDataByGuard" style="margin-top: 0px">View</button>
+                    </div>
+                  </div>
+                </div>
+              <div class="col-md-4">
+                <label for="" class="trn">by Route</label>
+                <div class="input-group">
+                  <select name="" id="selectRouteName" class="form-control form-control-sm selectRouteName">
+                        <!-- option content guard name -->
+                  </select>
+                  <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnShowLiveTourDataByRoute" style="margin-top: 0">View</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                  <label for="" class="trn">by Device</label>
+                  <div class="input-group">
+                    <select name="" id="selectDeviceName" class="form-control form-control-sm selectDeviceName">
+                        <!-- option content guard name -->
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnShowLiveTourDataByDevice" style="margin-top: 0" >View</button>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- card filter end -->
+      </div>
+
+
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-tour">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-exclamation-triangle"></i> <span class="trn">Tour lists</span></h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="headerTblTours text-center font-weight-bold green-text" style="font-size: 1.2em"></div>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-sm-8">
+                <div id="pagingToursControl"></div>
+              </div>
+              <div class="col-sm-4">
+                <div id="totalTours">
+
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <!-- Large event history details modal-->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+          id="modalEventHistoryDetails">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title trn" id="exampleModalLabel">Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped text-center custom-table" id="tblEventHistoryDetails">
+                    <!-- event history detail content -->
+                  </table>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    <div class="row">
+      <div class="col-12">
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" id="modalEventMap">
+          <div class="modal-dialog modal-dialog-custom">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title trn" id="exampleModalLabel">Tour Map</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Google Map API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
+
+  <!-- JQuery core -->
+  <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
+
+  <!-- popper js core -->
+  <script src="../MDB Free/js/popper.min.js"></script>
+
+  <!-- bootstrap js core -->
+  <script src="../MDB Free/js/bootstrap.min.js"></script>
+
+  <!-- Meterail Design Bootstrap JS -->
+  <script src="../MDB Free/js/mdb.min.js"></script>
+
+  <!-- bootstrap datepicker js -->
+  <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datepicker.min.js"></script>
+
+  <!-- datetimepicker js -->
+  <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+  
+  <!-- sweetalert js -->
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+
+  <!-- pagination js -->
+  <script src="../plugins/paginationJs/pagination.min.js"></script>
+
+  <!-- translate js plugins -->
+  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
+
+  <!-- main js -->
+  <script src="../custom/js/main.js"></script>
+
+  <!-- translate language -->
+  <script src="../custom/js/translate.js"></script>
+
+  <!-- service request -->
+  <script src="../custom/js/service.js"></script>
+
+  <!-- validation js -->
+  <script src="../custom/js/validation.js"></script>
+
+  <!-- custom incident js -->
+  <script src="../custom/js/livetour.js"></script>
+
+</body>
+
+</html>
