@@ -131,7 +131,7 @@ async function showGuardInfo() {
       filterGuards();
     }, 100);
     showSOSNotification(data);
-  } else{
+  } else {
     arrCurrentGuards.length = 0;
   }
   setDefaultLang();
