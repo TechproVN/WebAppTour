@@ -1,14 +1,14 @@
 $(async () => {
 
   //bind event click view to show event history
-  $('#btnShowEventHistoryDataByGuard').click(() => {
-    showEventHistoryData('guard')
+  $('#btnShowLiveTourDataByGuard').click(() => {
+    showLiveTourData('guard')
   });
-  $('#btnShowEventHistoryDataByRoute').click(() => {
-    showEventHistoryData('route')
+  $('#btnShowLiveTourDataByRoute').click(() => {
+    showLiveTourData('route')
   });
-  $('#btnShowEventHistoryDataByDevice').click(() => {
-    showEventHistoryData('device');
+  $('#btnShowLiveTourDataByDevice').click(() => {
+    showLiveTourData('device');
   });
   $('#btnIncidentsMap').click(showAllIncidentsMap)
   // set up time default when page onload 
@@ -30,20 +30,10 @@ let arrDeviceList = [];
 let headerTblTours = '';
 
 async function showTourListsByDefault(){
-  let { year, month, day, hour, min } = getCurrentDateTime();
-  let fromDate = `${year}-${month + 1}-${day} 00:00`;
-  let toDate = `${year}-${month + 1}-${day} ${hour}:${min}`;
-  $(`#fromDateTime`).val(fromDate);
-  $(`#toDateTime`).val(toDate);
-  let GuardID = $('#selectGuardName').val();
-  let guard = arrGuardList.find(g => g.iGuardId == GuardID.trim());
-  let name = guard.sGuardName;
-  let sentData = { fromDate, toDate, GuardID };
-  console.log(JSON.stringify(sentData));
-  data = await Service.getEventHistoryDataGuard(sentData);
-  console.log(data);
+  let sentData = { "iKindSearch":0,"iID":0};
+  data = await Service.getLiveTour(sentData);
   if(data){
-    showToursListPagination(data, name, 'Guard', fromDate, toDate);
+    showToursListPagination(data);
   }else {
     showAlertError("No data available", "", 3000);
   }
@@ -54,36 +44,27 @@ function showAllIncidentsMap() {
   $('#modalEventMap').modal('show');
 }
 
-async function showEventHistoryData(type) {
+async function showLiveTourData(type) {
   
   type = type[0].toUpperCase() + type.substring(1).toLowerCase();
- 
-  let fromDate = $(`#fromDateTime`).val();
-  let toDate = $(`#toDateTime`).val();
   let id = $(`#select${type}Name`).val();
 
-  if (checkTimeFormat(fromDate, toDate) && id) {
-    let sentData = { fromDate, toDate };
+  if (id) {
+    let sentData = null;
     let data = null;
-    let name = '';
+
     if(type.toLowerCase() == 'guard'){
-      sentData.GuardID = id;
-      let guard = arrGuardList.find(g => g.iGuardId == id.trim());
-      name = guard.sGuardName;
-      data = await Service.getEventHistoryDataGuard(sentData);
+        sentData = { "iKindSearch":1,"iID":id};
     }else if(type.toLowerCase() == 'route'){
-      sentData.RouteID = id;
-      let route = arrRouteList.find(r => r.iRouteID == id.trim());
-      name = route.sRouteName;
-      data = await Service.getEventHistoryRoute(sentData);
+        sentData = { "iKindSearch":2,"iID":id};
     }else if(type.toLowerCase() == 'device'){
-      sentData.DeviceID = id;
-      let device = arrDeviceList.find(d => d.iDeviceID == id.trim());
-      name = device.sDeviceName;
-      data = await Service.getEventHistoryDevice(sentData);
+        sentData = { "iKindSearch":3,"iID":id};
     }
+    //console.log(sentData);
+    data = await Service.getLiveTour(sentData);
+    //console.log(data);
     if(data){
-      showToursListPagination(data, name, type,fromDate, toDate);
+      showToursListPagination(data);
     }else {
       resetTblEventHistory();
       showAlertError("No data available", "", 3000);
@@ -92,9 +73,7 @@ async function showEventHistoryData(type) {
   setDefaultLang();
 }
 
-function showToursListPagination(data, name, type, fromDate, toDate){
-  headerTblTours = `<span class="trn">${type} Name</span>: ${name} - From: ${fromDate} -> To: ${toDate}`;
-  $('.headerTblTours').html(headerTblTours)
+function showToursListPagination(data){
   $('#totalTours').html(`<strong class="trn">Total tours</strong>: ${data.length}`)
   $('#pagingToursControl').pagination({
     dataSource: data,
@@ -135,7 +114,7 @@ function renderEventHistoryTable(data) {
         <th class="trn">Start</th>
         <th class="trn">Finish</th>
         <th class="trn">Timing (min)</th>
-        <th class="trn">Missed Point</th>
+        <th class="trn">Missed CheckPoint Name</th>
         <th class="trn">Distance (km)</th>
         <th class="trn"></th>
       </tr>
@@ -143,7 +122,7 @@ function renderEventHistoryTable(data) {
   )
   if (data) {
     data.forEach((event, index) => {
-      const { sZoneName, sRouteName, sGuardName, sDeviceName, dDateTimeStart, dDateTimeEnd, iTimeComplete, dDistance, sCheckingCode } = event;
+      const { sZoneName, sRouteName, sGuardName, sDeviceName, dDateTimeStart, dDateTimeEnd, iTimeComplete, dDistance, sCheckingCode, MissedCheckPointName, iNoTour}= event;
       $tbody.append(`
         <tr>
           <td>${index + 1}</td>
@@ -151,11 +130,11 @@ function renderEventHistoryTable(data) {
           <td>${sRouteName}</td>
           <td>${sGuardName}</td>
           <td>${sDeviceName}</td>
-          <td></td>
+          <td>${iNoTour}</td>
           <td>${dDateTimeStart}</td>
           <td>${dDateTimeEnd}</td>
           <td>${iTimeComplete}</td>
-          <td></td>
+          <td>${MissedCheckPointName}</td>
           <td>${dDistance}</td>
           <td>
             <div class="btn-group">

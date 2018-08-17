@@ -156,6 +156,18 @@ class Service {
     return null;
   }
 
+  static async getLiveTour(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetLiveTour.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
   static async getEventHistoryDetails(checkingCode) {
     let sentDate = {  
       CheckingCode: checkingCode
@@ -164,6 +176,19 @@ class Service {
       url: `${APP_DOMAIN}api/GetEventHistoryDetail.php`,
       method: 'post',
       data: JSON.stringify(sentDate)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  //Insicidents'request
+  static async getLiveIncident(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetLiveIncident.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
     });
     let parsedData = JSON.parse(data)
     if (Array.isArray(parsedData) && parsedData.length > 0)
