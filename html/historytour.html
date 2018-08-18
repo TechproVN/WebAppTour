@@ -24,10 +24,10 @@
   <!-- pagination css -->
   <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
 
-  <!-- main custom css -->
+  <!-- main view custom css -->
   <link rel="stylesheet" href="../custom/css/main.css">
 
-  <title>Define Incidents</title>
+  <title>Tours</title>
 </head>
 
 <body>
@@ -50,7 +50,7 @@
                 <span class="trn">Main View</span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active-menu-item">
               <a class="nav-link" href="tours.html">
                 <i class="fa fa-street-view icon-navbar"></i>
                 <span class="trn">Tours</span>
@@ -81,7 +81,7 @@
                 <a class="dropdown-item trn" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item trn" href="reportAttendance.html">Report Attendance</a>
               </div>
             </li>
-            <li class="nav-item dropdown active-menu-item">
+            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-cog icon-navbar"></i>
                 <span class="trn">Settings</span>
@@ -112,7 +112,7 @@
 
     <div class="row my-3 row-custom">
       <!-- filter and incident card -->
-      <div class="col-lg-3">
+      <div class="col-12">
         <!-- card filter start -->
         <div class="card card filter">
           <div class="card-header bg-main-color custom-card-header">
@@ -121,13 +121,54 @@
             </h4>
           </div>
           <div class="card-body custom-card-body">
-            <div class="row mt-3">
-              
+            <div class="row">
+                <div class="col-md-4">
+                  <label for="" class="trn">by Guard</label>
+                  <div class="input-group">
+                    <select name="" id="selectGuardName" class="form-control form-control-sm  selectGuardName">
+                        <!-- option content guard name -->
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnShowEventHistoryDataByGuard" style="margin-top: 0px">View</button>
+                    </div>
+                  </div>
+                </div>
+              <div class="col-md-4">
+                <label for="" class="trn">by Route</label>
+                <div class="input-group">
+                  <select name="" id="selectRouteName" class="form-control form-control-sm selectRouteName">
+                        <!-- option content guard name -->
+                  </select>
+                  <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnShowEventHistoryDataByRoute" style="margin-top: 0">View</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                  <label for="" class="trn">by Device</label>
+                  <div class="input-group">
+                    <select name="" id="selectDeviceName" class="form-control form-control-sm selectDeviceName">
+                        <!-- option content guard name -->
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color trn" id="btnShowEventHistoryDataByDevice" style="margin-top: 0" >View</button>
+                    </div>
+                  </div>
+              </div>
             </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowIncidentsInsertModal">Insert</button>
-                <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowIncidentsType">View</button>
+            <div class="row">
+              <div class="col-md-4">
+                  <label for="" class="trn">Started</label>
+                  <br>
+                  <input type="text" readonly class="form-control form-control-sm datetimepicker" style="width: 100%" id="fromDateTime">
+              </div>
+              <div class="col-md-4">
+                  <label for="" class="trn">Finished</label>
+                  <br>
+                  <input type="text" readonly class="form-control form-control-sm datetimepicker" style="width: 100%" id="toDateTime">
+              </div>
+              <div class="col-md-4">
+               
               </div>
             </div>
           </div>
@@ -135,86 +176,91 @@
         <!-- card filter end -->
       </div>
 
-      <div class="col-lg-9">
-        <!-- card Points start -->
-        <div class="card card-incident-type">
+
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-tour">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-exclamation-triangle"></i> <span class="trn">Incident Types</span>
-            </h4>
+              <i class="fa fa-exclamation-triangle"></i> <span class="trn">Tour lists</span></h4>
           </div>
           <div class="card-body custom-card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="headerTblTours text-center font-weight-bold green-text" style="font-size: 1.2em"></div>
+              </div>
+            </div>
             <div class="row my-3">
               <div class="col-sm-8">
-                  <div id="pagingIncidentTypesControl" ></div>
+                <div id="pagingToursControl"></div>
               </div>
               <div class="col-sm-4">
-                <div id="totalIncidentTypes"></div>
+                <div id="totalTours">
+
+                </div>
               </div>
             </div>
             <div class="table-responsive">
-              
+
             </div>
           </div>
         </div>
-        <!-- card Points end -->
-      </div>
-    </div>
-    <!-- Insert Incident -->
-    <div class="row">
-      <div class="col-12">
-          <div class="modal fade" id="modalInsertDefineIncident" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title trn">Insert Incident</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <label for="" class="trn">Content</label>
-                      <input type="text" placeholder="Incident Content" class="form-control" id="txtInsertIncident">
-                    </div>
-                    <button class="btn btn-success btn-custom pull-right trn" id="btnInsertIncident">Insert</button>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
       </div>
     </div>
 
-    <!-- Update Incident  -->
     <div class="row">
-        <div class="col-12">
-            <div class="modal fade" id="modalUpdateDefineIncident" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title trn">Update Incident</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="form-group">
-                        <label for="" class="trn">Content</label>
-                        <input type="text" placeholder="Incident Content" class="form-control" id="txtUpdateIncidentContent">
-                      </div>
-                      <button class="btn btn-success btn-custom pull-right trn" id="btnUpdateIncident">Save</button>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
-                    </div>
-                  </div>
+      <div class="col-12">
+        <!-- Large event history details modal-->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+          id="modalEventHistoryDetails">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title trn" id="exampleModalLabel">Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped text-center custom-table" id="tblEventHistoryDetails">
+                    <!-- event history detail content -->
+                  </table>
                 </div>
               </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+   
+    <div class="row">
+      <div class="col-12">
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" id="modalEventMap">
+          <div class="modal-dialog modal-dialog-custom">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title trn" id="exampleModalLabel">Tour Map</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Google Map API -->
@@ -237,20 +283,20 @@
 
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-
-  <!-- translate js plugins -->
-  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
-
-  <!-- sweetalert -->
+  
+  <!-- sweetalert js -->
   <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
 
   <!-- pagination js -->
   <script src="../plugins/paginationJs/pagination.min.js"></script>
 
-  <!-- custom main.js -->
+  <!-- translate js plugins -->
+  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
+
+  <!-- main js -->
   <script src="../custom/js/main.js"></script>
 
-  <!-- translate js -->
+  <!-- translate language -->
   <script src="../custom/js/translate.js"></script>
 
   <!-- service request -->
@@ -259,8 +305,8 @@
   <!-- validation js -->
   <script src="../custom/js/validation.js"></script>
 
-  <!-- custom incident detail js -->
-  <script src="../custom/js/incidentDetail.js"></script>
+  <!-- custom incident js -->
+  <script src="../custom/js/historytour.js"></script>
 
 </body>
 

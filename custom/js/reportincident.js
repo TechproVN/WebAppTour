@@ -65,8 +65,8 @@ function buildReportIncidentWeekOrMonthChart(currentData, title){
   let ctx = $chartCanvas[0].getContext('2d');
   let labels = getChartLabelsIncidentReport(currentData);
   let data = getChartDataSetIncidentWeekOrMonth(currentData);
-  console.log(currentData);
-  console.log(data);
+  //console.log(currentData);
+  //console.log(data);
   let colors = getColors(currentData.length);
   var chartTime = new Chart(ctx, {
     type: 'pie',
