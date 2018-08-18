@@ -12,12 +12,8 @@ $(() => {
 const arrIncidents = [];
 
 async function showIncidentsData() {
-  let fromDate = $('#incidentFromDatetime').val();
-  let toDate = $('#incidentToDatetime').val();
   let IncidentID = $('#selectIncident').val();
-  if(fromDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
-  if(toDate == '') return showAlertError('No datetime', "Please choose datetime!", 6000);
-  let sentData = { fromDate: changeFormatDateTime(fromDate), toDate: changeFormatDateTime(toDate), IncidentID };
+  let sentData = { IncidentID };
   let data = await Service.getLiveIncident(sentData);
   arrIncidents.length = 0;
   if(data) {
@@ -47,12 +43,6 @@ function showIncidentListPagination(data){
 }
 
 async function showIncidentListDefault(){
-  //let today = getCurrentDate();
-  //let tomorrow = getTomorrow();
-  //let fromDate = `${today.month + 1}/${today.day}/${today.year}`;
-  //let toDate = `${tomorrow.month + 1}/${tomorrow.day}/${tomorrow.year}`;
-  //$('#incidentFromDatetime').val(fromDate);
-  //$('#incidentToDatetime').val(toDate);
   let sentData = {IncidentID: 0 };
   let data = await Service.getLiveIncident(sentData);
   arrIncidents.length = 0;
@@ -94,17 +84,17 @@ function renderIncidentsTable(data) {
   )
   if(data){
     data.forEach(incident => {
-      const { sGuardName, sZoneName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, sAlertDescription, ImageUrl, sRouteName, ProcessAlert } = incident;
+      const { sGuardName, sRouteName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, sAlertDescription, ImageUrl, ProcessAlert, iTimeSpent} = incident;
       let img = `${APP_DOMAIN}${ImageUrl}`;
       $tbody.append(`
         <tr>
           <td>${sGuardName}</td>
-          <td>${sZoneName}</td>
+          <td>${sRouteName}</td>
           <td>${dDateTimeIntinial}</td>
           <td>${sAlertDescription}</td>
           <td>${dDateTimeStart}</td>
           <td>${dDateTimeEnd}</td>
-          <td></td>
+          <td>${iTimeSpent}</td>
           <td>${ProcessAlert}</td>
           <td>
             <img src="${img}" alt="Image here" style="width:60px; height: 80px" onClick="showIncidentImage('${img}')">

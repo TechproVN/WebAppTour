@@ -52,6 +52,7 @@ function showInsertRouteModal(){
   $('#txtInsertSpeed').val('');
   $('#txtInsertMinTime').val('');
   $('#txtInsertCompletionTime').val('');
+  $('#txtInsertBreakTime').val('');
   $('#txtInsertTourExecute').val('');
   $('#modalInsertRoute').modal('show');
 }
@@ -77,6 +78,7 @@ function showMinTime(e, insert){
 function showTourExecute(e){
   let val = e.target.value;
   let txtTourEx = $('.tourExecute');
+  //let txtbrTime = $('.breakTime');
   if(!Validation.checkPositiveNumber(val)) return txtTourEx.val('');
   let tourEx = 1440/Number(val);
   txtTourEx.val(tourEx);

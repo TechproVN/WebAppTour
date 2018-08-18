@@ -27,7 +27,7 @@
   <!-- custom main css -->
   <link rel="stylesheet" href="../custom/css/main.css">
 
-  <title>Main View</title>
+  <title>Live Attendance</title>
 </head>
 
 <body>
@@ -50,7 +50,7 @@
                 <span class="trn">Main View</span>
               </a>
             </li>
-            <li class="nav-item active-menu-item">
+            <li class="nav-item">
               <a class="nav-link" href="livetour.html">
                 <i class="fa fa-street-view icon-navbar"></i>
                 <span class="trn">Live Tour</span>
@@ -62,7 +62,7 @@
                 <span class="trn">Live Incident</span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active-menu-item">
                 <a class="nav-link" href="liveattendance.html">
                   <i class="fa fa-exclamation-triangle icon-navbar"></i>
                   <span class="trn">Live Attendance</span>
@@ -74,7 +74,7 @@
                 <span class="trn">Assets</span>
               </a>
             </li>
-            <li class="nav-item dropdown active-menu-item">
+            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-area-chart icon-navbar"></i>
                 <span class="trn">Reports</span>
@@ -117,30 +117,7 @@
   <div class="container-fluid">
 
     <div class="row mt-3">
-      <div class="col-lg-3">
-        <div class="card card filter">
-          <div class="card-header bg-main-color custom-card-header">
-            <h4>
-              <i class="fa fa-filter"></i> <span class="trn">Filters</span>
-            </h4>
-          </div>
-          <div class="card-body custom-card-body">
-            <div class="row mt-3">
-              <div class="col-12">
-                <label for=""class="trn">Date</label>
-                <br>
-                <input type="text" readonly class="form-control datepicker" style="width: 100%" id="reportAttDate">
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <button class="btn btn-custom bg-main-color pull-right trn" id="btnShowDataAttendance">View</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-9">
+      <div class="col-lg-12">
         <div class="card card-reportAttendance">
           <!-- card header -->
           <div class="card-header bg-main-color custom-card-header">
@@ -193,6 +170,29 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-12">
+        <!-- Large modal map view -->
+        <div class="modal fade bd-example-modal-lg"
+          id="modalAttendanceMap">
+          <div class="modal-dialog modal-dialog-super-lg-custom">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title trn">Map Attendance</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
   <!-- Google Map API -->
@@ -237,7 +237,6 @@
   <!-- report attendance js -->
   <script src="../custom/js/liveAttendance.js"></script>
 
-  </script>
 </body>
 
 </html>

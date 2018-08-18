@@ -399,6 +399,17 @@ class Service {
       return parsedData;
     return null;
   }
+
+  static async getLiveAttandance() {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/GetLiveAttandance.php`,
+      method: 'post'
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
   
   static async getDataAttandance(sentData) {
     let data = await $.ajax({
@@ -411,7 +422,7 @@ class Service {
       return parsedData;
     return null;
   }
-  // http://115.79.27.219/tracking/api/GetIncidentContent.php
+
   static async getIncidentContent() {
     let data = await $.ajax({
       url: `${APP_DOMAIN}api/GetIncidentContent.php`,

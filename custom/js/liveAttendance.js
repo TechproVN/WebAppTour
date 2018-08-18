@@ -1,14 +1,9 @@
 $(() => {
-  $('#btnShowDataAttendance').click(showDataAttendance);
-  formatTodayReportAttendance();
+  showDataAttendance();
 })
 
 async function showDataAttendance(){
-  let date = $('#reportAttDate').val();
-  if(date == '') return showAlertError("Invalid date", "Please choose date");
-  let sentData = { dDateTimeIN : changeFormatDateTime(date) };
-  console.log(JSON.stringify(sentData));
-  let data = await Service.getDataAttandance(sentData);
+  let data = await Service.getLiveAttandance();
   if(data){
     showReportAttPagination(data)
   }else{
@@ -48,18 +43,20 @@ function renderReportAttTable(data) {
   $thead.html(
     `
       <tr>
-        <th class="trn">Guard Name</th>
-        <th class="trn">DateTime</th>
+        <th class="trn">Name of Guard</th>
+        <th class="trn">Request time</th>
+        <th class="trn">Response time</th>
+        <th class="trn">Delay</th>
         <th class="trn">Image</th>
-        <th class="trn">Checked</th>
+        <th class="trn">Map</th>
       </tr>
     `)
   if (data) {
-    console.log(data);
+    //console.log(data);
     data.forEach((report) => {
-      const { bCheck, dDateTimeCheck, sGuardName, sImageUrl } = report;
+      const {dDateTimeCheck,  dDateTimeRespone, iDelay, dLatTimeCheck, dLongTimeCheck, sGuardName, sImageUrl } = report;
       let img, imgUrl;
-      console.log(typeof sImageUrl)
+      //console.log(typeof sImageUrl)
       if(!sImageUrl) img = 'No Image';
       else{
         imgUrl = `${APP_DOMAIN}${sImageUrl}`;
@@ -69,13 +66,21 @@ function renderReportAttTable(data) {
         <tr>
           <td>${sGuardName}</td>
           <td>${dDateTimeCheck}</td>
+          <td>${dDateTimeRespone}</td>
+          <td>${iDelay}</td>
           <td>${img}</td>
-          <td>${bCheck}</td>
+          <td>
+            <button class="btn btn-custom bg-main-color btnShowAttendanceMap btn-custom-small">Map</button>
+          </td>
         </tr>
       `)
       if(sImageUrl)
       $tbody.find('.img-report-att').last().click(() => {
         showImageReportAtt(imgUrl);
+      })
+      $tbody.find('.btnShowAttendanceMap').last().click(function(){
+        showMapAttendance(report);
+        //console.log(report);
       })
     })
   }
@@ -89,7 +94,35 @@ function showImageReportAtt(imgUrl){
   $('#modalImgReportAtt').find('.modal-body img').attr({'src': imgUrl});
 }
 
-function formatTodayReportAttendance() {
-  $('#reportAttDate').val(formatToday());
-  showDataAttendance();
+function showMapAttendance(attendance){
+  $('#modalAttendanceMap').modal('show');
+  setTimeout(() => {
+    buildAttendanceMap(attendance);
+  }, 0);
+}
+
+function buildAttendanceMap(attendance){
+  //console.log('abc');
+  $mapArea = $('<div id="mapAttendance" style="height: 350px"></div>');
+  $('#modalAttendanceMap').find('.modal-body').html($mapArea);
+
+  let latCenter = CENTER_POS_MAP_VIEW[0];
+  let lngCenter = CENTER_POS_MAP_VIEW[1];
+  let mapProp = createMapPropGoogleMap(16, latCenter, lngCenter);
+  let mymap = new google.maps.Map($('#mapAttendance')[0], mapProp);
+
+  if(attendance){
+    const {dLatTimeCheck, dLongTimeCheck, sImageUrl, sGuardName} = attendance
+    let lat = Number(dLatTimeCheck);
+    let lng = Number(dLongTimeCheck);
+    let pos = new google.maps.LatLng(lat, lng);
+    let img = `${APP_DOMAIN}${sImageUrl}`;
+    let mes = `${sGuardName}<br><img src="${img}" class="img-fluid">`
+    
+    let icon = '../img/error.png';
+    let marker = createMarkerGoogleMap(pos, icon);
+    marker.setMap(mymap);
+    let infoWindow = createInfoWindowGoogleMap(mes);
+    infoWindow.open(mymap, marker);
+  }
 }
