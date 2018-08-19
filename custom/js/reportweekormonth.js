@@ -5,10 +5,16 @@ $(() => {
   $('#btnShowReportMonth').click(() => {
     showTourDetailsTable('month');
   })
+  $('#btnShowReportYear').click(() => {
+    //showTourDetailsTable('month');
+  })
   $('#btnShowChartByWeek').click(() => {
     showChart('week');
   })
   $('#btnShowChartByMonth').click(() => {
+    showChart('month');
+  })
+  $('#btnShowChartByYear').click(() => {
     showChart('month');
   })
 
@@ -20,7 +26,7 @@ $(() => {
 
 async function showChart(type){
   let iRouteID = $('#selectRouteName').val();
-  let sentData = { iRouteID, iWeek: 0, iMonth: 0 };
+  let sentData = { iRouteID, iWeek: 0, iMonth: 0, iYear: 0 };
   if(type.toLowerCase() == 'month') sentData.iMonth = $('#reportMonth').val();
   else sentData.iWeek = $('#reportWeek').val();
   let data = await Service.getTourDetail(sentData);
@@ -180,16 +186,19 @@ function buildBarChart(data, type){
 
 function setDefaultLoading(){
   let d = new Date();
-  let month = d.getMonth();
   let week = getWeek();
+  let month = d.getMonth();
+  let year = d.getFullYear();
   $('#reportMonth').val(month + 1);
   $('#reportWeek').val(Number(week));
-  showTourDetailsTable('month');
+  $('#reportYear').val(Number(year));
+  //showTourDetailsTable('month');
 }
 
 async function showTourDetailsTable(type){
   let iRouteID = $('#selectRouteName').val();
-  let sentData = { iRouteID, iWeek: 0, iMonth: 0 };
+  let sentData = { iRouteID, iWeek: 0, iMonth: 0, iYear: 0 };
+  console.log(sentData);
   if(type.toLowerCase() == 'month') sentData.iMonth = $('#reportMonth').val();
   else sentData.iWeek = $('#reportWeek').val();
   let data = await Service.getTourDetail(sentData);

@@ -33,7 +33,8 @@ let titleHeader = '';
 
 async function showSecurityReport(type){
   let iRouteID = $('#selectRouteNameReportSecurity').val();
-  let sentData = { iRouteID, iWeek: 0, iMonth: 0 };
+  let sentData = { iRouteID, iWeek: 0, iMonth: 0, iYear:0 };
+  console.log(sentData);
   if(type.toLowerCase() == 'week'){
     let week = $('#reportWeek').val();
     sentData.iWeek = week;
@@ -41,8 +42,9 @@ async function showSecurityReport(type){
     let month = $('#reportMonth').val();
     sentData.iMonth = month;
   }
+  console.log(sentData);
   let data = await Service.getReportPerformanceChart(sentData);
- 
+  console.log(data);
   $('.headerTblReportSecurityWeek').text('');
   renderSecurityReportTable(data);
   if(!data){
@@ -155,7 +157,7 @@ function renderSecurityReportTable(data) {
 
 async function showChartSecurityReport(type){
   let iRouteID = $('#selectRouteNameReportSecurity').val();
-  let sentData = { iRouteID, iWeek: 0, iMonth: 0 };
+  let sentData = { iRouteID, iWeek: 0, iMonth: 0, iYear: 0 };
   if(type.toLowerCase() == 'week') sentData.iWeek = $('#reportWeek').val();
   else sentData.iMonth = $('#reportMonth').val();
   let data = await Service.getReportPerformanceChart(sentData);
