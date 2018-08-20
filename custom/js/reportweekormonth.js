@@ -6,7 +6,7 @@ $(() => {
     showTourDetailsTable('month');
   })
   $('#btnShowReportYear').click(() => {
-    //showTourDetailsTable('month');
+    showTourDetailsTable('year');
   })
   $('#btnShowChartByWeek').click(() => {
     showChart('week');
@@ -15,22 +15,28 @@ $(() => {
     showChart('month');
   })
   $('#btnShowChartByYear').click(() => {
-    showChart('month');
+    showChart('year');
   })
 
   showRouteList(true);
   showMonthsSelect();
   showWeeksSelect();
+  showYearsSelect();
   setDefaultLoading();
 })
 
 async function showChart(type){
   let iRouteID = $('#selectRouteName').val();
   let sentData = { iRouteID, iWeek: 0, iMonth: 0, iYear: 0 };
-  if(type.toLowerCase() == 'month') sentData.iMonth = $('#reportMonth').val();
-  else sentData.iWeek = $('#reportWeek').val();
+  if(type.toLowerCase() == 'month') 
+    sentData.iMonth = $('#reportMonth').val();
+  else if (type.toLowerCase() == 'week')
+    sentData.iWeek = $('#reportWeek').val();
+  else if (type.toLowerCase() == 'year')
+    sentData.iYear = $('#reportYear').val();
+
   let data = await Service.getTourDetail(sentData);
-  console.log(data);
+  //console.log(data);
   if(!data) return showAlertError("No data available!!", "", 5000);
   setTimeout(() => {
     buildLineChart(data, type);
@@ -188,19 +194,25 @@ function setDefaultLoading(){
   let d = new Date();
   let week = getWeek();
   let month = d.getMonth();
-  let year = d.getFullYear();
+  //let year = d.getFullYear();
   $('#reportMonth').val(month + 1);
   $('#reportWeek').val(Number(week));
-  $('#reportYear').val(Number(year));
+  //$('#reportYear').val(Number(year));
   //showTourDetailsTable('month');
 }
 
 async function showTourDetailsTable(type){
   let iRouteID = $('#selectRouteName').val();
   let sentData = { iRouteID, iWeek: 0, iMonth: 0, iYear: 0 };
+  
+  if(type.toLowerCase() == 'month') 
+    sentData.iMonth = $('#reportMonth').val();
+  else if (type.toLowerCase() == 'week')
+    sentData.iWeek = $('#reportWeek').val();
+  else if (type.toLowerCase() == 'year')
+    sentData.iYear = $('#reportYear').val();
+  
   console.log(sentData);
-  if(type.toLowerCase() == 'month') sentData.iMonth = $('#reportMonth').val();
-  else sentData.iWeek = $('#reportWeek').val();
   let data = await Service.getTourDetail(sentData);
   console.log(data);
   $('.headerTblReportTour').text('');

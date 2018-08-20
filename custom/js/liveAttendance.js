@@ -44,6 +44,7 @@ function renderReportAttTable(data) {
     `
       <tr>
         <th class="trn">Name of Guard</th>
+        <th class="trn">Date</th>
         <th class="trn">Request time</th>
         <th class="trn">Response time</th>
         <th class="trn">Delay</th>
@@ -54,7 +55,7 @@ function renderReportAttTable(data) {
   if (data) {
     //console.log(data);
     data.forEach((report) => {
-      const {dDateTimeCheck,  dDateTimeRespone, iDelay, dLatTimeCheck, dLongTimeCheck, sGuardName, sImageUrl } = report;
+      const {dDateTimeCheck, dDate, dDateTimeRespone, iDelay, dLatTimeCheck, dLongTimeCheck, sGuardName, sImageUrl } = report;
       let img, imgUrl;
       //console.log(typeof sImageUrl)
       if(!sImageUrl) img = 'No Image';
@@ -65,6 +66,7 @@ function renderReportAttTable(data) {
       $tbody.append(`
         <tr>
           <td>${sGuardName}</td>
+          <td>${dDate}</td>
           <td>${dDateTimeCheck}</td>
           <td>${dDateTimeRespone}</td>
           <td>${iDelay}</td>
@@ -119,7 +121,7 @@ function buildAttendanceMap(attendance){
     let img = `${APP_DOMAIN}${sImageUrl}`;
     let mes = `${sGuardName}<br><img src="${img}" class="img-fluid">`
     
-    let icon = '../img/error.png';
+    let icon = '../img/guard.png';
     let marker = createMarkerGoogleMap(pos, icon);
     marker.setMap(mymap);
     let infoWindow = createInfoWindowGoogleMap(mes);

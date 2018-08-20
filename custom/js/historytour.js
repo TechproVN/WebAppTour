@@ -129,7 +129,7 @@ function renderEventHistoryTable(data) {
         <th class="trn">#</th>
         <th class="trn">Zone</th>
         <th class="trn">Route</th>
-        <th class="trn">Name</th>
+        <th class="trn">Name of Guard</th>
         <th class="trn">Device</th>
         <th class="trn">Date</th>
         <th class="trn">Started</th>
@@ -229,8 +229,9 @@ function renderTableEventHistoryDetails(data) {
   $thead.html(
     `
       <tr>
-        <th class="trn">Name</th>
+        <th class="trn">Name of Guard</th>
         <th class="trn">Point ID</th>
+        <th class="trn">Name of Point</th>
         <th class="trn">Status</th>
         <th class="trn">Datetime</th>
         <th class="trn">KindCheck</th>
@@ -244,6 +245,7 @@ function renderTableEventHistoryDetails(data) {
         <tr>
           <td>${detail.sGuardName}</td>
           <td>${detail.iPointID}</td>
+          <td>${detail.sPointName}</td>
           <td>${detail.sStatus}</td>
           <td>${detail.dDateTimeHistory}</td>
           <td>${detail.KindCheck}</td>

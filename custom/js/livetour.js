@@ -114,7 +114,7 @@ function renderEventHistoryTable(data) {
         <th class="trn">Start</th>
         <th class="trn">Finish</th>
         <th class="trn">Timing (min)</th>
-        <th class="trn">Missed CheckPoint Name</th>
+        <th class="trn ">Missed CheckPoint Name</th>
         <th class="trn">Distance (km)</th>
         <th class="trn"></th>
       </tr>
@@ -134,7 +134,7 @@ function renderEventHistoryTable(data) {
           <td>${dDateTimeStart}</td>
           <td>${dDateTimeEnd}</td>
           <td>${iTimeComplete}</td>
-          <td>${MissedCheckPointName}</td>
+          <td class="text-left">${MissedCheckPointName}</td>
           <td>${dDistance}</td>
           <td>
             <div class="btn-group">

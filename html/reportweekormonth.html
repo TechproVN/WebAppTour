@@ -76,17 +76,33 @@
               <div class="dropdown-menu">
                   <div class="dropdown-submenu">
                       <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="trn">Report</span>
+                        <span class="trn">Patrolling Results</span>
                       </a>
-                      <!-- <a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Something else here</a> -->
                       <div class="dropdown-menu">
-                        <a class="dropdown-item" href="reportdaily.html">Daily  Report</a>
-                        <a class="dropdown-item" href="reportweekormonth.html">Weekly & Monthly Report</a>
-                        <a class="dropdown-item" href="reportyear.html">Yearly Report</a>
+                        <a class="dropdown-item" href="reportdaily.html">Daily Report</a>
+                        <a class="dropdown-item" href="reportweekormonth.html">Partrolling & Incident Report</a>
+                        <a class="dropdown-item" href="reportpatrolling.html">Weekly, Monthly, Yearly Report</a>
+                        <a class="dropdown-item" href="historytour.html">Patrolling history</a>
                       </div>
                   </div>
-                <a class="dropdown-item trn" href="violationReports.html">Incident Report</a>
-                <a class="dropdown-item trn" href="reportAttendance.html">Attendance Report</a>
+                  <div class="dropdown-submenu">
+                      <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="trn">Incident</span>
+                      </a>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="reportincident.html">Incident Report</a>
+                        <a class="dropdown-item" href="historyincident.html">Incident History</a>
+                      </div>
+                  </div>
+                  <div class="dropdown-submenu">
+                      <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="trn">Attendance</span>
+                      </a>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="reportAttendance.html">Attendance Report</a>
+                        <a class="dropdown-item" href="historyattendance.html">Attendance History</a>
+                      </div>
+                  </div>
                 
                 <!--<a class="dropdown-item trn" href="reports.html">Reports</a>
                 <a class="dropdown-item trn" href="reportTour.html">Daily Patrolling Results</a>
@@ -100,15 +116,15 @@
                 <span class="trn">Settings</span>
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item trn" href="points.html">Create Check Points</a>
-                <a class="dropdown-item trn" href="group.html">Create Group-guard</a>
-                <a class="dropdown-item trn" href="guard.html">Security Guard Profile</a>
-                <a class="dropdown-item trn" href="zone.html">Create Zone</a>
-                <a class="dropdown-item trn" href="route.html">Create Route</a>
-                <a class="dropdown-item trn" href="schedule.html">Create Schedule</a>
-                <a class="dropdown-item trn" href="defineAssets.html">Create Asset</a>
-                <a class="dropdown-item trn" href="device.html">Create Device</a>
-                <a class="dropdown-item trn" href="defineIncident.html">Define Incidents</a>
+                <a class="dropdown-item trn" href="managepoint.html">Create Check Points</a>
+                <a class="dropdown-item trn" href="managegroup.html">Create Group-guard</a>
+                <a class="dropdown-item trn" href="manageguard.html">Security Guard Profile</a>
+                <a class="dropdown-item trn" href="managezone.html">Create Zone</a>
+                <a class="dropdown-item trn" href="manageroute.html">Create Route</a>
+                <a class="dropdown-item trn" href="manageschedule.html">Create Schedule</a>
+                <a class="dropdown-item trn" href="manageasset.html">Create Asset</a>
+                <a class="dropdown-item trn" href="managedevice.html">Create Device</a>
+                <a class="dropdown-item trn" href="manageincident.html">Define Incidents</a>
               </div>
             </li>
           </ul>
@@ -122,9 +138,7 @@
   <!-- navbar end -->
 
   <div class="container-fluid">
-
       <div class="row my-3 row-custom">
-
         <div class="col-lg-2 mb-4">
             <!-- card filter start -->
             <div class="card card filter">
@@ -133,7 +147,8 @@
                   <i class="fa fa-filter"></i> <span class="trn">Search</span>
                 </h4>
               </div>
-              <div class="card-body custom-card-body">
+            </div>
+            <div class="card-body custom-card-body">
                 <div class="row mt-3">
                   <div class="col-12">
                     <label for="" class="trn">by Route</label><br>
@@ -178,7 +193,7 @@
                     <div class="col-12">
                       <label for="" class="trn">by Year</label>
                       <div class="input-group">
-                        <select name="" id="reporYear" class="form-control form-control-sm selectWeek"></select>
+                        <select name="" id="reportYear" class="form-control form-control-sm selectYear"></select>
                         <div class="input-group-append">
                           <div class="btn-group">
                             <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
@@ -193,10 +208,9 @@
                 </div>
             </div>
             <!-- card filter end -->
-        </div>
-      </div>
+          </div>
     
-        <div class="col-lg-10">
+      <div class="col-lg-10">
           <!-- card Points start -->
           <div class="card card-tourReport">
             <div class="card-header bg-main-color custom-card-header">
@@ -224,10 +238,7 @@
             </div>
           </div>
           <!-- card Points end -->
-        </div>
-
       </div>
-
       <div class="row">
         <div class="col-12">
           <div class="modal fade" id="modalChartReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -253,7 +264,6 @@
           </div>
         </div>
       </div>
-    
   </div>
   
   <!-- JQuery core -->

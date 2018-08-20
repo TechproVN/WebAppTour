@@ -2,6 +2,7 @@ const APP_DOMAIN = 'http://115.79.27.219/tracking/';
 const CENTER_POS_MAP_VIEW = [20.81715284, 106.77411238];
 const TIME_OUT_SHOW_MAP_ON_MODAL = 0;
 const arrMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const arrYears = ['2018', '2019', '2020', '2021', '2022'];
 
 $('.datepicker').datepicker();
 
@@ -110,6 +111,14 @@ function showMonthsSelect(){
   $select.html('');
   for(let i = 1; i <= 12; i++){
     $select.append(`<option value="${i}">${arrMonths[i - 1]}</option>`);
+  }
+}
+
+function showYearsSelect(){
+  let $select = $('.selectYear');
+  $select.html('');
+  for(let i = 1; i <= 5; i++){
+    $select.append(`<option value="${i + 2017}">${arrYears[i - 1]}</option>`);
   }
 }
 

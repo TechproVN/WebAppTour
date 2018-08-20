@@ -43,67 +43,96 @@
         </button>
   
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="mainView.html">
-                <i class="fa fa-home icon-navbar"></i>
-                <span class="trn">Main View</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="tours.html">
-                <i class="fa fa-street-view icon-navbar"></i>
-                <span class="trn">Tours</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="incidents.html">
-                <i class="fa fa-exclamation-triangle icon-navbar"></i>
-                <span class="trn">Incidents</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="assets.html">
-                <i class="fa fa-briefcase icon-navbar"></i>
-                <span class="trn">Assets</span>
-              </a>
-            </li>
-            <li class="nav-item dropdown active-menu-item">
-              <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-area-chart icon-navbar"></i>
-                <span class="trn">Reports</span>
-              </a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item trn" href="reports.html">Reports</a>
-                <a href="reportTour.html" class="dropdown-item trn">Daily Patrolling Results</a>
-                <a class="dropdown-item trn" href="violationReports.html">Violation Reports</a>
-                <a class="dropdown-item trn" href="security.html">Security</a>
-                <a class="dropdown-item trn" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a><a class="dropdown-item trn" href="reportAttendance.html">Report Attendance</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-cog icon-navbar"></i>
-                <span class="trn">Settings</span>
-              </a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item trn" href="points.html">Create Check Points</a>
-                <a class="dropdown-item trn" href="group.html">Create Group-guard</a>
-                <a class="dropdown-item trn" href="guard.html">Security Guard Profile</a>
-                <a class="dropdown-item trn" href="zone.html">Create Zone</a>
-                <a class="dropdown-item trn" href="route.html">Create Route</a>
-                <a class="dropdown-item trn" href="schedule.html">Create Schedule</a>
-                <a class="dropdown-item trn" href="defineAssets.html">Create Asset</a>
-                <a class="dropdown-item trn" href="device.html">Create Device</a>
-                <a class="dropdown-item trn" href="defineIncident.html">Define Incidents</a>
-              </div>
-            </li>
-          </ul>
-          <ul class="navbar-nav">
-            <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
-  
-          </ul>
-        </div>
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active-menu-item">
+                <a class="nav-link" href="mainView.html">
+                  <i class="fa fa-home icon-navbar"></i>
+                  <span class="trn">Main View</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="livetour.html">
+                  <i class="fa fa-street-view icon-navbar"></i>
+                  <span class="trn">Live Tour</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="liveincident.html">
+                  <i class="fa fa-exclamation-triangle icon-navbar"></i>
+                  <span class="trn">Live Incident</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="liveattendance.html">
+                    <i class="fa fa-exclamation-triangle icon-navbar"></i>
+                    <span class="trn">Live Attendance</span>
+                  </a>
+                </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-area-chart icon-navbar"></i>
+                  <span class="trn">Reports</span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="trn">Patrolling Results</span>
+                        </a>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="reportdaily.html">Daily Report</a>
+                          <a class="dropdown-item" href="reportweekormonth.html">Partrolling & Incident Report</a>
+                          <a class="dropdown-item" href="reportpatrolling.html">Weekly, Monthly, Yearly Report</a>
+                          <a class="dropdown-item" href="historytour.html">Patrolling history</a>
+                        </div>
+                    </div>
+                    <div class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="trn">Incident</span>
+                        </a>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="reportincident.html">Incident Report</a>
+                          <a class="dropdown-item" href="historyincident.html">Incident History</a>
+                        </div>
+                    </div>
+                    <div class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="trn">Attendance</span>
+                        </a>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="reportAttendance.html">Attendance Report</a>
+                          <a class="dropdown-item" href="historyattendance.html">Attendance History</a>
+                        </div>
+                    </div>
+                  
+                  <!--<a class="dropdown-item trn" href="reports.html">Reports</a>
+                  <a class="dropdown-item trn" href="reportTour.html">Daily Patrolling Results</a>
+                  <a class="dropdown-item trn" href="security.html">Security</a>
+                  <a class="dropdown-item trn" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a>-->
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-cog icon-navbar"></i>
+                  <span class="trn">Settings</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item trn" href="managepoint.html">Create Check Points</a>
+                  <a class="dropdown-item trn" href="managegroup.html">Create Group-guard</a>
+                  <a class="dropdown-item trn" href="manageguard.html">Security Guard Profile</a>
+                  <a class="dropdown-item trn" href="managezone.html">Create Zone</a>
+                  <a class="dropdown-item trn" href="manageroute.html">Create Route</a>
+                  <a class="dropdown-item trn" href="manageschedule.html">Create Schedule</a>
+                  <a class="dropdown-item trn" href="manageasset.html">Create Asset</a>
+                  <a class="dropdown-item trn" href="managedevice.html">Create Device</a>
+                  <a class="dropdown-item trn" href="manageincident.html">Define Incidents</a>
+                </div>
+              </li>
+            </ul>
+            <ul class="navbar-nav">
+              <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
+    
+            </ul>
+          </div>
       </div>
     </nav>
   <!-- navbar end -->
@@ -112,7 +141,7 @@
 
     <div class="row my-3 row-custom">
       <!-- guard action card start -->
-      <div class="col-12">
+      <div class="col-lg-3 mb-4">
         <!-- card filter start -->
         <div class="card card-action">
           <div class="card-header bg-main-color custom-card-header">
@@ -122,40 +151,61 @@
           </div>
           <div class="card-body custom-card-body">
             <div class="row mt-3">
-              <div class="col-md-4">
+              <div class="col-12">
                 <label for="" class="trn">by Route</label>
                 <select id="selectRouteNameReportSecurity" class="selectRouteName form-control">
                   <!-- option content guard name -->
                 </select>
               </div>
-              <div class="col-md-4">
+            </div>  
+            <div class="row my-4">
+                <div class="col-12">
+                  <label for="" class="trn">by Year</label>
+                  <div class="input-group">
+                    <select id="reportYear" class="form-control selectYear"></select>
+                    <div class="input-group-append">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                            <div class="dropdown-menu" style="padding-right: 10px">
+                              <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewYearlyPatrorllingReport">View</button>
+                              <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartYearlyPatrollingReport">Chart</button>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <div class="row my-4">
+              <div class="col-12">
                 <label for="" class="trn">by Month</label>
                 <div class="input-group">
-                  <div class="input-group-append">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                        <div class="dropdown-menu" style="padding-right: 10px">
-                          <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewMonthlyPatrorllingReport">View</button>
-                          <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartMonthlyPatrollingReport">Chart</button>
-                        </div>
-                    </div>
-                  </div>
                   <select id="reportMonth" class="form-control selectMonth"></select>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <label for="" class="trn">by Week</label>
-                <div class="input-group">
                   <div class="input-group-append">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                      <div class="dropdown-menu" style="padding-right: 10px">
-                        <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewWeeklyPatrorllingReport">View</button>
-                        <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartWeeklyPatrorllingReport">Chart</button>
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                          <div class="dropdown-menu" style="padding-right: 10px">
+                            <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewMonthlyPatrorllingReport">View</button>
+                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartMonthlyPatrollingReport">Chart</button>
+                          </div>
                       </div>
                     </div>
-                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row my-4">
+              <div class="col-12">
+                <label for="" class="trn">by Week</label>
+                <div class="input-group">
                   <select id="reportWeek" class="form-control selectWeek"></select>
+                  <div class="input-group-append">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                        <div class="dropdown-menu" style="padding-right: 10px">
+                          <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewWeeklyPatrorllingReport">View</button>
+                          <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartWeeklyPatrorllingReport">Chart</button>
+                        </div>
+                      </div>
+                    </div>
                 </div>
               </div>
             </div>
@@ -163,11 +213,7 @@
         </div>
         <!-- guard action card end -->
       </div>
-
-    </div>
-
-    <div class="row my-3">
-      <div class="col-12">
+      <div class="col-9">
           <!-- card violationMin start -->
           <div class="card card-securityReport">
             <div class="card-header bg-main-color custom-card-header">

@@ -19,6 +19,7 @@ $(async() => {
   else arrGuardList = [];
   showMonthsSelect();
   showWeeksSelect();
+  showYearsSelect();
   showRouteList(true);
   setDefaultLoading();
   // showSecurityReportByDefault();
@@ -38,9 +39,16 @@ async function showSecurityReport(type){
   if(type.toLowerCase() == 'week'){
     let week = $('#reportWeek').val();
     sentData.iWeek = week;
-  }else{
+  }
+  else if(type.toLowerCase() == 'month')
+  {
     let month = $('#reportMonth').val();
     sentData.iMonth = month;
+  }
+  else if(type.toLowerCase() == 'year')
+  {
+    let year = $('#reportYear').val();
+    sentData.iYear = year;
   }
   console.log(sentData);
   let data = await Service.getReportPerformanceChart(sentData);

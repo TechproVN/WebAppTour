@@ -58,9 +58,11 @@ function showInsertRouteModal(){
 }
 
 $('#txtInsertSpeed').keyup(e => showMinTime(e, true));
-$('#txtInsertCompletionTime').keyup(e => showTourExecute(e, true));
+//$('#txtInsertCompletionTime').keyup(e => showTourExecute(e, true));
 $('#txtUpdateSpeed').keyup(e => showMinTime(e, false));
-$('#txtUpdateCompletionTime').keyup(e => showTourExecute(e, false));
+//$('#txtUpdateCompletionTime').keyup(e => showTourExecute(e, false));
+$('#txtInsertBreakTime').keyup(e => showTourInsertExecute(e, false));
+$('#txtUpdateBreakTime').keyup(e => showTourUpdateExecute(e, false));
 
 function showMinTime(e, insert){
   let val = e.target.value;
@@ -75,14 +77,35 @@ function showMinTime(e, insert){
   txtMinTime.val(minTime);
 }
 
-function showTourExecute(e){
+function showTourInsertExecute(e){
   let val = e.target.value;
   let txtTourEx = $('.tourExecute');
-  //let txtbrTime = $('.breakTime');
+  let maxTime = $('#txtInsertCompletionTime').val();
+  console.log(maxTime);
   if(!Validation.checkPositiveNumber(val)) return txtTourEx.val('');
-  let tourEx = 1440/Number(val);
+  let tourEx = 1440/(Number(val) + Number(maxTime));
   txtTourEx.val(tourEx);
 }
+
+function showTourUpdateExecute(e){
+  let val = e.target.value;
+  let txtTourEx = $('.tourExecute');
+  let maxTime = $('#txtUpdateCompletionTime').val();
+  console.log(maxTime);
+  if(!Validation.checkPositiveNumber(val)) return txtTourEx.val('');
+  let tourEx = 1440/(Number(val) + Number(maxTime));
+  txtTourEx.val(tourEx);
+}
+
+//function showTourExecute(e){
+  //let val = e.target.value;
+  //let txtTourEx = $('.tourExecute');
+  //let txtbrTime = $('.breakTime').value;
+  //console.log(txtbrTime);
+  //if(!Validation.checkPositiveNumber(val)) return txtTourEx.val('');
+  //let tourEx = 1440/(Number(val) + Number(txtbrTime));
+  //txtTourEx.val(tourEx);
+//}
 
 // routeMap
 function buildRouteMap(){
@@ -309,6 +332,7 @@ async function saveRoute(){
   let maxTime = $('#txtInsertCompletionTime').val();
   let tourEx = $('#txtInsertTourExecute').val();
   let iDeviceID = $('#selectInsertRouteDevice').val();
+  let iBreakTime = $('#txtInsertBreakTime').val();
   if(!validateRouteData(routeName, speed, minTime, maxTime, tourEx)) 
   return $('#modalInsertRoute').modal('show'); 
   let arr_1 = arrSelectedPointsOnRoute.map((p, index) => {
@@ -322,7 +346,7 @@ async function saveRoute(){
     arrPoints = arr_2;
   }
   let iZoneID = $('#selectRouteZone').val();
-  let sentData = { iRouteID: 0, sRouteName: routeName, bStatusIN: 1, Point: arrPoints, iZoneID, iTimeComplete: maxTime, dDistance: currentTotalDistance, iMinTime: minTime, iTourExecute: tourEx, iDeviceID, iSpeed: speed};
+  let sentData = { iRouteID: 0, sRouteName: routeName, iBreakTime, bStatusIN: 1, Point: arrPoints, iZoneID, iTimeComplete: maxTime, dDistance: currentTotalDistance, iMinTime: minTime, iTourExecute: tourEx, iDeviceID, iSpeed: speed};
   console.log(JSON.stringify(sentData));
   let response = await Service.saveRoute(sentData);
   console.log(response);
@@ -373,7 +397,7 @@ async function deleteRoute(route){
   let sure = await showAlertWarning("Are you sure", "");
   if(sure){
     const { iRouteID } = route;
-    let sentData = { iRouteID: iRouteID, bStatusIN: 3, sRouteName: 0, Point: null, iZoneID: 0, iTimeComplete: 0, dDistance: 0, iMinTime: 0, iTourExecute: 0, iDeviceID:0, iSpeed:0};
+    let sentData = { iRouteID: iRouteID, iBreakTime: 0, bStatusIN: 3, sRouteName: 0, Point: null, iZoneID: 0, iTimeComplete: 0, dDistance: 0, iMinTime: 0, iTourExecute: 0, iDeviceID:0, iSpeed:0};
     //let sentData = { RouteID: 0, RouteName: routeName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete: maxTime, Distance: currentTotalDistance, MinTime: minTime, TourExecute: tourEx, iDeviceID};
     //console.log(JSON.stringify(sentData));
     console.log(sentData);
@@ -431,6 +455,7 @@ function renderTableRoutes(routes){
         <th class="trn">Speed</th>
         <th class="trn">Min time</th>
         <th class="trn">Max time</th>
+        <th class="trn">Break time</th>
         <th class="trn">Tour execute</th>
         <th class="trn">Updated</th>
         <th class="trn"></th>
@@ -439,7 +464,7 @@ function renderTableRoutes(routes){
   )
   if (routes) {
     routes.forEach((route, index) => {
-      const { sDeviceName, dDateTimeUpdate, dDistance, iSpeed, iTimeComplete, sRouteName, sZoneName, iMinTime, iTourExecute} = route;
+      const { sDeviceName, dDateTimeUpdate, dDistance, iSpeed, iTimeComplete, sRouteName, sZoneName, iMinTime, iTourExecute, iBreakTime} = route;
       $tbody.append(`
         <tr>
           <td>${index + 1}</td>
@@ -450,6 +475,7 @@ function renderTableRoutes(routes){
           <td>${iSpeed} km/h</td>
           <td>${iMinTime} min</td>
           <td>${iTimeComplete} min</td>
+          <td>${iBreakTime}</td>
           <td>${iTourExecute}</td>
           <td>${dDateTimeUpdate}</td>
           <td>
@@ -491,7 +517,7 @@ async function showRouteViewMapModal(route){
 
 function showUpdateRouteGuardModal(route){
   currentUpdateRoute = Object.assign({}, route);
-  const { bActive, dDateTimeUpdate, dDistance, iGuardID, iRouteID, iMinTime, iTimeComplete, iTourExecute, iZoneID, sRouteName, sZoneName, sGuardName, iSpeed, iDeviceID
+  const { bActive, iBreakTime, dDateTimeUpdate, dDistance, iGuardID, iRouteID, iMinTime, iTimeComplete, iTourExecute, iZoneID, sRouteName, sZoneName, sGuardName, iSpeed, iDeviceID
   } = route;
   $('#routeUpdateInfo').text(`Route - ${sRouteName} on zone ${sZoneName}`)
   $('#txtUpdateRouteName').val(sRouteName);
@@ -499,6 +525,7 @@ function showUpdateRouteGuardModal(route){
   $('#txtUpdateSpeed').val(iSpeed);
   $('#txtUpdateMinTime').val(iMinTime);
   $('#txtUpdateCompletionTime').val(iTimeComplete);
+  $('#txtUpdateBreakTime').val(iBreakTime);
   $('#txtUpdateTourExecute').val(iTourExecute);
   $('#selectUpdateRouteDevice').val(iDeviceID);
   $('#modalUpdateRouteGuard').modal('show');
@@ -521,8 +548,9 @@ async function updateRoute(){
   let iSpeed = $('#txtUpdateSpeed').val();
   let sRouteName = $('#txtUpdateRouteName').val();
   let iTourExecute =  $('#txtUpdateTourExecute').val();
+  let iBreakTime =  $('#txtUpdateBreakTime').val();
   if(!validateRouteData(sRouteName, iSpeed, iMinTime, iTimeComplete, iTourExecute)) return;
-  let sentData = { iDeviceID, iRouteID, iSpeed, iTimeComplete, sRouteName, dDistance: 0, iMinTime, iTourExecute, iZoneID: 0, Point: null, bStatusIN: 2};
+  let sentData = { iDeviceID, iBreakTime, iRouteID, iSpeed, iTimeComplete, sRouteName, dDistance: 0, iMinTime, iTourExecute, iZoneID: 0, Point: null, iBreakTime, bStatusIN: 2};
   //let sentData = { RouteID: 0, RouteName: routeName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete: maxTime, Distance: currentTotalDistance, MinTime: minTime, TourExecute: tourEx, iDeviceID};
   console.log(JSON.stringify(sentData));
   let response = await Service.updateRouteDetail(sentData);
