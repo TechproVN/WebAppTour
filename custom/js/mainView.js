@@ -174,7 +174,9 @@ function renderGuardTable(data) {
       }else if(bOnline == 'Online') {
         icon = '<i class="fa fa-circle green-text" aria-hidden="true"></i>';
         className = 'green-text';
+        if(Number(dSpeedCurrent) < 3) className = `orange-text`
       }
+      
       $tbody.append(`
         <tr>
           <td class="trn">

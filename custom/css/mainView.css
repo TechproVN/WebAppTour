@@ -17,6 +17,10 @@
 .red-text *{
   font-weight: bold!important;
 }
+.orange-text{
+  font-weight: bold!important;
+  color: orange!important;
+}
 .guard-map{
   height: 75vh!important;
   width: 100%!important;

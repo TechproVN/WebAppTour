@@ -63,16 +63,18 @@ function buildChartPatrollingPerformance(id = 'chartPatrollingPerformance'){
         datasets: [{
             label: 'Performance',
             data: currentDataChartPatrollingPerformance,
-            backgroundColor: [
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
+            // backgroundColor: [
+            //     'rgba(75, 192, 192, 0.2)',
+            //     'rgba(153, 102, 255, 0.2)',
+            //     'rgba(255, 159, 64, 0.2)'
+            // ],
+            // borderColor: [
+            //     'rgba(75, 192, 192, 1)',
+            //     'rgba(153, 102, 255, 1)',
+            //     'rgba(255, 159, 64, 1)'
+            // ],
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            borderColor: 'rgba(153, 102, 255, 1)',
             borderWidth: 1
         }]
     },
@@ -136,9 +138,19 @@ function buildChartTimePerformance(id = 'chartTimePerformance'){
         }]
     },
     options:{
+      // showAllTooltips: true,
       title: {
         display: true,
         text: 'Time Performance'
+      },
+      legend: {
+        display: false
+      },
+      pieceLabel: {
+        render: 'percentage',
+        fontColor: 'green',
+        fontSize: 20,
+        precision: 2
       },
       hover: {
         mode: 'nearest',

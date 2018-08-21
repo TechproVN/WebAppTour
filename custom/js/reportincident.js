@@ -20,8 +20,6 @@ $(() => {
   
 })
 
-const arrColors = [ '#8d6e63', '#616161', '#78909c', '#ffb74d', '#66bb6a', '#80d8ff', '#00acc1', '#5c6bc0', '#f48fb1', '#e1bee7', 'red', 'green', 'blue','orange','violet', 'yellow', 'pink', 'purple', 'cyan', 'teal', 'lime', 'ambe' ];
-
 let arrIncidents = [];
 let arrRows = [];
 
@@ -64,7 +62,7 @@ function buildReportIncidentWeekOrMonthChart(currentData, title){
   $('#modalChartIncidentReport').find('.modal-body').html($chartCanvas);
   let ctx = $chartCanvas[0].getContext('2d');
   let labels = getChartLabelsIncidentReport(currentData);
-  let data = getChartDataSetIncidentWeekOrMonth(currentData);
+  let chartData = getChartDataSetIncidentWeekOrMonth(currentData);
   //console.log(currentData);
   //console.log(data);
   let colors = getColors(currentData.length);
@@ -74,19 +72,30 @@ function buildReportIncidentWeekOrMonthChart(currentData, title){
         labels: labels,
         datasets: [{
             label: 'Something of Votes',
-            data: data,
+            data: chartData,
             backgroundColor: colors,
             // borderColor: [],
             borderWidth: 1
         }]
     },
     options:{
+      showAllTooltips: false,
       title: {
         display: true,
-        text: title
+        text: title,
+        fontSize: 20
+      },
+      tooltips: {
+        yAlign: 'bottom',
+      },
+      pieceLabel: {
+        render: 'percentage',
+        fontColor: 'white',
+        fontSize: 15,
+        precision: 1
       },
       hover: {
-        mode: 'nearest',
+        mode: 'average',
         intersect: true
       },
     }

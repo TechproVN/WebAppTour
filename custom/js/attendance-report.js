@@ -162,6 +162,10 @@ function buildChartWorkingTimeVsIdlingTime(chartData, type){
       scales: {
         xAxes: [{
           stacked: true,
+          barPercentage: 0.5,
+          ticks: {
+            fontSize: 15
+          }
         }],
         yAxes: [{
           stacked: true
@@ -169,7 +173,8 @@ function buildChartWorkingTimeVsIdlingTime(chartData, type){
       },
       title: {
         display: true,
-        text: 'Working Time Vs Idling Time'
+        text: 'Working Time Vs Idling Time',
+        fontSize: 25
       },
     },
   });
