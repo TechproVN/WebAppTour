@@ -162,9 +162,10 @@ function buildChartWorkingTimeVsIdlingTime(chartData, type){
       scales: {
         xAxes: [{
           stacked: true,
+          barPercentage: 0.4
         }],
         yAxes: [{
-          stacked: true
+          stacked: true,
         }]
       },
       title: {
