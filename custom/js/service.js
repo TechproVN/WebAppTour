@@ -737,5 +737,30 @@ class Service {
     return null;
   }
 
-  // http://115.79.27.219/tracking/api/GetTourDetail.php
+  // http://115.79.27.219/tracking/api/Report/ReportWorkingvsIdlingTime
+  static async getReportWorkingvsIdlingTimeGuardData(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/Report/ReportWorkingvsIdlingTimeGuard.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    if(!data) return null;
+    let parsedData = JSON.parse(data);
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async getReportWorkingvsIdlingTimeDeviceData(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/Report/ReportWorkingvsIdlingTimeDevice.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    if(!data) return null;
+    let parsedData = JSON.parse(data);
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
 }

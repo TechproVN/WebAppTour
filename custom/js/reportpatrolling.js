@@ -295,20 +295,20 @@ function buildChartWorkingTimeVsIdlingTime(){
     type: 'bar',
     data: {
       labels: arrLabelsChartWorkingTimeVsIdlingTime,
-      datasets: [{
-        label: 'Idling Time',
-        data: arrDataChartWorkingTimeVsIdlingTime.map(arr => arr[0]),
-        backgroundColor: arrBgColor1,
-        borderColor: arrBorderColor1,
-        borderWidth: 1
-      },
-      {
-        label: 'Working Time',
-        data: arrDataChartWorkingTimeVsIdlingTime.map(arr => arr[1]),
-        backgroundColor: arrBgColor2,
-        borderColor: arrBorderColor2,
-        borderWidth: 1
-      }
+      datasets: [
+        {
+          label: 'Working Time',
+          data: arrDataChartWorkingTimeVsIdlingTime.map(arr => arr[1]),
+          backgroundColor: arrBgColor2,
+          borderColor: arrBorderColor2,
+          borderWidth: 1
+        },{
+          label: 'Idling Time',
+          data: arrDataChartWorkingTimeVsIdlingTime.map(arr => arr[0]),
+          backgroundColor: arrBgColor1,
+          borderColor: arrBorderColor1,
+          borderWidth: 1
+        }
     ],
     },  
     options:{

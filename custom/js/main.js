@@ -162,15 +162,16 @@ async function showDeviceList(){
   return devices;
 }
 
-async function showGuardList(){
+async function showGuardList(withAll){
   let guards = await Service.getGuardsData();
-  $('.selectGuardName').html('');
-  if(guards){
-    guards.forEach(guard => {
-      const { iGuardId, sGuardName } = guard;
-      $('.selectGuardName').append(`<option value="${iGuardId}">${sGuardName}</option>`)
-    });
-  }
+  let $selectGuard = $('.selectGuardName')
+  $selectGuard.html('');
+  if(!guards) return;
+  if(withAll) $selectGuard.append(`<option value="0">All</option>`)
+  guards.forEach(guard => {
+    const { iGuardId, sGuardName } = guard;
+    $selectGuard.append(`<option value="${iGuardId}">${sGuardName}</option>`)
+  });
   return guards;
 }
 
