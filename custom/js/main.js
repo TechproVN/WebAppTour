@@ -96,13 +96,15 @@ function moveTop(){
   $('html, body').animate({'scrollTop': 0}, 300);
 }
 
-async function showSelectDevices(){
+async function showSelectDevices(withAll){
   let devices = await Service.getDevicelist();
-  let select = $('.selectDevice');
-  select.html('');
+  let $select = $('.selectDevice');
+  $select.html('');
+  if(!devices) return;
+  if(withAll) $select.append(`<option value="0">All</option>`);
   devices.forEach(device => {
     const { sDeviceName, iDeviceID } = device;
-    select.append(`<option value="${iDeviceID}">${sDeviceName}</option>`);
+    $select.append(`<option value="${iDeviceID}">${sDeviceName}</option>`);
   })
 }
 
@@ -463,4 +465,25 @@ function weekOfYear(date){
   d.setDate(d.getDate()+4-(d.getDay()||7));
   return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
 };
+
+function getColorVsBgColor(length){
+  let arrBgColor1 = [];
+  let arrBorderColor1 = [];
+  let arrBgColor2 = [];
+  let arrBorderColor2 = [];
+
+  let bgColor1 = 'rgba(255, 99, 132, 0.2)';
+  let borderColor1 = 'rgba(255,99,132,1)';
+  let bgColor2 = 'rgba(255, 159, 64, 0.2)';
+  let borderColor2 = 'rgba(255, 159, 64, 1)';
+
+  for(let i = 0; i < length; i++){
+    arrBgColor1.push(bgColor1);
+    arrBorderColor1.push(borderColor1);
+    arrBgColor2.push(bgColor2);
+    arrBorderColor2.push(borderColor2);
+  }
+
+  return { arrBgColor1, arrBorderColor1, arrBgColor2, arrBorderColor2 };
+}
 
