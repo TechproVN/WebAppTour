@@ -128,12 +128,12 @@ function buildLineChart(chartData, type){
 
 function getLabelsChart(chartData, type){
   if(type.toLowerCase() == 'week') return chartData.map(item => item.sDay);
-  if(type.toLowerCase() == 'month') return chartData.map(item => item.iWeek);
-  return chartData.map(item => item.iMonth);
+  if(type.toLowerCase() == 'month') return chartData.map(item => `Week ${item.iWeek}`);
+  return chartData.map(item => arrMonths[Number(item.iMonth) - 1]);
 }
 
 function buildChartWorkingTimeVsIdlingTime(chartData, type){
-  let $chartCanvas = $('<canvas style="width: 100%" height="350" id=""></canvas>');
+  let $chartCanvas = $('<canvas style="width: 100%" height="400" id=""></canvas>');
   $('#chart').html($chartCanvas);
   let ctx = $chartCanvas[0].getContext('2d');
   let length = chartData.length;
