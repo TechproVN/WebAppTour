@@ -20,8 +20,18 @@ $('.btnScrollTop').click(moveTop);
 $('.dropdown-submenu .dropdown-toggle').on("click", function(e) {
   e.stopPropagation();
   e.preventDefault();
+  $(this).parent().siblings().children('.dropdown-menu').css({
+    display: 'none'
+  });
   $(this).next('.dropdown-menu').toggle();
 });
+
+$('.dropdown').on('hidden.bs.dropdown', function () {
+  $('.dropdown-submenu .dropdown-menu').css({
+    display:'none'
+  })
+})
+
 
 function formatToday() {
   let now = new Date();

@@ -134,7 +134,7 @@ function getLabelsChart(chartData, type){
 }
 
 function buildChartWorkingTimeVsIdlingTime(chartData, type){
-  let $chartCanvas = $('<canvas style="width: 100%" height="400" id=""></canvas>');
+  let $chartCanvas = $('<canvas style="width: 100%; height:70vh" class="canvas-reponsive"></canvas>');
   $('#chart').html($chartCanvas);
   let ctx = $chartCanvas[0].getContext('2d');
   let length = chartData.length;
@@ -219,48 +219,68 @@ function getColorVsBgColor(length){
   return { arrBgColor1, arrBorderColor1, arrBgColor2, arrBorderColor2 };
 }
 
-// async function showAttendanceReportTable(type){
-//   let iGuardID = $('#selectGuard').val();
-//   let sentData = {iGuardID, iKindSearch: 0, iValue: 2018 };
-//   if (type.toLowerCase() == 'week'){
-//     sentData.iValue = $('#reportWeek').val();
-//     sentData.iKindSearch = 1;
-//   }
-//   else if(type.toLowerCase() == 'month') {
-//     sentData.iValue = $('#reportMonth').val();
-//     sentData.iKindSearch = 2;
-//   }
-//   else if (type.toLowerCase() == 'year'){
-//     sentData.iValue = $('#reportYear').val();
-//     sentData.iKindSearch = 3;
-//   }
-//   console.log(sentData);
-//   let data = await Service.getReportWorkingvsIdlingTimeGuardData(sentData);
-//   console.log(data);
-//   // $('.headerTblReportTour').text('');
-//   // if(data) showReportPagination(data);
-//   // else{
-//   //   resetTblTourReport();
-//   //   showAlertError("No data avilable", "", 3000);
-//   // }
-//   // setDefaultLang();
-// }
+async function showAttendanceReportTable(type){
+  // let iGuardID = $('#selectGuard').val();
+  // let sentData = {iGuardID, iKindSearch: 0, iValue: 2018 };
+  // if (type.toLowerCase() == 'week'){
+  //   sentData.iValue = $('#reportWeek').val();
+  //   sentData.iKindSearch = 1;
+  // }
+  // else if(type.toLowerCase() == 'month') {
+  //   sentData.iValue = $('#reportMonth').val();
+  //   sentData.iKindSearch = 2;
+  // }
+  // else if (type.toLowerCase() == 'year'){
+  //   sentData.iValue = $('#reportYear').val();
+  //   sentData.iKindSearch = 3;
+  // }
+  // console.log(sentData);
+  // let data = await Service.getReportWorkingvsIdlingTimeGuardData(sentData);
+  // console.log(data);
+  // $('.headerTblReportTour').text('');
+  // if(data) showReportPagination(data);
+  // else{
+  //   resetTblTourReport();
+  //   showAlertError("No data avilable", "", 3000);
+  // }
+  // setDefaultLang();
+}
 
-// function showReportPagination(data){
-//   $('#totalTourReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
-//   $('#pagingToursControl').pagination({
-//     dataSource: data,
-//     pageSize: 10,
-//     className: 'paginationjs-theme-green paginationjs-big',
-//     showGoInput: true,
-//     showGoButton: true,
-//     callback: function (data, pagination) {
-//       let $table = renderTourReportTable(data);
-//       $('.card-tourReport .table-responsive').html($table);
-//       setDefaultLang();
-//     }
-//   })
-// }
+function showReportPagination(data){
+  $('#totalTourReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
+  $('#pagingToursControl').pagination({
+    dataSource: data,
+    pageSize: 10,
+    className: 'paginationjs-theme-green paginationjs-big',
+    showGoInput: true,
+    showGoButton: true,
+    callback: function (data, pagination) {
+      let $table = renderTourReportTable(data);
+      $('.card-tourReport .table-responsive').html($table);
+      setDefaultLang();
+    }
+  })
+}
+
+function renderReportTable(data){
+  let $table = $('#tblReport');
+  let $thead = $('<thead></thead>');
+  let $tbody = $('<tbody></tbody>');
+  $thead.append(`
+    <tr>
+      <td></td>
+    </tr>`
+  );
+  data.forEach(item => {
+    const { WorkTimeRequire, dDateCheck, dIdlingPercent, dTotalTimeWorking,  } = 
+    $tbody.append(`
+      <tr>
+        <td></td>
+      </tr>`
+    );
+  })
+  $table.append($thead).append($tbody);
+}
 
 function setDefaultLoading(){
   let d = new Date();
