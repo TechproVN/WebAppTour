@@ -128,7 +128,8 @@ function buildLineChart(chartData, type){
 
 function getLabelsChart(chartData, type){
   if(type.toLowerCase() == 'week') return chartData.map(item => item.sDay);
-  if(type.toLowerCase() == 'month') return chartData.map(item => `Week ${item.iWeek}`);
+  if(type.toLowerCase() == 'month') 
+    return chartData.map(item => `Week ${item.iWeek}`);
   return chartData.map(item => arrMonths[Number(item.iMonth) - 1]);
 }
 
@@ -192,9 +193,9 @@ async function showAttendanceReportChart(type){
   console.log(sentData);
   let data = await Service.getReportWorkingvsIdlingTimeGuardData(sentData);
   console.log(data);
-  if(!data) return showAlertError("No data available!!", "");
-  buildChartWorkingTimeVsIdlingTime(data, type);
-  
+  if(data) return buildChartWorkingTimeVsIdlingTime(data, type);
+  $('#chart').html('');
+  showAlertError("No data available!!", "");
 }
 
 function getColorVsBgColor(length){
