@@ -560,6 +560,84 @@ const dictionary = {
   "Group Name":{
     vn:"Tên nhóm"
   },
+
+
+  "Time per Route (min)":{
+    vn:"Thời gian đi tuần(min)"
+  },
+  "Expected Executed Routes (13hrs)":{
+    vn:"Số lần đi tuần cần thực hiện (13hrs)"
+  },
+  "Actual Executed Routes":{
+    vn:"Số lần đi tuần thực tế"
+  },
+  "Time spent on resolving non-conformities (minutes)":{
+    vn:"Thời gian xử lý các tình huống bất thường (minutes)"
+  },
+  "Missed routes due to resolving non-conformities":{
+    vn:"Số lần tuần tra bị nhỡ do giải quyết sự cố"
+  },
+  "Corrected Executed Routes":{
+    vn:"Số lần đi tuần đã được hiệu chỉnh"
+  },
+  "Performance Routes (%)":{
+    vn:"Hiệu suất đi tuần theo số lần đi tuần (%)"
+  },
+  "Successful routes with correct routing":{
+    vn:"Số lần đi tuần đi đúng thứ tự các điểm tuần tra"
+  },
+  "Performance Timing (%)":{
+    vn:"Hiệu suất đi tuần theo thời gian(%)"
+  },
+  "Successful routes within time schedule":{
+    vn:"Số lần đi tuần trong thời gian cho phép"
+  },
+  "Performance Routing (%)":{
+    vn:"Hiệu suất đi tuần đi đúng các điểm tuần tra (%)"
+  },
+  "Routing Mistakes":{
+    vn:"Lỗi đi tuần"
+  },
+  "Overall performance (%)":{
+    vn:"Hiệu suất chung (%)"
+  },
+  "Number of reports issued":{
+    vn:"Số lượng sự cố được xử lý"
+  },
+  "Actual Patrolling Time (min)":{
+    vn:"Thời gian làm việc (min)"
+  },
+  "Allowed Interval between trip (15x27)":{
+    vn:"Thời gian nghỉ giữa các lần đi tuần cho phép (15x27)"
+  },
+  "Total patroling time in minutes":{
+    vn:"Thời gian đi tuần tính bằng phút"
+  },
+  "Perfomance Time %":{
+    vn:"Hiệu suất thời gian %"
+  },
+  "Total Idling Time (min)":{
+    vn:"Thời gian không làm việc (min)"
+  },
+  "Idling Time in %":{
+    vn:"Thời gian không làm việc %"
+  },
+  "Daily Patrolling Report":{
+    vn:"Báo cáo kết quả công tác tuần tra bảo vệ hằng ngày"
+  },
+  "Criteria":{
+    vn:"Các tiêu chí"
+  },
+  "Cal":{
+    vn:"Tính"
+  },
+  "Patrol Guard Route":{
+    vn:"Tuyến tuần tra"
+  },
+  "No.":{
+    vn:"STT"
+  },
+  
 }
 
 $('#changeLanguage').click(changeLanguage);

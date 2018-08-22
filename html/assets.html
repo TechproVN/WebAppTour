@@ -33,92 +33,103 @@
 <body>
   <!-- navbar start-->
   <nav class="navbar navbar-expand-lg bg-main-color white-text" style="padding-top: 0; padding-bottom: 0">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <i class="fa fa-shield icon-custom" style="color: whitesmoke"></i>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <i class="fa fa-bars icon-custom" style="color: white"></i>
-        </button>
-  
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active-menu-item">
-                <a class="nav-link" href="mainView.html">
-                  <i class="fa fa-home icon-navbar"></i>
-                  <span class="trn">Main View</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="livetour.html">
-                  <i class="fa fa-street-view icon-navbar"></i>
-                  <span class="trn">Live Tour</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="liveincident.html">
-                  <i class="fa fa-exclamation-triangle icon-navbar"></i>
-                  <span class="trn">Live Incident</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="liveattendance.html">
-                    <i class="fa fa-exclamation-triangle icon-navbar"></i>
-                    <span class="trn">Live Attendance</span>
-                  </a>
-                </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa fa-area-chart icon-navbar"></i>
-                  <span class="trn">Reports</span>
-                </a>
-                <div class="dropdown-menu">
-                    <div class="dropdown-submenu">
-                        <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span class="trn">Report</span>
-                        </a>
-                        <!-- <a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Something else here</a> -->
-                        <div class="dropdown-menu">
-                          <a class="dropdown-item" href="reportdaily.html">Daily  Report</a>
-                          <a class="dropdown-item" href="reportweekormonth.html">Weekly & Monthly Report</a>
-                          <a class="dropdown-item" href="reportyear.html">Yearly Report</a>
-                        </div>
-                    </div>
-                  <a class="dropdown-item trn" href="violationReports.html">Incident Report</a>
-                  <a class="dropdown-item trn" href="reportAttendance.html">Attendance Report</a>
-                  
-                  <!--<a class="dropdown-item trn" href="reports.html">Reports</a>
-                  <a class="dropdown-item trn" href="reportTour.html">Daily Patrolling Results</a>
-                  <a class="dropdown-item trn" href="security.html">Security</a>
-                  <a class="dropdown-item trn" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a>-->
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa fa-cog icon-navbar"></i>
-                  <span class="trn">Settings</span>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fa fa-shield icon-custom" style="color: whitesmoke"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa fa-bars icon-custom" style="color: white"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active-menu-item">
+            <a class="nav-link" href="mainView.html">
+              <i class="fa fa-home icon-navbar"></i>
+              <span class="trn">Main View</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="livetour.html">
+              <i class="fa fa-street-view icon-navbar"></i>
+              <span class="trn">Live Tour</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="liveincident.html">
+              <i class="fa fa-exclamation-triangle icon-navbar"></i>
+              <span class="trn">Live Incident</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="liveattendance.html">
+              <i class="fa fa-exclamation-triangle icon-navbar"></i>
+              <span class="trn">Live Attendance</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-area-chart icon-navbar"></i>
+              <span class="trn">Reports</span>
+            </a>
+            <div class="dropdown-menu">
+              <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="trn">Patrolling Results</span>
                 </a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item trn" href="points.html">Create Check Points</a>
-                  <a class="dropdown-item trn" href="group.html">Create Group-guard</a>
-                  <a class="dropdown-item trn" href="guard.html">Security Guard Profile</a>
-                  <a class="dropdown-item trn" href="zone.html">Create Zone</a>
-                  <a class="dropdown-item trn" href="route.html">Create Route</a>
-                  <a class="dropdown-item trn" href="schedule.html">Create Schedule</a>
-                  <a class="dropdown-item trn" href="defineAssets.html">Create Asset</a>
-                  <a class="dropdown-item trn" href="device.html">Create Device</a>
-                  <a class="dropdown-item trn" href="defineIncident.html">Define Incidents</a>
+                  <a class="dropdown-item" href="reportdaily.html">Daily Report</a>
+                  <a class="dropdown-item" href="reportweekormonth.html">Partrolling & Incident Report</a>
+                  <a class="dropdown-item" href="reportpatrolling.html">Weekly, Monthly, Yearly Report</a>
+                  <a class="dropdown-item" href="historytour.html">Patrolling history</a>
                 </div>
-              </li>
-            </ul>
-            <ul class="navbar-nav">
-              <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
-    
-            </ul>
-          </div>
+              </div>
+              <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="trn">Incident</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="reportincident.html">Incident Report</a>
+                  <a class="dropdown-item" href="historyincident.html">Incident History</a>
+                </div>
+              </div>
+              <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="trn">Working-Idling Time Performance</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="attendance-report-guard.html">Guard's Working-Idling Time Performance</a>
+                  <a class="dropdown-item" href="attendance-report-device.html">Device's Working-Idling Time Performance</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-cog icon-navbar"></i>
+              <span class="trn">Settings</span>
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item trn" href="managepoint.html">Create Check Points</a>
+              <a class="dropdown-item trn" href="managegroup.html">Create Group-guard</a>
+              <a class="dropdown-item trn" href="manageguard.html">Security Guard Profile</a>
+              <a class="dropdown-item trn" href="managezone.html">Create Zone</a>
+              <a class="dropdown-item trn" href="manageroute.html">Create Route</a>
+              <a class="dropdown-item trn" href="manageschedule.html">Create Schedule</a>
+              <a class="dropdown-item trn" href="manageasset.html">Create Asset</a>
+              <a class="dropdown-item trn" href="managedevice.html">Create Device</a>
+              <a class="dropdown-item trn" href="manageincident.html">Define Incidents</a>
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
+
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
   <!-- navbar end -->
 
   <div class="container-fluid">

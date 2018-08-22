@@ -117,7 +117,7 @@ nav.navbar{
   padding: 5px !important;
 }
 .mymap{
-  height: 400px;
+  height: 70vh!important;
   width: 100%;
 }
 .dropdown-menu{

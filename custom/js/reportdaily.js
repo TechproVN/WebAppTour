@@ -1,6 +1,12 @@
 $(() => {
   
-  $('#btnViewReport').click(showReportData);
+  $('#btnViewReport').click(() => {
+    showReportData();
+    setTimeout(() => {
+      buildChartPatrollingPerformance('printingPatrollingPerformanceChart')
+      buildChartTimePerformance('printingTimePerformanceChart');
+    }, 500);
+  });
   $('#btnExportReport2Excel').click(openPrintReportWindow);
   $('#btnChartReport').click(showChartReport);
   // $('#btnPrintDailyReport').click(printDailyReportContent);
@@ -11,6 +17,29 @@ $(() => {
 })
   
   const arrCriteriaReport = [
+    'Time per Route (min)',
+    'Expected Executed Routes (13hrs)',
+    'Actual Executed Routes',
+    'Time spent on resolving non-conformities (minutes)',
+    'Missed routes due to resolving non-conformities',
+    'Corrected Executed Routes',
+    'Performance Routes (%)',
+    'Successful routes within time schedule',
+    'Performance Timing (%)',
+    'Successful routes with correct routing',
+    'Performance Routing (%)',
+    'Routing Mistakes',
+    'Overall performance (%)',
+    'Number of reports issued',
+    'Actual Patrolling Time (min)',
+    'Allowed Interval between trip (15x27)',
+    'Total patroling time in minutes',
+    'Perfomance Time %',
+    'Total Idling Time (min)',
+    'Idling Time in %',
+  ]
+
+  const arrCriteriaReport_1 = [
     'Time per Route /Thời gian đi tuần(min)',
     'Expected Executed Routes/ Số lần đi tuần cần thực hiện (13hrs)',
     'Actual Executed Routes/ Số lần đi tuần thực tế',
@@ -47,118 +76,123 @@ $(() => {
   function showChartReport(){
     buildChartPatrollingPerformance();
     buildChartTimePerformance();
-    $('.headerChartReport').text(guardHeader);
     $('#modalChartReport').modal('show');
   }
 
-function buildChartPatrollingPerformance(id = 'chartPatrollingPerformance'){
-  let $chartArea = $('<canvas style="width: 100%" height="300"></canvas>');
+function buildChartPatrollingPerformance(id){
+  if(!currentDataChartPatrollingPerformance) return $(`#${id}`).html('');
+  if(currentDataChartPatrollingPerformance.length == 0) return $(`#${id}`).html('');
+  if(!id) id = 'chartPatrollingPerformance';
+  let $chartArea = $('<canvas style="width: 100%" height="400"></canvas>');
   $(`#${id}`).html($chartArea);
-  let $chartPatrolling = $(`#${id} > canvas`);
-  let ctx = $chartPatrolling[0].getContext('2d');
-  var chartPatroll = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: [["Performance", "Routes"], ["Performance", "Timing"], ["Performance", "Routing"]],
-        datasets: [{
-            label: 'Performance',
-            data: currentDataChartPatrollingPerformance,
-            // backgroundColor: [
-            //     'rgba(75, 192, 192, 0.2)',
-            //     'rgba(153, 102, 255, 0.2)',
-            //     'rgba(255, 159, 64, 0.2)'
-            // ],
-            // borderColor: [
-            //     'rgba(75, 192, 192, 1)',
-            //     'rgba(153, 102, 255, 1)',
-            //     'rgba(255, 159, 64, 1)'
-            // ],
-            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-            borderColor: 'rgba(153, 102, 255, 1)',
-            borderWidth: 1
-        }]
+  let ctx = $chartArea[0].getContext('2d');
+  let data = {
+    labels: [["Performance", "Routes"], ["Performance", "Timing"], ["Performance", "Routing"]],
+    datasets: [{
+        label: 'Performance',
+        data: currentDataChartPatrollingPerformance,
+        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+        borderColor: 'rgba(153, 102, 255, 1)',
+        borderWidth: 1
+        // backgroundColor: [
+        //     'rgba(75, 192, 192, 0.2)',
+        //     'rgba(153, 102, 255, 0.2)',
+        //     'rgba(255, 159, 64, 0.2)'
+        // ],
+        // borderColor: [
+        //     'rgba(75, 192, 192, 1)',
+        //     'rgba(153, 102, 255, 1)',
+        //     'rgba(255, 159, 64, 1)'
+        // ],
+    }]
+  }
+  let options = {
+    title: {
+      display: true,
+      text: 'Patrolling Performance',
+      fontSize: 20
     },
-    options: {
-      title: {
-        display: true,
-        text: 'Patrolling Performance'
-      },
-      responsive: true,
-        scales: {
-          xAxes: [{
-            display: true,
-            scaleLabel: {
-                display: true,
-            }
-          }], 
-          yAxes: [{
-              ticks: {
-                beginAtZero: true,
-                // steps: 10,
-                // stepValue: 20,
-                stepSize: 10,
-                max: 110,
-                min: 0,
-                callback: function(value, index, values) {
-                    return value + "%";
-                },
+    responsive: true,
+      scales: {
+        xAxes: [{
+          display: true,
+          scaleLabel: {
+              display: true,
+          }
+        }], 
+        yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              // steps: 10,
+              // stepValue: 20,
+              stepSize: 10,
+              max: 110,
+              min: 0,
+              callback: function(value, index, values) {
+                  return value + "%";
               },
-              scaleLabel: {
-                display: true,
-                // labelString: '%'
-              }
-          }],
-        }
-    }
-  });
-  return chartPatroll;
+            },
+            scaleLabel: {
+              display: true,
+              // labelString: '%'
+            }
+        }],
+      }
+  }
+  return createChart(ctx, 'bar', data, options);
 }
 
-function buildChartTimePerformance(id = 'chartTimePerformance'){
-  let $chartArea = $('<canvas style="width: 100%" height="300"></canvas>');
+function buildChartTimePerformance(id){
+  if(!currentDataChartTimePerformance) return $(`#${id}`).html('');
+  if(currentDataChartTimePerformance.length == 0) return $(`#${id}`).html('');
+  if(!id) id = 'chartTimePerformance';
+  let $chartArea = $('<canvas style="width: 100%" height="400"></canvas>');
   $(`#${id}`).html($chartArea);
-  let $chartTiming = $(`#${id} > canvas`);
-  let ctx = $chartTiming[0].getContext('2d');
-  var chartTime = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ["Perfomance Time/ Hiệu suất thời gian %", "Idling Time in %/ Thời gian không làm việc %"],
-        datasets: [{
-            label: '# of Votes',
-            data: currentDataChartTimePerformance,
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-            ],
-            borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            borderWidth: 1
-        }]
+  let ctx = $chartArea[0].getContext('2d');
+  let data = {
+    labels: ["Perfomance Time/ Hiệu suất thời gian %", "Idling Time in %/ Thời gian không làm việc %"],
+    datasets: [{
+        label: '# of Votes',
+        data: currentDataChartTimePerformance,
+        backgroundColor: [
+          '#4286f4',
+          '#d82b42',
+          // 'rgba(255, 99, 132, 0.2)',
+          // 'rgba(54, 162, 235, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+        ],
+        borderWidth: 1
+    }]
+  };
+  let options = {
+    // showAllTooltips: true,
+    title: {
+      display: true,
+      text: 'Time Performance',
+      fontSize: 20
     },
-    options:{
-      // showAllTooltips: true,
-      title: {
-        display: true,
-        text: 'Time Performance'
-      },
-      legend: {
-        display: false
-      },
-      pieceLabel: {
-        render: 'percentage',
-        fontColor: 'green',
-        fontSize: 20,
-        precision: 2
-      },
-      hover: {
-        mode: 'nearest',
-        intersect: true
-      },
-    }
-  });
-  return chartTime;
+    legend: {
+      display: false
+    },
+    pieceLabel: {
+      render: 'percentage',
+      fontColor: 'white',
+      fontSize: 20,
+      precision: 2
+    },
+    hover: {
+      mode: 'nearest',
+      intersect: true
+    },
+  };
+  return createChart(ctx, 'pie', data, options);
+}
+
+function createChart(ctx, type, data, options){
+  return new Chart(ctx, { type, data, options });
 }
 
 function renderReportTable(data){
@@ -169,23 +203,20 @@ function renderReportTable(data){
 
   $thead.html(`
       <tr>
-        <th class="trn text-center">No./STT</th>
-        <th class="trn">Criteria/Các tiêu chí</th>
-        <th class="trn text-center">Cal/Tính</th>
-        <th class="trn text-center">
-          Patrol Guard Route/Tuyến tuần tra</br>
-          (Route 1 Checkpoint 1-17)
-        </th>
+        <th class="trn text-center">No.</th>
+        <th class="trn">Criteria</th>
+        <th class="trn text-center">Cal</th>
+        <th class="trn text-center">Patrol Guard Route</th>
       </tr>
     `)
   if (data) {
     for(let i = 0; i < 20; i++){
       $tbody.append(`
         <tr>
-          <td class="text-center">${i + 1}</td>
-          <td>${arrCriteriaReport[i]}</td>
-          <td class="text-center">${arrReportCal[i]}</td>
-          <td class="text-center">${data[0][arrPropsReport[i]]} ${unitsOfData[i]} </td>
+          <td class="trn text-center">${i + 1}</td>
+          <td class="trn">${arrCriteriaReport[i]}</td>
+          <td class="trn text-center">${arrReportCal[i]}</td>
+          <td class="trn text-center">${data[0][arrPropsReport[i]]} ${unitsOfData[i]} </td>
         </tr>
       `)
     }
@@ -215,7 +246,7 @@ async function showReportData(){
   }
   $('.headerTblReport').text(guardHeader);
   renderReportTable(data);
-
+  setDefaultLang();
   if(data){
     const { dIdling_Time_in, dPerfomance_Time, dPerformance_Routes, dPerformance_Routing, dPerformance_Timing } = data[0];
 
@@ -253,8 +284,6 @@ function export2Excel(){
 }
   
 function openPrintReportWindow(){
-  buildChartPatrollingPerformance('printingPatrollingPerformanceChart')
-  buildChartTimePerformance('printingTimePerformanceChart');
   let head = renderHeadOfPage();
   let script = renderScript();
   setTimeout(() => {
@@ -274,7 +303,6 @@ function openPrintReportWindow(){
     windowObject.focus();
   }, 500);
 }
-
 // function openPrintModalPrintingReport(){
 //   let content = $('.card-daily-report-of-guard').html();
 //   $('#modalPrintReport').find('.modal-body').html(content);

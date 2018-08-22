@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  
+
   <!-- font awesome css -->
   <link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css">
 
@@ -63,51 +63,46 @@
             </a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="liveattendance.html">
-                <i class="fa fa-exclamation-triangle icon-navbar"></i>
-                <span class="trn">Live Attendance</span>
-              </a>
-            </li>
+            <a class="nav-link" href="liveattendance.html">
+              <i class="fa fa-exclamation-triangle icon-navbar"></i>
+              <span class="trn">Live Attendance</span>
+            </a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-area-chart icon-navbar"></i>
               <span class="trn">Reports</span>
             </a>
             <div class="dropdown-menu">
-                <div class="dropdown-submenu">
-                    <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="trn">Patrolling Results</span>
-                    </a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="reportdaily.html">Daily Report</a>
-                      <a class="dropdown-item" href="reportweekormonth.html">Partrolling & Incident Report</a>
-                      <a class="dropdown-item" href="reportpatrolling.html">Weekly, Monthly, Yearly Report</a>
-                      <a class="dropdown-item" href="historytour.html">Patrolling history</a>
-                    </div>
+              <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="trn">Patrolling Results</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="reportdaily.html">Daily Report</a>
+                  <a class="dropdown-item" href="reportweekormonth.html">Partrolling & Incident Report</a>
+                  <a class="dropdown-item" href="reportpatrolling.html">Weekly, Monthly, Yearly Report</a>
+                  <a class="dropdown-item" href="historytour.html">Patrolling history</a>
                 </div>
-                <div class="dropdown-submenu">
-                    <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="trn">Incident</span>
-                    </a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="reportincident.html">Incident Report</a>
-                      <a class="dropdown-item" href="historyincident.html">Incident History</a>
-                    </div>
+              </div>
+              <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="trn">Incident</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="reportincident.html">Incident Report</a>
+                  <a class="dropdown-item" href="historyincident.html">Incident History</a>
                 </div>
-                <div class="dropdown-submenu">
-                    <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="trn">Attendance</span>
-                    </a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="reportAttendance.html">Attendance Report</a>
-                      <a class="dropdown-item" href="historyattendance.html">Attendance History</a>
-                    </div>
+              </div>
+              <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="trn">Working-Idling Time Performance</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="attendance-report-guard.html">Guard's Working-Idling Time Performance</a>
+                  <a class="dropdown-item" href="attendance-report-device.html">Device's Working-Idling Time Performance</a>
                 </div>
-              
-              <!--<a class="dropdown-item trn" href="reports.html">Reports</a>
-              <a class="dropdown-item trn" href="reportTour.html">Daily Patrolling Results</a>
-              <a class="dropdown-item trn" href="security.html">Security</a>
-              <a class="dropdown-item trn" href="weeklyPatrollingReport.html">Weekly (Monthly) Patrolling Reports</a>-->
+              </div>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -145,45 +140,45 @@
         <div class="card card-guard">
           <div class="card-header bg-main-color custom-card-header">
             <div class="row">
-                <div class="col-sm-4">
-                    <h5 class="trn mt-1" style="margin-left: -10px">Guards</h5>
-                </div>
-                <div class="col-sm-8">
-                  <button class="btn btn-custom btn-success pull-right trn text-capitalize" id="btnShowModalSendSMSGuards" style="margin-right: -10px; padding: 5px">Send message</button>
-                  <button class="btn btn-custom btn-success pull-right trn text-capitalize" id="btnAttendance" style="padding: 5px">Attendance</button>
-                </div>
+              <div class="col-sm-4">
+                <h5 class="trn mt-1" style="margin-left: -10px">Guards</h5>
+              </div>
+              <div class="col-sm-8">
+                <button class="btn btn-custom btn-success pull-right trn text-capitalize" id="btnShowModalSendSMSGuards" style="margin-right: -10px; padding: 5px">Send message</button>
+                <button class="btn btn-custom btn-success pull-right trn text-capitalize" id="btnAttendance" style="padding: 5px">Check Time</button>
+              </div>
             </div>
-           
+
           </div>
           <div class="card-body custom-card-body">
             <div class="row mt-2">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <input type="text" placeholder="Search name..." id="txtSearchGuardName" class="form-control form-control-sm">
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-group">
-                      <select name="" id="selectGuardGroup" class="form-control form-control-sm">
-                        
-                      </select>
-                    </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <input type="text" placeholder="Search name..." id="txtSearchGuardName" class="form-control form-control-sm">
                 </div>
               </div>
-              <div class="row">
-                <div class="col-4" id="totalNumOfGuard"></div>
-                <div class="col-4" id="totalNumOfGuardOnline"></div>
-                <div class="col-4" id="totalNumOfGuardSOS"></div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <div class="table-responsive" style="height: 60vh">
-                    <table class="table table-striped table-hover custom-table text-center" id="tblGuard">
-                      <!-- guard content here -->
-                    </table>
-                  </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <select name="" id="selectGuardGroup" class="form-control form-control-sm">
+
+                  </select>
                 </div>
               </div>
+            </div>
+            <div class="row">
+              <div class="col-4" id="totalNumOfGuard"></div>
+              <div class="col-4" id="totalNumOfGuardOnline"></div>
+              <div class="col-4" id="totalNumOfGuardSOS"></div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive" style="height: 60vh">
+                  <table class="table table-striped table-hover custom-table text-center" id="tblGuard">
+                    <!-- guard content here -->
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <!-- card guard end -->
@@ -199,7 +194,7 @@
               <div class="col-12">
                 <h4 class="trn">Map</h4>
               </div>
-             
+
             </div>
           </div>
           <!-- card body map -->
@@ -208,39 +203,6 @@
           </div>
         </div>
         <!-- card map end -->
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12">
-        <div class="modal fade" id="modalInsertGuard">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title trn">Insert Guard</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <div class="form-group">
-                    <label for="recipient-name" class="col-form-label trn">Recipient</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-                  <div class="form-group">
-                    <label for="message-text" class="col-form-label trn">Message:</label>
-                    <textarea class="form-control" id="message-text"></textarea>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-grey trn" data-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-main-color trn" id="btnInsertGuard">Insert</button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -273,7 +235,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-custom bg-main-color trn" id="btnSendSMSGuards">Send</button>
+                <button type="button" class="btn btn-custom btn-success trn" id="btnSendSMSGuards">Send</button>
                 <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
               </div>
             </div>
@@ -283,7 +245,7 @@
     </div>
 
   </div>
-  
+
   <!-- Google Map API -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A"></script>
 

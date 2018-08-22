@@ -32,11 +32,8 @@ let headerTblTours = '';
 async function showTourListsByDefault(){
   let sentData = { "iKindSearch":0,"iID":0};
   data = await Service.getLiveTour(sentData);
-  if(data){
-    showToursListPagination(data);
-  }else {
-    showAlertError("No data available", "", 3000);
-  }
+  if(data) showToursListPagination(data);
+  else showAlertError("No data available", "", 3000);
   setDefaultLang();
 }
 
