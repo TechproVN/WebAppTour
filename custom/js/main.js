@@ -313,15 +313,16 @@ function removeUnicode(str){
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 }
 
-async function showGuardGroups(){
+async function showGuardGroups(withAll){
   let data = await Service.getGroup();
-  $('.selectGuardGroup').html('');
-  if(data){
-    data.forEach(group => {
-      const { iGuardGroupID, sGroupName } = group;
-      $('.selectGuardGroup').append(`<option value="${iGuardGroupID}">${sGroupName}</option>`);
-    })
-  }
+  let $select = $('.selectGuardGroup');
+  $select.html('');
+  if(!data) return;
+  if(withAll) $select.append(`<option value="0">All</option>`)
+  data.forEach(group => {
+    const { iGuardGroupID, sGroupName } = group;
+    $('.selectGuardGroup').append(`<option value="${iGuardGroupID}">${sGroupName}</option>`);
+  })
 }
 
 function shuffleArray(arr){

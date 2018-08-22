@@ -203,8 +203,6 @@ async function showAttendanceReportChart(type){
   showAlertError("No data available!!", "");
 }
 
-
-
 async function showAttendanceReportTable(type){
   // let iGuardID = $('#selectGuard').val();
   // let sentData = {iGuardID, iKindSearch: 0, iValue: 2018 };
@@ -240,5 +238,4 @@ function setDefaultLoading(){
   $('#reportMonth').val(month + 1);
   $('#reportWeek').val(Number(week));
   $('#reportYear').val(year);
- 
 }
