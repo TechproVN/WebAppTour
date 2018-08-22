@@ -15,7 +15,9 @@ $(() => {
   formatTodayReport();
 
 })
-  
+  let chartTime = null;
+  let chartPatrolling = null;
+
   const arrCriteriaReport = [
     'Time per Route (min)',
     'Expected Executed Routes (13hrs)',
@@ -80,12 +82,20 @@ $(() => {
   }
 
 function buildChartPatrollingPerformance(id){
-  if(!currentDataChartPatrollingPerformance) return $(`#${id}`).html('');
-  if(currentDataChartPatrollingPerformance.length == 0) return $(`#${id}`).html('');
+  if(currentDataChartPatrollingPerformance.length == 0) {
+    chartPatrolling = null;
+    $(`#${id}`).html('');
+    return;
+  }
   if(!id) id = 'chartPatrollingPerformance';
   let $chartArea = $('<canvas style="width: 100%" height="400"></canvas>');
   $(`#${id}`).html($chartArea);
   let ctx = $chartArea[0].getContext('2d');
+  let { data, options } = getInfoOfChartPatrolling();
+  chartPatrolling = createChart(ctx, 'bar', data, options);
+}
+
+function getInfoOfChartPatrolling(){
   let data = {
     labels: [["Performance", "Routes"], ["Performance", "Timing"], ["Performance", "Routing"]],
     datasets: [{
@@ -94,16 +104,6 @@ function buildChartPatrollingPerformance(id){
         backgroundColor: 'rgba(153, 102, 255, 0.2)',
         borderColor: 'rgba(153, 102, 255, 1)',
         borderWidth: 1
-        // backgroundColor: [
-        //     'rgba(75, 192, 192, 0.2)',
-        //     'rgba(153, 102, 255, 0.2)',
-        //     'rgba(255, 159, 64, 0.2)'
-        // ],
-        // borderColor: [
-        //     'rgba(75, 192, 192, 1)',
-        //     'rgba(153, 102, 255, 1)',
-        //     'rgba(255, 159, 64, 1)'
-        // ],
     }]
   }
   let options = {
@@ -139,16 +139,10 @@ function buildChartPatrollingPerformance(id){
         }],
       }
   }
-  return createChart(ctx, 'bar', data, options);
+  return { data, options };
 }
 
-function buildChartTimePerformance(id){
-  if(!currentDataChartTimePerformance) return $(`#${id}`).html('');
-  if(currentDataChartTimePerformance.length == 0) return $(`#${id}`).html('');
-  if(!id) id = 'chartTimePerformance';
-  let $chartArea = $('<canvas style="width: 100%" height="400"></canvas>');
-  $(`#${id}`).html($chartArea);
-  let ctx = $chartArea[0].getContext('2d');
+function getInfoOfChartTimePerformance(){
   let data = {
     labels: ["Perfomance Time/ Hiệu suất thời gian %", "Idling Time in %/ Thời gian không làm việc %"],
     datasets: [{
@@ -157,8 +151,6 @@ function buildChartTimePerformance(id){
         backgroundColor: [
           '#4286f4',
           '#d82b42',
-          // 'rgba(255, 99, 132, 0.2)',
-          // 'rgba(54, 162, 235, 0.2)',
         ],
         borderColor: [
           'rgba(255,99,132,1)',
@@ -167,6 +159,7 @@ function buildChartTimePerformance(id){
         borderWidth: 1
     }]
   };
+
   let options = {
     // showAllTooltips: true,
     title: {
@@ -188,7 +181,28 @@ function buildChartTimePerformance(id){
       intersect: true
     },
   };
-  return createChart(ctx, 'pie', data, options);
+  return { data, options };
+}
+
+function buildChartTimePerformance(id){
+  if(currentDataChartTimePerformance.length == 0) {
+      chartTime = null;
+     $(`#${id}`).html('');
+     return;
+  }
+  if(!id) id = 'chartTimePerformance';
+  let $chartArea = $('<canvas style="width: 100%" height="400"></canvas>');
+  $(`#${id}`).html($chartArea);
+  let ctx = $chartArea[0].getContext('2d');
+  let { data, options } = getInfoOfChartTimePerformance();
+  chartTime = createChart(ctx, 'pie', data, options);
+}
+
+function showChartImage(id, chart){
+  if(!chart) return;
+  var url = chart.toBase64Image();
+  let img = `<img src="${url}" class="img-fluid">`;
+  $(`#${id}`).html(img);
 }
 
 function createChart(ctx, type, data, options){
@@ -236,9 +250,7 @@ async function showReportData(){
   showTimeReportOnHeader(time);
   let dDateTime = changeFormatDateTime(time);
   let sentData = { RouteID, dDateTime }
-  console.log(JSON.stringify(sentData));
   const data = await Service.reportRoutebydate(sentData);
-  console.log(data);
   let guard = arrGuardList.find(g => g.iGuardId == GuardID);
   if (guard) {
     const { sGuardName } = guard;
@@ -286,15 +298,16 @@ function export2Excel(){
 function openPrintReportWindow(){
   let head = renderHeadOfPage();
   let script = renderScript();
+  showChartImage('chartImagePatrolling', chartPatrolling);
+  showChartImage('chartImageTime', chartTime);
   setTimeout(() => {
     let report = $('.printing-area').html();
-    console.log(report);
-  let html = `<html>
-                  ${head}
-                <body>
-                  ${report}
-                </body>
-              </html>`;
+    let html = `<html>
+                    ${head}
+                  <body>
+                    ${report}
+                  </body>
+                </html>`;
     let windowObject = window.open("", "PrintWindow",
     "width=850,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
     windowObject.document.write(html);
@@ -302,12 +315,11 @@ function openPrintReportWindow(){
     windowObject.document.close();
     windowObject.focus();
   }, 500);
+  setTimeout(() => {
+    $('#chartImagePatrolling').html('');
+    $('#chartImageTime').html('');
+  }, 1500);
 }
-// function openPrintModalPrintingReport(){
-//   let content = $('.card-daily-report-of-guard').html();
-//   $('#modalPrintReport').find('.modal-body').html(content);
-//   $('#modalPrintReport').modal('show');
-// }
 
 function renderHeadOfPage(){
   let head = `<head>

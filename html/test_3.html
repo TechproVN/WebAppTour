@@ -21,10 +21,13 @@
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
+  <!-- pagination css -->
+  <link rel="stylesheet" href="../plugins/paginationJs/pagination.css">
+
   <!-- custom main css -->
   <link rel="stylesheet" href="../custom/css/main.css">
-
-  <title>Daily Report</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <title>Report Tour</title>
 </head>
 
 <body>
@@ -130,156 +133,10 @@
   <!-- navbar end -->
 
   <div class="container-fluid">
-
-    <div class="row my-3 row-custom">
-
-      <div class="col-lg-3 mb-4">
-          <!-- card filter start -->
-          <div class="card card filter">
-            <div class="card-header bg-main-color custom-card-header">
-              <h4>
-                <i class="fa fa-filter"></i> <span class="trn">Search</span>
-              </h4>
-            </div>
-            <div class="card-body custom-card-body">
-              <div class="row mt-3">
-                <div class="col-12">
-                  <label for="" class="trn">by Route</label><br>
-                  <select name="" class="form-control selectRouteName" id="selectRouteList">
-                    <!-- guard name list -->
-                  </select>
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-12">
-                    <label for="" class="trn">by Date</label><br>
-                    <input type="text" readonly class="form-control datepicker" style="width: 100%" id="reportDatetime">
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-12">
-                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnViewReport">View</button>
-                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnExportReport2Excel">Export</button>
-                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnChartReport">Chart</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- card filter end -->
-      </div>
-  
-      <div class="col-lg-9 printing-area">
-        <!-- card Points start -->
-        <div class="card card-daily-report-of-guard">
-          <div class="card-header bg-main-color custom-card-header">
-            <h4>
-              <i class="fa fa-exclamation-triangle"></i> <span class="trn">Reports</span>
-            </h4>
-          </div>
-          <div class="card-body custom-card-body">
-            
-            <div class="row">
-              <div class="col-12">
-                <center>
-                  <h3 class="trn text-uppercase">Daily Patrolling Report</h3>
-                  <!-- <h6 class="text-uppercase">Báo cáo kết quả công tác tuần tra bảo vệ hằng ngày</h6> -->
-              </div>
-              </center>
-            <div class="row my-3">
-              <div class="col-12">
-                <div class="text-center font-weight-bold green-text headerTblReport" style="font-size: 1.2em"></div>
-              </div>
-            </div>
-            <div class="table-responsive">
-              <table class="table table-hover table-striped table-condensed custom-table" id="tblReports">
-                <!-- Points content here -->
-              </table>
-            </div>
-          </div>
-        </div>
-        <!-- card Points end -->
-
-        <div id="chartPrintingArea">
-          <div class="row">
-            <div class="col-md-6" id="chartImagePatrolling">
-              
-            </div>
-            <div class="col-md-6" id="chartImageTime"></div>
-          </div>
-          <div class="row">
-            <div class="col-md-6" id="printingPatrollingPerformanceChart">
-            </div>
-            <div class="col-md-6" id="printingTimePerformanceChart"></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Modal chart Report -->
-    <div class="row">
-      <div class="col-12">
-        <!-- Modal chart Report -->
-        <div class="modal fade" id="modalChartReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-custom" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title trn" id="">Chart Report</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="text-center font-weight-bold green-text headerChartReport" style="font-size: 1.1em"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-6" id="chartPatrollingPerformance">
-                    
-                  </div>
-                  <div class="col-lg-6" id="chartTimePerformance">
-                    
-                  </div>
-                </div>  
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12">
-        <!-- Modal Printing Report -->
-        <div class="modal fade" id="modalPrintReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-custom" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title trn" id="">Printing Content</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-               
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-custom bg-main-color trn" id="btnPrintDailyReport">Print</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+        <canvas id="canvas" height="450" width="600"></canvas>
+        <img id="url" />
   </div>
-  
+
   <!-- JQuery core -->
   <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
 
@@ -301,33 +158,129 @@
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
-  <!-- printElement js -->
-  <script src="../plugins/printElement/jquery.printElement.js"></script>
+  <!-- sweetalert js -->
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+
+  <!-- pagination js -->
+  <script src="../plugins/paginationJs/pagination.min.js"></script>
+
+  <!-- chart js -->
+  <script src="../plugins/chartJS/Chart.min.js"></script>
 
   <!-- table2Excel plugins -->
   <script src="../plugins/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel/dist/jquery.table2excel.min.js"></script>
 
-  <!-- chartjs -->
-  <script src="../plugins/chartJS/Chart.min.js"></script>
-  
-  <!-- chart PieceLabel -->
-  <script src="../plugins/Chart.PieceLabel.js-master/src/Chart.PieceLabel.js"></script>
-
-  <!-- sweetalert -->
-  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+  <!-- service request -->
+  <script src="../custom/js/service.js"></script>
 
   <!-- custom main.js -->
   <script src="../custom/js/main.js"></script>
 
-  <!-- service request -->
-  <script src="../custom/js/service.js"></script>
-
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>
 
-  <!-- report js -->
-  <script src="../custom/js/reportdaily.js"></script>
-  
+  <!-- attendance-report js -->
+  <script src="../custom/js/attendance-report-guard.js"></script>
+  <script>
+    var chart_data = {
+      labels: ['Player1', 'Player2', 'Player3', 'Player4'],
+      datasets: [{
+        fillColor: "rgba(6, 118, 152, 0.71)",
+        strokeColor: "rgba(220,220,220,1)",
+        pointColor: "rgba(220,220,220,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(220,220,220,1)",
+        data: [20, 34, 15, 64, ]
+      }]
+    }
+
+    //original canvas
+    var canvas = document.querySelector('#cool-canvas');
+    var context = canvas.getContext('2d');
+
+    new Chart(context).Line(chart_data);
+
+    //hidden canvas
+    var newCanvas = document.querySelector('#supercool-canvas');
+    newContext = newCanvas.getContext('2d');
+
+    var supercoolcanvas = new Chart(newContext).Line(chart_data);
+    supercoolcanvas.defaults.global = {
+      scaleFontSize: 600
+    }
+
+    //add event listener to button
+    document.getElementById('download-pdf').addEventListener("click", downloadPDF);
+
+    //donwload pdf from original canvas
+    function downloadPDF() {
+      var canvas = document.querySelector('#cool-canvas');
+      //creates image
+      var canvasImg = canvas.toDataURL("image/jpeg", 1.0);
+
+      //creates PDF from img
+      var doc = new jsPDF('landscape');
+      doc.setFontSize(20);
+      doc.text(15, 15, "Cool Chart");
+      doc.addImage(canvasImg, 'JPEG', 10, 10, 280, 150);
+      doc.save('canvas.pdf');
+    }
+
+    //add event listener to 2nd button
+    document.getElementById('download-pdf2').addEventListener("click", downloadPDF2);
+
+    //download pdf form hidden canvas
+    function downloadPDF2() {
+      var newCanvas = document.querySelector('#supercool-canvas');
+
+      //create image from dummy canvas
+      var newCanvasImg = newCanvas.toDataURL("image/jpeg", 1.0);
+
+      //creates PDF from img
+      var doc = new jsPDF('landscape');
+      doc.setFontSize(20);
+      doc.text(15, 15, "Super Cool Chart");
+      doc.addImage(newCanvasImg, 'JPEG', 10, 10, 280, 150);
+      doc.save('new-canvas.pdf');
+    }
+  </script>
+
+  <script>
+    var lineChartData = {
+			labels : ["January","February","March","April","May","June","July"],
+			datasets : [
+				{
+					fillColor : "rgba(220,220,220,0.5)",
+					strokeColor : "rgba(220,220,220,1)",
+					pointColor : "rgba(220,220,220,1)",
+					pointStrokeColor : "#fff",
+					data : [65,59,90,81,56,55,40],
+					bezierCurve : false
+				}
+			]
+		}
+    
+    function done(){
+      alert("haha");
+      var url = myLine.toBase64Image();
+      document.getElementById("url").src = url;
+    }
+
+    var options = {
+      bezierCurve : false,
+      animation: {
+        onComplete: done
+      }
+    };
+	
+    var myLine = new Chart(document.getElementById("canvas").getContext("2d"),{
+      data: lineChartData,
+      type: "line",
+      options: options
+    });
+  </script>
+
 </body>
 
 </html>
