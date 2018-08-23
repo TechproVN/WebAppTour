@@ -53,29 +53,23 @@ function renderReportTable(data){
         <th class="trn">Week</th>
         <th class="trn">Month</th>
         <th class="trn">Day in Month</th>
-        <th class="trn">Working Per</th>
-        <th class="trn">Total Time-working</th>
-        <th class="trn">Idling Per</th>
+        <th class="trn">Working Time</th>
         <th class="trn">Date Check</th>
-        <th class="trn">Working Time Required</th>
       </tr>
     `)
   $table.append($thead);
   if(!data) return;
   data.forEach((guard) => {
-    const {sDeviceName, sDay, iWeek, iMonth, iDeviceID, iDay, dWorkingPercent, dTotalTimeWorking, dIdlingPercent, dDateCheck, WorkTimeRequire} = guard;
+    const { sGuardName, sDay, iWeek, iMonth, iGuardID, iDay, dPercentWorkingTime, dDateCheck } = guard;
     $tbody.append(`
       <tr>
-        <td>${sDeviceName}</td>
+        <td>${sGuardName}</td>
         <td>${sDay}</td>
         <td>${iWeek}</td>
         <td>${iMonth}</td>
         <td>${iDay}</td>
-        <td>${dWorkingPercent}</td>
-        <td>${dTotalTimeWorking}</td>
-        <td>${dIdlingPercent}</td>
+        <td>${dPercentWorkingTime}%</td>
         <td>${dDateCheck}</td>
-        <td>${WorkTimeRequire}</td>
       </tr>
     `)
   })
@@ -97,9 +91,7 @@ async function getData(type){
     sentData.iValue = $('#reportYear').val();
     sentData.iKindSearch = 3;
   }
-  console.log(JSON.stringify(sentData));
   let data = await Service.getReportWorkingvsIdlingTimeGuardGroup(sentData);
-  console.log(data);
   return data;
 }
 
