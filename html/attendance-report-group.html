@@ -147,7 +147,7 @@
                 <div class="row mt-3">
                   <div class="col-12">
                     <label for="" class="trn">by Group</label><br>
-                    <select name="" class="form-control selectGuardGroup form-control-sm" id="selectGroup"></select>
+                    <select name="" class="form-control selectGuardGroup form-control-sm" id="selectGroup" ></select>
                   </div>
                 </div>
                 <div class="row my-4">
@@ -156,13 +156,7 @@
                       <div class="input-group">
                         <select name="" id="reportWeek" class="form-control form-control-sm selectWeek"></select>
                         <div class="input-group-append">
-                          <div class="btn-group">
-                            <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                            <div class="dropdown-menu" style="padding-right: 10px">
-                              <button class="dropdown-item btn btn-custom btn-info btn-custom-small trn" id="btnShowReportWeek" style="margin-top: 0">View</button>
-                              <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnShowChartByWeek">Chart</button>
-                            </div>
-                          </div>
+                          <button class="btn btn-custom bg-main-color btn-custom-small trn" id="btnShowChartVsDataByWeek" style="margin-top: 0">View</button>
                         </div>
                       </div>
                   </div>
@@ -173,32 +167,20 @@
                     <div class="input-group">
                       <select name="" id="reportMonth" class="form-control form-control-sm selectMonth"></select>
                       <div class="input-group-append">
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                          <div class="dropdown-menu" style="padding-right: 10px">
-                            <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnShowReportMonth" style="margin-top: 0">View</button>
-                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnShowChartByMonth">Chart</button>
-                          </div>
-                        </div>
+                        <button class="btn btn-custom bg-main-color btn-custom-small trn" id="btnShowChartVsDataByMonth" style="margin-top: 0">View</button>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="row my-4">
-                    <div class="col-12">
-                      <label for="" class="trn">by Year</label>
-                      <div class="input-group">
-                        <select name="" id="reportYear" class="form-control form-control-sm selectYear"></select>
-                        <div class="input-group-append">
-                          <div class="btn-group">
-                            <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                            <div class="dropdown-menu" style="padding-right: 10px">
-                              <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnShowReportYear" style="margin-top: 0">View</button>
-                              <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnShowChartByYear">Chart</button>
-                            </div>
-                          </div>
-                        </div>
+                  <div class="col-12">
+                    <label for="" class="trn">by Year</label>
+                    <div class="input-group">
+                      <select id="reportYear" class="form-control form-control-sm selectYear"></select>
+                      <div class="input-group-append">
+                        <button class="btn btn-custom btn-custom-small bg-main-color trn" id="btnShowChartVsDataByYear" style="margin-top: 0">View</button>
                       </div>
+                    </div>
                   </div>
                 </div>
             </div>
@@ -216,28 +198,16 @@
               </h4>
             </div>
             <div class="card-body custom-card-body">
-              <!-- <div class="row my-3">
-                <div class="col-12">
-                  <div class="text-center font-weight-bold green-text headerTblReportTour" style="font-size: 1.2em"></div>
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col-sm-8">
-                  <div id="pagingToursControl"></div>
-                </div>
-                <div class="col-sm-4">
-                  <div id="totalTourReportRows"></div>
-                </div>
-              </div>
-              <div class="table-responsive">
-                
-              </div> -->
-
-              <div class="row">
-                <div class="col-12">
-                  <div id="chartWorkingTimeArea" style="position: relative; height: 70vh;"></div>
-                </div>
-              </div>
+                <div class="row">
+                    <div class="col-12">
+                      <div id="chart" style="height: 70vh;"></div>
+                    </div>
+                  </div>
+                  <div class="table-responsive mt-5">
+                      <table class="table table-hover table-striped table-condensed custom-table text-center" id="tblReport">
+    
+                      </table>
+                  </div>
             </div>
           </div>
           <!-- card Points end -->

@@ -1,23 +1,25 @@
 $(() => {
 
-  $('#btnShowReportWeek').click(() => {
-    showAttendanceReportTable('week');
+  $('#btnShowChartVsDataByWeek').click(async () => {
+    let data = await getData('week');
+    showAttendanceReportChart(data, 'week');
+    renderReportTable(data);
+    setDefaultLang();
+    if(!data) showAlertError('No data available!!!', '');
   })
-  $('#btnShowReportMonth').click(() => {
-    showAttendanceReportTable('month');
+  $('#btnShowChartVsDataByMonth').click(async () => {
+    let data = await getData('month');
+    showAttendanceReportChart(data, 'month');
+    renderReportTable(data);
+    setDefaultLang();
+    if(!data) showAlertError('No data available!!!', '');
   })
-  $('#btnShowReportYear').click(() => {
-    showAttendanceReportTable('year');
-  })
-
-  $('#btnShowChartByWeek').click(() => {
-    showAttendanceReportChart('week');
-  })
-  $('#btnShowChartByMonth').click(() => {
-    showAttendanceReportChart('month');
-  })
-  $('#btnShowChartByYear').click(() => {
-    showAttendanceReportChart('year');
+  $('#btnShowChartVsDataByYear').click(async () => {
+    let data = await getData('year');
+    showAttendanceReportChart(data, 'year');
+    renderReportTable(data);
+    setDefaultLang();
+    if(!data) showAlertError('No data available!!!', '');
   })
 
   showGuardGroups();
@@ -38,7 +40,49 @@ function setDefaultLoading(){
   $('#reportYear').val(year);
 }
 
-async function showAttendanceReportChart(type){
+function renderReportTable(data){
+  let $table = $('#tblReport');
+  $table.html('');
+  let $thead = $('<thead class="custom-table-header"></thead>');
+  let $tbody = $('<tbody></tbody>');
+
+  $thead.html(`
+      <tr>
+        <th class="trn">Name</th>
+        <th class="trn">Day</th>
+        <th class="trn">Week</th>
+        <th class="trn">Month</th>
+        <th class="trn">Day in Month</th>
+        <th class="trn">Working Per</th>
+        <th class="trn">Total Time-working</th>
+        <th class="trn">Idling Per</th>
+        <th class="trn">Date Check</th>
+        <th class="trn">Working Time Required</th>
+      </tr>
+    `)
+  $table.append($thead);
+  if(!data) return;
+  data.forEach((guard) => {
+    const {sDeviceName, sDay, iWeek, iMonth, iDeviceID, iDay, dWorkingPercent, dTotalTimeWorking, dIdlingPercent, dDateCheck, WorkTimeRequire} = guard;
+    $tbody.append(`
+      <tr>
+        <td>${sDeviceName}</td>
+        <td>${sDay}</td>
+        <td>${iWeek}</td>
+        <td>${iMonth}</td>
+        <td>${iDay}</td>
+        <td>${dWorkingPercent}</td>
+        <td>${dTotalTimeWorking}</td>
+        <td>${dIdlingPercent}</td>
+        <td>${dDateCheck}</td>
+        <td>${WorkTimeRequire}</td>
+      </tr>
+    `)
+  })
+  $table.append($tbody);
+}
+
+async function getData(type){
   let iGroupID = $('#selectGroup').val();
   let sentData = { iGroupID, iKindSearch: 0, iValue: 0 };
   if (type.toLowerCase() == 'week'){
@@ -56,11 +100,15 @@ async function showAttendanceReportChart(type){
   console.log(JSON.stringify(sentData));
   let data = await Service.getReportWorkingvsIdlingTimeGuardGroup(sentData);
   console.log(data);
+  return data;
+}
+
+async function showAttendanceReportChart(data, type){
   if(!data){
     $('#chart').html('');
     showAlertError("No data available!!", "");
   }else{
-    let chartData = getDataOnGuards(data, 'week');
+    let chartData = getDataOnGuards(data);
     let arrLabels = getLabelsChart(data, type);
     buildLineChart(chartData, arrLabels, 'Time Attendance');
   }
@@ -68,7 +116,7 @@ async function showAttendanceReportChart(type){
 
 function buildLineChart(chartData, arrLabels, title){
   let $chartCanvas = $('<canvas style="width: 100%" height="450"></canvas>');
-  $('#chartWorkingTimeArea').html($chartCanvas);
+  $('#chart').html($chartCanvas);
   let ctx = $chartCanvas[0].getContext('2d');
   let datasets = chartData.map((line, index) => {
     return {
@@ -138,7 +186,7 @@ function getLabelsChart(chartData, type){
   return chartData.map(item => arrMonths[Number(item.iMonth) - 1]);
 }
 
-function getDataOnGuards(data, type){
+function getDataOnGuards(data){
   let guardsSet = new Set(data.map(item => item.iGuardID));
   let arrGuards = [...guardsSet];
   let arrDataGuards = [];
@@ -148,16 +196,6 @@ function getDataOnGuards(data, type){
     });
     arrDataGuards.push(arr);
   })
-  // let temp = arrDataGuards.map(item => {
-  //   let label = [];
-  //   if(type.toLowerCase() == 'week') label = item.map(ele => ele.sDay + ' ' + ele.dDateCheck)
-  //   if(type.toLowerCase() == 'month') label = item.map(ele => ele.iWeek)
-  //   if(type.toLowerCase() == 'year') label = item.map(ele => ele.iMonth)
-  //   return { 
-  //     label:label,
-  //     data: item.map(ele => Number(ele.dPercentWorkingTime))
-  //   }
-  // })
   let temp = arrDataGuards.map(item => {
     return { 
       label:item[0].sGuardName,

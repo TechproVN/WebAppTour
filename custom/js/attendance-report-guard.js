@@ -1,22 +1,25 @@
 $(() => {
-  $('#btnShowReportWeek').click(() => {
-    showAttendanceReportTable('week');
+ 
+  $('#btnShowChartVsDataByWeek').click(async () => {
+    let data = await getData('week');
+    showAttendanceReportChart(data, 'week');
+    renderReportTable(data);
+    setDefaultLang();
+    if(!data) showAlertError('No data available!!!', '');
   })
-  $('#btnShowReportMonth').click(() => {
-    showAttendanceReportTable('month');
+  $('#btnShowChartVsDataByMonth').click(async () => {
+    let data = await getData('month');
+    showAttendanceReportChart(data, 'month');
+    renderReportTable(data);
+    setDefaultLang();
+    if(!data) showAlertError('No data available!!!', '');
   })
-  $('#btnShowReportYear').click(() => {
-    showAttendanceReportTable('year');
-  })
-
-  $('#btnShowChartByWeek').click(() => {
-    showAttendanceReportChart('week');
-  })
-  $('#btnShowChartByMonth').click(() => {
-    showAttendanceReportChart('month');
-  })
-  $('#btnShowChartByYear').click(() => {
-    showAttendanceReportChart('year');
+  $('#btnShowChartVsDataByYear').click(async () => {
+    let data = await getData('year');
+    showAttendanceReportChart(data, 'year');
+    renderReportTable(data);
+    setDefaultLang();
+    if(!data) showAlertError('No data available!!!', '');
   })
 
   showGuardList();
@@ -25,6 +28,69 @@ $(() => {
   showYearsSelect();
   setDefaultLoading();
 })
+
+function renderReportTable(data){
+  let $table = $('#tblReport');
+  $table.html('');
+  let $thead = $('<thead class="custom-table-header"></thead>');
+  let $tbody = $('<tbody></tbody>');
+
+  $thead.html(`
+      <tr>
+        <th class="trn">Name</th>
+        <th class="trn">Day</th>
+        <th class="trn">Week</th>
+        <th class="trn">Month</th>
+        <th class="trn">Day in Month</th>
+        <th class="trn">Working Per</th>
+        <th class="trn">Total Time-working</th>
+        <th class="trn">Idling Per</th>
+        <th class="trn">Date Check</th>
+        <th class="trn">Working Time Required</th>
+      </tr>
+    `)
+  $table.append($thead);
+  if(!data) return;
+  data.forEach((guard) => {
+    const {sGuardName, sDay, iWeek, iMonth, iGuardID, iDay, dWorkingPercent, dTotalTimeWorking, dIdlingPercent, dDateCheck, WorkTimeRequire} = guard;
+    $tbody.append(`
+      <tr>
+        <td>${sGuardName}</td>
+        <td>${sDay}</td>
+        <td>${iWeek}</td>
+        <td>${iMonth}</td>
+        <td>${iDay}</td>
+        <td>${dWorkingPercent}</td>
+        <td>${dTotalTimeWorking}</td>
+        <td>${dIdlingPercent}</td>
+        <td>${dDateCheck}</td>
+        <td>${WorkTimeRequire}</td>
+      </tr>
+    `)
+  })
+  $table.append($tbody);
+}
+
+async function getData(type){
+  let iGuardID = $('#selectGuard').val();
+  let sentData = {iGuardID, iKindSearch: 0, iValue: 2018 };
+  if (type.toLowerCase() == 'week'){
+    sentData.iValue = $('#reportWeek').val();
+    sentData.iKindSearch = 1;
+  }
+  else if(type.toLowerCase() == 'month') {
+    sentData.iValue = $('#reportMonth').val();
+    sentData.iKindSearch = 2;
+  }
+  else if (type.toLowerCase() == 'year'){
+    sentData.iValue = $('#reportYear').val();
+    sentData.iKindSearch = 3;
+  }
+  console.log(sentData);
+  let data = await Service.getReportWorkingvsIdlingTimeGuardData(sentData);
+  console.log(data);
+  return data;
+}
 
 function buildLineChart(chartData, type){
   let $chartCanvas = $('<canvas style="width: 100%" height="450"></canvas>');
@@ -180,27 +246,9 @@ function buildChartWorkingTimeVsIdlingTime(chartData, type){
   });
 }
 
-async function showAttendanceReportChart(type){
-  let iGuardID = $('#selectGuard').val();
-  let sentData = {iGuardID, iKindSearch: 0, iValue: 2018 };
-  if (type.toLowerCase() == 'week'){
-    sentData.iValue = $('#reportWeek').val();
-    sentData.iKindSearch = 1;
-  }
-  else if(type.toLowerCase() == 'month') {
-    sentData.iValue = $('#reportMonth').val();
-    sentData.iKindSearch = 2;
-  }
-  else if (type.toLowerCase() == 'year'){
-    sentData.iValue = $('#reportYear').val();
-    sentData.iKindSearch = 3;
-  }
-  console.log(sentData);
-  let data = await Service.getReportWorkingvsIdlingTimeGuardData(sentData);
-  console.log(data);
+function showAttendanceReportChart(data, type){
   if(data) return buildChartWorkingTimeVsIdlingTime(data, type);
   $('#chart').html('');
-  showAlertError("No data available!!", "");
 }
 
 function getColorVsBgColor(length){
@@ -222,69 +270,6 @@ function getColorVsBgColor(length){
   }
 
   return { arrBgColor1, arrBorderColor1, arrBgColor2, arrBorderColor2 };
-}
-
-async function showAttendanceReportTable(type){
-  // let iGuardID = $('#selectGuard').val();
-  // let sentData = {iGuardID, iKindSearch: 0, iValue: 2018 };
-  // if (type.toLowerCase() == 'week'){
-  //   sentData.iValue = $('#reportWeek').val();
-  //   sentData.iKindSearch = 1;
-  // }
-  // else if(type.toLowerCase() == 'month') {
-  //   sentData.iValue = $('#reportMonth').val();
-  //   sentData.iKindSearch = 2;
-  // }
-  // else if (type.toLowerCase() == 'year'){
-  //   sentData.iValue = $('#reportYear').val();
-  //   sentData.iKindSearch = 3;
-  // }
-  // console.log(sentData);
-  // let data = await Service.getReportWorkingvsIdlingTimeGuardData(sentData);
-  // console.log(data);
-  // $('.headerTblReportTour').text('');
-  // if(data) showReportPagination(data);
-  // else{
-  //   resetTblTourReport();
-  //   showAlertError("No data avilable", "", 3000);
-  // }
-  // setDefaultLang();
-}
-
-function showReportPagination(data){
-  $('#totalTourReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
-  $('#pagingToursControl').pagination({
-    dataSource: data,
-    pageSize: 10,
-    className: 'paginationjs-theme-green paginationjs-big',
-    showGoInput: true,
-    showGoButton: true,
-    callback: function (data, pagination) {
-      let $table = renderTourReportTable(data);
-      $('.card-tourReport .table-responsive').html($table);
-      setDefaultLang();
-    }
-  })
-}
-
-function renderReportTable(data){
-  let $table = $('#tblReport');
-  let $thead = $('<thead></thead>');
-  let $tbody = $('<tbody></tbody>');
-  $thead.append(`
-    <tr>
-      <td></td>
-    </tr>`
-  );
-  data.forEach(item => {
-    const { WorkTimeRequire, dDateCheck, dIdlingPercent, dTotalTimeWorking,  } = 
-    $tbody.append(`
-      <tr>
-        <td></td>
-      </tr>`
-    );
-  })
-  $table.append($thead).append($tbody);
 }
 
 function setDefaultLoading(){

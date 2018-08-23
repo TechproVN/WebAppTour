@@ -156,53 +156,35 @@
             </div>  
             <div class="row my-4">
                 <div class="col-12">
-                  <label for="" class="trn">by Year</label>
+                  <label for="" class="trn">by Week</label>
                   <div class="input-group">
-                    <select id="reportYear" class="form-control selectYear"></select>
+                    <select name="" id="reportWeek" class="form-control form-control-sm selectWeek"></select>
                     <div class="input-group-append">
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                          <div class="dropdown-menu" style="padding-right: 10px">
-                            <button class="dropdown-item btn btn-custom btn-info btn-custom-small  trn" id="btnViewYearlyPatrorllingReport">View</button>
-                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartYearlyPatrollingReport">Chart</button>
-                          </div>
-                        </div>
-                      </div>
+                      <button class="btn btn-custom bg-main-color btn-custom-small trn" id="btnShowChartVsDataByWeek" style="margin-top: 0">View</button>
+                    </div>
                   </div>
-                </div>
+              </div>
             </div>
             <div class="row my-4">
               <div class="col-12">
                 <label for="" class="trn">by Month</label>
                 <div class="input-group">
-                  <select id="reportMonth" class="form-control selectMonth"></select>
+                  <select name="" id="reportMonth" class="form-control form-control-sm selectMonth"></select>
                   <div class="input-group-append">
-                      <div class="btn-group">
-                          <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                          <div class="dropdown-menu" style="padding-right: 10px">
-                            <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewMonthlyPatrorllingReport">View</button>
-                            <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartMonthlyPatrollingReport">Chart</button>
-                          </div>
-                      </div>
-                    </div>
+                    <button class="btn btn-custom bg-main-color btn-custom-small trn" id="btnShowChartVsDataByMonth" style="margin-top: 0">View</button>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="row my-4">
-              <div class="col-12">
-                <label for="" class="trn">by Week</label>
-                <div class="input-group">
-                  <select id="reportWeek" class="form-control selectWeek"></select>
-                  <div class="input-group-append">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle trn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                        <div class="dropdown-menu" style="padding-right: 10px">
-                          <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" id="btnViewWeeklyPatrorllingReport">View</button>
-                          <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" id="btnViewChartWeeklyPatrorllingReport">Chart</button>
-                        </div>
-                      </div>
+                <div class="col-12">
+                  <label for="" class="trn">by Year</label>
+                  <div class="input-group">
+                    <select name="" id="reportYear" class="form-control form-control-sm selectYear"></select>
+                    <div class="input-group-append">
+                      <button class="btn btn-custom bg-main-color btn-custom-small trn" id="btnShowChartVsDataByYear" style="margin-top: 0">View</button>
                     </div>
-                </div>
+                  </div>
               </div>
             </div>
           </div>
@@ -220,15 +202,14 @@
             <div class="card-body custom-card-body">
               <div class="row my-2">
                 <div class="col-12">
-                    <h5 class="text-center trn">Security Patrolling Performance</h5>
+                  <h5 class="text-center trn">Security Patrolling Performance</h5>
                 </div>
               </div>
-              <div class="row my-3">
-                <div class="col-12">
-                  <div class="text-center font-weight-bold green-text headerTblReportSecurityWeek" style="font-size: 1.2em"></div>
-                </div>
+              <div class="row">
+                <div class="col-md-6" id="chartPatrolling"></div>
+                <div class="col-md-6" id="chartTime"></div>
               </div>
-              <div class="table-responsive">
+              <div class="table-responsive mt-5">
                 <table class="table table-hover table-striped table-condensed custom-table" id="tblReportSecurity"></table>
               </div>
             </div>

@@ -1,21 +1,25 @@
 $(() => {
-  $('#btnShowReportWeek').click(() => {
-    showTourDetailsTable('week');
+
+  $('#btnShowChartVsDataByWeek').click(async () => {
+    let data = await getData('week');
+    showChart(data, 'week');
+    renderTourReportTable(data);
+    setDefaultLang();
+    if(!data) showAlertError('No data available!!!', '');
   })
-  $('#btnShowReportMonth').click(() => {
-    showTourDetailsTable('month');
+  $('#btnShowChartVsDataByMonth').click(async () => {
+    let data = await getData('month');
+    showChart(data, 'month');
+    renderTourReportTable(data);
+    setDefaultLang();
+    if(!data) showAlertError('No data available!!!', '');
   })
-  $('#btnShowReportYear').click(() => {
-    showTourDetailsTable('year');
-  })
-  $('#btnShowChartByWeek').click(() => {
-    showChart('week');
-  })
-  $('#btnShowChartByMonth').click(() => {
-    showChart('month');
-  })
-  $('#btnShowChartByYear').click(() => {
-    showChart('year');
+  $('#btnShowChartVsDataByYear').click(async () => {
+    let data = await getData('year');
+    showChart(data, 'year');
+    renderTourReportTable(data);
+    setDefaultLang();
+    if(!data) showAlertError('No data available!!!', '');
   })
 
   showRouteList(true);
@@ -23,9 +27,22 @@ $(() => {
   showWeeksSelect();
   showYearsSelect();
   setDefaultLoading();
+
 })
 
-async function showChart(type){
+async function showChart(data, type){
+  if(!data){
+    $('#lineChart').html('');
+    $('#barChart').html('');
+  }else{
+    setTimeout(() => {
+      buildLineChart(data, type);
+      buildBarChart(data, type);
+    }, 200);
+  }
+}
+
+async function getData(type){
   let iRouteID = $('#selectRouteName').val();
   let sentData = { iRouteID, iWeek: 0, iMonth: 0, iYear: 0 };
   if(type.toLowerCase() == 'month') 
@@ -34,21 +51,13 @@ async function showChart(type){
     sentData.iWeek = $('#reportWeek').val();
   else if (type.toLowerCase() == 'year')
     sentData.iYear = $('#reportYear').val();
-
   let data = await Service.getTourDetail(sentData);
-  //console.log(data);
-  if(!data) return showAlertError("No data available!!", "", 5000);
-  setTimeout(() => {
-    buildLineChart(data, type);
-    buildBarChart(data, type);
-  }, 200);
-  $('#modalChartReport').modal('show');
-  
+  return data;
 }
 
 function buildLineChart(chartData, type){
   let $chartCanvas = $('<canvas style="width: 100%" height="450"></canvas>');
-  $('#modalChartReport').find('#lineChart').html($chartCanvas);
+  $('#lineChart').html($chartCanvas);
   let ctx = $chartCanvas[0].getContext('2d');
   
   let bgColor1 = 'rgba(255, 99, 132, 0.2)';
@@ -153,7 +162,7 @@ function getLabelsChart(chartData, type){
 
 function buildBarChart(data, type){
   let $chartCanvas = $('<canvas style="width: 100%" height="450"></canvas>');
-  $('#modalChartReport').find('#barChart').html($chartCanvas);
+  $('#barChart').html($chartCanvas);
   let ctx = $chartCanvas[0].getContext('2d');
   let chartData = data.map(item => Number(item.iNumber_of_reports_issued));
   let length = chartData.length;
@@ -201,55 +210,9 @@ function setDefaultLoading(){
   //showTourDetailsTable('month');
 }
 
-async function showTourDetailsTable(type){
-  let iRouteID = $('#selectRouteName').val();
-  let sentData = { iRouteID, iWeek: 0, iMonth: 0, iYear: 0 };
-  
-  if(type.toLowerCase() == 'month') 
-    sentData.iMonth = $('#reportMonth').val();
-  else if (type.toLowerCase() == 'week')
-    sentData.iWeek = $('#reportWeek').val();
-  else if (type.toLowerCase() == 'year')
-    sentData.iYear = $('#reportYear').val();
-  
-  console.log(sentData);
-  let data = await Service.getTourDetail(sentData);
-  console.log(data);
-  $('.headerTblReportTour').text('');
-  if(data) showReportPagination(data);
-  else{
-    resetTblTourReport();
-    showAlertError("No data avilable", "", 3000);
-  }
-
-  setDefaultLang();
-}
-
-function showReportPagination(data){
-  $('#totalTourReportRows').html(`<strong class="trn">Total rows</strong>: ${data.length}`);
-  $('#pagingToursControl').pagination({
-    dataSource: data,
-    pageSize: 10,
-    className: 'paginationjs-theme-green paginationjs-big',
-    showGoInput: true,
-    showGoButton: true,
-    callback: function (data, pagination) {
-      let $table = renderTourReportTable(data);
-      $('.card-tourReport .table-responsive').html($table);
-      setDefaultLang();
-    }
-  })
-}
-
-function resetTblTourReport(){
-  $('#totalTourReportRows').html('');
-  $('#pagingToursControl').html('');
-  $('#tblReportTour').find('tbody').html('');
-  $('.headerTblReportTour').text('');
-}
-
 function renderTourReportTable(data) {
-  let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblReportTour"></table>`)
+  let $table = $('#tblReportTour');
+  $table.html('');
   let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
 
@@ -270,29 +233,27 @@ function renderTourReportTable(data) {
       </tr>
     `
   )
-  if (data) {
-    data.forEach((tour) => {
-      const {dDateReport, sDayName, iWeek, iMonth, sRouteName, dPerformance_Routes, dPerformance_Routing, dPerformance_Timing, dPerfomance_Time, dIdling_Time_in, iNumber_of_reports_issued} = tour;
-      $tbody.append(`
-        <tr>
-          <td>${sRouteName}</td>
-          <td>${dDateReport}</td>
-          <td>${sDayName}</td>
-          <td>${iWeek}</td>
-          <td>${iMonth}</td>
-          <td>${dPerformance_Routes} %</td>
-          <td>${dPerformance_Routing} %</td>
-          <td>${dPerformance_Timing} %</td>
-          <td>${dPerfomance_Time} %</td>
-          <td>${dIdling_Time_in} %</td>
-          <td>${iNumber_of_reports_issued}</td>
-        </tr>
-      `)
-    })
-  }
-
-  $table.append($thead).append($tbody);
-  return $table;
+  $table.append($thead);
+  if(!data) return;
+  data.forEach((tour) => {
+    const {dDateReport, sDayName, iWeek, iMonth, sRouteName, dPerformance_Routes, dPerformance_Routing, dPerformance_Timing, dPerfomance_Time, dIdling_Time_in, iNumber_of_reports_issued} = tour;
+    $tbody.append(`
+      <tr>
+        <td>${sRouteName}</td>
+        <td>${dDateReport}</td>
+        <td>${sDayName}</td>
+        <td>${iWeek}</td>
+        <td>${iMonth}</td>
+        <td>${dPerformance_Routes} %</td>
+        <td>${dPerformance_Routing} %</td>
+        <td>${dPerformance_Timing} %</td>
+        <td>${dPerfomance_Time} %</td>
+        <td>${dIdling_Time_in} %</td>
+        <td>${iNumber_of_reports_issued}</td>
+      </tr>
+    `)
+  })
+  $table.append($tbody);
 }
 
 function getColorVsBgColor(length){
