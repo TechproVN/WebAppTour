@@ -162,6 +162,7 @@
                   <button class="btn btn-custom bg-main-color pull-right trn" id="btnViewReport">View</button>
                   <button class="btn btn-custom bg-main-color pull-right trn" id="btnExportReport2Excel">Export</button>
                   <button class="btn btn-custom bg-main-color pull-right trn" id="btnChartReport">Chart</button>
+                  <button class="btn btn-custom bg-main-color pull-right trn" id="btnEnterManager">Manager</button>
                 </div>
               </div>
             </div>
@@ -169,7 +170,7 @@
           <!-- card filter end -->
       </div>
   
-      <div class="col-lg-9 printing-area">
+      <div class="col-lg-9">
         <!-- card Points start -->
         <div class="card card-daily-report-of-guard">
           <div class="card-header bg-main-color custom-card-header">
@@ -177,18 +178,28 @@
               <i class="fa fa-exclamation-triangle"></i> <span class="trn">Reports</span>
             </h4>
           </div>
-          <div class="card-body custom-card-body">
-            
+          <div class="card-body custom-card-body printing-area">
+            <div class="row my-3">
+              <div class="col-md-6">
+                <img src="../img/logo.png" class="img-fluid" alt="">
+              </div>
+              <div class="col-md-6">
+                <div class="">
+                  <strong>Manager: </strong> <span class="manager-name "></span>
+                </div>
+                <div>
+                  <strong>Started date</strong>
+                  <span class="fromDateReport"></span>
+                </div>
+                <div>
+                  <strong>Ended date</strong>
+                  <span class="toDateReport"></span>
+                </div>
+              </div>
+            </div>
             <div class="row">
               <div class="col-12">
-                <center>
-                  <h3 class="trn text-uppercase">Daily Patrolling Report</h3>
-                  <!-- <h6 class="text-uppercase">Báo cáo kết quả công tác tuần tra bảo vệ hằng ngày</h6> -->
-              </div>
-              </center>
-            <div class="row my-3">
-              <div class="col-12">
-                <div class="text-center font-weight-bold green-text headerTblReport" style="font-size: 1.2em"></div>
+                <h3 class="trn text-uppercase text-center">Daily Patrolling Report</h3>
               </div>
             </div>
             <div class="table-responsive">
@@ -202,9 +213,7 @@
 
         <div id="chartPrintingArea">
           <div class="row">
-            <div class="col-md-6" id="chartImagePatrolling">
-              
-            </div>
+            <div class="col-md-6" id="chartImagePatrolling"></div>
             <div class="col-md-6" id="chartImageTime"></div>
           </div>
           <div class="row">
@@ -257,21 +266,28 @@
     <div class="row">
       <div class="col-12">
         <!-- Modal Printing Report -->
-        <div class="modal fade" id="modalPrintReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-custom" role="document">
+        <div class="modal fade" id="modalEnterManager" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title trn" id="">Printing Content</h5>
+                <h5 class="modal-title trn">Manager</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-               
+               <div class="row">
+                 <div class="col-12">
+                   <div class="form-group">
+                     <label for="">Manager</label>
+                     <input type="text" class="form-control" id="txtManagerName" placeholder="Enter name ...">
+                   </div>
+                 </div>
+               </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-custom bg-main-color trn" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-custom bg-main-color trn" id="btnPrintDailyReport">Print</button>
+                <button type="button" class="btn btn-custom bg-main-color trn" id="btnSaveManagerName">Confirm</button>
               </div>
             </div>
           </div>

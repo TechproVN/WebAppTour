@@ -9,9 +9,9 @@ $(() => {
   });
   $('#btnExportReport2Excel').click(openPrintReportWindow);
   $('#btnChartReport').click(showChartReport);
-  // $('#btnPrintDailyReport').click(printDailyReportContent);
+  $('#btnEnterManager').click(showModalEnterManager);
+  $('#btnSaveManagerName').click(saveManagerName);
   showRouteList();
-  // showGuardReportPage();
   formatTodayReport();
 
 })
@@ -80,6 +80,18 @@ $(() => {
     buildChartTimePerformance();
     $('#modalChartReport').modal('show');
   }
+
+function showModalEnterManager(){
+  $('#modalEnterManager').modal('show');
+  $('#txtManagerName').val('');
+}
+
+function saveManagerName(){
+  let name = $('#txtManagerName').val();
+  if(name.trim() == '') return showAlertError('You have to input name!!!', '', 5000);
+  $('.manager-name').text(name);
+  $('#modalEnterManager').modal('hide');
+}
 
 function buildChartPatrollingPerformance(id){
   if(currentDataChartPatrollingPerformance.length == 0) {
