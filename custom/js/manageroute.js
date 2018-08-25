@@ -78,7 +78,6 @@ function showTourInsertExecute(e){
   let val = e.target.value;
   let txtTourEx = $('.tourExecute');
   let maxTime = $('#txtInsertCompletionTime').val();
-  console.log(maxTime);
   if(!Validation.checkPositiveNumber(val)) return txtTourEx.val('');
   let tourEx = 1440/(Number(val) + Number(maxTime));
   txtTourEx.val(tourEx);
@@ -88,7 +87,6 @@ function showTourUpdateExecute(e){
   let val = e.target.value;
   let txtTourEx = $('.tourExecute');
   let maxTime = $('#txtUpdateCompletionTime').val();
-  console.log(maxTime);
   if(!Validation.checkPositiveNumber(val)) return txtTourEx.val('');
   let tourEx = 1440/(Number(val) + Number(maxTime));
   txtTourEx.val(tourEx);
@@ -297,7 +295,6 @@ function renderListOfSelectedPoints(selectedPoints){
 async function saveRoute(){
   let routeName = $('#txtInsertRouteName').val();
   let type = $('.txtInsertRouteType').prop('checked');
-  console.log(type);
   let speed = $('#txtInsertSpeed').val();
   let minTime = $('#txtInsertMinTime').val();
   let maxTime = $('#txtInsertCompletionTime').val();
@@ -321,13 +318,10 @@ async function saveRoute(){
     })
     arrPoints = arr_2;
   }
-  console.log(arrPoints);
 
   let iZoneID = $('#selectRouteZone').val();
   let sentData = { iRouteID: 0, sRouteName: routeName, iBreakTime, bStatusIN: 1, Point: arrPoints, iZoneID, iTimeComplete: maxTime, dDistance: currentTotalDistance, iMinTime: minTime, iTourExecute: tourEx, iDeviceID, iSpeed: speed};
-  console.log(JSON.stringify(sentData));
   let response = await Service.saveRoute(sentData);
-  console.log(response);
   $('#modalInsertRoute').modal('hide');
   showAlertSuccess("Save successfully!", "", 2000);
   showRoutesOnTable();
@@ -531,10 +525,8 @@ async function updateRoute(){
   let iBreakTime =  $('#txtUpdateBreakTime').val();
   if(!validateRouteData(sRouteName, iSpeed, iMinTime, iTimeComplete, iTourExecute, iBreakTime)) return;
   let sentData = { iDeviceID, iBreakTime, iRouteID, iSpeed, iTimeComplete, sRouteName, dDistance: 0, iMinTime, iTourExecute, iZoneID: 0, Point: null, iBreakTime, bStatusIN: 2 };
-  console.log(JSON.stringify(sentData));
   let response = await Service.updateRouteDetail(sentData);
   showRoutesOnTable();
-  console.log(response);
   showAlertSuccess("Updated successfully!", "", 3000);
 }
 

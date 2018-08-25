@@ -1,4 +1,4 @@
-$(() => {
+$(async () => {
   
   $('#btnViewReport').click(() => {
     showReportData();
@@ -11,12 +11,13 @@ $(() => {
   $('#btnChartReport').click(showChartReport);
   $('#btnEnterManager').click(showModalEnterManager);
   $('#btnSaveManagerName').click(saveManagerName);
-  showRouteList();
+  arrRoutes = await showRouteList();
   formatTodayReport();
 
 })
   let chartTime = null;
   let chartPatrolling = null;
+  let arrRoutes = [];
 
   const arrCriteriaReport = [
     'Time per Route (min)',
@@ -254,15 +255,21 @@ function showTimeReportOnHeader(time){
   $('.toDateReport').text(`${time} 11:59PM`);
 }
 
+function showRouteName(){
+  let id = $('#selectRouteList').val();
+  let g = arrRoutes.find(g => g.iRouteID == id);
+  $('.route-name').text(g.sRouteName);
+}
+
 async function showReportData(){
   let RouteID = $('#selectRouteList').val();
   let time = $('#reportDatetime').val();
   if(time == '') return alert('No date time submitted');
   showTimeReportOnHeader(time);
+  showRouteName();
   let dDateTime = changeFormatDateTime(time);
   let sentData = { RouteID, dDateTime }
   const data = await Service.reportRoutebydate(sentData);
-  console.log(data);
   renderReportTable(data);
   setDefaultLang();
   if(data){
