@@ -34,7 +34,6 @@ $('.dropdown').on('hidden.bs.dropdown', function () {
   })
 })
 
-
 function formatToday() {
   let now = new Date();
   let year = now.getFullYear();

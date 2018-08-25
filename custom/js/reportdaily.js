@@ -226,7 +226,6 @@ function renderReportTable(data){
   $table.html('');
   let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
-
   $thead.html(`
       <tr>
         <th class="trn text-center">No.</th>
@@ -263,12 +262,7 @@ async function showReportData(){
   let dDateTime = changeFormatDateTime(time);
   let sentData = { RouteID, dDateTime }
   const data = await Service.reportRoutebydate(sentData);
-  let guard = arrGuardList.find(g => g.iGuardId == GuardID);
-  if (guard) {
-    const { sGuardName } = guard;
-    guardHeader = `${sGuardName} - ${time}`;
-  }
-  $('.headerTblReport').text(guardHeader);
+  console.log(data);
   renderReportTable(data);
   setDefaultLang();
   if(data){
@@ -279,6 +273,7 @@ async function showReportData(){
   }else{
     currentDataChartTimePerformance = [];
     currentDataChartPatrollingPerformance = [];
+
   }
 }
 

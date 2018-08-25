@@ -1,6 +1,5 @@
 $(() => {
   // enable alert 
-
   $('.alert').alert();
   $( ".sortable" ).sortable({
     update: function(event, ui){
@@ -31,8 +30,6 @@ $(() => {
   showAllZones();
   showPointsOnZone();
   showRoutesOnTable();
-  // showGuardIdOnCombobox();
-  // showZonesOnJcomboboxFilter();
 
   showRouteMap();
 })
@@ -97,17 +94,6 @@ function showTourUpdateExecute(e){
   txtTourEx.val(tourEx);
 }
 
-//function showTourExecute(e){
-  //let val = e.target.value;
-  //let txtTourEx = $('.tourExecute');
-  //let txtbrTime = $('.breakTime').value;
-  //console.log(txtbrTime);
-  //if(!Validation.checkPositiveNumber(val)) return txtTourEx.val('');
-  //let tourEx = 1440/(Number(val) + Number(txtbrTime));
-  //txtTourEx.val(tourEx);
-//}
-
-// routeMap
 function buildRouteMap(){
   let $mapArea = $(`<div id="routeMap" class="map"></div>`);
   $('.card-route-map').find('.card-body').html($mapArea);
@@ -209,21 +195,6 @@ function renderZoneOnJcombobox(data) {
     })
   }
 }
-
-// function renderZoneOnJcomboboxFilter(data) {
-//   $('#selectZonesFilter').html('');
-//   $('#selectZonesFilter').append(`<option value="0">All</option>`)
-//   if (data) {
-//     data.forEach(zone => {
-//       $('#selectZonesFilter').append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
-//     })
-//   }
-// }
-
-// async function showZonesOnJcomboboxFilter(){
-//   let data = await Service.getAllZones();
-//   renderZoneOnJcomboboxFilter(data);
-// }
 
 async function showAllZones(){
   let data = await Service.getAllZones();
@@ -333,8 +304,7 @@ async function saveRoute(){
   let tourEx = $('#txtInsertTourExecute').val();
   let iDeviceID = $('#selectInsertRouteDevice').val();
   let iBreakTime = $('#txtInsertBreakTime').val();
-  if(!validateRouteData(routeName, speed, minTime, maxTime, tourEx)) 
-  return $('#modalInsertRoute').modal('show'); 
+  if(!validateRouteData(routeName, speed, minTime, maxTime, tourEx, iBreakTime)) return; 
   let arr_1 = arrSelectedPointsOnRoute.map((p, index) => {
     const { iPointID } = p;
     return { PointID: iPointID, No: index + 1 }
@@ -350,13 +320,13 @@ async function saveRoute(){
   console.log(JSON.stringify(sentData));
   let response = await Service.saveRoute(sentData);
   console.log(response);
-  $('#modalInsertRoute').modal('show');
+  $('#modalInsertRoute').modal('hide');
   showAlertSuccess("Save successfully!", "", 2000);
   showRoutesOnTable();
   resetAfterSavingRoute();
 }
 
-function validateRouteData(name, speed, min, max, tourEx){
+function validateRouteData(name, speed, min, max, tourEx, iBreakTime){
   let err = '';
   let valid = true;
   if(!Validation.checkEmpty(name)) {
@@ -379,6 +349,10 @@ function validateRouteData(name, speed, min, max, tourEx){
     err += 'TourExecute must be positive number!!\n';
     valid = false;
   }
+  if(!Validation.checkPositiveNumber(iBreakTime)) {
+    err += 'BreakTime must be positive number!!\n';
+    valid = false;
+  }
   if(!valid) showAlertError('Invalid data!!', err);
   return valid;
 }
@@ -398,8 +372,6 @@ async function deleteRoute(route){
   if(sure){
     const { iRouteID } = route;
     let sentData = { iRouteID: iRouteID, iBreakTime: 0, bStatusIN: 3, sRouteName: 0, Point: null, iZoneID: 0, iTimeComplete: 0, dDistance: 0, iMinTime: 0, iTourExecute: 0, iDeviceID:0, iSpeed:0};
-    //let sentData = { RouteID: 0, RouteName: routeName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete: maxTime, Distance: currentTotalDistance, MinTime: minTime, TourExecute: tourEx, iDeviceID};
-    //console.log(JSON.stringify(sentData));
     console.log(sentData);
     let response = await Service.deleteRoute(sentData);
     console.log(response);
@@ -549,9 +521,8 @@ async function updateRoute(){
   let sRouteName = $('#txtUpdateRouteName').val();
   let iTourExecute =  $('#txtUpdateTourExecute').val();
   let iBreakTime =  $('#txtUpdateBreakTime').val();
-  if(!validateRouteData(sRouteName, iSpeed, iMinTime, iTimeComplete, iTourExecute)) return;
-  let sentData = { iDeviceID, iBreakTime, iRouteID, iSpeed, iTimeComplete, sRouteName, dDistance: 0, iMinTime, iTourExecute, iZoneID: 0, Point: null, iBreakTime, bStatusIN: 2};
-  //let sentData = { RouteID: 0, RouteName: routeName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete: maxTime, Distance: currentTotalDistance, MinTime: minTime, TourExecute: tourEx, iDeviceID};
+  if(!validateRouteData(sRouteName, iSpeed, iMinTime, iTimeComplete, iTourExecute, iBreakTime)) return;
+  let sentData = { iDeviceID, iBreakTime, iRouteID, iSpeed, iTimeComplete, sRouteName, dDistance: 0, iMinTime, iTourExecute, iZoneID: 0, Point: null, iBreakTime, bStatusIN: 2 };
   console.log(JSON.stringify(sentData));
   let response = await Service.updateRouteDetail(sentData);
   showRoutesOnTable();
