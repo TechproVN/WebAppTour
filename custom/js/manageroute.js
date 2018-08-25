@@ -311,10 +311,18 @@ async function saveRoute(){
   })
   let arrPoints = arr_1.slice();
   if(!type) {
-    let arr_2 = arrPoints.concat(arr_1.reverse());
+    let arr_1_copy = arr_1.map(item => Object.assign({}, item));
+    let arr_2 = arrPoints.concat(arr_1_copy.reverse());
     arr_2.splice(arr_1.length, 1);
+    arr_2.forEach((item, index) => {
+      if(index > arr_1.length - 1) {
+        item.No = index + 1
+      }
+    })
     arrPoints = arr_2;
   }
+  console.log(arrPoints);
+
   let iZoneID = $('#selectRouteZone').val();
   let sentData = { iRouteID: 0, sRouteName: routeName, iBreakTime, bStatusIN: 1, Point: arrPoints, iZoneID, iTimeComplete: maxTime, dDistance: currentTotalDistance, iMinTime: minTime, iTourExecute: tourEx, iDeviceID, iSpeed: speed};
   console.log(JSON.stringify(sentData));

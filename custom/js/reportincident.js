@@ -21,6 +21,7 @@ $(() => {
 })
 
 let arrIncidents = [];
+let arrIncidentsID = [];
 let arrRows = [];
 
 async function showChartIncidentReport(type){
@@ -148,7 +149,7 @@ function renderTblIncidentReport(){
           <td>${getNumOfViolationsByDate(row)}</td>
         </tr>
       `)
-      arrIncidents.forEach(item => {
+      arrIncidentsID.forEach(item => {
         $tbody.find('tr').last().append(`<td>${row[item]}</td>`);
       })
     })
@@ -166,7 +167,11 @@ async function showIncidentReport(type){
     sentData.iMonth = month;
   }
   let data = await Service.reportIncidentWeekOrMonth(sentData);
+  console.log(data);
   arrIncidents = getIncidentsArr(data);
+  console.log(arrIncidents);
+  arrIncidentsID = getIncidentsIDArr(data);
+  console.log(arrIncidentsID);
   arrRows = getRowsViolationsByDate(data);
   renderTblIncidentReport();
   if(!data) showAlertError("No data available!!", "");
@@ -179,6 +184,13 @@ function getIncidentsArr(data){
   return [...incidentsSet];
 }
 
+function getIncidentsIDArr(data){
+  if(!data) return null;
+  if(data.length == 0) return null;
+  let incidentsSet = new Set(data.map(incident => incident.iAlertContentID));
+  return [...incidentsSet];
+}
+
 function getRowsViolationsByDate(data){
   if(!data) return null;
   if(data.length == 0) return null;
@@ -187,17 +199,17 @@ function getRowsViolationsByDate(data){
   dateSet.forEach(value => {
     let arrTemp = data.filter(item => item.dDate == value);
     let acc = arrTemp.reduce((acc, incident, index) => {
-      const { sAlertContent, iCountAlert } = incident;
+      const { sAlertContent, iCountAlert, iAlertContentID } = incident;
       if(index == 0){
         const { sDay, iWeek, dDate } = incident;
         acc.sDay = sDay;
         acc.iWeek = iWeek;
         acc.dDate = dDate;
       }
-      if(!acc[sAlertContent]) {
-        acc[sAlertContent] = 0;
+      if(!acc[iAlertContentID]) {
+        acc[iAlertContentID] = 0;
       }
-      acc[sAlertContent] += Number(iCountAlert);
+      acc[iAlertContentID] += Number(iCountAlert);
       return acc;
     }, {});
     arrRows.push(acc);
