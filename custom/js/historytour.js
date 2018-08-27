@@ -144,8 +144,8 @@ function renderEventHistoryTable(data) {
     `
   )
   if (data) {
-    data.forEach((event, index) => {
-      const { sZoneName, sRouteName, sGuardName, sDeviceName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, iCountPoint, iCheckedPoint, iTimeComplete, iTimeCurrent, dDistance, sCheckingCode } = event;
+    data.forEach((tour, index) => {
+      const { sZoneName, sRouteName, sGuardName, sDeviceName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, iCountPoint, iCheckedPoint, iTimeComplete, iTimeCurrent, dDistance, sCheckingCode } = tour;
       $tbody.append(`
         <tr>
           <td>${index + 1}</td>
@@ -169,15 +169,31 @@ function renderEventHistoryTable(data) {
               <div class="dropdown-menu" >
                 <button class="btn btn-custom btn-success btn-custom-small dropdown-item trn" style=" margin-top:-5px" onClick = "showEventDetailsMap('${sCheckingCode}')">Map</button>
                 <button class="btn btn-custom btn-info btn-custom-small dropdown-item trn" style=" margin-top:-5px; margin-left: 5px" onClick = "showEventHistoryDetails('${sCheckingCode}')">Details</button>
+                <button class="btn btn-custom btn-warning btn-custom-small dropdown-item trn btn-show-accept-confirm" style=" margin-top:-5px; margin-left: 5px">Accept</button>
               </div>
             </div>
           </td>
         </tr>
       `)
+      $tbody.find('.btn-show-accept-confirm').last().click(() => {
+        showAcceptConfirm(tour);
+      })
     })
   } 
   $table.append($thead).append($tbody);
   return $table;
+}
+
+async function showAcceptConfirm(tour){
+  console.log(tour);
+  const { iCheckedPoint } = tour;
+  if(iCheckedPoint == 0) return showAlertError('This point is not checked!!', '', 5000);
+  let sure = await showAlertWarning('Do you want to accept this!!!', 'Confirm or Cancel?');
+  if(sure){
+    console.log(123);
+  }else{
+    console.log(234);
+  }
 }
 
 // async function formatTodayEvent() {
@@ -261,17 +277,17 @@ function renderModalEditEventHistoryDetails(data) {
   $('#modalEventHistoryDetailsEdit').modal('show');
 }
 
-function buildEventDetailsMap(event){
+function buildEventDetailsMap(data, dataTracking){
   let lat = CENTER_POS_MAP_VIEW[0];
   let lng = CENTER_POS_MAP_VIEW[1];
   let mapProp = createMapPropGoogleMap(16, lat, lng);
   let mymap = new google.maps.Map($('#mapEventDetails')[0], mapProp);
-  if(event){
-    event.forEach(detail => {
+  if(data){
+    let l1 = data.length;
+    data.forEach((detail, index) => {
       let lat = Number(detail.dPointLat);
       let lng = Number(detail.dPointLong);
       let pos = new google.maps.LatLng(lat, lng);
-      
       if (lat != 0 || lng != 0){
         if(detail.sStatus == 'Checked'){
           let mes = `${detail.sGuardName} checked at ${detail.dDateTimeHistory}`
@@ -279,7 +295,11 @@ function buildEventDetailsMap(event){
           let marker = createMarkerGoogleMap(pos, icon);
           marker.setMap(mymap);
           let infoWindow = createInfoWindowGoogleMap(mes);
-          infoWindow.open(mymap, marker);
+          if(index == 0 || index == l1 - 1) 
+            infoWindow.open(mymap, marker);
+          google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.open(mymap, marker);
+          });
         }else{
           let icon = '../img/None.png';
           let marker = createMarkerGoogleMap(pos, icon);
@@ -288,12 +308,30 @@ function buildEventDetailsMap(event){
       }
     })
   }
+  if(dataTracking){
+    let path = [];
+    dataTracking.forEach(item => {
+      const { dGuardLatCurrent, dGuardLongCurrent } = item;
+      let lat = Number(dGuardLatCurrent);
+      let lng = Number(dGuardLongCurrent);
+      console.log(lat, lng);
+      if (lat != 0 || lng != 0){
+        let pos = new google.maps.LatLng(lat, lng);
+        path.push(pos);
+      }
+    })
+    let polyline = createPolylineGoogleMap(path);
+    polyline.setMap(mymap);
+  }
 }
 
 async function showEventDetailsMap(checkingCode) {
   let $mapView = $('<div id="mapEventDetails" class="mymap" style="height:360px"></div>');
   $('#modalEventMap').find('.modal-body').html($mapView);
-  let event = await Service.getEventHistoryDetails(checkingCode);
+  let data = await Service.getEventHistoryDetails(checkingCode);
+  let sentData = { CheckingCode: checkingCode };
+  let dataTracking = await Service.getGuardTrackingbyTour(sentData);
+  console.log(dataTracking);
   $('#modalEventMap').modal('show');
-  setTimeout(() => {buildEventDetailsMap(event)}, 0);
+  buildEventDetailsMap(data, dataTracking);
 }

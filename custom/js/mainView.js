@@ -160,12 +160,13 @@ function renderGuardTable(data) {
       <th class="trn text-left">Name</th>
       <th class="trn">Last login</th>
       <th class="trn">Speed (km/h)</th>
+      <th class="trn">Idling Time(min)</th>
     </tr>
   `)
   let $checkboxHead = $thead.find('.checkbox-all-guards');
   if (data) {
     data.forEach((guard, index) => {
-      const { iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline } = guard
+      const { iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline, iIdlingTime } = guard
       let icon = '';
       let className = '';
       if(bOnline == 'SOS') {
@@ -186,6 +187,7 @@ function renderGuardTable(data) {
           <td class="text-left ${className}">${icon} ${sGuardName}</td>
           <td>${dLastUpdateTime}</td>
           <td>${dSpeedCurrent}</td>
+          <td>${iIdlingTime}</td>
         </tr>
       `)
       let $ele = $tbody.find('.checkbox-guard-sendSMS').last();
