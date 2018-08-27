@@ -119,6 +119,7 @@ function resetTblEventHistory(){
 }
 
 function renderEventHistoryTable(data) {
+  console.log(data);
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblEventHistory" style="min-height: 150px"></table>`);
   let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');

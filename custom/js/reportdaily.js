@@ -35,7 +35,7 @@ $(async () => {
     'Overall performance (%)',
     'Number of reports issued',
     'Actual Patrolling Time (min)',
-    'Allowed Interval between trip (15x27)',
+    'Allowed Interval between trip',
     'Total patroling time in minutes',
     'Perfomance Time %',
     'Total Idling Time (min)',
