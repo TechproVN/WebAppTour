@@ -28,6 +28,7 @@ let arrGuardList = [];
 let arrRouteList = [];
 let arrDeviceList = [];
 let headerTblTours = '';
+let lastSearch = {};
 
 async function showTourListsByDefault(){
   let { year, month, day, hour, min } = getCurrentDateTime();
@@ -39,9 +40,7 @@ async function showTourListsByDefault(){
   let guard = arrGuardList.find(g => g.iGuardId == GuardID.trim());
   let name = guard.sGuardName;
   let sentData = { fromDate, toDate, GuardID };
-  console.log(JSON.stringify(sentData));
   data = await Service.getEventHistoryDataGuard(sentData);
-  console.log(data);
   if(data){
     showToursListPagination(data, name, 'Guard', fromDate, toDate);
   }else {
@@ -82,8 +81,13 @@ async function showEventHistoryData(type) {
       name = device.sDeviceName;
       data = await Service.getEventHistoryDevice(sentData);
     }
+    lastSearch.sentData = sentData;
+    lastSearch.name = name;
+    lastSearch.type = type;
+    lastSearch.fromDate = fromDate;
+    lastSearch.toDate = toDate;
     if(data){
-      showToursListPagination(data, name, type,fromDate, toDate);
+      showToursListPagination(data, name, type, fromDate, toDate);
     }else {
       resetTblEventHistory();
       showAlertError("No data available", "", 3000);
@@ -147,7 +151,6 @@ function renderEventHistoryTable(data) {
   if (data) {
     data.forEach((tour, index) => {
       const { sZoneName, sRouteName, sGuardName, sDeviceName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, iCountPoint, iCheckedPoint, iTimeComplete, iTimeCurrent, dDistance, sCheckingCode, iError } = tour;
-      console.log(iError);
       $tbody.append(`
         <tr>
           <td>${index + 1}</td>
@@ -212,8 +215,21 @@ async function showAcceptConfirm(tour){
   if(sure.trim().toLowerCase() == 'accept') sentData.Process = 1;
   let response = await Service.processTourError(sentData);
   console.log(response);
+  showEventHistoryDataLastSearch(lastSearch);
 }
 
+async function showEventHistoryDataLastSearch(lastSearch){
+  let { sentData, name, type, fromDate, toDate } = lastSearch;
+  let data = null;
+  if(type.toLowerCase() == 'guard')
+    data = await Service.getEventHistoryDataGuard(sentData);
+  else if(type.toLowerCase() == 'route')
+    data = await Service.getEventHistoryRoute(sentData);
+  else if(type.toLowerCase() == 'device')
+    data = await Service.getEventHistoryDevice(sentData);
+  if(data) showToursListPagination(data, name, type, fromDate, toDate);
+  setDefaultLang();
+}
 
 function checkTimeFormat(from, to) {
   let valid = true;
