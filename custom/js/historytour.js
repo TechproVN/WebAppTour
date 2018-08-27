@@ -194,39 +194,25 @@ function showProcessedStatus(error){
 }
 
 async function showAcceptConfirm(tour){
-  const { iCheckedPoint, sCheckingCode } = tour;
-  if(iCheckedPoint != '0') return showAlertError('Can not accept or reject this !!', '', 5000);
-  let sentData = { CheckingCode: sCheckingCode, Process: 0 };
+  const { iError, sCheckingCode } = tour;
+  if(iError != '0') return showAlertError('Can not accept or reject this !!', '', 5000);
   let buttons = {
     accept: {
-      text: "Accept!",
-      value: "catch",
+      text: "Accept",
+      value: "accept",
     },
     reject: {
       text: "Reject",
-      // value: "catch",
+      value: "reject",
     },
   };
   let sure = await showAlertWarning('Do you want to accept this!!!', 'Confirm or Cancel?', buttons);
-  console.log(sure);
-  // if(!sure) sentData.Process = 1;
-  // let response = await Service.processTourError(sentData);
-  // console.log(response);
+  if(!sure) return;
+  let sentData = { CheckingCode: sCheckingCode, Process: 0 };
+  if(sure.trim().toLowerCase() == 'accept') sentData.Process = 1;
+  let response = await Service.processTourError(sentData);
+  console.log(response);
 }
-
-// async function formatTodayEvent() {
-//   let GuardID = 0;
-//   let fromDate = null;
-//   let toDate = null;
-//   let sentData = { GuardID, fromDate, toDate };
-//   let data = await Service.getEventHistoryDataGuard(sentData);
-//   if(data){
-//     showToursListPagination();
-//   }else{
-//     resetTblEventHistory();
-//     showAlertError("No data available", "", 3000);
-//   }
-// }
 
 
 function checkTimeFormat(from, to) {
@@ -332,7 +318,6 @@ function buildEventDetailsMap(data, dataTracking){
       const { dGuardLatCurrent, dGuardLongCurrent } = item;
       let lat = Number(dGuardLatCurrent);
       let lng = Number(dGuardLongCurrent);
-      console.log(lat, lng);
       if (lat != 0 || lng != 0){
         let pos = new google.maps.LatLng(lat, lng);
         path.push(pos);
