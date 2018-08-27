@@ -206,7 +206,7 @@ async function showAcceptConfirm(tour){
       value: "reject",
     },
   };
-  let sure = await showAlertWarning('Do you want to accept this!!!', 'Confirm or Cancel?', buttons);
+  let sure = await showAlertWarning('Do you want to accept this!!!', 'Accept or Reject?', buttons);
   if(!sure) return;
   let sentData = { CheckingCode: sCheckingCode, Process: 0 };
   if(sure.trim().toLowerCase() == 'accept') sentData.Process = 1;
