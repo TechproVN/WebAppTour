@@ -119,7 +119,6 @@ function resetTblEventHistory(){
 }
 
 function renderEventHistoryTable(data) {
-  console.log(data);
   let $table = $(`<table class="table table-hover table-striped table-condensed text-center custom-table" id="tblEventHistory" style="min-height: 150px"></table>`);
   let $thead = $('<thead class="custom-table-header"></thead>');
   let $tbody = $('<tbody></tbody>');
@@ -140,13 +139,15 @@ function renderEventHistoryTable(data) {
         <th class="trn">Timing</th>
         <th class="trn">Current</th>
         <th class="trn">Distance</th>
+        <th class="trn">Processed</th>
         <th class="trn"></th>
       </tr>
     `
   )
   if (data) {
     data.forEach((tour, index) => {
-      const { sZoneName, sRouteName, sGuardName, sDeviceName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, iCountPoint, iCheckedPoint, iTimeComplete, iTimeCurrent, dDistance, sCheckingCode } = tour;
+      const { sZoneName, sRouteName, sGuardName, sDeviceName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, iCountPoint, iCheckedPoint, iTimeComplete, iTimeCurrent, dDistance, sCheckingCode, iError } = tour;
+      console.log(iError);
       $tbody.append(`
         <tr>
           <td>${index + 1}</td>
@@ -162,6 +163,7 @@ function renderEventHistoryTable(data) {
           <td>${iTimeComplete}</td>
           <td>${iTimeCurrent}</td>
           <td>${dDistance}</td>
+          <td>${showProcessedStatus(iError)}</td>
           <td>
             <div class="btn-group">
               <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -185,16 +187,31 @@ function renderEventHistoryTable(data) {
   return $table;
 }
 
+function showProcessedStatus(error){
+  if(error == '0') return 'Error';
+  if(error == '2') return 'Fixed';
+  return 'Success';
+}
+
 async function showAcceptConfirm(tour){
-  console.log(tour);
-  const { iCheckedPoint } = tour;
-  if(iCheckedPoint == 0) return showAlertError('This point is not checked!!', '', 5000);
-  let sure = await showAlertWarning('Do you want to accept this!!!', 'Confirm or Cancel?');
-  if(sure){
-    console.log(123);
-  }else{
-    console.log(234);
-  }
+  const { iCheckedPoint, sCheckingCode } = tour;
+  if(iCheckedPoint != '0') return showAlertError('Can not accept or reject this !!', '', 5000);
+  let sentData = { CheckingCode: sCheckingCode, Process: 0 };
+  let buttons = {
+    accept: {
+      text: "Accept!",
+      value: "catch",
+    },
+    reject: {
+      text: "Reject",
+      // value: "catch",
+    },
+  };
+  let sure = await showAlertWarning('Do you want to accept this!!!', 'Confirm or Cancel?', buttons);
+  console.log(sure);
+  // if(!sure) sentData.Process = 1;
+  // let response = await Service.processTourError(sentData);
+  // console.log(response);
 }
 
 // async function formatTodayEvent() {

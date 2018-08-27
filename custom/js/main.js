@@ -82,12 +82,14 @@ function showAlertSuccess(title, text, timer){
   });
 }
 
-async function showAlertWarning(title, text){
+async function showAlertWarning(title, text, buttons){
+  if(!buttons) buttons = true;
+  // if(!dangerMode) dangerMode = true;
   let sure = await swal({
     title: title,
     text: text,
     icon: "warning",
-    buttons: true,
+    buttons: buttons,
     dangerMode: true,
   })
   return sure;
