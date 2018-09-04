@@ -18,6 +18,7 @@ $(async () => {
   let chartTime = null;
   let chartPatrolling = null;
   let arrRoutes = [];
+  let currentOverallPerformance = 0;
 
   const arrCriteriaReport = [
     'Time per Route (min)',
@@ -109,16 +110,27 @@ function buildChartPatrollingPerformance(id){
 }
 
 function getInfoOfChartPatrolling(){
+  let lineData = [ currentOverallPerformance, currentOverallPerformance, currentOverallPerformance ]
   let data = {
     labels: [["Performance", "Routes"], ["Performance", "Timing"], ["Performance", "Routing"]],
     datasets: [{
+        type: 'bar',
         label: 'Performance',
         data: currentDataChartPatrollingPerformance,
         backgroundColor: 'rgba(153, 102, 255, 0.2)',
         borderColor: 'rgba(153, 102, 255, 1)',
         borderWidth: 1
+    },{
+      type: 'line',
+      label: 'Overall Performance',
+      borderColor: 'green',
+      backgroundColor: 'green',
+      borderWidth: 2,
+      fill: false,
+      data: lineData
     }]
   }
+
   let options = {
     title: {
       display: true,
@@ -273,10 +285,18 @@ async function showReportData(){
   renderReportTable(data);
   setDefaultLang();
   if(data){
-    const { dIdling_Time_in, dPerfomance_Time, dPerformance_Routes, dPerformance_Routing, dPerformance_Timing } = data[0];
+    const { dIdling_Time_in, dPerfomance_Time, dPerformance_Routes, dPerformance_Routing, dPerformance_Timing, dOverall_performance } = data[0];
 
-    currentDataChartTimePerformance = [Number(dIdling_Time_in), Number(dPerfomance_Time)];
-    currentDataChartPatrollingPerformance = [Number(dPerformance_Routes), Number(dPerformance_Timing), Number(dPerformance_Routing)];
+    currentDataChartTimePerformance = [
+      Number(dIdling_Time_in), 
+      Number(dPerfomance_Time)
+    ];
+    currentDataChartPatrollingPerformance = [
+      Number(dPerformance_Routes), 
+      Number(dPerformance_Timing), 
+      Number(dPerformance_Routing)
+    ];
+    currentOverallPerformance = Number(dOverall_performance);
   }else{
     currentDataChartTimePerformance = [];
     currentDataChartPatrollingPerformance = [];
@@ -294,6 +314,10 @@ async function showGuardReportPage(){
 function formatTodayReport() {
   $('#reportDatetime').val(formatToday());
   setTimeout(showReportData, 200);
+  setTimeout(() => {
+    buildChartPatrollingPerformance('printingPatrollingPerformanceChart')
+    buildChartTimePerformance('printingTimePerformanceChart');
+  }, 500);
 }
 
 function export2Excel(){

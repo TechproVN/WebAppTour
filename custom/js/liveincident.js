@@ -125,7 +125,7 @@ function formatTodayIncident() {
 }
 
 function buildIncidentMap(incident){
-  $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
+  $mapArea = $('<div id="mapIncident" class="mymap"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
 
   let latCenter = CENTER_POS_MAP_VIEW[0];
@@ -150,7 +150,7 @@ function buildIncidentMap(incident){
 }
 
 function buildAllIncidentMap(incidents){
-  $mapArea = $('<div id="mapIncident" style="height: 400px"></div>');
+  $mapArea = $('<div id="mapIncident" class="mymap"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
   let latCenter = CENTER_POS_MAP_VIEW[0];
   let lngCenter = CENTER_POS_MAP_VIEW[1];

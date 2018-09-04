@@ -158,6 +158,7 @@ function renderGuardTable(data) {
       </th>
       <th class="trn">#</th>
       <th class="trn text-left">Name</th>
+      <th class="trn">Route</th>
       <th class="trn">Last login</th>
       <th class="trn">Speed (km/h)</th>
       <th class="trn">Idling Time(min)</th>
@@ -166,7 +167,7 @@ function renderGuardTable(data) {
   let $checkboxHead = $thead.find('.checkbox-all-guards');
   if (data) {
     data.forEach((guard, index) => {
-      const { iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline, iIdlingTime } = guard
+      const { iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline, iIdlingTime, sRouteName } = guard
       let icon = '';
       let className = '';
       if(bOnline == 'SOS') {
@@ -185,6 +186,7 @@ function renderGuardTable(data) {
           </td>
           <td>${index + 1}</td>
           <td class="text-left ${className}">${icon} ${sGuardName}</td>
+          <td>${sRouteName}</td>
           <td>${dLastUpdateTime}</td>
           <td>${dSpeedCurrent}</td>
           <td>${iIdlingTime}</td>

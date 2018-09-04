@@ -29,3 +29,6 @@
   height: 85vh!important;
   width: 100%;
 }
+#tblGuard td, #tblGuard th{
+  font-size: 0.87em;
+}

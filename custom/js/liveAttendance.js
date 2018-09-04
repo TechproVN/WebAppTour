@@ -105,7 +105,7 @@ function showMapAttendance(attendance){
 
 function buildAttendanceMap(attendance){
   //console.log('abc');
-  $mapArea = $('<div id="mapAttendance" style="height: 350px"></div>');
+  $mapArea = $('<div id="mapAttendance" class="mymap"></div>');
   $('#modalAttendanceMap').find('.modal-body').html($mapArea);
 
   let latCenter = CENTER_POS_MAP_VIEW[0];

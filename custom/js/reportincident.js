@@ -219,7 +219,7 @@ function getRowsViolationsByDate(data){
 
 function getNumOfViolationsByDate(row){
   let sum = 0;
-  arrIncidents.forEach(item => {
+  arrIncidentsID.forEach(item => {
     sum += row[item];
   })
   return sum;

@@ -4,18 +4,7 @@ const TIME_OUT_SHOW_MAP_ON_MODAL = 0;
 const arrMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const arrYears = ['2018', '2019', '2020', '2021', '2022'];
 const arrColors = [ '#8d6e63', '#616161', '#78909c', '#ffb74d', '#66bb6a', '#80d8ff', '#00acc1', '#5c6bc0', '#f48fb1', '#e1bee7', 'red', 'green', 'blue','orange','violet', 'yellow', 'pink', 'purple', 'cyan', 'teal', 'lime', 'ambe', '#0048BA', '#B0BF1A', '#7CB9E8', '#72A0C1', '#F2F0E6', '#9966CC', '#E32636', '#C46210', '#EFDECD', '#FFBF00', '#CFCFCF', '#551B8C', '#F2B400', '#CD9575', '#665D1E', '#915C83', '#841B2D', '#008000', '#8DB600', '#FBCEB1', '#00FFFF', '#D0FF14', '#4B5320', '#8F9779', '#E9D66B', '#B2BEB5', '#87A96B', '#FF9966' ];
-const GOOGLE_MAP_API = 'AIzaSyA2JtN93nl-xarvyDCUu5QOVtFNMJk0S-A';
 
-function replaceGoogleMapAPI(){
-  // let url = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_API}`;
-  // console.log(123456);
-  // $('script').eq(0).attr({src: url});
-  // console.log($('script').eq(0).attr('src'));
-}
-
-$(() => {
-  replaceGoogleMapAPI();
-})
 
 $('.datepicker').datepicker();
 

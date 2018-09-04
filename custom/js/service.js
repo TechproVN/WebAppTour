@@ -455,6 +455,7 @@ class Service {
       return parsedData;
     return null;
   }
+  
   // http://115.79.27.219/tracking/api/GetEventHistoryRoute.php
   static async getEventHistoryRoute(sentData) {
     let data = await $.ajax({
@@ -467,6 +468,7 @@ class Service {
       return parsedData;
     return null;
   }
+  
   // http://115.79.27.219/tracking/api/GetEventHistoryDevice.php
   static async getEventHistoryDevice(sentData) {
     let data = await $.ajax({

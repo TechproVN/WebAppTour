@@ -29,9 +29,7 @@ async function inActiveZone(zone){
   let sure = await showAlertWarning("Are you sure?", "");
   if(sure){
     let sentData = { iZoneIDIN: iZoneID, bStatusIN: 3, sZoneNameIN: 0, sZoneLatLongIN: 0 }
-    //console.log(JSON.stringify(sentData));
     let response = await Service.inActiveZone(sentData);
-    //console.log(response);
     showZones();
     showAlertSuccess("Inactive successfully!", "", 2000);
   }
@@ -41,9 +39,7 @@ async function insertZone(){
   let zoneName = $('#txtInsertZoneName').val();
   if(Validation.checkEmpty(zoneName) && arrCurrentInsertedPointsZone.length > 2){
     let sentData = { iZoneIDIN: 0, sZoneNameIN: zoneName, bStatusIN: 1, sZoneLatLongIN: arrCurrentInsertedPointsZone };
-    //console.log(JSON.stringify(sentData));
     let response = await Service.insertZone(sentData);
-    //console.log(response);
     showAlertSuccess("Inserted successfully!", "", 2000);
     arrCurrentInsertedPointsZone = [];
     showZones();
@@ -58,7 +54,6 @@ async function updateZone(){
   if(Validation.checkEmpty(sZoneNameIN)){
     let sentData = { iZoneIDIN, sZoneNameIN, bStatusIN: 2, sZoneLatLongIN: 0 };
     let response = await Service.updateZone(sentData);
-    //console.log(response);
     showZones();
     showAlertSuccess("Updated successfully", "", 2000);
   }else{
@@ -77,6 +72,7 @@ function renderZonesTable(data) {
         <th class="trn">ID</th>
         <th class="trn">Name</th>
         <th class="trn">Address</th>
+        <th class="trn"></th>
       </tr>
     `
   )
