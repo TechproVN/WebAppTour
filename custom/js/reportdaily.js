@@ -22,7 +22,7 @@ $(async () => {
 
   const arrCriteriaReport = [
     'Time per Route (min)',
-    'Expected Executed Routes (13hrs)',
+    'Expected Executed Routes',
     'Actual Executed Routes',
     'Time spent on resolving non-conformities (minutes)',
     'Missed routes due to resolving non-conformities',
@@ -45,7 +45,7 @@ $(async () => {
 
   const arrCriteriaReport_1 = [
     'Time per Route /Thời gian đi tuần(min)',
-    'Expected Executed Routes/ Số lần đi tuần cần thực hiện (13hrs)',
+    'Expected Executed Routes/ Số lần đi tuần cần thực hiện ',
     'Actual Executed Routes/ Số lần đi tuần thực tế',
     'Time spent on resolving non-conformities / Thời gian xử lý các tình huống bất thường (minutes)',
     'Missed routes due to resolving non-conformities/ Số lần tuần tra bị nhỡ do giải quyết sự cố',

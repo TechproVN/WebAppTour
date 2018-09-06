@@ -161,7 +161,7 @@ function renderGuardTable(data) {
       <th class="trn">Route</th>
       <th class="trn">Last login</th>
       <th class="trn">Speed (km/h)</th>
-      <th class="trn">Idling Time(min)</th>
+      <th class="trn">Idling (min)</th>
     </tr>
   `)
   let $checkboxHead = $thead.find('.checkbox-all-guards');
